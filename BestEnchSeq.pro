@@ -34,6 +34,8 @@ RESOURCES += \
     icon.qrc
 
 DISTFILES += \
+    LICENSE \
+    README.md \
     logo.rc
 
 RC_FILE += logo.rc
