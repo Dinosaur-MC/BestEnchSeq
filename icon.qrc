@@ -1,0 +1,18 @@
+<RCC>
+    <qresource prefix="/icon">
+        <file>res/netherite_axe.png</file>
+        <file>res/netherite_hoe.png</file>
+        <file>res/netherite_pickaxe.png</file>
+        <file>res/netherite_shovel.png</file>
+        <file>res/netherite_sword.png</file>
+        <file>res/pack.png</file>
+        <file>res/bow.png</file>
+        <file>res/trident.png</file>
+        <file>res/netherite_boots.png</file>
+        <file>res/netherite_chestplate.png</file>
+        <file>res/netherite_helmet.png</file>
+        <file>res/netherite_leggings.png</file>
+        <file>res/crossbow_standby.png</file>
+        <file>res/fishing_rod.png</file>
+    </qresource>
+</RCC>
