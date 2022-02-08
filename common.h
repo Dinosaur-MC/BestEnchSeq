@@ -55,14 +55,14 @@ public:
 
     static int searchTable(QString aim);
     static int searchEach(Ench *src, int len, QString aim);
-    static int min(Item *item, int len);
+    static int compareEnch(Ench *e1, Ench *e2, int len);
 
     static EnchTable Table[64];
     static Ench Existed[64];
     static Item InputItem;
     static Item OutputItem;
 
-
+    static bool ignore_WP;
     static int processing_mode;
     static Step Flow[64];
 

@@ -3,7 +3,7 @@
 
 using namespace std;
 
-int Mode = 0;
+int Mode = 0; //Tab index   Origin|Needed
 
 Selector::Selector(QDialog *parent) :
     QDialog(parent),
@@ -23,11 +23,16 @@ Selector::Selector(QDialog *parent) :
 
             if(Mode == 1)
             {
-                for(int i = 0; &Avoid2[i] != end(Avoid2); i++)
+                for(int i = 0; &Avoid2[i] != end(Avoid2) && Avoid2[i].name != ""; i++)
                 {
                     if(Avoid2[i].name == ui->Enchantment->currentText())
                     {
                         ui->Level->setMinimum(Avoid2[i].lvl + 1);
+                        break;
+                    }
+                    else
+                    {
+                        ui->Level->setMinimum(1);
                     }
                 }
             }
@@ -210,11 +215,12 @@ void Selector::refresh()
         ui->Level->setMaximum(Available[0].lvl);
         if(Mode == 1)
         {
-            for(int i = 0; &Avoid2[i] != end(Avoid2); i++)
+            for(int i = 0; &Avoid2[i] != end(Avoid2) && Avoid2[i].name != ""; i++)
             {
                 if(Avoid2[i].name == Available[0].name)
                 {
                     ui->Level->setMinimum(Avoid2[i].lvl + 1);
+                    break;
                 }
             }
         }

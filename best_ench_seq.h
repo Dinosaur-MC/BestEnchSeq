@@ -23,6 +23,9 @@ public:
 
     int minCost(Item target, Item *items, int len);
     void listMinSet(Step *list, int cap, Item target, Item *items, int len, int min_cost);
+    int minPenalty(Step *list, int len);
+    void listMinPenalty(Step *list, int len, int min_penalty);
+    Step minSumLevel(Step *list, int len);
 
     int preForgeItem(Item target, Item sacrifice);
     Item forgeItem(Item target, Item sacrifice);

@@ -9,6 +9,7 @@ class EnchantmentList : public QListWidget
     Q_OBJECT
 public:
     explicit EnchantmentList(QWidget *parent = nullptr);
+    ~EnchantmentList();
 
     void refreshEnch();
     void setMode(int a);

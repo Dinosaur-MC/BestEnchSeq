@@ -73,6 +73,15 @@
              <layout class="QGridLayout" name="gridLayout">
               <item row="0" column="2">
                <widget class="QSpinBox" name="Durability_0">
+                <property name="enabled">
+                 <bool>false</bool>
+                </property>
+                <property name="readOnly">
+                 <bool>false</bool>
+                </property>
+                <property name="minimum">
+                 <number>1</number>
+                </property>
                 <property name="maximum">
                  <number>100</number>
                 </property>
@@ -213,75 +222,93 @@ Durability</string>
        </attribute>
        <layout class="QVBoxLayout" name="verticalLayout_5">
         <item>
-         <widget class="QGroupBox" name="groupBox_4">
+         <widget class="QGroupBox" name="groupBox_3">
           <property name="title">
-           <string>需求的附魔属性（Needed Enchantment）</string>
+           <string>牺牲物品（Sacrifice Item）</string>
           </property>
-          <layout class="QVBoxLayout" name="verticalLayout_4">
+          <layout class="QHBoxLayout" name="horizontalLayout_3">
            <item>
-            <widget class="QGroupBox" name="groupBox_3">
-             <property name="title">
-              <string>牺牲物品（Sacrifice Item）</string>
-             </property>
-             <layout class="QHBoxLayout" name="horizontalLayout_3">
+            <widget class="QWidget" name="widget_3" native="true">
+             <layout class="QVBoxLayout" name="verticalLayout_3">
               <item>
-               <widget class="QWidget" name="widget_3" native="true">
-                <layout class="QVBoxLayout" name="verticalLayout_3">
-                 <item>
-                  <widget class="QRadioButton" name="radioEB">
-                   <property name="text">
-                    <string>仅附魔书
+               <widget class="QRadioButton" name="radioEB">
+                <property name="text">
+                 <string>仅附魔书
 （Enchanted Book Only）</string>
-                   </property>
-                   <property name="checked">
-                    <bool>true</bool>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <widget class="QRadioButton" name="radioEB_IC">
-                   <property name="text">
-                    <string>附魔书和物品合并
-（Enchanted Book &amp;&amp; Item Combining）</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <widget class="QRadioButton" name="radioAC">
-                   <property name="text">
-                    <string>高级配置
-（Advanced Config）</string>
-                   </property>
-                  </widget>
-                 </item>
-                </layout>
+                </property>
+                <property name="checked">
+                 <bool>true</bool>
+                </property>
                </widget>
               </item>
               <item>
-               <widget class="QWidget" name="widget_5" native="true">
-                <layout class="QVBoxLayout" name="verticalLayout_6">
-                 <item>
-                  <widget class="QCheckBox" name="cbIgnoreLL">
-                   <property name="text">
-                    <string>忽略等级限制
-Ignore Level Limit</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <widget class="QCheckBox" name="cbIgnorePWP">
-                   <property name="text">
-                    <string>忽略累积惩罚
-Ignore Prior Work Penalties</string>
-                   </property>
-                  </widget>
-                 </item>
-                </layout>
+               <widget class="QRadioButton" name="radioEB_IC">
+                <property name="enabled">
+                 <bool>false</bool>
+                </property>
+                <property name="text">
+                 <string>附魔书和物品合并
+（Enchanted Book &amp;&amp; Item Combining）</string>
+                </property>
+                <property name="checkable">
+                 <bool>true</bool>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QRadioButton" name="radioAC">
+                <property name="enabled">
+                 <bool>false</bool>
+                </property>
+                <property name="text">
+                 <string>高级配置
+（Advanced Config）</string>
+                </property>
+                <property name="checkable">
+                 <bool>true</bool>
+                </property>
                </widget>
               </item>
              </layout>
             </widget>
            </item>
+           <item>
+            <widget class="QWidget" name="widget_5" native="true">
+             <layout class="QVBoxLayout" name="verticalLayout_6">
+              <item>
+               <widget class="QCheckBox" name="cbIgnoreFixing">
+                <property name="enabled">
+                 <bool>false</bool>
+                </property>
+                <property name="text">
+                 <string>忽略修复
+Ignore Fixing</string>
+                </property>
+                <property name="checked">
+                 <bool>true</bool>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QCheckBox" name="cbIgnorePWP">
+                <property name="text">
+                 <string>忽略累积惩罚
+Ignore Prior Work Penalties</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item>
+         <widget class="QGroupBox" name="groupBox_4">
+          <property name="title">
+           <string>需求的附魔属性（Needed Enchantment）</string>
+          </property>
+          <layout class="QVBoxLayout" name="verticalLayout_4">
            <item>
             <widget class="EnchantmentList" name="NeededEnchantment">
              <property name="font">
@@ -380,6 +407,11 @@ Ignore Prior Work Penalties</string>
              <layout class="QGridLayout" name="gridLayout_4">
               <item row="1" column="2">
                <widget class="QLabel" name="Penalty_1">
+                <property name="font">
+                 <font>
+                  <pointsize>12</pointsize>
+                 </font>
+                </property>
                 <property name="text">
                  <string>---</string>
                 </property>
@@ -403,6 +435,11 @@ Durability</string>
               </item>
               <item row="0" column="2">
                <widget class="QLabel" name="Durability_1">
+                <property name="font">
+                 <font>
+                  <pointsize>12</pointsize>
+                 </font>
+                </property>
                 <property name="text">
                  <string>---</string>
                 </property>
@@ -431,6 +468,11 @@ Cost Level</string>
               </item>
               <item row="0" column="5">
                <widget class="QLabel" name="CostLevel">
+                <property name="font">
+                 <font>
+                  <pointsize>12</pointsize>
+                 </font>
+                </property>
                 <property name="text">
                  <string>---</string>
                 </property>
@@ -455,8 +497,7 @@ Cost Level</string>
            <item>
             <widget class="QLabel" name="Notice">
              <property name="text">
-              <string>过于昂贵！
-Too Expensive!</string>
+              <string>&lt;Empty&gt;</string>
              </property>
              <property name="alignment">
               <set>Qt::AlignCenter</set>
@@ -578,6 +619,9 @@ Too Expensive!</string>
    <addaction name="menu_About"/>
   </widget>
   <action name="actionInport">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>Inport</string>
    </property>
@@ -588,6 +632,9 @@ Too Expensive!</string>
    </property>
   </action>
   <action name="actionExport">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>Export</string>
    </property>

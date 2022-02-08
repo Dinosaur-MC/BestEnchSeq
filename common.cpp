@@ -7,6 +7,7 @@ Ench Common::Existed[64];
 Item Common::InputItem;
 Item Common::OutputItem;
 
+bool Common::ignore_WP = 0;
 int Common::processing_mode = 0;
 Step Common::Flow[64];
 
@@ -40,11 +41,14 @@ int Common::searchEach(Ench *src, int len, QString aim)
     return -1;
 }
 
-int Common::min(Item *item, int len)
+int Common::compareEnch(Ench *e1, Ench *e2, int len)
 {
-    for(int i = 0; i < len; i++)
+    int diff = 0;
+    for(int i = 0; i < len && (e1[i].name != "" || e2[i].name != ""); i++)
     {
-
+        if(e1[i].name != e2[i].name || e1[i].lvl != e2[i].lvl)
+            diff++;
     }
-    return 0;
+    return diff;
 }
+

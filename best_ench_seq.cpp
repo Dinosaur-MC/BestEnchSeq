@@ -1,6 +1,8 @@
 #include "best_ench_seq.h"
 #include "ui_best_ench_seq.h"
 #include <QFile>
+#include <QDesktopServices>
+#include <QDateTime>
 
 using namespace std;
 
@@ -9,7 +11,32 @@ BestEnchSeq::BestEnchSeq(QWidget *parent)
     , ui(new Ui::BestEnchSeq)
 {
     ui->setupUi(this);
+    setFixedSize(582, 547);
     loadEnchantmentTable();
+
+    //Menubar
+    connect(ui->actionInport, &QAction::triggered, this, [=](){
+
+    });
+    connect(ui->actionExport, &QAction::triggered, this, [=](){
+
+    });
+    connect(ui->actionExit, &QAction::triggered, this, &BestEnchSeq::close);
+    connect(ui->actionRefresh, &QAction::triggered, this, [=](){
+        loadEnchantmentTable();
+    });
+    connect(ui->actionVersion, &QAction::triggered, this, [=](){
+        QWidget *v = new QWidget();
+        v->setWindowTitle("Version");
+        v->setFixedSize(256,80);
+        QLabel *ver = new QLabel(v);
+        ver->setText("Version: 1.0beta\n Author: Dinosaur_MC\n(https://space.bilibili.com/85607675)");
+        ver->move(20,12);
+        v->show();
+    });
+    connect(ui->actionWeb, &QAction::triggered, this, [=](){
+        QDesktopServices::openUrl(QUrl(QLatin1String("https://github.com/Dinosaur-MC/BestEnchSeq")));
+    });
 
     //Input Item Type
     ui->InputItem->setSizeAdjustPolicy(QComboBox::AdjustToContents);
@@ -58,6 +85,22 @@ BestEnchSeq::BestEnchSeq(QWidget *parent)
     ui->OutputItem->setIconSize(QSize(64,64));
     ui->OutputItem->setIcon(QIcon(":/icon/res/pack.png"));
 
+    connect(ui->cbIgnoreFixing, &QCheckBox::stateChanged, this, [=](){
+
+    });
+    connect(ui->cbIgnorePWP, &QCheckBox::stateChanged, this, [=](){
+        if(ui->cbIgnorePWP->isChecked())
+        {
+            Common::InputItem.Penalty = 0;
+            Common::ignore_WP = 1;
+        }
+        else
+        {
+            Common::InputItem.Penalty = ui->Penalty_0->value();
+            Common::ignore_WP = 0;
+        }
+    });
+
     //Processing Mode
     connect(ui->radioEB, &QRadioButton::clicked, this, [=](){
         Common::processing_mode = 0;
@@ -80,18 +123,20 @@ BestEnchSeq::BestEnchSeq(QWidget *parent)
     connect(ui->btnBack_2, &QPushButton::clicked, this, [=](){
         ui->tabWidget->setCurrentIndex(0);
     });
-
     connect(ui->btnCalc_2, &QPushButton::clicked, this, [=](){
         if(ui->NeededEnchantment->count() > 1)
         {
             ui->tabWidget->setCurrentIndex(2);
             if(Common::processing_mode == 0)
+            {
                 calculate();
+            }
         }
         else
         {
-
+            ui->NeededEnchantment->item(0)->setForeground(QBrush(QColor(255,0,0)));
         }
+        ui->OutputItem->setIcon(ui->InputItem->itemIcon(ui->InputItem->currentIndex()));
     });
 
     connect(ui->btnBack_3, &QPushButton::clicked, this, [=](){
@@ -99,13 +144,31 @@ BestEnchSeq::BestEnchSeq(QWidget *parent)
     });
 
     connect(ui->btnSave, &QPushButton::clicked, this, [=](){
-
+        if(ui->EnchantFlow->count() != 0)
+        {
+            QString name = QString("output_") + QDateTime::currentDateTime().toString("yyyyMMdd-hhmmsszzz") + ".txt";
+            QFile file(name);
+            if (!file.open(QIODevice::WriteOnly | QIODevice::Text))
+            {
+                qDebug() << "Error: cannot output the file!";
+                return;
+            }
+            for(int i = 0; i < ui->EnchantFlow->count(); i++)
+            {
+                file.write(ui->EnchantFlow->item(i)->text().toUtf8().data());
+                file.write("\n");
+            }
+            file.close();
+            QDesktopServices::openUrl(QUrl::fromLocalFile(name));
+        }
     });
 }
 
 BestEnchSeq::~BestEnchSeq()
 {
     delete ui;
+    Common::ignore_WP = 0;
+    Common::processing_mode = 0;
 }
 
 void BestEnchSeq::loadEnchantmentTable()
@@ -150,22 +213,27 @@ void BestEnchSeq::loadEnchantmentTable()
 void BestEnchSeq::calculate()
 {
     qDebug() << "Calculating..";
+    ui->EnchantFlow->clear();
+    for(int i = 0; i < 64; i++)
+        Common::Flow[i] = {};
 
     Ench *a, *b;
     a = ui->OriginEnchantment->getEnch();
     b = ui->NeededEnchantment->getEnch();
 
     qDebug() << "Step 1";
-    for(int i = 0; i < 64 && a[i].name != ""; i++)
+    for(int i = 0; i < 64; i++)
     {
         Common::InputItem.ench[i] = a[i];
         Common::OutputItem.ench[i] = a[i];
     }
-    if(Common::OutputItem.ench[0].name != "")
+    Common::InputItem.Durability = ui->Durability_0->value();
+    Common::InputItem.Penalty = ui->Penalty_0->value();
+    if(b[0].name != "")
     {
         for(int i = 0; i < 64 && b[i].name != ""; i++)
         {
-            int p = Common::searchEach(Common::OutputItem.ench, 64, b[i].name);
+            int p = Common::searchEach(Common::InputItem.ench, 64, b[i].name);
             if(p == -1)
             {
                 int j = 0;
@@ -178,6 +246,10 @@ void BestEnchSeq::calculate()
                 Common::OutputItem.ench[p].lvl = b[i].lvl;
             }
         }
+    }
+    for(int i = 0; Common::InputItem.ench[i].name != ""; i++)
+    {
+        qDebug() << i << "InputItem.ench" << Common::InputItem.ench[i].name << a[i].name;
     }
 
     qDebug() << "Step 2";
@@ -204,17 +276,139 @@ void BestEnchSeq::calculate()
         }
     }
 
-    qDebug() << "Step 3";
-    Step list[64];
-    listMinSet(list, 64, Common::InputItem, Need, 64, minCost(Common::InputItem, Need, 64));
+    for(int i = 0; &Need[i] != end(Need) && Need[i].ench[0].name != ""; i++)
+    {
+        qDebug() << i << "Need:";
+        for(int j = 0; &Need[i].ench[j] != end(Need[i].ench) && Need[i].ench[j].name != ""; j++)
+        {
+            qDebug() << Need[i].ench[j].name << Need[i].ench[j].lvl;
+        }
+    }
 
+    qDebug() << "Step 3";
+    Item empty, Output;
+    int allCost = 0;
+    int I = 0;
+    while(Need[0].ench[0].name != "" && I < 64)
+    {
+        Step list[64];
+        listMinSet(list, 64, Common::InputItem, Need, 64, minCost(Common::InputItem, Need, 64));
+        listMinPenalty (list, 64, minPenalty(list, 64));
+        Step currentStep = minSumLevel(list, 64);
+        Common::Flow[I] = currentStep;
+        Item newItem = forgeItem(currentStep.tar, currentStep.sac);
+        for(int i = 0; &Need[i] != end(Need) && Need[i].ench[0].name != "" && currentStep.tar.Durability == 0; i++)
+        {
+            if(Common::compareEnch(Need[i].ench, currentStep.tar.ench, 64) == 0)
+            {
+                qDebug() << "currentStep.tar.ench" << i;
+                int j = 0;
+                for(; &Need[i+j+1] != end(Need) && Need[i+j].ench[0].name != ""; j++)
+                {
+                    Need[i+j] = Need[i+j+1];
+                }
+                Need[i+j] = empty;
+            }
+        }
+        for(int i = 0; &Need[i] != end(Need) && Need[i].ench[0].name != "" && currentStep.sac.Durability == 0; i++)
+        {
+            if(Common::compareEnch(Need[i].ench, currentStep.sac.ench, 64) == 0)
+            {
+                qDebug() << "currentStep.sac.ench" << i;
+                int j = 0;
+                for(; &Need[i+j+1] != end(Need) && Need[i+j].ench[0].name != ""; j++)
+                {
+                    Need[i+j] = Need[i+j+1];
+                }
+                Need[i+j] = empty;
+
+            }
+        }
+        if(newItem.Durability == 0)
+        {
+            int i = 0;
+            while(&Need[i] != end(Need) && Need[i].ench[0].name != "")
+            {
+                i++;
+            }
+            if(&Need[i] != end(Need))
+                Need[i] = newItem;
+        }
+        else
+        {
+            Common::InputItem = newItem;
+        }
+
+        allCost += currentStep.cost;
+        Output = newItem;
+
+        ui->EnchantFlow->addItem("");
+        QString step = "";
+        step += "[" + QString::number(ui->EnchantFlow->count()) + "] " + "花费等级Cost: " + QString::number(currentStep.cost) + '\n';
+        if(currentStep.tar.Durability == 0)
+            step += "A. 附魔书EnchantedBook\n";
+        else
+        {
+            step += "A. 目标物品TargetItem\n";
+        }
+        for(int i = 0; &currentStep.tar.ench[i] != end(currentStep.tar.ench) && currentStep.tar.ench[i].name != ""; i++)
+        {
+            step += "   " + currentStep.tar.ench[i].name + " <" + QString::number(currentStep.tar.ench[i].lvl) + ">";
+            if(&currentStep.tar.ench[i+1] != end(currentStep.tar.ench) && currentStep.tar.ench[i+1].name != "")
+            {
+                step += '\n';
+            }
+        }
+
+        step += "\nB. 附魔书EnchantedBook\n";
+        for(int i = 0; &currentStep.sac.ench[i] != end(currentStep.sac.ench) && currentStep.sac.ench[i].name != ""; i++)
+        {
+            step += "   " + currentStep.sac.ench[i].name + " <" + QString::number(currentStep.sac.ench[i].lvl) + ">";
+            if(&currentStep.sac.ench[i+1] != end(currentStep.sac.ench) && currentStep.sac.ench[i+1].name != "")
+            {
+                step += '\n';
+            }
+        }
+
+        ui->EnchantFlow->item(ui->EnchantFlow->count() - 1)->setText(step);
+        if(!Common::ignore_WP)
+        {
+            if(currentStep.cost < 40 && ui->Notice->text() != "过于昂贵！\nToo Expensive!")
+                ui->Notice->setText("");
+            else
+                ui->Notice->setText("过于昂贵！\nToo Expensive!");
+        }
+
+
+        //Debug Output
+        for(int i = 0; &Need[i] != end(Need) && Need[i].ench[0].name != ""; i++)
+        {
+            QString temp = "";
+            for(int j = 0; &Need[i].ench[j] != end(Need[i].ench) && Need[i].ench[j].name != ""; j++)
+            {
+                temp += Need[i].ench[j].name + "<";
+                temp += QString::number(Need[i].ench[j].lvl) + "> ";
+            }
+            qDebug() << I << i << "Need:" << temp;
+        }
+        I++;
+    }
+
+    ui->Durability_1->setText(QString::number(Output.Durability));
+    if(Common::ignore_WP)
+        ui->Penalty_1->setText("Ig");
+    else
+        ui->Penalty_1->setText(QString::number(Output.Penalty));
+    ui->CostLevel->setText(QString::number(allCost));
+
+    qDebug() << "Calculate End";
 }
 
 int BestEnchSeq::minCost(Item target, Item *items, int len)
 {
     int min_cost = 2147483647;
 
-    for(int i = 0; i < len; i++)
+    for(int i = 0; i < len && items[i].ench[0].name != ""; i++)
     {
         int cost = preForgeItem(target, items[i]);
         if(cost < min_cost)
@@ -223,9 +417,9 @@ int BestEnchSeq::minCost(Item target, Item *items, int len)
         }
     }
 
-    for(int i = 0; i < len; i++)
+    for(int i = 0; i < len && items[i].ench[0].name != ""; i++)
     {
-        for(int j = 0; j < len; j++)
+        for(int j = 0; j < len && items[j].ench[0].name != ""; j++)
         {
             if(i != j)
             {
@@ -245,7 +439,7 @@ void BestEnchSeq::listMinSet(Step *list, int cap, Item target, Item *items, int 
 {
     int p = 0;
 
-    for(int i = 0; i < len && p < cap; i++)
+    for(int i = 0; i < len && items[i].ench[0].name != "" && p < cap; i++)
     {
         int cost = preForgeItem(target, items[i]);
         if(cost == min_cost)
@@ -258,9 +452,9 @@ void BestEnchSeq::listMinSet(Step *list, int cap, Item target, Item *items, int 
         }
     }
 
-    for(int i = 0; i < len && p < cap; i++)
+    for(int i = 0; i < len && items[i].ench[0].name != "" && p < cap; i++)
     {
-        for(int j = 0; i < len && p < cap; j++)
+        for(int j = 0; j < len && items[j].ench[0].name != "" && p < cap; j++)
         {
             if(i != j)
             {
@@ -269,13 +463,65 @@ void BestEnchSeq::listMinSet(Step *list, int cap, Item target, Item *items, int 
                 {
                     list[p].tar = items[i];
                     list[p].sac = items[j];
-                    list[p].penalty = max(target.Penalty, items[i].Penalty) + 1;
+                    list[p].penalty = max(items[i].Penalty, items[j].Penalty) + 1;
                     list[p].cost = cost;
                     p++;
                 }
             }
         }
     }
+}
+
+int BestEnchSeq::minPenalty(Step *list, int len)
+{
+    int min_penalty = 32;
+    for(int i = 0; i < len && list[i].sac.ench[0].name != ""; i++)
+    {
+        if(list[i].penalty < min_penalty)
+        {
+            min_penalty = list[i].penalty;
+        }
+    }
+    return min_penalty;
+}
+
+void BestEnchSeq::listMinPenalty(Step *list, int len, int min_penalty)
+{
+    for(int i = 0; i < len && list[i].sac.ench[0].name != ""; i++)
+    {
+        if(list[i].penalty != min_penalty)
+        {
+            int j = 0;
+            for(; i + j + 1 < len && list[i+j].sac.ench[0].name != ""; j++)
+            {
+                list[i+j] = list[i+j+1];
+            }
+            list[i+j] = {};
+        }
+    }
+}
+
+Step BestEnchSeq::minSumLevel(Step *list, int len)
+{
+    int min_sum_level = 2147483647;
+    for(int i = 0; i < len && list[i].sac.ench[0].name != ""; i++)
+    {
+        int sum_level = preForgeItem(Item(), list[i].tar) + preForgeItem(Item({}), list[i].sac);
+        if(sum_level < min_sum_level)
+        {
+            min_sum_level = sum_level;
+        }
+    }
+
+    for(int i = 0; i < len && list[i].sac.ench[0].name != ""; i++)
+    {
+        int sum_level = preForgeItem(Item(), list[i].tar) + preForgeItem(Item({}), list[i].sac);
+        if(sum_level == min_sum_level)
+        {
+            return list[i];
+        }
+    }
+    return Step();
 }
 
 int BestEnchSeq::preForgeItem(Item target, Item sacrifice)
@@ -285,25 +531,37 @@ int BestEnchSeq::preForgeItem(Item target, Item sacrifice)
     for(int i = 0; &sacrifice.ench[i] != end(sacrifice.ench) && sacrifice.ench[i].name != ""; i++)
     {
         int p = Common::searchEach(target.ench, 64, sacrifice.ench[i].name);
-        qDebug() << "preForgeItem:" << i << sacrifice.ench[i].name << p;
+//        qDebug() << "preForgeItem:" << i << sacrifice.ench[i].name << p;
         if(p == -1)
         {
-            cost += Common::Table[Common::searchTable(sacrifice.ench[i].name)].multiplier[0] * sacrifice.ench[i].lvl;
+            if(sacrifice.Durability != 0)
+                cost += Common::Table[Common::searchTable(sacrifice.ench[i].name)].multiplier[0] * sacrifice.ench[i].lvl;
+            else
+                cost += Common::Table[Common::searchTable(sacrifice.ench[i].name)].multiplier[1] * sacrifice.ench[i].lvl;
         }
         else
         {
             if(target.ench[p].lvl == sacrifice.ench[i].lvl)
             {
-                cost += Common::Table[Common::searchTable(sacrifice.ench[i].name)].multiplier[0] * (sacrifice.ench[i].lvl + 1);
+                if(sacrifice.Durability != 0)
+                    cost += Common::Table[Common::searchTable(sacrifice.ench[i].name)].multiplier[0] * (sacrifice.ench[i].lvl + 1);
+                else
+                    cost += Common::Table[Common::searchTable(sacrifice.ench[i].name)].multiplier[1] * (sacrifice.ench[i].lvl + 1);
             }
             else if(target.ench[p].lvl < sacrifice.ench[i].lvl)
             {
-                cost += Common::Table[Common::searchTable(sacrifice.ench[i].name)].multiplier[0] * sacrifice.ench[i].lvl;
+                if(sacrifice.Durability != 0)
+                    cost += Common::Table[Common::searchTable(sacrifice.ench[i].name)].multiplier[0] * sacrifice.ench[i].lvl;
+                else
+                    cost += Common::Table[Common::searchTable(sacrifice.ench[i].name)].multiplier[1] * sacrifice.ench[i].lvl;
             }
         }
     }
-    cost += pow(2, target.Penalty) - 1;
-    cost += pow(2, sacrifice.Penalty) - 1;
+    if(!Common::ignore_WP)
+    {
+        cost += pow(2, target.Penalty) - 1;
+        cost += pow(2, sacrifice.Penalty) - 1;
+    }
 
     return cost;
 }
@@ -333,7 +591,8 @@ Item BestEnchSeq::forgeItem(Item target, Item sacrifice)
         }
     }
 
-    target.Penalty = max(target.Penalty, sacrifice.Penalty) + 1;
+    if(!Common::ignore_WP)
+        target.Penalty = max(target.Penalty, sacrifice.Penalty) + 1;
     return target;
 }
 

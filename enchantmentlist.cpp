@@ -74,9 +74,15 @@ EnchantmentList::EnchantmentList(QWidget *parent)
             currentItem()->setText(Existed[p].name + " - " + QString::number(Existed[p].lvl));
             if(p == count() - 1)
                 addItem("...添加附魔属性（Add Enchantment）...");
+            item(0)->setForeground(QBrush(QColor(0,0,0)));
         }
 
     });
+}
+
+EnchantmentList::~EnchantmentList()
+{
+
 }
 
 void EnchantmentList::refreshEnch()
