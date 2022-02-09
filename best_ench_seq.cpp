@@ -153,6 +153,7 @@ BestEnchSeq::BestEnchSeq(QWidget *parent)
                 qDebug() << "Error: cannot output the file!";
                 return;
             }
+            file.write(QString("--总花费等级AllCost: <" + ui->CostLevel->text() + ">--\n\n").toUtf8().data());
             for(int i = 0; i < ui->EnchantFlow->count(); i++)
             {
                 file.write(ui->EnchantFlow->item(i)->text().toUtf8().data());
