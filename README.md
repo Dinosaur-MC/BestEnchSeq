@@ -1,4 +1,4 @@
-# 最好的附魔顺序（The Best Enchanting Sequence）
+# 最佳附魔顺序（The Best Enchanting Sequence）
 ---
 ## 简介
 这是一个可以帮助你在附魔的时候轻松降低附魔成本的小程序。
