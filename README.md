@@ -7,7 +7,7 @@
 
 注意：这个项目仍在开发中，功能尚未完善，但已经能用了。由于作者很快又要开学了，所以剩下的功能可能将要推迟到以后慢慢更新完善。如果你有什么建议或发现了BUG，请联系我或反馈到这里来，谢谢！
 
-哔哩哔哩[https://space.bilibili.com/85607675]
+[哔哩哔哩](https://space.bilibili.com/85607675)
 
 ---
 ## Description
@@ -16,4 +16,4 @@ This is a small program that can help you easily reduce the cost of experiences 
 
 Notice: This project is still under development and not fully functional, but it works. Since the author will be back in school soon, the rest of the features may have to be put off until later. If you have any suggestions or found bugs, please contact me or feedback here, thank you!
 
-Bilibili[https://space.bilibili.com/85607675]
+[Bilibili](https://space.bilibili.com/85607675)
