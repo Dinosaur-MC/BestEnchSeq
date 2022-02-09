@@ -39,7 +39,10 @@ Selector::Selector(QDialog *parent) :
         }
     });
 
-    connect(ui->buttonBox, &QDialogButtonBox::accepted, this, &QDialog::accept);
+    connect(ui->buttonBox, &QDialogButtonBox::accepted, this, [=](){
+        if(ui->Enchantment->currentText() != "")
+            accept();
+    });
     connect(ui->buttonBox, &QDialogButtonBox::rejected, this, &QDialog::reject);
     connect(this, &QDialog::accepted, this, [=](){
         qDebug() << "Accepted";
@@ -211,18 +214,28 @@ void Selector::refresh()
     }
     else
     {
-        ui->Enchantment->setCurrentText(Available[0].name);
-        ui->Level->setMaximum(Available[0].lvl);
-        if(Mode == 1)
+        if(Available[0].name != "")
         {
-            for(int i = 0; &Avoid2[i] != end(Avoid2) && Avoid2[i].name != ""; i++)
+            ui->Level->setEnabled(1);
+            ui->Enchantment->setCurrentText(Available[0].name);
+            ui->Level->setMaximum(Available[0].lvl);
+            if(Mode == 1)
             {
-                if(Avoid2[i].name == Available[0].name)
+                for(int i = 0; &Avoid2[i] != end(Avoid2) && Avoid2[i].name != ""; i++)
                 {
-                    ui->Level->setMinimum(Avoid2[i].lvl + 1);
-                    break;
+                    if(Avoid2[i].name == Available[0].name)
+                    {
+                        ui->Level->setMinimum(Avoid2[i].lvl + 1);
+                        break;
+                    }
                 }
             }
+        }
+        else
+        {
+            ui->Level->setMinimum(0);
+            ui->Level->setMaximum(0);
+            ui->Level->setEnabled(0);
         }
     }
 
