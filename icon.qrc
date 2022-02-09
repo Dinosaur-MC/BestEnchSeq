@@ -14,5 +14,6 @@
         <file>res/netherite_leggings.png</file>
         <file>res/crossbow_standby.png</file>
         <file>res/fishing_rod.png</file>
+        <file>res/logo.ico</file>
     </qresource>
 </RCC>
