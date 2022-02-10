@@ -11,7 +11,11 @@ EnchantmentList::EnchantmentList(QWidget *parent)
 {
     setSelectionMode(QAbstractItemView::SingleSelection);
     setViewMode(QListView::ListMode);
-    addItem("...添加附魔属性（Add Enchantment）...");
+
+    QListWidgetItem *newItem = new QListWidgetItem("---添加附魔属性（Add Enchantment）---");
+    newItem->setSizeHint(QSize(0,36));
+    newItem->setFont(QFont(newItem->font().family(), 16));
+    addItem(newItem);
 
     connect(this, &QListWidget::itemClicked, this, [=](){
         int p = currentRow();
@@ -43,6 +47,7 @@ EnchantmentList::EnchantmentList(QWidget *parent)
                 {
                     Existed[p+i].name = Existed[p+i+1].name;
                 }
+                item(count()-1)->setText("---添加附魔属性（Add Enchantment）---");
                 lever = 1;
             });
             connect(&btnDelete, &QPushButton::clicked, &choose, &QDialog::close);
@@ -68,22 +73,31 @@ EnchantmentList::EnchantmentList(QWidget *parent)
         }
         editor.setup(Current, Existed, Listmode);
 
-        if(editor.exec() == QDialog::Accepted)
+        if(editor.isEmpty())
         {
-            Existed[p] = editor.getSelectedEnch();
-            currentItem()->setText(Existed[p].name + " - " + QString::number(Existed[p].lvl));
-            if(p == count() - 1)
-                addItem("...添加附魔属性（Add Enchantment）...");
-            item(0)->setForeground(QBrush(QColor(0,0,0)));
+            currentItem()->setText("---没有可用附魔（Empty）---");
         }
-
+        else
+        {
+            if(editor.exec() == QDialog::Accepted)
+            {
+                Existed[p] = editor.getSelectedEnch();
+                currentItem()->setText(Existed[p].name + " - " + QString::number(Existed[p].lvl));
+                if(p == count() - 1)
+                {
+                    QListWidgetItem *newItem_ = new QListWidgetItem("---添加附魔属性（Add Enchantment）---");
+                    newItem_->setSizeHint(QSize(0,36));
+                    newItem_->setFont(QFont(newItem_->font().family(), 16));
+                    addItem(newItem_);
+                }
+                item(0)->setForeground(QBrush(QColor(0,0,0)));
+                if(editor.availableCount() == 1)
+                    item(count()-1)->setText("---没有可用附魔（Empty）---");
+            }
+        }
     });
 }
 
-EnchantmentList::~EnchantmentList()
-{
-
-}
 
 void EnchantmentList::refreshEnch()
 {
@@ -110,5 +124,8 @@ void EnchantmentList::clearEnch()
     {
         Existed[i] = {};
     }
-    addItem("...添加附魔属性（Add Enchantment）...");
+    QListWidgetItem *newItem_ = new QListWidgetItem("---添加附魔属性（Add Enchantment）---");
+    newItem_->setSizeHint(QSize(0,36));
+    newItem_->setFont(QFont(newItem_->font().family(), 16));
+    addItem(newItem_);
 }

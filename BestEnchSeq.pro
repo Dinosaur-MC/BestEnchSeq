@@ -12,18 +12,23 @@ SOURCES += \
     best_ench_seq.cpp \
     common.cpp \
     enchantmentlist.cpp \
+    flowlistwidget.cpp \
     main.cpp \
-    selector.cpp
+    selector.cpp \
+    stepwidget.cpp
 
 HEADERS += \
     best_ench_seq.h \
     common.h \
     enchantmentlist.h \
-    selector.h
+    flowlistwidget.h \
+    selector.h \
+    stepwidget.h
 
 FORMS += \
     best_ench_seq.ui \
-    selector.ui
+    selector.ui \
+    stepwidget.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

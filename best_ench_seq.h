@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include "common.h"
 #include "enchantmentlist.h"
+#include "flowlistwidget.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class BestEnchSeq; }

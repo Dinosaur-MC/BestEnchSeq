@@ -89,6 +89,8 @@ void Selector::setup(Ench iCurrent, Ench *iExisted, int m)
     }
 
     refresh();
+    if(Available[0].name == "")
+        return;
     show();
 }
 
@@ -248,3 +250,20 @@ Ench Selector::getSelectedEnch()
     a.lvl = ui->Level->value();
     return a;
 }
+
+bool Selector::isEmpty()
+{
+    if(Available[0].name == "")
+        return 1;
+    else
+        return 0;
+}
+
+int Selector::availableCount()
+{
+    int count = 0;
+    while(Available[count].name != "")
+        count++;
+    return count;
+}
+

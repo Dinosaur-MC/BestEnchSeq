@@ -52,17 +52,20 @@ public:
     Common(QObject *parent = nullptr);
 
 
-
     static int searchTable(QString aim);
     static int searchEach(Ench *src, int len, QString aim);
     static int compareEnch(Ench *e1, Ench *e2, int len);
+    static QString IntToRoman(int num);
+
 
     static EnchTable Table[64];
     static Ench Existed[64];
     static Item InputItem;
     static Item OutputItem;
 
-    static bool ignore_WP;
+    static bool ignore_Fixing;
+    static bool ignore_PWP;
+    static bool ignore_CL;
     static int processing_mode;
     static Step Flow[64];
 

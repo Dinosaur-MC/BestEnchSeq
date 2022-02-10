@@ -19,6 +19,8 @@ public:
     void setup(Ench iCurrent, Ench *iExisted, int m);
     void refresh();
     Ench getSelectedEnch();
+    bool isEmpty();
+    int availableCount();
 
 private:
     Ui::Selector *ui;
