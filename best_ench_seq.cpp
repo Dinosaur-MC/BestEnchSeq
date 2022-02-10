@@ -29,7 +29,7 @@ BestEnchSeq::BestEnchSeq(QWidget *parent)
         v->setWindowTitle("Version");
         v->setFixedSize(256,80);
         QLabel *ver = new QLabel(v);
-        ver->setText("Version: 1.0beta\n Author: Dinosaur_MC\n(https://space.bilibili.com/85607675)");
+        ver->setText("Version: 1.1 Beta\n Author: Dinosaur_MC\n(https://space.bilibili.com/85607675)");
         ver->move(20,12);
         v->show();
     });
@@ -171,10 +171,10 @@ BestEnchSeq::BestEnchSeq(QWidget *parent)
                 qDebug() << "Error: cannot output the file!";
                 return;
             }
-            file.write(QString("--总花费等级AllCost: [" + ui->CostLevel->text() + "]--\n").toUtf8().data());
+            file.write(QString(QString("步数 Step: ") + ui->StepCount->text() + "  总花费等级 AllCost: " + ui->CostLevel->text() + "\n").toUtf8().data());
             for(int i = 0; i < ui->EnchantFlow->count(); i++)
             {
-                QString temp = "\n(" + QString::number(i) + ")  花费Cost: " + QString::number(Common::Flow[i].cost) + "\n";
+                QString temp = "\n(" + QString::number(i+1) + ")  花费Cost: " + QString::number(Common::Flow[i].cost) + "\n";
 
                 if(Common::Flow[i].tar.Durability == 0)
                     temp += "A. 附魔书 EnchantedBook\n";
