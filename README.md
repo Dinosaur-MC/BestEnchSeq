@@ -1,6 +1,6 @@
 # 最佳附魔顺序计算器（The Best Enchanting Sequence）
-+ [Java Edition Only](https://minecraft.fandom.com/wiki/Java_Edition)
-+ Bedrock Editon will be supported in the future.
++ Now [Java Edition](https://minecraft.fandom.com/wiki/Java_Edition) only. Bedrock Editon will be supported in the future.
++ 如果启动程序时提示缺少`xxx.dll`，请前往[这里](http://c.biancheng.net/view/8077.html)下载并安装MinGW。 Click [here](https://osdn.net/projects/mingw/) to download and install MinGW's gcc tool if your start warns that losing files `xxx.dll`.
 ---
 ## 简介
 这是一个可以帮助你在附魔的时候轻松降低附魔成本的小程序。
