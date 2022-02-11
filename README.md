@@ -1,4 +1,5 @@
 # 最佳附魔顺序计算器（The Best Enchanting Sequence）
+
 [Java Edition Only](https://minecraft.fandom.com/wiki/Java_Edition)
 ---
 ## 简介
