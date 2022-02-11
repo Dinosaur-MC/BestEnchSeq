@@ -1,6 +1,5 @@
 # 最佳附魔顺序计算器（The Best Enchanting Sequence）
-
-[Java Edition Only](https://minecraft.fandom.com/wiki/Java_Edition)
++ [Java Edition Only](https://minecraft.fandom.com/wiki/Java_Edition)
 ---
 ## 简介
 这是一个可以帮助你在附魔的时候轻松降低附魔成本的小程序。
