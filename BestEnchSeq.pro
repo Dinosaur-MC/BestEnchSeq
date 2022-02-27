@@ -10,6 +10,7 @@ CONFIG += c++11
 
 SOURCES += \
     best_ench_seq.cpp \
+    calc.cpp \
     common.cpp \
     enchantmentlist.cpp \
     flowlistwidget.cpp \
@@ -19,6 +20,7 @@ SOURCES += \
 
 HEADERS += \
     best_ench_seq.h \
+    calc.h \
     common.h \
     enchantmentlist.h \
     flowlistwidget.h \
@@ -39,6 +41,7 @@ RESOURCES += \
     icon.qrc
 
 DISTFILES += \
+    EnchantmentTable.txt \
     LICENSE \
     README.md \
     logo.rc

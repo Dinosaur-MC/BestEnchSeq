@@ -1,0 +1,38 @@
+水下速掘-aqua_affinity 1 4 2 0 0 0 0 0 1 0 0 0 0 0 0 0 
+节肢杀手-bane_of_arthropods 5 2 1 1 0 1 0 0 0 0 0 0 0 0 0 0 锋利-sharpness,亡灵杀手-smite
+爆炸保护-blast_protection 4 4 2 0 0 0 0 0 1 1 1 1 0 0 0 0 火焰保护-fire_protection,弹射物保护-projectile_protection,保护-protection
+引雷-channeling 1 8 4 0 0 0 0 0 0 0 0 0 0 0 1 0 激流-riptide
+绑定诅咒-binding_curse 1 8 4 0 0 0 0 0 1 1 1 1 0 0 0 0 
+消失诅咒-vanishing_curse 1 8 4 1 1 1 1 1 1 1 1 1 1 1 1 1 
+深海探索者-depth_strider 3 4 2 0 0 0 0 0 0 0 0 1 0 0 0 0 冰霜行者-frost_walker
+效率-efficiency 5 1 1 0 1 1 1 1 0 0 0 0 0 0 0 0 
+摔落保护-feather_falling 4 2 1 0 0 0 0 0 0 0 0 1 0 0 0 0 
+火焰附加-fire_aspect 2 4 2 1 0 0 0 0 0 0 0 0 0 0 0 0 
+火焰保护-fire_protection 4 2 1 0 0 0 0 0 1 1 1 1 0 0 0 0 爆炸保护-blast_protection,弹射物保护-projectile_protection,保护-protection
+火矢-flame 1 4 2 0 0 0 0 0 0 0 0 0 1 0 0 0 
+时运-fortune 3 4 2 0 1 1 1 1 0 0 0 0 0 0 0 0 精准采集-silk_touch
+冰霜行者-frost_walker 2 4 2 0 0 0 0 0 0 0 0 1 0 0 0 0 深海探索者-depth_strider
+穿刺-impaling 5 4 2 0 0 0 0 0 0 0 0 0 0 0 1 0 
+无限-infinity 1 8 4 0 0 0 0 0 0 0 0 0 1 0 0 0 经验修补-mending
+击退-knockback 2 2 1 1 0 0 0 0 0 0 0 0 0 0 0 0 
+抢夺-looting 3 4 2 1 0 0 0 0 0 0 0 0 0 0 0 0 
+忠诚-loyalty 3 1 1 0 0 0 0 0 0 0 0 0 0 0 1 0 激流-riptide
+海之眷顾-luck_of_the_sea 3 4 2 0 0 0 0 0 0 0 0 0 0 0 0 1 
+饵钓-lure 3 4 2 0 0 0 0 0 0 0 0 0 0 0 0 1 
+经验修补-mending 1 4 2 1 1 1 1 1 1 1 1 1 1 1 1 1 无限-infinity
+多重射击-multishot 1 4 2 0 0 0 0 0 0 0 0 0 0 1 0 0 穿透-piercing
+穿透-piercing 4 1 1 0 0 0 0 0 0 0 0 0 0 1 0 0 多重射击-multishot
+力量-power 5 1 1 0 0 0 0 0 0 0 0 0 1 0 0 0 
+弹射物保护-projectile_protection 4 2 1 0 0 0 0 0 1 1 1 1 0 0 0 0 爆炸保护-blast_protection,火焰保护-fire_protection,保护-protection
+保护-protection 4 1 1 0 0 0 0 0 1 1 1 1 0 0 0 0 爆炸保护-blast_protection,火焰保护-fire_protection,弹射物保护-projectile_protection
+冲击-punch 2 4 2 0 0 0 0 0 0 0 0 0 1 0 0 0 
+快速装填-quick_charge 3 2 1 0 0 0 0 0 0 0 0 0 0 1 0 0 
+水下呼吸-respiration 3 4 2 0 0 0 0 0 1 0 0 0 0 0 0 0 
+激流-riptide 3 4 2 0 0 0 0 0 0 0 0 0 0 0 1 0 引雷-channeling,忠诚-loyalty
+锋利-sharpness 5 1 1 1 0 1 0 0 0 0 0 0 0 0 0 0 节肢杀手-bane_of_arthropods,亡灵杀手-smite
+精准采集-silk_touch 1 8 4 0 1 1 1 1 0 0 0 0 0 0 0 0 时运-fortune
+亡灵杀手-smite 5 2 1 1 0 1 0 0 0 0 0 0 0 0 0 0 节肢杀手-bane_of_arthropods,锋利-sharpness
+灵魂疾行-soul_speed 3 8 4 0 0 0 0 0 0 0 0 1 0 0 0 0 
+横扫之刃-sweeping 3 4 2 1 0 0 0 0 0 0 0 0 0 0 0 0 
+荆棘-thorns 3 8 4 0 0 0 0 0 1 1 1 1 0 0 0 0 
+耐久-unbreaking 3 2 1 1 1 1 1 1 1 1 1 1 1 1 1 1 

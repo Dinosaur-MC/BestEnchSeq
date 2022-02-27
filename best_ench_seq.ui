@@ -53,86 +53,43 @@
        </attribute>
        <layout class="QVBoxLayout" name="verticalLayout_2">
         <item>
-         <widget class="QGroupBox" name="groupBox">
-          <property name="title">
-           <string>目标物品（Target  Item）</string>
-          </property>
-          <layout class="QHBoxLayout" name="horizontalLayout_4">
+         <widget class="QWidget" name="widget_6" native="true">
+          <layout class="QHBoxLayout" name="horizontalLayout_11">
+           <property name="leftMargin">
+            <number>0</number>
+           </property>
+           <property name="topMargin">
+            <number>0</number>
+           </property>
+           <property name="rightMargin">
+            <number>0</number>
+           </property>
+           <property name="bottomMargin">
+            <number>0</number>
+           </property>
            <item>
-            <widget class="QComboBox" name="InputItem">
-             <property name="minimumSize">
-              <size>
-               <width>64</width>
-               <height>64</height>
-              </size>
+            <widget class="QGroupBox" name="groupBox_5">
+             <property name="enabled">
+              <bool>false</bool>
              </property>
-             <property name="font">
-              <font>
-               <pointsize>11</pointsize>
-              </font>
+             <property name="title">
+              <string>游戏运行版本（Edition）</string>
              </property>
-             <property name="iconSize">
-              <size>
-               <width>16</width>
-               <height>16</height>
-              </size>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QWidget" name="widget_4" native="true">
-             <layout class="QGridLayout" name="gridLayout">
-              <item row="0" column="2">
-               <widget class="QSpinBox" name="Durability_0">
-                <property name="enabled">
-                 <bool>false</bool>
-                </property>
-                <property name="sizePolicy">
-                 <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-                  <horstretch>0</horstretch>
-                  <verstretch>0</verstretch>
-                 </sizepolicy>
-                </property>
-                <property name="readOnly">
-                 <bool>false</bool>
-                </property>
-                <property name="minimum">
-                 <number>1</number>
-                </property>
-                <property name="maximum">
-                 <number>100</number>
-                </property>
-                <property name="value">
-                 <number>100</number>
-                </property>
-               </widget>
-              </item>
-              <item row="1" column="0" colspan="2">
-               <widget class="QLabel" name="label_2">
+             <layout class="QVBoxLayout" name="verticalLayout_7">
+              <item>
+               <widget class="QRadioButton" name="radioJE">
                 <property name="text">
-                 <string>惩罚次数
-Prior Work </string>
+                 <string>Java Edition</string>
+                </property>
+                <property name="checked">
+                 <bool>true</bool>
                 </property>
                </widget>
               </item>
-              <item row="1" column="2">
-               <widget class="QSpinBox" name="Penalty_0">
-                <property name="sizePolicy">
-                 <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-                  <horstretch>0</horstretch>
-                  <verstretch>0</verstretch>
-                 </sizepolicy>
-                </property>
-                <property name="maximum">
-                 <number>30</number>
-                </property>
-               </widget>
-              </item>
-              <item row="0" column="0">
-               <widget class="QLabel" name="label">
+              <item>
+               <widget class="QRadioButton" name="radioBE">
                 <property name="text">
-                 <string>耐久度(%)：
-Durability</string>
+                 <string>Bedrock Edition</string>
                 </property>
                </widget>
               </item>
@@ -140,17 +97,107 @@ Durability</string>
             </widget>
            </item>
            <item>
-            <spacer name="horizontalSpacer">
-             <property name="orientation">
-              <enum>Qt::Horizontal</enum>
+            <widget class="QGroupBox" name="groupBox">
+             <property name="title">
+              <string>目标物品（Target  Item）</string>
              </property>
-             <property name="sizeHint" stdset="0">
-              <size>
-               <width>40</width>
-               <height>20</height>
-              </size>
-             </property>
-            </spacer>
+             <layout class="QHBoxLayout" name="horizontalLayout_4">
+              <item>
+               <widget class="QComboBox" name="InputItem">
+                <property name="minimumSize">
+                 <size>
+                  <width>64</width>
+                  <height>64</height>
+                 </size>
+                </property>
+                <property name="font">
+                 <font>
+                  <pointsize>11</pointsize>
+                 </font>
+                </property>
+                <property name="iconSize">
+                 <size>
+                  <width>16</width>
+                  <height>16</height>
+                 </size>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QWidget" name="widget_4" native="true">
+                <layout class="QGridLayout" name="gridLayout">
+                 <item row="0" column="2">
+                  <widget class="QSpinBox" name="Durability_0">
+                   <property name="enabled">
+                    <bool>false</bool>
+                   </property>
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                   <property name="readOnly">
+                    <bool>false</bool>
+                   </property>
+                   <property name="minimum">
+                    <number>1</number>
+                   </property>
+                   <property name="maximum">
+                    <number>100</number>
+                   </property>
+                   <property name="value">
+                    <number>100</number>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="1" column="0" colspan="2">
+                  <widget class="QLabel" name="label_2">
+                   <property name="text">
+                    <string>惩罚次数
+Prior Work </string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="1" column="2">
+                  <widget class="QSpinBox" name="Penalty_0">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                   <property name="maximum">
+                    <number>30</number>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="0" column="0">
+                  <widget class="QLabel" name="label">
+                   <property name="text">
+                    <string>耐久度(%)：
+Durability</string>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </widget>
+              </item>
+              <item>
+               <spacer name="horizontalSpacer">
+                <property name="orientation">
+                 <enum>Qt::Horizontal</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>40</width>
+                  <height>20</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+             </layout>
+            </widget>
            </item>
           </layout>
          </widget>
@@ -262,19 +309,19 @@ Durability</string>
        </attribute>
        <layout class="QVBoxLayout" name="verticalLayout_5">
         <item>
-         <widget class="QGroupBox" name="groupBox_3">
-          <property name="title">
-           <string>牺牲物品（Sacrifice Item）</string>
-          </property>
-          <layout class="QHBoxLayout" name="horizontalLayout_3">
+         <widget class="QWidget" name="widget_9" native="true">
+          <layout class="QHBoxLayout" name="horizontalLayout_12">
            <item>
-            <widget class="QWidget" name="widget_3" native="true">
-             <layout class="QVBoxLayout" name="verticalLayout_3">
+            <widget class="QGroupBox" name="groupBox_6">
+             <property name="title">
+              <string>算法（Algorithm）</string>
+             </property>
+             <layout class="QVBoxLayout" name="verticalLayout_8">
               <item>
-               <widget class="QRadioButton" name="radioEB">
+               <widget class="QRadioButton" name="radioDF">
                 <property name="text">
-                 <string>仅附魔书
-（Enchanted Book Only）</string>
+                 <string>难度优先
+Difficulty First</string>
                 </property>
                 <property name="checked">
                  <bool>true</bool>
@@ -282,30 +329,18 @@ Durability</string>
                </widget>
               </item>
               <item>
-               <widget class="QRadioButton" name="radioEB_IC">
-                <property name="enabled">
-                 <bool>false</bool>
-                </property>
+               <widget class="QRadioButton" name="radioG">
                 <property name="text">
-                 <string>附魔书和物品合并
-（Enchanted Book &amp;&amp; Item Combining）</string>
-                </property>
-                <property name="checkable">
-                 <bool>true</bool>
+                 <string>贪心
+Greedy</string>
                 </property>
                </widget>
               </item>
               <item>
-               <widget class="QRadioButton" name="radioAC">
-                <property name="enabled">
-                 <bool>false</bool>
-                </property>
+               <widget class="QRadioButton" name="radioE">
                 <property name="text">
-                 <string>高级配置
-（Advanced Config）</string>
-                </property>
-                <property name="checkable">
-                 <bool>true</bool>
+                 <string>穷举
+Enumeration</string>
                 </property>
                </widget>
               </item>
@@ -313,36 +348,76 @@ Durability</string>
             </widget>
            </item>
            <item>
-            <widget class="QWidget" name="widget_5" native="true">
-             <layout class="QVBoxLayout" name="verticalLayout_6">
+            <widget class="QGroupBox" name="groupBox_3">
+             <property name="title">
+              <string>牺牲物品（Sacrifice Item）</string>
+             </property>
+             <layout class="QHBoxLayout" name="horizontalLayout_3">
               <item>
-               <widget class="QCheckBox" name="cbIgnoreFixing">
-                <property name="enabled">
-                 <bool>false</bool>
-                </property>
-                <property name="text">
-                 <string>忽略修复
+               <widget class="QWidget" name="widget_3" native="true">
+                <layout class="QVBoxLayout" name="verticalLayout_3">
+                 <item>
+                  <widget class="QRadioButton" name="radioEB">
+                   <property name="text">
+                    <string>仅新附魔书
+New Enchanted Book Only</string>
+                   </property>
+                   <property name="checked">
+                    <bool>true</bool>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QRadioButton" name="radioAC">
+                   <property name="enabled">
+                    <bool>false</bool>
+                   </property>
+                   <property name="text">
+                    <string>高级配置
+Use Advanced Config</string>
+                   </property>
+                   <property name="checkable">
+                    <bool>true</bool>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </widget>
+              </item>
+              <item>
+               <widget class="QWidget" name="widget_5" native="true">
+                <layout class="QVBoxLayout" name="verticalLayout_6">
+                 <item>
+                  <widget class="QCheckBox" name="cbIgnoreFixing">
+                   <property name="enabled">
+                    <bool>false</bool>
+                   </property>
+                   <property name="text">
+                    <string>忽略修复
 Ignore Fixing</string>
-                </property>
-                <property name="checked">
-                 <bool>true</bool>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QCheckBox" name="cbIgnorePWP">
-                <property name="text">
-                 <string>忽略累积惩罚
+                   </property>
+                   <property name="checked">
+                    <bool>true</bool>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QCheckBox" name="cbIgnorePWP">
+                   <property name="text">
+                    <string>忽略累积惩罚
 Ignore Prior Work Penalties</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QCheckBox" name="cbIgnoreCL">
-                <property name="text">
-                 <string>忽略花费限制
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QCheckBox" name="cbIgnoreCL">
+                   <property name="text">
+                    <string>忽略花费限制
 Ignore Cost Limit</string>
-                </property>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
                </widget>
               </item>
              </layout>
@@ -433,7 +508,7 @@ Ignore Cost Limit</string>
       </widget>
       <widget class="QWidget" name="tab_4">
        <attribute name="title">
-        <string>结果 | Rezult</string>
+        <string>步骤三 | Step 3</string>
        </attribute>
        <layout class="QVBoxLayout" name="verticalLayout_10">
         <item>
@@ -483,7 +558,7 @@ Ignore Cost Limit</string>
                   <widget class="QLabel" name="label_4">
                    <property name="text">
                     <string>步数：
-Step</string>
+Step(s)</string>
                    </property>
                   </widget>
                  </item>
@@ -637,7 +712,7 @@ Durability</string>
                   <widget class="QLabel" name="label_3">
                    <property name="text">
                     <string>花费等级：
-Cost Level</string>
+Cost Level(s)</string>
                    </property>
                   </widget>
                  </item>

@@ -13,6 +13,8 @@ BestEnchSeq::BestEnchSeq(QWidget *parent)
     ui->setupUi(this);
     loadEnchantmentTable();
 
+    CALC();
+
     //Menubar
     connect(ui->actionInport, &QAction::triggered, this, [=](){
 
@@ -118,9 +120,6 @@ BestEnchSeq::BestEnchSeq(QWidget *parent)
     //Processing Mode
     connect(ui->radioEB, &QRadioButton::clicked, this, [=](){
         Common::processing_mode = 0;
-    });
-    connect(ui->radioEB_IC, &QRadioButton::clicked, this, [=](){
-        Common::processing_mode = 1;
     });
     connect(ui->radioAC, &QRadioButton::clicked, this, [=](){
         Common::processing_mode = 2;

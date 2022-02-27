@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include "common.h"
+#include "calc.h"
 #include "enchantmentlist.h"
 #include "flowlistwidget.h"
 
