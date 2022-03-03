@@ -46,6 +46,7 @@ EnchantmentList::EnchantmentList(QWidget *parent)
                 for(int i = 0; Existed[p+i].name != "" && p+i+1 < 64; i++)
                 {
                     Existed[p+i].name = Existed[p+i+1].name;
+                    Existed[p+i].lvl = Existed[p+i+1].lvl;
                 }
                 item(count()-1)->setText("---添加附魔属性（Add Enchantment）---");
                 lever = 1;
