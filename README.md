@@ -1,3 +1,5 @@
+>***本软件程序是安全无毒、完全开源免费的！大家只需要根据这里或[此视频](https://www.bilibili.com/video/BV11T4y1D7c2)的获取方式获取使用即可！任何对本软件进行收费、出售等行为均为诈骗，大家谨防上当！并且也不要轻易使用不明身份的陌生人提供的第三方软件，谨防病毒入侵！***
+ 
 # 最佳附魔顺序计算器（The Best Enchanting Sequence）
 + Now [Java Edition](https://minecraft.fandom.com/wiki/Java_Edition) only. Bedrock Editon will be supported in the future.
 + 如果启动程序时提示缺少`xxx.dll`，请前往[这里](http://c.biancheng.net/view/8077.html)下载并安装MinGW。 Click [here](https://osdn.net/projects/mingw/) to download and install MinGW's gcc tool if your start warns that losing files `xxx.dll`.
@@ -9,7 +11,7 @@
 
 注意：这个项目仍在开发中，功能尚未完善，但已经能用了。由于作者很快又要开学了，所以剩下的功能可能将要推迟到以后慢慢更新完善。如果你有什么建议或发现了BUG，请联系我或反馈到这里来，谢谢！
 
-[哔哩哔哩](https://space.bilibili.com/85607675)
+[哔哩哔哩](https://www.bilibili.com/video/BV11T4y1D7c2)
 
 ---
 ## Description
@@ -18,4 +20,4 @@ This is a small program that can help you easily reduce the cost of experiences 
 
 Notice: This project is still under development and not fully functional, but it works. Since the author will be back in school soon, the rest of the features may have to be put off until later. If you have any suggestions or found bugs, please contact me or feedback here, thank you!
 
-[Bilibili](https://space.bilibili.com/85607675)
+[Bilibili](https://www.bilibili.com/video/BV11T4y1D7c2)
