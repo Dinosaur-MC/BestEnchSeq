@@ -7,26 +7,35 @@ Calculator::Calculator(QObject *parent)
 {
     if(Basic::mode[1] == 0)
     {
+        qDebug() << "origin_ench_l & needed_ench_l" << Basic::origin_ench_l << Basic::needed_ench_l;
         A_list_l = Basic::origin_ench_l;
         A_list = new Item[A_list_l];
         for(int i = 0; i < A_list_l; i++)
         {
-            A_list[i].name = Basic::origin_ench[i].name;
+            A_list[i].ench[0].name = Basic::origin_ench[i].name;
             A_list[i].ench[0].lvl = Basic::origin_ench[i].lvl;
+            A_list[i].duration = 0;
+            A_list[i].penalty = 0;
+            qDebug() << "A_list & origin_ench" << A_list[i].name << Basic::origin_ench[i].name;
         }
 
         B_list_l = Basic::needed_ench_l;
         B_list = new Item[B_list_l];
         for(int i = 0; i < B_list_l; i++)
         {
-            B_list[i].name = Basic::needed_ench[i].name;
+            B_list[i].ench[0].name = Basic::needed_ench[i].name;
             B_list[i].ench[0].lvl = Basic::needed_ench[i].lvl;
+            B_list[i].duration = 0;
+            B_list[i].penalty = 0;
         }
     }
     else if(Basic::mode[1] == 1)
     {
 
     }
+
+    //Debug
+//    qDebug() << "preForge:" << preForge(A_list[0], B_list[0], 0).cost;
 }
 
 
@@ -50,27 +59,77 @@ Step Calculator::preForge(Item A, Item B, int mode)
 {
     Step s;
     int cost = 0;
-    int penalty = max(A.penalty, B.penalty);
+    int penalty = max(A.penalty, B.penalty) + 1;
+
+    int A_el = 0, B_el = 0;
+    while(A_el < INIT_LENGTH && A.ench[A_el].name != "")
+        A_el++;
+    while(B_el < INIT_LENGTH && B.ench[B_el].name != "")
+        B_el++;
+
+    qDebug() << "preForge" << cost << penalty << A_el << A.ench[0].name << B_el << B.ench[0].name;
 
     if(Basic::mode[1] == 0)
     {
         if(Basic::mode[0] == 0)
         {
-            for(int i = 0; i < INIT_LENGTH && B.ench[i].name != ""; i++)
+            for(int i = 0; i < B_el; i++)
             {
-                cost += Basic::ench_table[Basic::searchTable(B.ench[i].name)].multiplier[1] * B.ench[i].lvl;
+                int lever = 0;
+                int p = Basic::searchTable(B.ench[i].name);
+                for(int j = 0; j < Basic::ench_table[p].repulsion->count(); j++)
+                {
+                    if(Basic::searchEnch(A.ench, A_el, Basic::ench_table[p].repulsion[j]) != -1)
+                    {
+                        cost += 1;
+                        lever++;
+                        break;
+                    }
+                }
+
+                if(lever == 0)
+                    cost += Basic::ench_table[Basic::searchTable(B.ench[i].name)].multiplier[1] * B.ench[i].lvl;
             }
         }
         else
         {
-            for(int i = 0; i < INIT_LENGTH && B.ench[i].name != ""; i++)
+            for(int i = 0; i < B_el; i++)
             {
-                int p = Basic::searchEnch(Basic::origin_ench, Basic::origin_ench_l, B.ench[i].name);
-                if( p != -1)
+                int lever = 0;
+                int p = Basic::searchTable(B.ench[i].name);
+                for(int j = 0; j < Basic::ench_table[p].repulsion->count(); j++)
                 {
-                    int lvl = Basic::origin_ench[p].lvl;;
-                    cost += Basic::ench_table[Basic::searchTable(B.ench[i].name)].multiplier[1] * lvl;
+                    if(Basic::searchEnch(A.ench, A_el, Basic::ench_table[p].repulsion[j]) != -1)
+                    {
+                        lever = 1;
+                        break;
+                    }
                 }
+                if(lever)
+                    continue;
+
+                int q = Basic::searchEnch(A.ench, A_el, B.ench[i].name);
+                if(A.ench[q].lvl == Basic::ench_table[Basic::searchTable(A.ench[q].name)].mlvl)
+                    continue;
+
+                int lvl = B.ench[i].lvl;
+                if( q != -1)
+                {
+                    if(A.ench[q].lvl == B.ench[i].lvl)
+                    {
+                        lvl = 1;
+                    }
+                    else if(A.ench[q].lvl < B.ench[i].lvl)
+                    {
+                        lvl -= A.ench[q].lvl;
+                    }
+                    else
+                    {
+                        lvl = 0;
+                    }
+                }
+
+                cost += Basic::ench_table[Basic::searchTable(B.ench[i].name)].multiplier[1] * lvl;
             }
         }
     }

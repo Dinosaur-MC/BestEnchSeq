@@ -160,7 +160,7 @@ void ItemList::uploadList()
 
     for(int i = 0; i < Basic::needed_ench_l; i++)
     {
-        qDebug() << "Basic::origin_ench:" << Basic::needed_ench[i].name << Basic::needed_ench[i].lvl;
+        qDebug() << "Basic::needed_ench:" << Basic::needed_ench[i].name << Basic::needed_ench[i].lvl;
     }
 }
 

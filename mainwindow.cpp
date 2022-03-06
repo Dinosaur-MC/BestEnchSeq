@@ -6,6 +6,7 @@
 #include "enchlist.h"
 #include "itemlist.h"
 #include "flowlist.h"
+#include "calculator.h"
 
 #include <QComboBox>
 
@@ -126,6 +127,7 @@ MainWindow::MainWindow(QWidget *parent)
         ui->tabWidget->setCurrentIndex(0);
     });
     connect(ui->btnCalc_2, &QPushButton::clicked, this, [=](){
+        Calculator();
         ui->tabWidget->setCurrentIndex(2);
     });
     connect(ui->btnBack_3, &QPushButton::clicked, this, [=](){
