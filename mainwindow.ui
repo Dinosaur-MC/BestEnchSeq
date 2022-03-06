@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>BestEnchSeq</class>
- <widget class="QMainWindow" name="BestEnchSeq">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
     <width>612</width>
-    <height>582</height>
+    <height>602</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -70,10 +70,10 @@
            <item>
             <widget class="QGroupBox" name="groupBox_5">
              <property name="enabled">
-              <bool>false</bool>
+              <bool>true</bool>
              </property>
              <property name="title">
-              <string>游戏运行版本（Edition）</string>
+              <string>游戏编译版本（Edition）</string>
              </property>
              <layout class="QVBoxLayout" name="verticalLayout_7">
               <item>
@@ -211,11 +211,11 @@ Durability</string>
            </size>
           </property>
           <property name="title">
-           <string>高级：初始附魔属性（Advance: Original Enchantment）</string>
+           <string>初始魔咒（Original Enchantment）</string>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout">
            <item>
-            <widget class="EnchantmentList" name="OriginEnchantment">
+            <widget class="EnchList" name="OriginEnchantment">
              <property name="font">
               <font>
                <pointsize>12</pointsize>
@@ -254,6 +254,19 @@ Durability</string>
             <number>3</number>
            </property>
            <item>
+            <widget class="QPushButton" name="btnExit">
+             <property name="minimumSize">
+              <size>
+               <width>100</width>
+               <height>36</height>
+              </size>
+             </property>
+             <property name="text">
+              <string>退出（Exit）</string>
+             </property>
+            </widget>
+           </item>
+           <item>
             <spacer name="horizontalSpacer_2">
              <property name="orientation">
               <enum>Qt::Horizontal</enum>
@@ -281,7 +294,7 @@ Durability</string>
               </size>
              </property>
              <property name="text">
-              <string>重置（Reset）</string>
+              <string>重启（Restart）</string>
              </property>
             </widget>
            </item>
@@ -316,8 +329,8 @@ Durability</string>
              <property name="title">
               <string>算法（Algorithm）</string>
              </property>
-             <layout class="QVBoxLayout" name="verticalLayout_8">
-              <item>
+             <layout class="QGridLayout" name="gridLayout_3">
+              <item row="0" column="0">
                <widget class="QRadioButton" name="radioDF">
                 <property name="text">
                  <string>难度优先
@@ -328,7 +341,15 @@ Difficulty First</string>
                 </property>
                </widget>
               </item>
-              <item>
+              <item row="2" column="0">
+               <widget class="QRadioButton" name="radioE">
+                <property name="text">
+                 <string>穷举
+Enumeration</string>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="0">
                <widget class="QRadioButton" name="radioG">
                 <property name="text">
                  <string>贪心
@@ -336,11 +357,33 @@ Greedy</string>
                 </property>
                </widget>
               </item>
-              <item>
-               <widget class="QRadioButton" name="radioE">
+              <item row="0" column="1">
+               <widget class="QCheckBox" name="cbIgnoreFixing">
+                <property name="enabled">
+                 <bool>false</bool>
+                </property>
                 <property name="text">
-                 <string>穷举
-Enumeration</string>
+                 <string>忽略修复
+Ignore Fixing</string>
+                </property>
+                <property name="checked">
+                 <bool>true</bool>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="1">
+               <widget class="QCheckBox" name="cbIgnorePWP">
+                <property name="text">
+                 <string>忽略累积惩罚
+Ignore Prior Work Penalties</string>
+                </property>
+               </widget>
+              </item>
+              <item row="2" column="1">
+               <widget class="QCheckBox" name="cbIgnoreCL">
+                <property name="text">
+                 <string>忽略花费限制
+Ignore Cost Limit</string>
                 </property>
                </widget>
               </item>
@@ -370,7 +413,7 @@ New Enchanted Book Only</string>
                  <item>
                   <widget class="QRadioButton" name="radioAC">
                    <property name="enabled">
-                    <bool>false</bool>
+                    <bool>true</bool>
                    </property>
                    <property name="text">
                     <string>高级配置
@@ -386,38 +429,7 @@ Use Advanced Config</string>
               </item>
               <item>
                <widget class="QWidget" name="widget_5" native="true">
-                <layout class="QVBoxLayout" name="verticalLayout_6">
-                 <item>
-                  <widget class="QCheckBox" name="cbIgnoreFixing">
-                   <property name="enabled">
-                    <bool>false</bool>
-                   </property>
-                   <property name="text">
-                    <string>忽略修复
-Ignore Fixing</string>
-                   </property>
-                   <property name="checked">
-                    <bool>true</bool>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <widget class="QCheckBox" name="cbIgnorePWP">
-                   <property name="text">
-                    <string>忽略累积惩罚
-Ignore Prior Work Penalties</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <widget class="QCheckBox" name="cbIgnoreCL">
-                   <property name="text">
-                    <string>忽略花费限制
-Ignore Cost Limit</string>
-                   </property>
-                  </widget>
-                 </item>
-                </layout>
+                <layout class="QVBoxLayout" name="verticalLayout_6"/>
                </widget>
               </item>
              </layout>
@@ -429,11 +441,11 @@ Ignore Cost Limit</string>
         <item>
          <widget class="QGroupBox" name="groupBox_4">
           <property name="title">
-           <string>需求的附魔属性（Needed Enchantment）</string>
+           <string>需求的魔咒（Needed Enchantment）</string>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_4">
            <item>
-            <widget class="EnchantmentList" name="NeededEnchantment">
+            <widget class="ItemList" name="NeededEnchantment">
              <property name="font">
               <font>
                <pointsize>12</pointsize>
@@ -557,7 +569,7 @@ Ignore Cost Limit</string>
                  <item>
                   <widget class="QLabel" name="label_4">
                    <property name="text">
-                    <string>步数：
+                    <string>步骤数：
 Step(s)</string>
                    </property>
                   </widget>
@@ -783,7 +795,7 @@ Cost Level(s)</string>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_9">
            <item>
-            <widget class="FlowListWidget" name="EnchantFlow"/>
+            <widget class="FlowList" name="EnchantFlow"/>
            </item>
           </layout>
          </widget>
@@ -854,12 +866,12 @@ Cost Level(s)</string>
      <height>22</height>
     </rect>
    </property>
-   <widget class="QMenu" name="menu_File">
+   <widget class="QMenu" name="menu_Start">
     <property name="title">
-     <string>文件 File</string>
+     <string>开始 Start</string>
     </property>
-    <addaction name="actionInport"/>
-    <addaction name="actionExport"/>
+    <addaction name="actionSettings"/>
+    <addaction name="actionHelp"/>
     <addaction name="actionExit"/>
    </widget>
    <widget class="QMenu" name="menu_About">
@@ -867,18 +879,20 @@ Cost Level(s)</string>
      <string>关于 About</string>
     </property>
     <addaction name="actionVersion"/>
-    <addaction name="actionWeb"/>
+    <addaction name="actionWebsite"/>
    </widget>
-   <widget class="QMenu" name="menu_Setting">
+   <widget class="QMenu" name="menu_Customize">
     <property name="title">
-     <string>选项 Setting</string>
+     <string>快速自定义 Customize</string>
     </property>
-    <addaction name="actionRefresh"/>
+    <addaction name="actionWeapon"/>
+    <addaction name="actionEnchantment"/>
    </widget>
-   <addaction name="menu_File"/>
-   <addaction name="menu_Setting"/>
+   <addaction name="menu_Start"/>
+   <addaction name="menu_Customize"/>
    <addaction name="menu_About"/>
   </widget>
+  <widget class="QStatusBar" name="statusBar"/>
   <action name="actionInport">
    <property name="enabled">
     <bool>false</bool>
@@ -889,7 +903,7 @@ Cost Level(s)</string>
   </action>
   <action name="actionExit">
    <property name="text">
-    <string>Exit</string>
+    <string>退出 Exit</string>
    </property>
   </action>
   <action name="actionExport">
@@ -907,25 +921,50 @@ Cost Level(s)</string>
   </action>
   <action name="actionVersion">
    <property name="text">
-    <string>Version</string>
+    <string>版本 Version</string>
    </property>
   </action>
-  <action name="actionWeb">
+  <action name="actionWebsite">
    <property name="text">
-    <string>Web</string>
+    <string>官网 Website</string>
+   </property>
+  </action>
+  <action name="actionSettings">
+   <property name="text">
+    <string>设置 Settings</string>
+   </property>
+  </action>
+  <action name="actionHelp">
+   <property name="text">
+    <string>帮助 Help</string>
+   </property>
+  </action>
+  <action name="actionWeapon">
+   <property name="text">
+    <string>武器 Weapon</string>
+   </property>
+  </action>
+  <action name="actionEnchantment">
+   <property name="text">
+    <string>魔咒 Enchantment</string>
    </property>
   </action>
  </widget>
  <customwidgets>
   <customwidget>
-   <class>EnchantmentList</class>
+   <class>EnchList</class>
    <extends>QListWidget</extends>
-   <header location="global">enchantmentlist.h</header>
+   <header location="global">enchlist.h</header>
   </customwidget>
   <customwidget>
-   <class>FlowListWidget</class>
+   <class>ItemList</class>
    <extends>QListWidget</extends>
-   <header location="global">flowlistwidget.h</header>
+   <header location="global">itemlist.h</header>
+  </customwidget>
+  <customwidget>
+   <class>FlowList</class>
+   <extends>QListWidget</extends>
+   <header location="global">flowlist.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

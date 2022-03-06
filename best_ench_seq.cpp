@@ -13,8 +13,6 @@ BestEnchSeq::BestEnchSeq(QWidget *parent)
     ui->setupUi(this);
     loadEnchantmentTable();
 
-    CALC();
-
     //Menubar
     connect(ui->actionInport, &QAction::triggered, this, [=](){
 

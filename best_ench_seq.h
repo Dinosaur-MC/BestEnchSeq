@@ -3,9 +3,12 @@
 
 #include <QMainWindow>
 #include "common.h"
-#include "calc.h"
 #include "enchantmentlist.h"
 #include "flowlistwidget.h"
+
+#define PROGRAM_NAME "The Best Enchanting Sequence"
+#define VERSION "1.2_Beta"
+#define AURTHOR "Dinosaur_MC"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class BestEnchSeq; }

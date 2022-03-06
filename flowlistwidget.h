@@ -1,30 +1,23 @@
 #ifndef FLOWLISTWIDGET_H
 #define FLOWLISTWIDGET_H
 
-#include <QListWidget>
-#include "stepwidget.h"
-#include "common.h"
+#include <QWidget>
 
+QT_BEGIN_NAMESPACE
+namespace Ui { class FlowListWidget; }
+QT_END_NAMESPACE
 
-class FlowListWidget : public QListWidget
+class FlowListWidget : public QWidget
 {
     Q_OBJECT
 public:
     explicit FlowListWidget(QWidget *parent = nullptr);
-
-    void addStep(Step s, QIcon icon);
-    void refresh();
-    void refreshSize();
+    ~FlowListWidget();
 
 private:
-    QListWidget* m_Local = nullptr;
-
-protected:
-    void resizeEvent(QResizeEvent *event) override;
+    Ui::FlowListWidget *ui;
 
 signals:
-    void Refresh();
-    void SizeChanged();
 
 };
 

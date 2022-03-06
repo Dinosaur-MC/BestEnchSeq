@@ -9,28 +9,53 @@ CONFIG += c++11
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-    best_ench_seq.cpp \
-    calc.cpp \
-    common.cpp \
-    enchantmentlist.cpp \
+    basic.cpp \
+    calculator.cpp \
+    checkupdate.cpp \
+    enchlist.cpp \
+    enchlistwidget.cpp \
+    feedback.cpp \
+    fileoperate.cpp \
+    flowlist.cpp \
     flowlistwidget.cpp \
+    itemeditor.cpp \
+    itemlist.cpp \
+    itemlistwidget.cpp \
+    logger.cpp \
     main.cpp \
-    selector.cpp \
-    stepwidget.cpp
+    mainwindow.cpp \
+    settings.cpp \
+    sort.cpp \
+    tableeditor.cpp \
+    waitwidget.cpp
 
 HEADERS += \
-    best_ench_seq.h \
-    calc.h \
-    common.h \
-    enchantmentlist.h \
+    basic.h \
+    calculator.h \
+    checkupdate.h \
+    enchlist.h \
+    enchlistwidget.h \
+    feedback.h \
+    fileoperate.h \
+    flowlist.h \
     flowlistwidget.h \
-    selector.h \
-    stepwidget.h
+    itemeditor.h \
+    itemlist.h \
+    itemlistwidget.h \
+    logger.h \
+    mainwindow.h \
+    settings.h \
+    sort.h \
+    tableeditor.h \
+    waitwidget.h
 
 FORMS += \
-    best_ench_seq.ui \
-    selector.ui \
-    stepwidget.ui
+    enchlistwidget.ui \
+    flowlistwidget.ui \
+    itemeditor.ui \
+    itemlistwidget.ui \
+    mainwindow.ui \
+    settings.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

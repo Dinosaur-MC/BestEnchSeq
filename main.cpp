@@ -1,4 +1,4 @@
-#include "best_ench_seq.h"
+#include "mainwindow.h"
 
 #include <QApplication>
 
@@ -8,9 +8,9 @@ int main(int argc, char *argv[])
     int ret = -1;
     do
     {
-        BestEnchSeq w;
+        MainWindow w;
         w.show();
         ret = a.exec();
-    }while(ret == 1314);
+    }while(ret == 5201314);
     return ret;
 }
