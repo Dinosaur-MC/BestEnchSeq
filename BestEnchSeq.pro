@@ -66,9 +66,9 @@ RESOURCES += \
     icon.qrc
 
 DISTFILES += \
-    EnchantmentTable.txt \
     LICENSE \
     README.md \
-    logo.rc
+    logo.rc \
+    update.json
 
 RC_FILE += logo.rc

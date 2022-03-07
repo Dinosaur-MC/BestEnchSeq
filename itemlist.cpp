@@ -51,7 +51,6 @@ void ItemList::getAvailable()
             ench_count++;
         }
     }
-    qDebug() << "ench_count" << ench_count;
 
     EnchPlus *ench = new EnchPlus[ench_count];
     available_ench_l = 0;
