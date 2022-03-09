@@ -127,6 +127,13 @@ MainWindow::MainWindow(QWidget *parent)
         ui->tabWidget->setCurrentIndex(0);
     });
     connect(ui->btnCalc_2, &QPushButton::clicked, this, [=](){
+        int len = 0;
+        while(len < INIT_LENGTH && Basic::origin_ench[len].name != "")
+            len++;
+        for(int i = 0; i < len; i++)
+        {
+            Basic::OriginItem.ench[i] = Basic::origin_ench[i];
+        }
         Calculator();
         ui->tabWidget->setCurrentIndex(2);
     });

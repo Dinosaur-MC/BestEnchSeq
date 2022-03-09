@@ -7,7 +7,8 @@
 
 #define PROGRAM_NAME_CN "最佳附魔顺序计算器"
 #define PROGRAM_NAME_EN "The Best Enchanting Sequence"
-#define VERSION "1.2_Beta"
+#define VERSION "2.0_Beta"
+#define VERSION_ID 12203011 //YyymmXXx
 #define AUTHOR "Dinosaur_MC"
 #define WEBSITE "https://github.com/Dinosaur-MC/BestEnchSeq"
 #define STATEMENT "statement"
@@ -102,6 +103,7 @@ public:
     static int searchEnch(Ench *src, int len, QString aim);
     static int compareEnch(Ench *e1, Ench *e2, int len);
     static QString IntToRoman(int num);
+    static int compareItem(Item A, Item B);
 
 signals:
 

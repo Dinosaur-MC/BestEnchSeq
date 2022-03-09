@@ -103,3 +103,24 @@ QString Basic::IntToRoman(int num)
     return str;
     //Roman number needed 'N'!
 }
+
+int Basic::compareItem(Item A, Item B)
+{
+    int distance = 0;
+
+    if(A.name != B.name)
+        distance++;
+    if(A.duration != B.duration)
+        distance++;
+    if(A.penalty != B.penalty)
+        distance++;
+
+    for(int i = 0; i < INIT_LENGTH; i++)
+    {
+        if(A.ench[i].name != B.ench[i].name || A.ench[i].lvl != B.ench[i].lvl)
+            distance++;
+    }
+
+    return distance;
+}
+

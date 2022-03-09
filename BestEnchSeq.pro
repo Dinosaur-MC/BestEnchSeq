@@ -1,4 +1,6 @@
-QT       += core gui
+QT       += \
+    core gui \
+    network
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -21,11 +23,11 @@ SOURCES += \
     itemeditor.cpp \
     itemlist.cpp \
     itemlistwidget.cpp \
+    itempool.cpp \
     logger.cpp \
     main.cpp \
     mainwindow.cpp \
     settings.cpp \
-    sort.cpp \
     tableeditor.cpp \
     waitwidget.cpp
 
@@ -42,10 +44,10 @@ HEADERS += \
     itemeditor.h \
     itemlist.h \
     itemlistwidget.h \
+    itempool.h \
     logger.h \
     mainwindow.h \
     settings.h \
-    sort.h \
     tableeditor.h \
     waitwidget.h
 
