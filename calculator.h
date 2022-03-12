@@ -15,10 +15,12 @@ public:
     void Alg_Greedy();
     void Alg_Enumeration();
 
+    void uploadData();
+
 private:
-    int flow_l;
+    int flow_l, flow_step;
     Step *flow;
-    int additional_mode;
+    ForgeMode additional_mode;
     ItemPool pool;
 
 signals:

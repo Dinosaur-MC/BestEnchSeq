@@ -17,7 +17,9 @@
 #define FILE_WEAPONTABLE "WeaponTable.csv"
 #define FILE_ENCHTABLE "EnchantmentTable.csv"
 
+#define CONFIG_NUM 7
 #define INIT_LENGTH 64
+#define ID_ECB "附魔书\nEnchanted Book"
 
 struct Config {
   int default_edition;
@@ -27,6 +29,7 @@ struct Config {
 
   bool enableCustomEn;
   bool enableCustomWe;
+  bool autoCheckUpdate;
 };
 
 struct Weapon {
@@ -96,6 +99,8 @@ public:
 
     //Variable
     static Item OriginItem;
+    static Item OutputItem;
+    static int sumCost;
 
     //Public Method
     static int searchTable(QString aim);

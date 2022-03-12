@@ -2,6 +2,7 @@
 #define FLOWLISTWIDGET_H
 
 #include <QWidget>
+#include "basic.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class FlowListWidget; }
@@ -13,6 +14,8 @@ class FlowListWidget : public QWidget
 public:
     explicit FlowListWidget(QWidget *parent = nullptr);
     ~FlowListWidget();
+
+    void setStep(Step s);
 
 private:
     Ui::FlowListWidget *ui;

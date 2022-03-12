@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>612</width>
-    <height>602</height>
+    <width>772</width>
+    <height>750</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -331,10 +331,10 @@ Durability</string>
              </property>
              <layout class="QGridLayout" name="gridLayout_3">
               <item row="0" column="0">
-               <widget class="QRadioButton" name="radioDF">
+               <widget class="QRadioButton" name="radioGA">
                 <property name="text">
-                 <string>难度优先
-Difficulty First</string>
+                 <string>全局平均
+Global Average</string>
                 </property>
                 <property name="checked">
                  <bool>true</bool>
@@ -344,7 +344,7 @@ Difficulty First</string>
               <item row="2" column="0">
                <widget class="QRadioButton" name="radioE">
                 <property name="text">
-                 <string>穷举
+                 <string>枚举
 Enumeration</string>
                 </property>
                </widget>
@@ -360,14 +360,14 @@ Greedy</string>
               <item row="0" column="1">
                <widget class="QCheckBox" name="cbIgnoreFixing">
                 <property name="enabled">
-                 <bool>false</bool>
+                 <bool>true</bool>
                 </property>
                 <property name="text">
                  <string>忽略修复
 Ignore Fixing</string>
                 </property>
                 <property name="checked">
-                 <bool>true</bool>
+                 <bool>false</bool>
                 </property>
                </widget>
               </item>
@@ -381,6 +381,9 @@ Ignore Prior Work Penalties</string>
               </item>
               <item row="2" column="1">
                <widget class="QCheckBox" name="cbIgnoreCL">
+                <property name="enabled">
+                 <bool>false</bool>
+                </property>
                 <property name="text">
                  <string>忽略花费限制
 Ignore Cost Limit</string>
@@ -425,11 +428,6 @@ Use Advanced Config</string>
                   </widget>
                  </item>
                 </layout>
-               </widget>
-              </item>
-              <item>
-               <widget class="QWidget" name="widget_5" native="true">
-                <layout class="QVBoxLayout" name="verticalLayout_6"/>
                </widget>
               </item>
              </layout>
@@ -729,6 +727,19 @@ Cost Level(s)</string>
                   </widget>
                  </item>
                  <item>
+                  <spacer name="horizontalSpacer_11">
+                   <property name="orientation">
+                    <enum>Qt::Horizontal</enum>
+                   </property>
+                   <property name="sizeHint" stdset="0">
+                    <size>
+                     <width>5</width>
+                     <height>20</height>
+                    </size>
+                   </property>
+                  </spacer>
+                 </item>
+                 <item>
                   <widget class="QLabel" name="CostLevel">
                    <property name="font">
                     <font>
@@ -760,13 +771,53 @@ Cost Level(s)</string>
             </spacer>
            </item>
            <item>
-            <widget class="QLabel" name="Notice">
-             <property name="text">
-              <string>&lt;Empty&gt;</string>
+            <widget class="QFrame" name="frame_5">
+             <property name="frameShape">
+              <enum>QFrame::Panel</enum>
              </property>
-             <property name="alignment">
-              <set>Qt::AlignCenter</set>
+             <property name="frameShadow">
+              <enum>QFrame::Sunken</enum>
              </property>
+             <layout class="QVBoxLayout" name="verticalLayout_6">
+              <item>
+               <widget class="QFrame" name="frame_51">
+                <property name="frameShape">
+                 <enum>QFrame::StyledPanel</enum>
+                </property>
+                <property name="frameShadow">
+                 <enum>QFrame::Raised</enum>
+                </property>
+                <layout class="QHBoxLayout" name="horizontalLayout_13">
+                 <item>
+                  <widget class="QLabel" name="label_5">
+                   <property name="text">
+                    <string>计算用时：
+Cost Time</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QLabel" name="CalcTime">
+                   <property name="text">
+                    <string>------</string>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLabel" name="Notice">
+                <property name="text">
+                 <string>无结果
+No Result</string>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignCenter</set>
+                </property>
+               </widget>
+              </item>
+             </layout>
             </widget>
            </item>
            <item>
@@ -795,7 +846,7 @@ Cost Level(s)</string>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_9">
            <item>
-            <widget class="FlowList" name="EnchantFlow"/>
+            <widget class="FlowList" name="EnchantingFlow"/>
            </item>
           </layout>
          </widget>
@@ -862,7 +913,7 @@ Cost Level(s)</string>
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>612</width>
+     <width>772</width>
      <height>22</height>
     </rect>
    </property>
@@ -912,11 +963,6 @@ Cost Level(s)</string>
    </property>
    <property name="text">
     <string>Export</string>
-   </property>
-  </action>
-  <action name="actionRefresh">
-   <property name="text">
-    <string>Refresh Multiplier Table</string>
    </property>
   </action>
   <action name="actionVersion">

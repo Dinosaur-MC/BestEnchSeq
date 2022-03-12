@@ -20,9 +20,7 @@ void ItemListWidget::setItem(Item item)
 {
     this_item = item;
     ui->cb->setChecked(true);
-    ui->toolButton->setFixedSize(QSize(48,48));
-    ui->toolButton->setIconSize(QSize(48,48));
-    if(item.name == "Enchanted Book")
+    if(item.name == ID_ECB)
     {
         ui->toolButton->setIcon(QIcon(":/icon/res/enchanted_book.png"));
         ui->weapon_name->setText("附魔书|Enchanted Book");
@@ -51,8 +49,6 @@ Item ItemListWidget::item()
 void ItemListWidget::setEnch(EnchPlus ench)
 {
     ui->cb->setChecked(false);
-    ui->toolButton->setFixedSize(QSize(32,32));
-    ui->toolButton->setIconSize(QSize(32,32));
     ui->toolButton->setIcon(QIcon(":/icon/res/enchanted_book.png"));
     ui->weapon_name->setHidden(true);
     ui->ench_name->setText(ench.e.name);

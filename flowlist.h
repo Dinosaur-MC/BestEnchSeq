@@ -9,9 +9,15 @@ class FlowList : public QListWidget
 public:
     explicit FlowList(QWidget *parent = nullptr);
 
+    void refresh();
+
+private:
+
+protected:
+//    void resizeEvent(QResizeEvent *event);
 
 signals:
-
+//    void resized();
 };
 
 #endif // FLOWLIST_H

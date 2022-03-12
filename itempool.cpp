@@ -11,13 +11,17 @@ ItemPool::ItemPool(QObject *parent)
     item_count = 0;
     pool_l = INIT_SIZE;
     pool = new Item[pool_l];
-    forgeMode = 0;
+    forgeMode = ForgeMode::Normal;
 }
 
 
 void ItemPool::setStorageMode(enum StorageMode m)
 {
-    storage_mode = m;
+    if(storage_mode != m)
+    {
+        storage_mode = m;
+        detectSize();
+    }
 }
 
 int ItemPool::detectSize()
@@ -123,12 +127,15 @@ void ItemPool::append(Item item)
     if(!detectSize())
         return;
 
-    int p = 0;
-    while(pool[p].name != "" && pool[p].ench[0].name != "")
-        p++;
-
-    pool[p] = item;
+    pool[item_count] = item;
     item_count++;
+}
+
+void ItemPool::replace(Item item, int p)
+{
+    if(p > pool_l-1)
+        return;
+    pool[p] = item;
 }
 
 
@@ -165,12 +172,15 @@ void ItemPool::remove(int p)
     }
     pool[i] = Item({});
 
+    item_count--;
     detectSize();
 }
 
 
 void ItemPool::sort()
 {
+    qDebug() << "+ sort";
+
     for(int i = 0; i < item_count-1; i++)
     {
         for(int j = 0; j < item_count-1-i; j++)
@@ -182,10 +192,11 @@ void ItemPool::sort()
                 pool[j] = tm;
             }
             else if(pool[j].penalty == pool[j+1].penalty \
-                    && preForge(Item({}), pool[j], 2).cost < preForge(Item({}), pool[j+1], 2).cost \
-                    && (pool[j].name == "Enchanted Book" || pool[j].name == ""))
+                    && preForge(Item({}), pool[j], ForgeMode::IgnorePenalty).cost < preForge(Item({}), pool[j+1], ForgeMode::IgnorePenalty).cost \
+                    && (pool[j].name == ID_ECB || pool[j].name == ""))
             {
-                if((pool[j].name == "Enchanted Book" || pool[j].name == "") && preForge(Item({}), pool[j], 2).cost < preForge(Item({}), pool[j+1], 2).cost)
+                if(preForge(Item({}), pool[j], ForgeMode::IgnorePenalty).cost < preForge(Item({}), pool[j+1], ForgeMode::IgnorePenalty).cost \
+                    &&(pool[j].name == ID_ECB || pool[j].name == ""))
                 {
                     Item tm = pool[j+1];
                     pool[j+1] = pool[j];
@@ -194,6 +205,13 @@ void ItemPool::sort()
             }
         }
     }
+
+    for(int i = 0; i < item_count; i++)
+    {
+        qDebug() << "item - n e p c" << pool[i].name << pool[i].ench[0].name << pool[i].penalty << preForge(Item({}), pool[i], ForgeMode::IgnorePenalty).cost;
+    }
+
+    qDebug() << "- sort";
 }
 
 int ItemPool::searchWeapon()
@@ -201,11 +219,35 @@ int ItemPool::searchWeapon()
     int p;
     for(p = 0; p < item_count; p++)
     {
-        if(pool[p].name != "Enchanted Book" && pool[p].name != "")
+        if(pool[p].name != ID_ECB && pool[p].name != "")
             break;
         if(p == item_count - 1)
+        {
             p = -1;
+            break;
+        }
     }
+    return p;
+}
+
+int ItemPool::penaltyAreaBegin(int pen)
+{
+    int p = 0;
+    while(pool[p].penalty < pen && p < item_count)
+        p++;
+    if(pool[p].penalty != pen)
+        return -1;
+    return p;
+}
+
+int ItemPool::penaltyAreaEnd(int pen)
+{
+    int p = 0;
+    while(pool[p].penalty <= pen && p < item_count)
+        p++;
+    p--;
+    if(pool[p].penalty != pen)
+        return -1;
     return p;
 }
 
@@ -251,20 +293,20 @@ int ItemPool::minPenalty()
 
 int ItemPool::maxLevelCost()
 {
-    int lCost = preForge(Item({}), pool[0], 1).cost;
+    int lCost = preForge(Item({}), pool[0], ForgeMode::IgnoreFixing_Penalty).cost;
     for(int i = 1; i < item_count; i++)
     {
-        lCost = max(preForge(Item({}), pool[i], 1).cost, lCost);
+        lCost = max(preForge(Item({}), pool[i], ForgeMode::IgnoreFixing_Penalty).cost, lCost);
     }
     return lCost;
 }
 
 int ItemPool::minLevelCost()
 {
-    int lCost = preForge(Item({}), pool[0], 1).cost;
+    int lCost = preForge(Item({}), pool[0], ForgeMode::IgnoreFixing_Penalty).cost;
     for(int i = 1; i < item_count; i++)
     {
-        lCost = min(preForge(Item({}), pool[i], 1).cost, lCost);
+        lCost = min(preForge(Item({}), pool[i], ForgeMode::IgnoreFixing_Penalty).cost, lCost);
     }
     return lCost;
 }
@@ -272,31 +314,31 @@ int ItemPool::minLevelCost()
 
 int ItemPool::maxCost()
 {
-    int lCost = preForge(Item({}), pool[0], 0).cost;
+    int lCost = preForge(Item({}), pool[0], ForgeMode::Normal).cost;
     for(int i = 1; i < item_count; i++)
     {
-        lCost = max(preForge(Item({}), pool[i], 0).cost, lCost);
+        lCost = max(preForge(Item({}), pool[i], ForgeMode::Normal).cost, lCost);
     }
     return lCost;
 }
 
 int ItemPool::minCost()
 {
-    int lCost = preForge(Item({}), pool[0], 0).cost;
+    int lCost = preForge(Item({}), pool[0], ForgeMode::Normal).cost;
     for(int i = 1; i < item_count; i++)
     {
-        lCost = min(preForge(Item({}), pool[i], 0).cost, lCost);
+        lCost = min(preForge(Item({}), pool[i], ForgeMode::Normal).cost, lCost);
     }
     return lCost;
 }
 
 
-void ItemPool::setForgeMode(int mode)
+void ItemPool::setForgeMode(ForgeMode mode)
 {
     forgeMode = mode;
 }
 
-Step ItemPool::preForge(Item A, Item B, int mode)
+Step ItemPool::preForge(Item A, Item B, ForgeMode mode)
 {
     Step s;
     s.a = A;
@@ -310,86 +352,61 @@ Step ItemPool::preForge(Item A, Item B, int mode)
     while(B_el < INIT_LENGTH && B.ench[B_el].name != "")
         B_el++;
 
-    if(Basic::edition == 0)
+    for(int i = 0; i < B_el; i++)
     {
-        for(int i = 0; i < B_el; i++)
+        int lever = 0;
+        int p = Basic::searchTable(B.ench[i].name);
+        for(int j = 0; j < Basic::ench_table[p].repulsion->count(); j++)
         {
-            int lever = 0;
-            int p = Basic::searchTable(B.ench[i].name);
-            for(int j = 0; j < Basic::ench_table[p].repulsion->count(); j++)
+            if(Basic::searchEnch(A.ench, A_el, Basic::ench_table[p].repulsion[j]) != -1)
             {
-                if(Basic::searchEnch(A.ench, A_el, Basic::ench_table[p].repulsion[j]) != -1)
-                {
+                if(Basic::edition == 0)
                     cost += 1;
-                    lever++;
-                    break;
-                }
+                lever++;
+                break;
             }
-            if(lever)
-                continue;
+        }
+        if(lever)
+            continue;
 
-            if(B.name == "Enchante Book" || B.duration == 0)
+        int q = Basic::searchEnch(A.ench, A_el, B.ench[i].name);
+        if(q != -1)
+        {
+            if(Basic::edition == 0)
+            {
+                if(B.name == ID_ECB)
+                    cost += Basic::ench_table[Basic::searchTable(B.ench[i].name)].multiplier[1] * combine(B.ench[i].name, A.ench[q].lvl, B.ench[i].lvl);
+                else
+                    cost += Basic::ench_table[Basic::searchTable(B.ench[i].name)].multiplier[0] * combine(B.ench[i].name, A.ench[q].lvl, B.ench[i].lvl);
+            }
+            else
+            {
+                if(B.name == ID_ECB)
+                    cost += Basic::ench_table[Basic::searchTable(B.ench[i].name)].multiplier[1] * (combine(B.ench[i].name, A.ench[q].lvl, B.ench[i].lvl - A.ench[i].lvl));
+                else
+                    cost += Basic::ench_table[Basic::searchTable(B.ench[i].name)].multiplier[0] * (combine(B.ench[i].name, A.ench[q].lvl, B.ench[i].lvl - A.ench[i].lvl));
+            }
+        }
+        else
+        {
+            if(B.name == ID_ECB)
                 cost += Basic::ench_table[Basic::searchTable(B.ench[i].name)].multiplier[1] * B.ench[i].lvl;
             else
                 cost += Basic::ench_table[Basic::searchTable(B.ench[i].name)].multiplier[0] * B.ench[i].lvl;
         }
     }
-    else
-    {
-        for(int i = 0; i < B_el; i++)
-        {
-            int lever = 0;
-            int p = Basic::searchTable(B.ench[i].name);
-            for(int j = 0; j < Basic::ench_table[p].repulsion->count(); j++)
-            {
-                if(Basic::searchEnch(A.ench, A_el, Basic::ench_table[p].repulsion[j]) != -1)
-                {
-                    lever = 1;
-                    break;
-                }
-            }
-            if(lever)
-                continue;
 
-            int q = Basic::searchEnch(A.ench, A_el, B.ench[i].name);
-            if(A.ench[q].lvl == Basic::ench_table[Basic::searchTable(A.ench[q].name)].mlvl)
-                continue;
-
-            int lvl = B.ench[i].lvl;
-            if( q != -1)
-            {
-                if(A.ench[q].lvl == B.ench[i].lvl)
-                {
-                    lvl = 1;
-                }
-                else if(A.ench[q].lvl < B.ench[i].lvl)
-                {
-                    lvl -= A.ench[q].lvl;
-                }
-                else
-                {
-                    lvl = 0;
-                }
-            }
-
-            if(B.name == "Enchante Book" || B.duration == 0)
-                cost += Basic::ench_table[Basic::searchTable(B.ench[i].name)].multiplier[1] * lvl;
-            else
-                cost += Basic::ench_table[Basic::searchTable(B.ench[i].name)].multiplier[0] * lvl;
-        }
-    }
-
-    if(mode == 0 || mode == 2)
+    if(mode != ForgeMode::IgnorePenalty && mode != ForgeMode::IgnoreFixing_Penalty)
     {
         cost += pow(2, A.penalty) - 1;
         cost += pow(2, B.penalty) - 1;
     }
-    if((mode == 0 || mode == 1) && A.duration != 100 && B.duration != 0)
+    if((mode != ForgeMode::IgnoreFixing && mode != ForgeMode::IgnoreFixing_Penalty) && A.duration != 100 && B.duration != 0)
         cost += 2;
 
     s.cost = cost;
     s.penalty = penalty;
-    qDebug() << "preForge:" << cost << penalty << A_el << A.ench[0].name << A.ench[0].lvl << B_el << B.ench[0].name << B.ench[0].lvl;
+//    qDebug() << "preForge:" << cost << penalty << A_el << A.ench[0].name << A.ench[0].lvl << B_el << B.ench[0].name << B.ench[0].lvl;
     return s;
 }
 
@@ -419,14 +436,19 @@ Item ItemPool::forge(Item A, Item B)
         int q = Basic::searchEnch(A.ench, A_el, B.ench[i].name);
         if(q != -1)
         {
-            if(A.ench[q].lvl == B.ench[i].lvl && A.ench[q].lvl != Basic::ench_table[Basic::searchTable(A.ench[q].name)].mlvl)
-            {
-               A.ench[q].lvl++;
-            }
-            else if(A.ench[q].lvl < B.ench[i].lvl)
-            {
-                A.ench[q].lvl = B.ench[i].lvl;
-            }
+            A.ench[q].lvl = combine(B.ench[i].name, A.ench[q].lvl, B.ench[q].lvl);
+//            if(A.ench[q].lvl == B.ench[i].lvl && A.ench[q].lvl != Basic::ench_table[Basic::searchTable(A.ench[q].name)].mlvl)
+//               A.ench[q].lvl++;
+//            else if(A.ench[q].lvl < B.ench[i].lvl)
+//                A.ench[q].lvl = B.ench[i].lvl;
+        }
+        else
+        {
+            int k = 0;
+            while(k < INIT_LENGTH && A.ench[k].name != "")
+                k++;
+            if(A.ench[k].name == "")
+                A.ench[k] = B.ench[i];
         }
     }
 
@@ -440,5 +462,13 @@ Item ItemPool::forge(Item A, Item B)
     A.penalty = max(A.penalty, B.penalty) + 1;
 
     return A;
+}
+
+int combine(QString ench, int a, int b)
+{
+    if(a == b && a != Basic::ench_table[Basic::searchTable(ench)].mlvl)
+        return ++a;
+    else
+        return max(a, b);
 }
 

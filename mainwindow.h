@@ -2,6 +2,9 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QComboBox>
+#include <QTimer>
+#include <QTime>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -19,6 +22,8 @@ public:
 
 private:
     Ui::MainWindow *ui;
+    QTime *time_calc = new QTime();
+    QTimer *timer = new QTimer();
 
 signals:
 

@@ -10,6 +10,15 @@ enum StorageMode {
     MinimunSize
 };
 
+enum ForgeMode {
+    Normal,
+    IgnoreFixing,
+    IgnorePenalty,
+    IgnoreFixing_Penalty
+};
+
+int combine(QString ench, int a, int b);
+
 class ItemPool : public QObject
 {
     Q_OBJECT
@@ -22,12 +31,15 @@ public:
 
     void insert(Item item, int p);
     void append(Item item);
+    void replace(Item item, int p);
 
     void remove(Item item);
     void remove(int p);
 
     void sort();
     int searchWeapon();
+    int penaltyAreaBegin(int pen);
+    int penaltyAreaEnd(int pen);
     int count();
     int size();
     Item item(int p);
@@ -41,12 +53,12 @@ public:
     int maxCost();
     int minCost();
 
-    void setForgeMode(int mode);
-    static Step preForge(Item A, Item B, int mode); //mode; 0:Normal, 1:Ignore pennalty, 2:Ignore duration, 3:Ignore both
+    void setForgeMode(ForgeMode mode);
+    static Step preForge(Item A, Item B, ForgeMode mode); //mode; 0:Normal, 1:Ignore pennalty, 2:Ignore duration, 3:Ignore both
     static Item forge(Item A, Item B);
 
 private:
-    int forgeMode;
+    ForgeMode forgeMode;
     StorageMode storage_mode;
     int pool_l, item_count;
     Item *pool;

@@ -37,7 +37,14 @@ QString ItemList::Weapon()
 
 int ItemList::enchCount()
 {
-    return count();
+    int n = 0;
+    for(int i = 0; i < count(); i++)
+    {
+        ItemListWidget *w = (ItemListWidget*)itemWidget(item(i));
+        if(w->isChecked())
+            n++;
+    }
+    return n;
 }
 
 void ItemList::getAvailable()
@@ -131,6 +138,8 @@ void ItemList::refresh()
             checkRepulsion();
         });
     }
+
+    uploadList();
 }
 
 void ItemList::uploadList()
@@ -157,10 +166,7 @@ void ItemList::uploadList()
     }
     delete [] e;
 
-    for(int i = 0; i < Basic::needed_ench_l; i++)
-    {
-        qDebug() << "Basic::needed_ench:" << Basic::needed_ench[i].name << Basic::needed_ench[i].lvl;
-    }
+    qDebug() << "uploadList - needed_ench: Done";
 }
 
 void ItemList::checkRepulsion()

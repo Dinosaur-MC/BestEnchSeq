@@ -4,20 +4,24 @@ using namespace std;
 Config Basic::config;
 int Basic::edition = 0;
 int Basic::mode[2] = {0, 0};
-bool Basic::lever[3] = {1, 0, 0};
+bool Basic::lever[3] = {0, 0, 0};
 
 int Basic::ench_table_l = INIT_LENGTH;
 int Basic::weapon_l = INIT_LENGTH;
 int Basic::origin_ench_l = INIT_LENGTH;
 int Basic::needed_ench_l = INIT_LENGTH;
 int Basic::available_item_l = INIT_LENGTH;
+int Basic::flow_list_l = INIT_LENGTH;
 EnchTable *Basic::ench_table = new EnchTable[Basic::ench_table_l];
 Weapon *Basic::weapon = new Weapon[Basic::weapon_l];
 Ench *Basic::origin_ench = new Ench[Basic::origin_ench_l];
 Ench *Basic::needed_ench = new Ench[Basic::needed_ench_l];
 Item *Basic::available_item = new Item[Basic::available_item_l];
+Step *Basic::flow_list = new Step[Basic::flow_list_l];
 
-Item Basic::OriginItem;
+Item Basic::OriginItem = {};
+Item Basic::OutputItem = {};
+int Basic::sumCost = 0;
 
 Basic::Basic(QObject *parent)
     : QObject{parent}

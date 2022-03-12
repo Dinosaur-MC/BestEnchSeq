@@ -8,6 +8,10 @@ EnchList::EnchList(QWidget *parent)
 {
     this->setViewMode(QListView::ListMode);
     this->setResizeMode(QListView::Adjust);
+    changing = 0;
+    connect(this, &EnchList::enchChanged, this, [=](){
+        changing++;
+    });
 }
 
 
@@ -45,7 +49,7 @@ void EnchList::refresh()
             EnchListWidget *w = new EnchListWidget(this);
             w->setEnch(Basic::ench_table[i]);
             w->show();
-            QListWidgetItem *item=new QListWidgetItem(this,0);
+            QListWidgetItem *item = new QListWidgetItem(this,0);
             item->setSizeHint(QSize(200,50));
             this->setItemWidget(item,w);
         }
@@ -54,7 +58,7 @@ void EnchList::refresh()
     for(int i = 0; i < count(); i++)
     {
         EnchListWidget *w = (EnchListWidget*)itemWidget(item(i));
-        connect(this, &EnchList::itemDoubleClicked, w, [=](){
+        connect(this, &EnchList::itemClicked, w, [=](){
             if(this->currentRow() == i && w->isEnabled())
                 w->setChecked(!w->isChecked());
         });
@@ -66,6 +70,8 @@ void EnchList::refresh()
             uploadList();
         });
     }
+
+    uploadList();
 }
 
 void EnchList::uploadList()
@@ -92,10 +98,8 @@ void EnchList::uploadList()
     }
 
     delete [] e;
-    for(int i = 0; i < Basic::origin_ench_l; i++)
-    {
-        qDebug() << "Basic::origin_ench:" << Basic::origin_ench[i].name << Basic::origin_ench[i].lvl;
-    }
+    emit enchChanged();
+    qDebug() << "uploadList - origin_ench: Done";
 }
 
 void EnchList::checkRepulsion()
@@ -105,5 +109,16 @@ void EnchList::checkRepulsion()
         EnchListWidget *w = (EnchListWidget*)itemWidget(item(i));
         w->checkRepulsion();
     }
+}
+
+bool EnchList::isChanged()
+{
+    if(changing)
+    {
+        changing = 0;
+        return true;
+    }
+    else
+        return false;
 }
 

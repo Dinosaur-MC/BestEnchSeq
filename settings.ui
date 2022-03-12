@@ -174,27 +174,29 @@ Export Path</string>
        <property name="title">
         <string>功能（Method）</string>
        </property>
-       <layout class="QVBoxLayout" name="verticalLayout_4">
-        <item>
-         <widget class="QWidget" name="widget_2" native="true">
-          <layout class="QGridLayout" name="gridLayout">
-           <item row="0" column="1">
-            <widget class="QCheckBox" name="cbCustomEn">
-             <property name="text">
-              <string>启用自定义魔咒
+       <layout class="QGridLayout" name="gridLayout_3">
+        <item row="1" column="1">
+         <widget class="QCheckBox" name="cbCustomEn">
+          <property name="text">
+           <string>启用自定义魔咒
 Enable Custom Enchantment</string>
-             </property>
-            </widget>
-           </item>
-           <item row="0" column="0">
-            <widget class="QCheckBox" name="cbCustomWe">
-             <property name="text">
-              <string>启用自定义武器
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="0">
+         <widget class="QCheckBox" name="cbCustomWe">
+          <property name="text">
+           <string>启用自定义武器
 Enable Custom Weapon</string>
-             </property>
-            </widget>
-           </item>
-          </layout>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="0">
+         <widget class="QCheckBox" name="cbCheckUpate">
+          <property name="text">
+           <string>启动时自动检查更新
+Check Update when Launch</string>
+          </property>
          </widget>
         </item>
        </layout>

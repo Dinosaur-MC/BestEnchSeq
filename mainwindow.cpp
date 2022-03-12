@@ -8,7 +8,10 @@
 #include "flowlist.h"
 #include "calculator.h"
 
-#include <QComboBox>
+#include <QUrl>
+#include <QDesktopServices>
+
+using namespace std;
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow{parent}
@@ -21,28 +24,6 @@ MainWindow::MainWindow(QWidget *parent)
     labText->setText(STATEMENT);
     ui->statusBar->addWidget(labText);
 
-    //Initialze & Load Files
-    FileOperate fo;
-    fo.loadConfig();
-    initialize();
-    if(Basic::config.default_edition == 0)
-        ui->radioJE->setChecked(true);
-    else
-        ui->radioBE->setChecked(true);
-
-    if(Basic::config.default_algorithm == 0)
-        ui->radioDF->setChecked(true);
-    else if(Basic::config.default_algorithm == 1)
-        ui->radioG->setChecked(true);
-    else
-        ui->radioE->setChecked(true);
-
-    if(Basic::config.enableCustomWe)
-        fo.loadWeapon();
-    if(Basic::config.enableCustomEn)
-        fo.loadEnchantmentTable();
-
-    refresh();
 
     //Menu Bar Connection
     connect(ui->actionSettings, &QAction::triggered, this, [=](){
@@ -53,13 +34,53 @@ MainWindow::MainWindow(QWidget *parent)
             refresh();
         qDebug() << "Setting started";
     });
-    connect(ui->actionHelp, &QAction::triggered, this, [=]{});
+    connect(ui->actionHelp, &QAction::triggered, this, [=]{
+        QDesktopServices::openUrl(QUrl(QLatin1String("https://www.bilibili.com/video/BV11T4y1D7c2")));
+    });
     connect(ui->actionExit, &QAction::triggered, this, &MainWindow::close);
 
-    //Tab Widget Connection
-    connect(ui->tabWidget, &QTabWidget::currentChanged, this, [=](){
-        ui->NeededEnchantment->setWeapon(Basic::weapon[ui->InputItem->currentIndex()].name);
+    connect(ui->actionWeapon, &QAction::triggered, this, [=](){
+
     });
+    connect(ui->actionEnchantment, &QAction::triggered, this, [=](){
+
+    });
+    connect(ui->actionVersion, &QAction::triggered, this, [=](){
+        QDialog w;
+
+        QLabel *name = new QLabel(QString("* * * ") + PROGRAM_NAME_CN + " * * *\n* * * " + PROGRAM_NAME_EN + " * * *\n", &w);
+        name->setAlignment(Qt::AlignHCenter);
+        QLabel *ver = new QLabel(QString("Version: ") + VERSION, &w);
+        ver->setAlignment(Qt::AlignHCenter);
+        QLabel *author = new QLabel(QString("Author: ") + AUTHOR, &w);
+        author->setAlignment(Qt::AlignHCenter);
+        QPushButton *btn = new QPushButton("确定 Confirm", &w);
+        connect(btn, &QPushButton::clicked, &w, &QDialog::accept);
+
+        QVBoxLayout *layout = new QVBoxLayout(&w);
+        layout->addWidget(name);
+        layout->addWidget(ver);
+        layout->addWidget(author);
+        layout->addWidget(btn);
+
+        w.setFixedSize(320, 140);
+        w.setLayout(layout);
+        w.setModal(true);
+        w.show();
+        w.exec();
+    });
+    connect(ui->actionWebsite, &QAction::triggered, this, [=](){
+        QDesktopServices::openUrl(QUrl(QLatin1String(WEBSITE)));
+    });
+
+    //Tab Connection
+    connect(ui->tabWidget, &QTabWidget::currentChanged, this, [=](){
+        if(ui->OriginEnchantment->isChanged())
+            ui->NeededEnchantment->setWeapon(Basic::weapon[ui->InputItem->currentIndex()].name);
+    });
+
+    //Lists Connection
+
 
     //Radio Button Connection
     connect(ui->radioJE, &QRadioButton::clicked, this, [=](){
@@ -70,7 +91,7 @@ MainWindow::MainWindow(QWidget *parent)
         Basic::edition = 1;
         ui->OriginEnchantment->refresh();
     });
-    connect(ui->radioDF, &QRadioButton::clicked, this, [=](){
+    connect(ui->radioGA, &QRadioButton::clicked, this, [=](){
         Basic::mode[0] = 0;
     });
     connect(ui->radioG, &QRadioButton::clicked, this, [=](){
@@ -127,15 +148,54 @@ MainWindow::MainWindow(QWidget *parent)
         ui->tabWidget->setCurrentIndex(0);
     });
     connect(ui->btnCalc_2, &QPushButton::clicked, this, [=](){
-        int len = 0;
-        while(len < INIT_LENGTH && Basic::origin_ench[len].name != "")
-            len++;
-        for(int i = 0; i < len; i++)
+        if(ui->NeededEnchantment->enchCount() == 0)
         {
-            Basic::OriginItem.ench[i] = Basic::origin_ench[i];
+            ui->btnCalc_2->setStyleSheet("color:red");
+            return;
         }
+        else
+            ui->btnCalc_2->setStyleSheet("color:black");
+
+        QTime start_time = QTime::currentTime();
+
+        for(int i = 0; i < INIT_LENGTH; i++)
+            Basic::OriginItem.ench[i] = {};
+        for(int i = 0; i < Basic::origin_ench_l; i++)
+            Basic::OriginItem.ench[i] = Basic::origin_ench[i];
+
         Calculator();
+
+        ui->OutputItem->setIcon(Basic::weapon[Basic::searchWeapon(Basic::OriginItem.name)].icon);
+        ui->OutputItem->setIconSize(QSize(64, 64));
+        ui->Durability_1->setText(QString::number(Basic::OutputItem.duration));
+        ui->Penalty_1->setText(QString::number(Basic::OutputItem.penalty));
+        ui->StepCount->setText(QString::number(Basic::flow_list_l));
+
+        Basic::sumCost = 0;
+        int step_max_cost = 0;
+        for(int i = 0; i < Basic::flow_list_l; i++)
+        {
+            Basic::sumCost += Basic::flow_list[i].cost;
+            step_max_cost = max(step_max_cost, Basic::flow_list[i].cost);
+        }
+        ui->CostLevel->setText(QString::number(Basic::sumCost));
+        if(step_max_cost < 40)
+        {
+            ui->Notice->setText("可行的！\nAvailable!");
+            ui->Notice->setStyleSheet("color:green");
+        }
+        else
+        {
+            ui->Notice->setText("过于昂贵！\nToo expensive!");
+            ui->Notice->setStyleSheet("color:red");
+        }
+
+        ui->EnchantingFlow->refresh();
         ui->tabWidget->setCurrentIndex(2);
+
+        QTime stop_time = QTime::currentTime();
+        double num = (double)start_time.msecsTo(stop_time) / 1000;
+        ui->CalcTime->setText(QString::number(num, 'g', 3) + "s");
     });
     connect(ui->btnBack_3, &QPushButton::clicked, this, [=](){
         ui->tabWidget->setCurrentIndex(1);
@@ -144,6 +204,31 @@ MainWindow::MainWindow(QWidget *parent)
         FileOperate fo;
         fo.saveExport();
     });
+
+
+    //Initialze & Load Files
+    initialize();
+
+    FileOperate fo;
+    fo.loadConfig();
+    if(Basic::config.default_edition == 0)
+        ui->radioJE->setChecked(true);
+    else
+        ui->radioBE->setChecked(true);
+
+    if(Basic::config.default_algorithm == 0)
+        ui->radioGA->setChecked(true);
+    else if(Basic::config.default_algorithm == 1)
+        ui->radioG->setChecked(true);
+    else
+        ui->radioE->setChecked(true);
+
+    if(Basic::config.enableCustomWe)
+        fo.loadWeapon();
+    if(Basic::config.enableCustomEn)
+        fo.loadEnchantmentTable();
+
+    refresh();
 }
 
 MainWindow::~MainWindow()
@@ -216,6 +301,11 @@ void MainWindow::initialize()
     Basic::ench_table[35] = {"横扫之刃-sweeping",3,{4,2},0,{},{1,0,0,0,0,0,0,0,0,0,0,0,0}};
     Basic::ench_table[36] = {"荆棘-thorns",3,{8,4},2,{},{0,0,0,0,0,1,1,1,1,0,0,0,0}};
     Basic::ench_table[37] = {"耐久-unbreaking",3,{2,1},2,{},{1,1,1,1,1,1,1,1,1,1,1,1,1}};
+
+
+    Basic::OriginItem.name = Basic::weapon[0].name;
+    Basic::OriginItem.duration = 100;
+    Basic::OriginItem.penalty = 0;
 }
 
 void MainWindow::refresh()
@@ -226,5 +316,7 @@ void MainWindow::refresh()
     {
         ui->InputItem->addItem(Basic::weapon[i].icon, Basic::weapon[i].name);
     }
+
     ui->OriginEnchantment->setWeapon(Basic::weapon[ui->InputItem->currentIndex()].name);
+    ui->NeededEnchantment->setWeapon(Basic::weapon[ui->InputItem->currentIndex()].name);
 }

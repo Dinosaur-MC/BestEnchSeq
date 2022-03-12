@@ -16,10 +16,14 @@ public:
     void uploadList();
     void checkRepulsion();
 
+    bool isChanged();
+
 private:
     int current_weapon_index;
+    int changing;
 
 signals:
+    void enchChanged();
 
 };
 

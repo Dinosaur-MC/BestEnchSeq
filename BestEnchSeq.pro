@@ -28,6 +28,7 @@ SOURCES += \
     main.cpp \
     mainwindow.cpp \
     settings.cpp \
+    statusbarmanager.cpp \
     tableeditor.cpp \
     waitwidget.cpp
 
@@ -48,6 +49,7 @@ HEADERS += \
     logger.h \
     mainwindow.h \
     settings.h \
+    statusbarmanager.h \
     tableeditor.h \
     waitwidget.h
 
