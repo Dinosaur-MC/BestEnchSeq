@@ -104,6 +104,9 @@ Difficulty First</string>
            </item>
            <item>
             <widget class="QRadioButton" name="radAlgGr">
+             <property name="enabled">
+              <bool>false</bool>
+             </property>
              <property name="text">
               <string>贪心
 Greedy</string>
@@ -112,6 +115,9 @@ Greedy</string>
            </item>
            <item>
             <widget class="QRadioButton" name="radAlgEn">
+             <property name="enabled">
+              <bool>false</bool>
+             </property>
              <property name="text">
               <string>穷举
 Enumeration</string>
@@ -136,6 +142,9 @@ Enumeration</string>
         </item>
         <item>
          <widget class="QWidget" name="widget_5" native="true">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
           <layout class="QHBoxLayout" name="horizontalLayout_7">
            <item>
             <widget class="QCheckBox" name="cbConstant">

@@ -8,9 +8,10 @@ CheckUpdate::CheckUpdate(QObject *parent)
 }
 
 
-void CheckUpdate::start()
+void CheckUpdate::start(bool m)
 {
     qDebug() << "Requesting..";
+    notice_newest = m;
     QNetworkRequest request(QUrl(UPDATE_JSON));
     manager->get(request);
     qDebug() << "Requested";
@@ -18,17 +19,14 @@ void CheckUpdate::start()
 
 void CheckUpdate::ReadData(QNetworkReply *reply)
 {
-    qDebug() << "replyFinished";
     QString str = reply->readAll();
     qDebug() << "[ReadData]" << str;
     AnalyseJSON(str);
     reply->deleteLater();
-    this->deleteLater();
 }
 
 void CheckUpdate::AnalyseJSON(QString str)
 {
-    qDebug() << "AnalyseJSON";
     QJsonParseError err_rpt;
     QJsonDocument  root_Doc = QJsonDocument::fromJson(str.toUtf8().data(), &err_rpt);
     if(err_rpt.error != QJsonParseError::NoError)
@@ -58,22 +56,35 @@ void CheckUpdate::AnalyseJSON(QString str)
         if(verison_id > VERSION_ID)
         {
             QString info = "发现更新！ Found update!";
-            info += "新版本(Version)：" + verison;
-            info += "更新时间(Date)：" + update_time;
-            info += "更新说明(Note)：" + release_note;
-            info += "\n";
+            info += "\n新版本(Version)：" + verison;
+            info += "\n更新时间(Date)： " + update_time;
+            info += "\n更新说明(Note)： " + release_note;
             msgBox.setText(info);
             msgBox.setInformativeText("你想现在获取吗？\nDo you want to get it now?");
-            QPushButton *no = new QPushButton("取消 Cancel");
             QPushButton *yes = new QPushButton("立即升级 Update");
+            QPushButton *no = new QPushButton("取消 Cancel");
             msgBox.addButton(no, QMessageBox::NoRole);
             msgBox.addButton(yes, QMessageBox::YesRole);
-            if(msgBox.exec() == QMessageBox::YesRole)
+            msgBox.setDefaultButton(yes);
+            msgBox.show();
+            if(msgBox.exec() == QDialog::Accepted)
             {
-                QDesktopServices::openUrl(QUrl(url));
+                if(!QDesktopServices::openUrl(QUrl(url)))
+                {
+                    qDebug() << "QDesktopServices";
+                    QMessageBox msgBox2;
+                    msgBox2.setIcon(QMessageBox::Critical);
+                    msgBox2.setWindowTitle("错误");
+                    QString warn = "无法访问指定网址！\n";
+                    msgBox2.setText(warn);
+                    QPushButton *confirm = new QPushButton("确定 Confirm");
+                    msgBox2.addButton(confirm, QMessageBox::AcceptRole);
+                    msgBox2.show();
+                    msgBox2.exec();
+                }
             }
         }
-        else
+        else if(notice_newest)
         {
             QString info = "当前版本已是最新版本！\n";
             msgBox.setText(info);
@@ -82,5 +93,6 @@ void CheckUpdate::AnalyseJSON(QString str)
             msgBox.exec();
         }
     }
+    this->deleteLater();
 }
 

@@ -10,6 +10,7 @@ Settings::Settings(QWidget *parent) :
 {
     ui->setupUi(this);
 
+    //Read Config
     if(Basic::config.default_edition == 0)
         ui->radJE->setChecked(true);
     else
@@ -26,14 +27,49 @@ Settings::Settings(QWidget *parent) :
     ui->leFilePath->setText(Basic::config.export_path);
     ui->cbCustomWe->setChecked(Basic::config.enableCustomWe);
     ui->cbCustomEn->setChecked(Basic::config.enableCustomEn);
+    ui->cbCheckUpate->setChecked(Basic::config.autoCheckUpdate);
 
-    connect(ui->btnBrowse, &QPushButton::clicked, this, [=](){});
+    //QPushButton Connections
+    connect(ui->btnBrowse, &QPushButton::clicked, this, [=](){
+
+    });
+
     connect(ui->btnCheckUpdate, &QPushButton::clicked, this, [=](){
         CheckUpdate *task = new CheckUpdate();
-        task->start();
+        task->start(true);
     });
-    connect(ui->btnFeedback, &QPushButton::clicked, this, [=](){});
-    connect(ui->btnAbout, &QPushButton::clicked, this, [=](){});
+    connect(ui->btnFeedback, &QPushButton::clicked, this, [=](){
+        QDesktopServices::openUrl(QUrl("https://github.com/Dinosaur-MC/BestEnchSeq/issues"));
+    });
+    connect(ui->btnAbout, &QPushButton::clicked, this, [=](){
+        QDialog w;
+        QLabel *name = new QLabel(QString("* * * ") + PROGRAM_NAME_CN + " * * *\n* * * " + PROGRAM_NAME_EN + " * * *\n", &w);
+        name->setAlignment(Qt::AlignHCenter);
+        QLabel *ver = new QLabel(QString("Version: ") + VERSION, &w);
+        ver->setAlignment(Qt::AlignHCenter);
+        QLabel *ver_id = new QLabel(QString("Version ID: ") + QString::number(VERSION_ID), &w);
+        ver_id->setAlignment(Qt::AlignHCenter);
+        QLabel *author = new QLabel(QString("Author: ") + AUTHOR, &w);
+        author->setAlignment(Qt::AlignHCenter);
+        QLabel *web = new QLabel(QString("Web: ") + WEBSITE, &w);
+        web->setAlignment(Qt::AlignHCenter);
+        QPushButton *btn = new QPushButton("确定 Confirm", &w);
+        connect(btn, &QPushButton::clicked, &w, &QDialog::accept);
+
+        QVBoxLayout *layout = new QVBoxLayout(&w);
+        layout->addWidget(name);
+        layout->addWidget(ver);
+        layout->addWidget(ver_id);
+        layout->addWidget(author);
+        layout->addWidget(web);
+        layout->addWidget(btn);
+
+        w.setFixedSize(360, 190);
+        w.setLayout(layout);
+        w.setModal(true);
+        w.show();
+        w.exec();
+    });
 
     connect(ui->btnCancel, &QPushButton::clicked, this, &Settings::close);
     connect(ui->btnConfirm, &QPushButton::clicked, this, &Settings::accept);
@@ -55,6 +91,7 @@ Settings::Settings(QWidget *parent) :
 
         Basic::config.enableCustomWe = ui->cbCustomWe->isChecked();
         Basic::config.enableCustomEn = ui->cbCustomEn->isChecked();
+        Basic::config.autoCheckUpdate = ui->cbCheckUpate->isChecked();
 
         FileOperate fo;
         fo.saveConfig();

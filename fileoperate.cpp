@@ -118,7 +118,7 @@ void FileOperate::loadConfig()
                 Basic::config.enableCustomEn = data2[1].toInt();
                 exist[5] = 1;
             }
-            else if(data2[0] == "enable_custom_enchantment")
+            else if(data2[0] == "auto_check_update")
             {
                 Basic::config.autoCheckUpdate = data2[1].toInt();
                 exist[6] = 1;

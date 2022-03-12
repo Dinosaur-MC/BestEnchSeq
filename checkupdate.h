@@ -23,12 +23,13 @@ class CheckUpdate : public QObject
 public:
     explicit CheckUpdate(QObject *parent = nullptr);
 
-    void start();
+    void start(bool m);
     void ReadData(QNetworkReply *reply);
     void AnalyseJSON(QString str);
 
 private:
     QNetworkAccessManager *manager;
+    bool notice_newest;
 
 signals:
 

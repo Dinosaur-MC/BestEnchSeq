@@ -7,6 +7,7 @@
 #include "itemlist.h"
 #include "flowlist.h"
 #include "calculator.h"
+#include "checkupdate.h"
 
 #include <QUrl>
 #include <QDesktopServices>
@@ -46,7 +47,6 @@ MainWindow::MainWindow(QWidget *parent)
     });
     connect(ui->actionVersion, &QAction::triggered, this, [=](){
         QDialog w;
-
         QLabel *name = new QLabel(QString("* * * ") + PROGRAM_NAME_CN + " * * *\n* * * " + PROGRAM_NAME_EN + " * * *\n", &w);
         name->setAlignment(Qt::AlignHCenter);
         QLabel *ver = new QLabel(QString("Version: ") + VERSION, &w);
@@ -226,6 +226,13 @@ MainWindow::MainWindow(QWidget *parent)
         fo.loadWeapon();
     if(Basic::config.enableCustomEn)
         fo.loadEnchantmentTable();
+
+    if(Basic::config.autoCheckUpdate)
+    {
+        qDebug() << "autoCheckUpdate";
+        CheckUpdate *task = new CheckUpdate();
+        task->start(false);
+    }
 
     refresh();
 }
