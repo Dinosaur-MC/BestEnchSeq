@@ -2,6 +2,7 @@
 #include "ui_settings.h"
 #include "basic.h"
 #include "fileoperate.h"
+#include "checkupdate.h"
 
 Settings::Settings(QWidget *parent) :
     QDialog(parent),
@@ -27,7 +28,10 @@ Settings::Settings(QWidget *parent) :
     ui->cbCustomEn->setChecked(Basic::config.enableCustomEn);
 
     connect(ui->btnBrowse, &QPushButton::clicked, this, [=](){});
-    connect(ui->btnCheckUpdate, &QPushButton::clicked, this, [=](){});
+    connect(ui->btnCheckUpdate, &QPushButton::clicked, this, [=](){
+        CheckUpdate *task = new CheckUpdate();
+        task->start();
+    });
     connect(ui->btnFeedback, &QPushButton::clicked, this, [=](){});
     connect(ui->btnAbout, &QPushButton::clicked, this, [=](){});
 

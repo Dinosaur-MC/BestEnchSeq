@@ -6,7 +6,7 @@ using namespace std;
 Calculator::Calculator(QObject *parent)
     : QObject{parent}
 {
-    qDebug() << "+ [Calculator]" << Basic::mode << Basic::OriginItem.name << Basic::OriginItem.penalty << Basic::OriginItem.duration;
+    qDebug() << "+ [Calculator]" << Basic::mode[0] << Basic::OriginItem.name << Basic::OriginItem.penalty << Basic::OriginItem.duration;
     //Basic::mode[1]; 0:basic mode(enchanted book only), 1:advance mode
 
     pool.append(Basic::OriginItem);
@@ -31,13 +31,13 @@ Calculator::Calculator(QObject *parent)
 
 
     if(!Basic::lever[0] && !Basic::lever[1])
-        additional_mode = ForgeMode::IgnoreFixing;
-    else if(Basic::lever[0] && !Basic::lever[1])
-        additional_mode = ForgeMode::IgnorePenalty;
-    else if(!Basic::lever[0] && Basic::lever[1])
-        additional_mode = ForgeMode::IgnoreFixing_Penalty;
-    else
         additional_mode = ForgeMode::Normal;
+    else if(Basic::lever[0] && !Basic::lever[1])
+        additional_mode = ForgeMode::IgnoreFixing;
+    else if(!Basic::lever[0] && Basic::lever[1])
+        additional_mode = ForgeMode::IgnorePenalty;
+    else
+        additional_mode = ForgeMode::IgnoreFixing_Penalty;
 
     pool.setForgeMode(additional_mode);
 
@@ -72,7 +72,6 @@ void Calculator::Alg_DifficultyFirst()
      */
 
     qDebug() << "+ [Alg_DifficultyFirst]" << pool.item(0).name << pool.item(0).ench[0].name << pool.item(0).penalty << pool.item(0).duration;
-//    Item item[3];
 
     int curPenalty = pool.item(0).penalty;
     int mode = 0;
@@ -99,7 +98,6 @@ void Calculator::Alg_DifficultyFirst()
             }
 
             int w = pool.searchWeapon();
-            qDebug() << "searchWeapon" << w;
             if(pool.item(w).penalty == curPenalty)
             {
                 if(w == begin)
@@ -118,7 +116,6 @@ void Calculator::Alg_DifficultyFirst()
         else
         {
             int w = pool.searchWeapon();
-            qDebug() << "searchWeapon" << w;
             if(w == 1)
             {
                 flow[flow_step] = ItemPool::preForge(pool.item(1), pool.item(0), additional_mode);
@@ -143,7 +140,6 @@ void Calculator::Alg_DifficultyFirst()
             }
         }
     }
-    pool.sort();
     qDebug() << "- [Alg_DifficultyFirst]";
 }
 

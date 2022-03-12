@@ -17,7 +17,5 @@
         <file>res/logo.ico</file>
         <file>res/enchanted_book.png</file>
     </qresource>
-    <qresource prefix="/pic">
-        <file>res/EnchantmentTable.png</file>
-    </qresource>
+    <qresource prefix="/pic"/>
 </RCC>

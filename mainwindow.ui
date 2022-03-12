@@ -129,7 +129,7 @@
                  <item row="0" column="2">
                   <widget class="QSpinBox" name="Durability_0">
                    <property name="enabled">
-                    <bool>false</bool>
+                    <bool>true</bool>
                    </property>
                    <property name="sizePolicy">
                     <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
@@ -174,6 +174,9 @@ Prior Work </string>
                  </item>
                  <item row="0" column="0">
                   <widget class="QLabel" name="label">
+                   <property name="styleSheet">
+                    <string notr="true">color: rgb(155, 155, 155);</string>
+                   </property>
                    <property name="text">
                     <string>耐久度(%)：
 Durability</string>
@@ -343,6 +346,9 @@ Global Average</string>
               </item>
               <item row="2" column="0">
                <widget class="QRadioButton" name="radioE">
+                <property name="enabled">
+                 <bool>false</bool>
+                </property>
                 <property name="text">
                  <string>枚举
 Enumeration</string>
@@ -351,6 +357,9 @@ Enumeration</string>
               </item>
               <item row="1" column="0">
                <widget class="QRadioButton" name="radioG">
+                <property name="enabled">
+                 <bool>false</bool>
+                </property>
                 <property name="text">
                  <string>贪心
 Greedy</string>
@@ -416,7 +425,7 @@ New Enchanted Book Only</string>
                  <item>
                   <widget class="QRadioButton" name="radioAC">
                    <property name="enabled">
-                    <bool>true</bool>
+                    <bool>false</bool>
                    </property>
                    <property name="text">
                     <string>高级配置
@@ -933,6 +942,9 @@ No Result</string>
     <addaction name="actionWebsite"/>
    </widget>
    <widget class="QMenu" name="menu_Customize">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
     <property name="title">
      <string>快速自定义 Customize</string>
     </property>
@@ -986,6 +998,9 @@ No Result</string>
    </property>
   </action>
   <action name="actionWeapon">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
    <property name="text">
     <string>武器 Weapon</string>
    </property>

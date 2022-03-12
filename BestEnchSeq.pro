@@ -1,6 +1,5 @@
-QT       += \
-    core gui \
-    network
+QT       += core gui
+QT       += network
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -70,8 +69,10 @@ RESOURCES += \
     icon.qrc
 
 DISTFILES += \
+    EnchantmentTable.csv \
     LICENSE \
     README.md \
+    WeaponTable.csv \
     logo.rc \
     update.json
 

@@ -190,7 +190,7 @@ void FileOperate::loadEnchantmentTable()
         }
         qDebug() << "File" << FILE_ENCHTABLE << "created successfully.";
     }
-    QStringList data = QString(file.readAll()).split('\n');
+    QStringList data = QString(file.readAll()).trimmed().split('\n');
     file.close();
 
     if(data.count() == 0)
@@ -203,23 +203,24 @@ void FileOperate::loadEnchantmentTable()
 
     for(int i = 0; i < Basic::ench_table_l && i < data.count(); i++)
     {
-        QStringList data2 = data[i].split(',');
+        QStringList data2 = data[i].trimmed().split(',');
         if(data2[0].isEmpty())
             continue;
-        Basic::ench_table[i].name = data2[0];
-        Basic::ench_table[i].mlvl = data2[1].toInt();
-        Basic::ench_table[i].multiplier[0] = data2[2].toInt();
-        Basic::ench_table[i].multiplier[1] = data2[3].toInt();
+        Basic::ench_table[i].name = data2[0].trimmed();
+        Basic::ench_table[i].mlvl = data2[1].trimmed().toInt();
+        Basic::ench_table[i].multiplier[0] = data2[2].trimmed().toInt();
+        Basic::ench_table[i].multiplier[1] = data2[3].trimmed().toInt();
+        Basic::ench_table[i].edition = data2[4].trimmed().toInt();
 
-        QStringList data3 = data2[4].split('|');
+        QStringList data3 = data2[5].trimmed().split('|');
         for(int j = 0; j < INIT_LENGTH && j < data3.count(); j++)
         {
-            Basic::ench_table[i].repulsion[j] = data3[j];
+            Basic::ench_table[i].repulsion[j] = data3[j].trimmed();
         }
 
-        for(int j = 0; j < INIT_LENGTH && j < data2.count() - 5; j++)
+        for(int j = 0; j < INIT_LENGTH && j < data2.count() - 6; j++)
         {
-            Basic::ench_table[i].suitable[j] = data2[j+5].toInt();
+            Basic::ench_table[i].suitable[j] = data2[j+6].trimmed().toInt();
         }
     }
     qDebug() << "Enchantments infomaton has been loaded!";

@@ -32,7 +32,6 @@ MainWindow::MainWindow(QWidget *parent)
         w->show();
         if(w->exec() == Settings::Accepted)
             refresh();
-        qDebug() << "Setting started";
     });
     connect(ui->actionHelp, &QAction::triggered, this, [=]{
         QDesktopServices::openUrl(QUrl(QLatin1String("https://www.bilibili.com/video/BV11T4y1D7c2")));

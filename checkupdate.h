@@ -2,14 +2,20 @@
 #define CHECKUPDATE_H
 
 #include <QObject>
+#include <QMessageBox>
+#include <QPushButton>
+#include "basic.h"
 
-#include <QtNetwork/QNetworkAccessManager>
-#include <QtNetwork/QNetworkRequest>
-#include <QtNetwork/QNetworkReply>
+#include <QDesktopServices>
+
+#include <QNetworkAccessManager>
+#include <QNetworkRequest>
+#include <QNetworkReply>
 
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QJsonArray>
+
 
 class CheckUpdate : public QObject
 {
@@ -17,9 +23,12 @@ class CheckUpdate : public QObject
 public:
     explicit CheckUpdate(QObject *parent = nullptr);
 
+    void start();
+    void ReadData(QNetworkReply *reply);
+    void AnalyseJSON(QString str);
+
+private:
     QNetworkAccessManager *manager;
-    int UpdateJSON(QString str);
-    void replyFinished(QNetworkReply *reply);
 
 signals:
 
