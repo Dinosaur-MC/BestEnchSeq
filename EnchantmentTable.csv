@@ -1,4 +1,5 @@
-﻿水下速掘-aqua_affinity,1,4,2,2,,0,0,0,0,0,1,0,0,0,0,0,0,0
+﻿#魔咒名(ID) Enchantment Name(ID),Max Level,Item Multiplier,Book Multiplier,"Edition(0:JE,1:BE,2:Both)",相与冲突的魔咒 Conflicting Enchantment,是否适合武器(武器1) If Be Suitable To(Weapon #1),Weapon #2,Weapon #3,Weapon #4,Weapon #5,Weapon #6,Weapon #7,Weapon #8,Weapon #9,Weapon #10,Weapon #11,Weapon #12,Weapon #13
+水下速掘-aqua_affinity,1,4,2,2,,0,0,0,0,0,1,0,0,0,0,0,0,0
 节肢杀手-bane_of_arthropods,5,2,1,2,锋利-sharpness|亡灵杀手-smite,1,0,1,0,0,0,0,0,0,0,0,0,0
 爆炸保护-blast_protection,4,4,2,2,火焰保护-fire_protection|弹射物保护-projectile_protection|保护-protection,0,0,0,0,0,1,1,1,1,0,0,0,0
 引雷-channeling,1,8,4,2,激流-riptide,0,0,0,0,0,0,0,0,0,0,0,1,0
