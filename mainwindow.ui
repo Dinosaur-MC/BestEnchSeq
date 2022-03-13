@@ -303,7 +303,7 @@ Durability</string>
               </size>
              </property>
              <property name="text">
-              <string>重启（Restart）</string>
+              <string>重载（Reload）</string>
              </property>
             </widget>
            </item>
