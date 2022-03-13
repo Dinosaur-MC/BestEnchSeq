@@ -17,6 +17,7 @@
 #define FILE_CONFIG "config.ini"
 #define FILE_WEAPONTABLE "WeaponTable.csv"
 #define FILE_ENCHTABLE "EnchantmentTable.csv"
+#define TEXT_NOTE_SYMBOL '#'
 
 #define CONFIG_NUM 7
 #define INIT_LENGTH 64

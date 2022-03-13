@@ -32,6 +32,7 @@ private:
     bool notice_newest;
 
 signals:
+    void finished();
 
 };
 

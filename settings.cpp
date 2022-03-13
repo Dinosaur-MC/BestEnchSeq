@@ -36,6 +36,12 @@ Settings::Settings(QWidget *parent) :
 
     connect(ui->btnCheckUpdate, &QPushButton::clicked, this, [=](){
         CheckUpdate *task = new CheckUpdate();
+        ui->btnCheckUpdate->setEnabled(false);
+        ui->checker->setText("正在检查更新...\nScanning update...");
+        connect(task, &CheckUpdate::finished, ui->btnCheckUpdate, [=](){
+            ui->btnCheckUpdate->setEnabled(true);
+            ui->checker->setText("");
+        });
         task->start(true);
     });
     connect(ui->btnFeedback, &QPushButton::clicked, this, [=](){

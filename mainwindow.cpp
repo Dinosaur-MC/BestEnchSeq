@@ -33,7 +33,7 @@ MainWindow::MainWindow(QWidget *parent)
         w->setModal(true);
         w->show();
         if(w->exec() == Settings::Accepted)
-            refresh();
+            qApp->exit(5201314);
     });
     connect(ui->actionHelp, &QAction::triggered, this, [=]{
         QDesktopServices::openUrl(QUrl(QLatin1String("https://www.bilibili.com/video/BV11T4y1D7c2")));

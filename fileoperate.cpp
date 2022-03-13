@@ -153,9 +153,22 @@ void FileOperate::loadWeapon()
         }
         qDebug() << "File" << FILE_WEAPONTABLE << "created successfully.";
     }
-    QStringList data = QString(file.readAll()).trimmed().replace("\"", "").split('\n');
+    //Read file data
+    QStringList data_ = QString(file.readAll()).trimmed().replace("\"", "").split('\n');
     file.close();
 
+    //Delete explanatory notes
+    QStringList data;
+    for(int i = 0; i < data_.count(); i++)
+    {
+        if(*data_[i].begin() != TEXT_NOTE_SYMBOL)
+            data << data_[i];
+    }
+
+    if(data.count() == 0)
+        return;
+
+    //Store data
     Basic::weapon_l = data.count();
     delete [] Basic::weapon;
     Basic::weapon = new Weapon[Basic::weapon_l];
@@ -190,13 +203,22 @@ void FileOperate::loadEnchantmentTable()
         }
         qDebug() << "File" << FILE_ENCHTABLE << "created successfully.";
     }
-    QStringList data = QString(file.readAll()).trimmed().split('\n');
+    //Read file data
+    QStringList data_ = QString(file.readAll()).trimmed().split('\n');
     file.close();
 
-    if(data.count() == 0)
+    //Delete explanatory notes
+    QStringList data;
+    for(int i = 0; i < data_.count(); i++)
     {
-        return;
+        if(*data_[i].begin() != TEXT_NOTE_SYMBOL)
+            data << data_[i];
     }
+
+    if(data.count() == 0)
+        return;
+
+    //Store data
     Basic::ench_table_l = data.count();
     delete [] Basic::ench_table;
     Basic::ench_table = new EnchTable[Basic::ench_table_l];

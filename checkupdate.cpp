@@ -93,6 +93,7 @@ void CheckUpdate::AnalyseJSON(QString str)
             msgBox.exec();
         }
     }
+    emit finished();
     this->deleteLater();
 }
 
