@@ -30,6 +30,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->actionSettings, &QAction::triggered, this, [=](){
         Settings *w = new Settings(this);
         w->setWindowTitle("设置 Settings");
+        w->setModal(true);
         w->show();
         if(w->exec() == Settings::Accepted)
             refresh();

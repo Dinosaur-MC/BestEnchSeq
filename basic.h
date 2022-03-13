@@ -12,7 +12,7 @@
 #define AUTHOR "Dinosaur_MC(Dinosaur-MC)"
 #define WEBSITE "https://github.com/Dinosaur-MC/BestEnchSeq"
 #define UPDATE_JSON "https://raw.githubusercontent.com/Dinosaur-MC/BestEnchSeq/master/update.json"
-#define STATEMENT "statement"
+#define STATEMENT "本程序为Github开源项目，完全免费使用！只推荐通过官方渠道获取本程序。\n任何对原程序进行收费售卖行为均为诈骗，谨防上当受骗！谨慎使用来路不明的非官方发布版本，谨防病毒入侵！"
 
 #define FILE_CONFIG "config.ini"
 #define FILE_WEAPONTABLE "WeaponTable.csv"

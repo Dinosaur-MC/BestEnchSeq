@@ -20,6 +20,12 @@
      <verstretch>0</verstretch>
     </sizepolicy>
    </property>
+   <property name="minimumSize">
+    <size>
+     <width>772</width>
+     <height>708</height>
+    </size>
+   </property>
    <layout class="QGridLayout" name="gridLayout_2">
     <property name="leftMargin">
      <number>0</number>
