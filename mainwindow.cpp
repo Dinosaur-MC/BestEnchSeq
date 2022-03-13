@@ -317,6 +317,10 @@ void MainWindow::initialize()
 
 void MainWindow::refresh()
 {
+    Basic::lever[0] = 0;
+    Basic::lever[1] = 0;
+    Basic::lever[2] = 0;
+
     ui->InputItem->clear();
     ui->InputItem->setIconSize(QSize(64,64));
     for(int i = 0; i < Basic::weapon_l; i++)

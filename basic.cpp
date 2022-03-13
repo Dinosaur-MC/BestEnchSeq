@@ -29,6 +29,11 @@ Basic::Basic(QObject *parent)
 
 }
 
+Basic::~Basic()
+{
+
+}
+
 int Basic::searchTable(QString aim)
 {
     if(aim.isEmpty())

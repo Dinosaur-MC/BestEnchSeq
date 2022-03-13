@@ -78,6 +78,7 @@ class Basic : public QObject
     Q_OBJECT
 public:
     explicit Basic(QObject *parent = nullptr);
+    ~Basic();
 
     //Config
     static Config config;
