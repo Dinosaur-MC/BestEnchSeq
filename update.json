@@ -3,7 +3,7 @@
     {
         "LatestVerison":"v2.0_Beta",
         "VerisonID":12203012,
-        "Url":"https://github.com/Dinosaur-MC/BestEnchSeq/releases/download/2.0_Beta/BestEnchSeq_V2.0Beta.exe",
+        "Url":"https://github.com/Dinosaur-MC/BestEnchSeq/releases/download/2.0_Beta/BestEnchSeq_V2.0Beta.zip",
         "UpdateTime":"2022-03-13",
         "ReleaseNote":"【重大更新】主要更新内容有：\n1、优化了核心算法\n2、添加基岩版计算支持\n3、优化了操作流程\n4、实装了配置选项\n5、添加了检查更新功能\n6、添加自定义武器支持\n7、自定义附魔和武器更新为通过修改csv文件编辑（可用Excel编辑）\n8、添加了状态栏声明"
     }
