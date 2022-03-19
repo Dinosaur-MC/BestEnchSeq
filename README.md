@@ -1,8 +1,7 @@
 >***本软件程序是安全无毒、完全开源免费的！大家只需要根据这里或[此视频](https://www.bilibili.com/video/BV11T4y1D7c2)的获取方式获取使用即可！任何对本软件进行收费、出售等行为均为诈骗，大家谨防上当！并且也不要轻易使用不明身份的陌生人提供的第三方软件，谨防病毒入侵！***
  
 # 最佳附魔顺序计算器（The Best Enchanting Sequence）
-+ Now [Java Edition](https://minecraft.fandom.com/wiki/Java_Edition) only. Bedrock Editon will be supported in the future.
-+ 如果启动程序时提示缺少`xxx.dll`，请前往[这里](http://c.biancheng.net/view/8077.html)下载并安装MinGW。 Click [here](https://osdn.net/projects/mingw/) to download and install MinGW's gcc tool if your start warns that losing files `xxx.dll`.
++ 现已支持Java版和基岩版！
 ---
 ## 简介
 这是一个可以帮助你在附魔的时候轻松降低附魔成本的小程序。
