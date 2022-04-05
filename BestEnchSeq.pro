@@ -74,6 +74,7 @@ DISTFILES += \
     EnchantmentTable.csv \
     LICENSE \
     README.md \
+    README.md \
     WeaponTable.csv \
     logo.rc \
     update.json
