@@ -1,16 +1,21 @@
-#include "mainwindow.h"
-
 #include <QApplication>
+#include "awindow.h"
+#include "base.h"
 
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
+    DM;
     int ret = -1;
-    do
+    while(1)
     {
-        MainWindow w;
+        AWindow w;
         w.show();
         ret = a.exec();
-    }while(ret == 5201314);
+        if(ret == RESTART_CODE)
+            DM->reinit();
+        else
+            break;
+    }
     return ret;
 }

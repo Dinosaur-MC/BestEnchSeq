@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>520</width>
-    <height>505</height>
+    <height>537</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -75,8 +75,30 @@ Default Editon</string>
         </item>
         <item>
          <widget class="QWidget" name="widget_3" native="true">
-          <layout class="QHBoxLayout" name="horizontalLayout_2">
-           <item>
+          <layout class="QGridLayout" name="gridLayout">
+           <item row="0" column="3">
+            <widget class="QRadioButton" name="radAlg_DF">
+             <property name="text">
+              <string>难度优先
+Difficulty First</string>
+             </property>
+             <property name="checked">
+              <bool>false</bool>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="2">
+            <widget class="QRadioButton" name="radAlg_GA">
+             <property name="text">
+              <string>综合平均
+Globe Average</string>
+             </property>
+             <property name="checked">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="0">
             <widget class="QLabel" name="label_2">
              <property name="text">
               <string>默认算法
@@ -84,28 +106,10 @@ Default Algorithm</string>
              </property>
             </widget>
            </item>
-           <item>
-            <widget class="Line" name="line">
-             <property name="orientation">
-              <enum>Qt::Vertical</enum>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QRadioButton" name="radAlgDF">
-             <property name="text">
-              <string>难度优先
-Difficulty First</string>
-             </property>
-             <property name="checked">
-              <bool>true</bool>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QRadioButton" name="radAlgGr">
+           <item row="0" column="5">
+            <widget class="QRadioButton" name="radAlg_G">
              <property name="enabled">
-              <bool>false</bool>
+              <bool>true</bool>
              </property>
              <property name="text">
               <string>贪心
@@ -113,18 +117,14 @@ Greedy</string>
              </property>
             </widget>
            </item>
-           <item>
-            <widget class="QRadioButton" name="radAlgEn">
-             <property name="enabled">
-              <bool>false</bool>
-             </property>
-             <property name="text">
-              <string>穷举
-Enumeration</string>
+           <item row="0" column="1">
+            <widget class="Line" name="line">
+             <property name="orientation">
+              <enum>Qt::Vertical</enum>
              </property>
             </widget>
            </item>
-           <item>
+           <item row="0" column="7">
             <spacer name="horizontalSpacer_2">
              <property name="orientation">
               <enum>Qt::Horizontal</enum>
@@ -137,13 +137,35 @@ Enumeration</string>
              </property>
             </spacer>
            </item>
+           <item row="1" column="2">
+            <widget class="QRadioButton" name="radAlg_E">
+             <property name="enabled">
+              <bool>true</bool>
+             </property>
+             <property name="text">
+              <string>枚举
+Enumeration</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="3">
+            <widget class="QRadioButton" name="radAlg_SE">
+             <property name="enabled">
+              <bool>false</bool>
+             </property>
+             <property name="text">
+              <string>半枚举
+Simple Enumeration</string>
+             </property>
+            </widget>
+           </item>
           </layout>
          </widget>
         </item>
         <item>
          <widget class="QWidget" name="widget_5" native="true">
           <property name="enabled">
-           <bool>false</bool>
+           <bool>true</bool>
           </property>
           <layout class="QHBoxLayout" name="horizontalLayout_7">
            <item>

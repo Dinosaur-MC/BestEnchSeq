@@ -10,9 +10,11 @@ CONFIG += c++11
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-    basic.cpp \
+    awindow.cpp \
+    base.cpp \
     calculator.cpp \
     checkupdate.cpp \
+    datamanager.cpp \
     enchlist.cpp \
     enchlistwidget.cpp \
     feedback.cpp \
@@ -25,16 +27,17 @@ SOURCES += \
     itempool.cpp \
     logger.cpp \
     main.cpp \
-    mainwindow.cpp \
     settings.cpp \
     statusbarmanager.cpp \
     tableeditor.cpp \
     waitwidget.cpp
 
 HEADERS += \
-    basic.h \
+    awindow.h \
+    base.h \
     calculator.h \
     checkupdate.h \
+    datamanager.h \
     enchlist.h \
     enchlistwidget.h \
     feedback.h \
@@ -46,18 +49,17 @@ HEADERS += \
     itemlistwidget.h \
     itempool.h \
     logger.h \
-    mainwindow.h \
     settings.h \
     statusbarmanager.h \
     tableeditor.h \
     waitwidget.h
 
 FORMS += \
+    awindow.ui \
     enchlistwidget.ui \
     flowlistwidget.ui \
     itemeditor.ui \
     itemlistwidget.ui \
-    mainwindow.ui \
     settings.ui
 
 # Default rules for deployment.
