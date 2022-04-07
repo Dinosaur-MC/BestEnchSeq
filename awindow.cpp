@@ -12,6 +12,7 @@ AWindow::AWindow(QWidget *parent) :
 {
     qDebug() << "[AWindow]";
     ui->setupUi(this);
+    ui->menu_DebugTools->menuAction()->setVisible(false);
     setWindowTitle(QString(VERSION) + " - " + PROGRAM_NAME_CN + PROGRAM_NAME_EN);
     setStatusBarText();
 
@@ -432,5 +433,27 @@ void AWindow::onUpdated()
 void AWindow::restart()
 {
     qApp->exit(RESTART_CODE);
+}
+
+
+void AWindow::keyPressEvent(QKeyEvent *event)
+{
+    if(event->modifiers() == Qt::ControlModifier)
+    {
+        if(event->key() == Qt::Key_M)
+        {
+            if(event->isAutoRepeat())
+                return;
+            qDebug() << "Pressed [Ctrl + M]";
+            ui->menu_DebugTools->menuAction()->setVisible(!ui->menu_DebugTools->menuAction()->isVisible());
+        }
+    }
+    else
+        QWidget::keyPressEvent(event);
+}
+
+void AWindow::keyReleaseEvent(QKeyEvent *event)
+{
+
 }
 

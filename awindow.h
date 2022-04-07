@@ -7,6 +7,7 @@
 #define AWINDOW_H
 
 #include <QMainWindow>
+#include <QKeyEvent>
 #include "datamanager.h"
 
 namespace Ui {
@@ -32,6 +33,10 @@ public:
 
 private:
     Ui::AWindow *ui;
+
+protected:
+    void keyPressEvent(QKeyEvent *event);
+    void keyReleaseEvent(QKeyEvent *event);
 };
 
 #endif // AWINDOW_H

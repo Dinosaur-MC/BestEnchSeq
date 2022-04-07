@@ -1141,9 +1141,19 @@ No Result</string>
     <addaction name="actionWeapon"/>
     <addaction name="actionEnchantment"/>
    </widget>
+   <widget class="QMenu" name="menu_DebugTools">
+    <property name="title">
+     <string>Debug Tools</string>
+    </property>
+    <addaction name="actionA"/>
+    <addaction name="actionB"/>
+    <addaction name="actionC"/>
+    <addaction name="actionD"/>
+   </widget>
    <addaction name="menu_Start"/>
    <addaction name="menu_Customize"/>
    <addaction name="menu_About"/>
+   <addaction name="menu_DebugTools"/>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
   <action name="actionInport">
@@ -1203,6 +1213,26 @@ No Result</string>
   <action name="actionUpdate">
    <property name="text">
     <string>检查更新 Update</string>
+   </property>
+  </action>
+  <action name="actionA">
+   <property name="text">
+    <string>A</string>
+   </property>
+  </action>
+  <action name="actionB">
+   <property name="text">
+    <string>B</string>
+   </property>
+  </action>
+  <action name="actionC">
+   <property name="text">
+    <string>C</string>
+   </property>
+  </action>
+  <action name="actionD">
+   <property name="text">
+    <string>D</string>
    </property>
   </action>
  </widget>

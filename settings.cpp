@@ -40,8 +40,9 @@ Settings::Settings(QWidget *parent) :
     connect(ui->btnCheckUpdate, &QPushButton::clicked, this, [=](){
         CheckUpdate *task = new CheckUpdate();
         ui->btnCheckUpdate->setEnabled(false);
-        ui->checker->setText("正在检查更新...\nScanning update...");
+        ui->checker->setText("正在检查更新...\nChecking for updates...");
         connect(task, &CheckUpdate::finished, ui->btnCheckUpdate, [=](){
+            qDebug() << "Checking has been finished";
             ui->btnCheckUpdate->setEnabled(true);
             ui->checker->setText("");
         });

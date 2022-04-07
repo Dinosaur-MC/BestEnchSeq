@@ -36,6 +36,7 @@ void CheckUpdate::AnalyseJSON(QString str)
         msgBox.setWindowTitle("错误 Error：JSON解析失败");
         msgBox.setText("服务器访问失败或JSON格式错误");
         msgBox.exec();
+        emit finished();
         return;
     }
     if(root_Doc.isObject())
