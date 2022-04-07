@@ -61,7 +61,8 @@ FORMS += \
     flowlistwidget.ui \
     itemeditor.ui \
     itemlistwidget.ui \
-    settings.ui
+    settings.ui \
+    waitwidget.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
