@@ -150,17 +150,27 @@ void FileOperate::loadWeapon()  //加载武器
     QFile file(FILE_WEAPONTABLE);
     if(!file.open(QIODevice::ReadOnly | QIODevice::Text))
     {
-        qDebug() << "Warn: cannot find" << FILE_WEAPONTABLE;
-        if(!file.open(QIODevice::ReadWrite | QIODevice::Text))
+        qDebug() << "[WARNING] Cannot find" << FILE_WEAPONTABLE;
+        if(!file.open(QIODevice::ReadWrite))
         {
-            qDebug() << "Error: cannot open" << FILE_WEAPONTABLE;
+            qDebug() << "[ERROR] cannot open" << FILE_WEAPONTABLE;
             return;
         }
+        file.write(FILEHEAD);
+        file.close();
         qDebug() << "File" << FILE_WEAPONTABLE << "created successfully.";
+        qDebug() << "[WARNING] The weapons infomaton is blank! Now is using internal data!";
+        return;
     }
     //Read file data
     QStringList data_ = QString(file.readAll()).trimmed().replace("\"", "").split('\n');
     file.close();
+
+    if(data_[0].isEmpty())
+    {
+        qDebug() << "[WARNING] The weapons infomaton is blank! Now is using internal data!";
+        return;
+    }
 
     //Delete explanatory notes
     QStringList data;
@@ -200,17 +210,27 @@ void FileOperate::loadEnchantmentTable()    //加载魔咒
     QFile file(FILE_ENCHTABLE);
     if(!file.open(QIODevice::ReadOnly | QIODevice::Text))
     {
-        qDebug() << "Warn: cannot find" << FILE_ENCHTABLE;
-        if(!file.open(QIODevice::ReadWrite | QIODevice::Text))
+        qDebug() << "[WARNING] Cannot find" << FILE_ENCHTABLE;
+        if(!file.open(QIODevice::ReadWrite))
         {
-            qDebug() << "Error: cannot open" << FILE_ENCHTABLE;
+            qDebug() << "[ERROR] cannot open" << FILE_ENCHTABLE;
             return;
         }
+        file.write(FILEHEAD);
+        file.close();
         qDebug() << "File" << FILE_ENCHTABLE << "created successfully.";
+        qDebug() << "[WARNING] The enchantments infomaton is blank! Now is using internal data!";
+        return;
     }
     //Read file data
     QStringList data_ = QString(file.readAll()).trimmed().split('\n');
     file.close();
+
+    if(data_[0].isEmpty())
+    {
+        qDebug() << "[WARNING] The enchantments infomaton is blank! Now is using internal data!";
+        return;
+    }
 
     //Delete explanatory notes
     QStringList data;
@@ -220,8 +240,6 @@ void FileOperate::loadEnchantmentTable()    //加载魔咒
             data << data_[i];
     }
 
-    if(data.count() == 0)
-        return;
 
     //Store data
     DM->ench_table_l = data.count();

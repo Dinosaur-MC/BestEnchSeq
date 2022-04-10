@@ -56,7 +56,6 @@ HEADERS += \
 
 FORMS += \
     awindow.ui \
-    awindow.ui \
     enchlistwidget.ui \
     flowlistwidget.ui \
     itemeditor.ui \

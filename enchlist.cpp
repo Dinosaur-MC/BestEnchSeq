@@ -35,15 +35,9 @@ void EnchList::setPlate(Ench *p, int len)
 
 bool EnchList::setWeapon(QString name)
 {
-    int w = BASE::sWeapon(name, 0);
-    if(w < 0)
-    {
-        qDebug() << "[EnchList::setWeapon] Error: can not find this weapon.";
-        return 0;
-    }
-    current_weapon_index = w;
-
+    current_weapon_index = BASE::sWeapon(name, 0);
     refresh();
+
     return 1;
 }
 
@@ -67,6 +61,9 @@ int EnchList::enchCount()
 void EnchList::refresh()
 {
     clear();
+    if(DM->ench_table_l < 1)
+        return;
+
     if(current_weapon_index == -1)
     {
         delete [] available_ench;

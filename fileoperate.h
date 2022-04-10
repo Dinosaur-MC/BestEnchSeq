@@ -4,6 +4,8 @@
 #include <QObject>
 #include "datamanager.h"
 
+#define FILEHEAD "\xef\xbb\xbf\x0d\x0a"
+
 class FileOperate : public QObject
 {
     Q_OBJECT

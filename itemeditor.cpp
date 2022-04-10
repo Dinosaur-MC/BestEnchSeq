@@ -17,12 +17,12 @@ ItemEditor::ItemEditor(QWidget *parent)
 
     ui->sbDuration->setEnabled(false);
     ui->enchlist->setOutputAddress(enchlist, resizeEnchList);
-    ui->enchlist->refresh();
+    ui->enchlist->setWeapon();
 
     connect(ui->radioEB, &QRadioButton::clicked, this, [=](){
         ui->sbDuration->setEnabled(false);
         ui->sbDuration->setValue(0);
-        ui->enchlist->refresh();
+        ui->enchlist->setWeapon();
     });
     connect(ui->radioW, &QRadioButton::clicked, this, [=](){
         ui->sbDuration->setEnabled(true);

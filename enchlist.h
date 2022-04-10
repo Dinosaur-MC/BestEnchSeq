@@ -13,7 +13,7 @@ public:
 
     void setOutputAddress(Ench*, Ench* (*func)(int) = nullptr); //设置上传输出地址
     void setPlate(Ench *p, int len);    //设置底片
-    bool setWeapon(QString name);    //设置武器并加载配置
+    bool setWeapon(QString name = "");    //设置武器并加载配置
     QString Weapon();   //获取当前配置的武器名称
     int enchCount();    //获取魔咒数量
     void refresh(); //刷新
