@@ -13,7 +13,7 @@ AWindow::AWindow(QWidget *parent) :
     qDebug() << "[AWindow]";
     ui->setupUi(this);
     ui->menu_DebugTools->menuAction()->setVisible(false);
-    setWindowTitle(QString(VERSION) + " - " + PROGRAM_NAME_CN + PROGRAM_NAME_EN);
+    setWindowTitle(QString(PROGRAM_NAME_CN) + PROGRAM_NAME_EN + " - " + VERSION);
     setStatusBarText();
 
     FileOperate fo;

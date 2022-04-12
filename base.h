@@ -14,13 +14,13 @@
 #include <QObject>
 #include <QIcon>
 
-#define RESTART_CODE 19491001
+#define RESTART_CODE 19491001   //The restart code, a program restarting signal
 
 #define PROGRAM_NAME_CN "最佳附魔顺序计算器"
 #define PROGRAM_NAME_EN "The Best Enchanting Sequence"
-#define VERSION "2.0_Beta"
-#define VERSION_ID 12203012 //NyymmXXx; N:number of year, yy:the two last number of recent year, mm:recent month, XX:version number, x:small number
-#define FILEVERSION 3
+#define VERSION "3.0_Beta"
+#define VERSION_ID 12204120 //NyymmXXx; N:number of year, yy:the two last number of recent year, mm:recent month, XX:version number, x:small number
+#define FILEVERSION 3   //Used to control the file version
 
 #define AUTHOR "Dinosaur_MC(Dinosaur-MC)"
 #define WEBSITE "https://github.com/Dinosaur-MC/BestEnchSeq"
@@ -39,8 +39,8 @@
 //定义结构体
 #define CONFIG_NUM 8
 enum MCE {All=1, Java, Bedrock};  //枚举变量，MC编译版本
-enum ICM {AllLevelEBook=1, BasicEBook, AdvanceMode};
-enum ALGM {GlobalAverage=1, DifficultyFirst, Greedy, Enumeration, SimpleEnumeration};
+enum ICM {AllLevelEBook=1, BasicEBook, AdvanceMode};    //枚举变量，物品配置模式
+enum ALGM {GlobalAverage=1, DifficultyFirst, Greedy, Enumeration, SimpleEnumeration};   //枚举变量，算法名
 //enum ADDITION {None, IgnoreFixing, IgnorePenalty, IgnoreCostLimit};
 struct Config {
   int config_version;   //配置文件版本，用于检查软件是否已更新
@@ -62,7 +62,7 @@ struct Weapon {
 
 struct EnchTable {
     QString name;   //魔咒名称
-    int emlvl;  //30级附魔台附魔一般最高可获得等级
+    int emlvl;  //30级附魔台附魔一般最高可获得等级及宝藏魔咒（实际上用于BasicEBook物品配置中，是魔咒的最大可直接获得的魔咒等级，可自定义）
     int mlvl;   //魔咒最高等级
     int multiplier[2];  //魔咒乘数，[0]为物品乘数，[1]为附魔书乘数
     MCE edition;    //魔咒适用版本
@@ -77,6 +77,7 @@ struct Ench {
 
 struct EnchPlus {
     Ench e; //魔咒
+    int emlvl;  //30级附魔台附魔一般最高可获得等级及宝藏魔咒
     int mlvl;   //魔咒最高等级
 };
 
