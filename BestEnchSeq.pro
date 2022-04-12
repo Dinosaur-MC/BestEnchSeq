@@ -27,6 +27,7 @@ SOURCES += \
     itempool.cpp \
     logger.cpp \
     main.cpp \
+    msgbox.cpp \
     settings.cpp \
     statusbarmanager.cpp \
     tableeditor.cpp \
@@ -49,6 +50,7 @@ HEADERS += \
     itemlistwidget.h \
     itempool.h \
     logger.h \
+    msgbox.h \
     settings.h \
     statusbarmanager.h \
     tableeditor.h \

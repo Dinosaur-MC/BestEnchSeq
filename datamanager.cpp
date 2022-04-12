@@ -28,7 +28,7 @@ void DataManager::reinit()
     delete item_pool;
 
     config = {FILEVERSION, MCE::Java, ICM::AllLevelEBook, ALGM::GlobalAverage, "", 0, 0, 0, 1};
-    edition = MCE::All;
+    edition = MCE::Java;
     itemconfig = ICM::AllLevelEBook;
     alg_mode = ALGM::GlobalAverage;
     memset(addition, 0, sizeof(addition));
@@ -114,8 +114,7 @@ void DataManager::upload(Ench* e, int len, int p)
 
 void DataManager::upload(ItemPool *ip)
 {
-    item_pool->clear();
-    DM->item_pool = ip;
+    item_pool->cloneFrom(ip);
 }
 
 void DataManager::upload(Step* s, int len)
@@ -142,5 +141,13 @@ Ench *DataManager::resizeNeededEnchList(int size)
     DM->needed_ench = new Ench[size];
     DM->needed_ench_l = size;
     return DM->needed_ench;
+}
+
+Step *DataManager::resizeFlowList(int size)
+{
+    delete [] DM->flow_list;
+    DM->flow_list = new Step[size];
+    DM->flow_list_l = size;
+    return DM->flow_list;
 }
 

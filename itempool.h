@@ -57,6 +57,9 @@ public:
     int minCost();  //获取花费最小值
 
     void setForgeMode(ForgeMode mode);  //设置锻造模式
+
+    void cloneFrom(ItemPool *src);   //复制物品池内容
+
     static Step preForge(Item A, Item B, ForgeMode mode); //预锻造，返回流程步骤，包含锻造花费（mode; 0:Normal, 1:Ignore pennalty, 2:Ignore duration, 3:Ignore both）
     static Item forge(Item A, Item B);  //锻造合并物品
 

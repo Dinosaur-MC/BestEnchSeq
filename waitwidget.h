@@ -2,7 +2,7 @@
 #define WAITWIDGET_H
 
 #include <QDialog>
-#include <QThread>
+
 
 QT_BEGIN_NAMESPACE
 namespace Ui {class WaitWidget;}
@@ -18,16 +18,6 @@ public:
 private:
     Ui::WaitWidget *ui;
 
-};
-
-class WaitWidgetThread : public QThread
-{
-    Q_OBJECT
-protected:
-    void run();
-
-signals:
-    void isDone();
 };
 
 #endif // WAITWIDGET_H

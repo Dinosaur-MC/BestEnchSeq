@@ -1,17 +1,27 @@
+/*
+ * [计算模块]
+ * 使用QThread
+ * 在子线程进行计算
+ * 与等待窗口[WaitWidget]配合
+*/
+
 #ifndef CALCULATOR_H
 #define CALCULATOR_H
 
-#include <QObject>
+#include <QThread>
 #include "datamanager.h"
 #include "itempool.h"
 
-class Calculator : public QObject
+class Calculator : public QThread
 {
     Q_OBJECT
 public:
     explicit Calculator(QObject *parent = nullptr);
 
     void preparation(); //预处理
+    void run();   //开始计算
+
+    unsigned long long evaluateComplexity();  //复杂度预测
 
     void Alg_GlobeAverage();    //核心算法
     void Alg_DifficultyFirst();
@@ -22,12 +32,15 @@ public:
     void uploadData();  //数据上传
 
 private:
-    int flow_l, flow_step;
-    Step *flow;
-    ForgeMode additional_mode;
-    ItemPool pool;
+    int flow_step;  //步骤数
+    int flow_l; //流程大小
+    Step *flow; //存储流程
+    ForgeMode additional_mode;  //附加模式
+    ItemPool pool;  //物品池
+    unsigned long long complexity;
 
 signals:
+    void isDone();  //计算结束信号
 
 };
 

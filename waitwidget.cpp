@@ -13,11 +13,3 @@ WaitWidget::~WaitWidget()
     delete ui;
 }
 
-void WaitWidgetThread::run()
-{
-    WaitWidget *ww = new WaitWidget();
-
-    ww->exec();
-    emit isDone();
-}
-

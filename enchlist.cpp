@@ -64,20 +64,20 @@ void EnchList::refresh()
     if(DM->ench_table_l < 1)
         return;
 
-    if(current_weapon_index == -1)
-    {
-        delete [] available_ench;
-        available_ench_l = DM->ench_table_l;
-        available_ench = new EnchPlus[available_ench_l];
-        for(int i = 0; i < INIT_LENGTH && i < DM->ench_table_l; i++)
-        {
-            available_ench[i].e.name = DM->ench_table[i].name;
-            available_ench[i].e.lvl = 1;
-            available_ench[i].mlvl = DM->ench_table[i].mlvl;
-        }
-    }
-    else
-        getAvailable();
+//    if(current_weapon_index == -1)
+//    {
+//        delete [] available_ench;
+//        available_ench_l = DM->ench_table_l;
+//        available_ench = new EnchPlus[available_ench_l];
+//        for(int i = 0; i < INIT_LENGTH && i < DM->ench_table_l; i++)
+//        {
+//            available_ench[i].e.name = DM->ench_table[i].name;
+//            available_ench[i].e.lvl = 1;
+//            available_ench[i].mlvl = DM->ench_table[i].mlvl;
+//        }
+//    }
+//    else
+    getAvailable();
 
     for(int i = 0; i < available_ench_l; i++)
     {
@@ -146,10 +146,12 @@ void EnchList::getAvailable()
     int ench_count = 0;
     for(int i = 0; i < DM->ench_table_l; i++)
     {
-        if(DM->ench_table[i].suitable[current_weapon_index]
-            && (DM->ench_table[i].edition == DM->edition || DM->ench_table[i].edition == MCE::All))
+        if((DM->ench_table[i].edition == DM->edition || DM->ench_table[i].edition == MCE::All))
         {
-            ench_count++;
+            if(current_weapon_index == -1)
+                ench_count++;
+            else if(DM->ench_table[i].suitable[current_weapon_index])
+                ench_count++;
         }
     }
 
@@ -157,10 +159,9 @@ void EnchList::getAvailable()
     available_ench_l = 0;
     for(int i = 0, j = 0; i < DM->ench_table_l; i++)
     {
-        if(DM->ench_table[i].suitable[current_weapon_index]
-            && (DM->ench_table[i].edition == DM->edition || DM->ench_table[i].edition == MCE::All))
+        if((DM->ench_table[i].edition == DM->edition || DM->ench_table[i].edition == MCE::All))
         {
-            if(plate == nullptr)
+            if(current_weapon_index == -1)
             {
                 ench[j].e.name = DM->ench_table[i].name;
                 ench[j].e.lvl = 1;
@@ -168,28 +169,39 @@ void EnchList::getAvailable()
                 available_ench_l++;
                 j++;
             }
-            else
+            else if(DM->ench_table[i].suitable[current_weapon_index])
             {
-                int p = BASE::sEnch(plate, DM->ench_table[i].name, plate_l);
-                if(p != -1 && plate[p].lvl == DM->ench_table[i].mlvl)
-                    continue;
-                int q = -1;
-                for(int k = 0; k < DM->ench_table[i].repulsion->count(); k++)
-                {
-                    q = BASE::sEnch(plate, DM->ench_table[i].repulsion[k], plate_l);
-                    if(q != -1)
-                        break;
-                }
-                if(q == -1)
+                if(plate == nullptr)
                 {
                     ench[j].e.name = DM->ench_table[i].name;
-                    if(p == -1)
-                        ench[j].e.lvl = 1;
-                    else
-                        ench[j].e.lvl = plate[p].lvl+1;
+                    ench[j].e.lvl = 1;
                     ench[j].mlvl = DM->ench_table[i].mlvl;
                     available_ench_l++;
                     j++;
+                }
+                else
+                {
+                    int p = BASE::sEnch(plate, DM->ench_table[i].name, plate_l);
+                    if(p != -1 && plate[p].lvl == DM->ench_table[i].mlvl)
+                        continue;
+                    int q = -1;
+                    for(int k = 0; k < DM->ench_table[i].repulsion->count(); k++)
+                    {
+                        q = BASE::sEnch(plate, DM->ench_table[i].repulsion[k], plate_l);
+                        if(q != -1)
+                            break;
+                    }
+                    if(q == -1)
+                    {
+                        ench[j].e.name = DM->ench_table[i].name;
+                        if(p == -1)
+                            ench[j].e.lvl = 1;
+                        else
+                            ench[j].e.lvl = plate[p].lvl+1;
+                        ench[j].mlvl = DM->ench_table[i].mlvl;
+                        available_ench_l++;
+                        j++;
+                    }
                 }
             }
         }

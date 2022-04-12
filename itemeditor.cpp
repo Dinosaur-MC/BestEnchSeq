@@ -11,6 +11,7 @@ ItemEditor::ItemEditor(QWidget *parent)
 {
     qDebug() << "[ItemEditor]";
     ui->setupUi(this);
+    setWindowTitle("Item Editor");
 
     enchlist_l = 0;
     enchlist = nullptr;

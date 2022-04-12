@@ -31,10 +31,7 @@ AWindow::AWindow(QWidget *parent) :
         DM->isFirstLaunch = false;
     }
 
-    qDebug() << "+ init";
     init();
-    qDebug() << "- init";
-
     refreshPage(1);
 
     if(DM->isUpdated)
@@ -125,7 +122,7 @@ void AWindow::loadInternalData()    //加载内部数据，自定义模式关闭
 
 void AWindow::init()
 {
-    //************ Set Default Value ************
+    //************ Default Values ************
     //- - - - - - - - Page 1 - - - - - - - -
     ui->cb_InputItem->clear();
     for(int i = 0; i < DM->weapon_l; i++)
@@ -141,13 +138,16 @@ void AWindow::init()
     ui->ListNeededEnchantment->setOutputAddress(DM->needed_ench, DM->resizeNeededEnchList);
 
     //- - - - - - - - Page 2 - - - - - - - -
-    ui->tabWidget_2->tabBar()->setHidden(true);
+    ui->tabWidget_ench->tabBar()->setHidden(true);
     ui->tab_IP->setHidden(true);
 
-    //************ Set Default Value End ************
+    //- - - - - - - - Page 3 - - - - - - - -
+    ui->tabWidget_flow->tabBar()->setHidden(true);
+
+    //************ Default Values End ************
 
 
-    //************ Connection ************
+    //************ Connections ************
     //- - - - - - - - Menu Bar - - - - - - - -
     connect(ui->actionSettings, &QAction::triggered, this, [=](){
         Settings *w = new Settings();
@@ -211,9 +211,10 @@ void AWindow::init()
         if(DM->itemconfig == ICM::AllLevelEBook)
             return;
         DM->itemconfig = ICM::AllLevelEBook;
+        ui->groupBox_Item->setTitle("需求的魔咒（Needed Enchantment）");
         ui->btnNext_2->setText("计 算（Calculate）");
-        ui->tabWidget_2->setCurrentIndex(0);
-        ui->tabWidget_2->tabBar()->setHidden(true);
+        ui->tabWidget_ench->setCurrentIndex(0);
+        ui->tabWidget_ench->tabBar()->setHidden(true);
         ui->tab_IP->setHidden(true);
         refreshPage(2);
     });
@@ -221,9 +222,10 @@ void AWindow::init()
         if(DM->itemconfig == ICM::BasicEBook)
             return;
         DM->itemconfig = ICM::BasicEBook;
+        ui->groupBox_Item->setTitle("需求的魔咒（Needed Enchantment）");
         ui->btnNext_2->setText("计 算（Calculate）");
-        ui->tabWidget_2->setCurrentIndex(0);
-        ui->tabWidget_2->tabBar()->setHidden(true);
+        ui->tabWidget_ench->setCurrentIndex(0);
+        ui->tabWidget_ench->tabBar()->setHidden(true);
         ui->tab_IP->setHidden(true);
         refreshPage(2);
     });
@@ -231,8 +233,9 @@ void AWindow::init()
         if(DM->itemconfig == ICM::AdvanceMode)
             return;
         DM->itemconfig = ICM::AdvanceMode;
+        ui->groupBox_Item->setTitle("物品配置（Item Configuration）");
         ui->btnNext_2->setText("下一步（Next）");
-        ui->tabWidget_2->tabBar()->setHidden(false);
+        ui->tabWidget_ench->tabBar()->setHidden(false);
         ui->tab_IP->setHidden(false);
         refreshPage(2);
     });
@@ -270,8 +273,8 @@ void AWindow::init()
         DM->addition[2] = ui->cb_IgnoreCL->isChecked();
     });
 
-    connect(ui->tabWidget_2, &QTabWidget::currentChanged, this, [=](){
-        if(ui->tabWidget_2->currentIndex() == 0)
+    connect(ui->tabWidget_ench, &QTabWidget::currentChanged, this, [=](){
+        if(ui->tabWidget_ench->currentIndex() == 0)
             ui->btnNext_2->setText("下一步（Next）");
         else
             ui->btnNext_2->setText("计 算（Calculate）");
@@ -279,18 +282,18 @@ void AWindow::init()
 
     //Buttons
     connect(ui->btnBack_2, &QPushButton::clicked, this, [=](){
-        if(DM->itemconfig == ICM::AdvanceMode && ui->tabWidget_2->currentIndex() == 1)
+        if(DM->itemconfig == ICM::AdvanceMode && ui->tabWidget_ench->currentIndex() == 1)
         {
-            ui->tabWidget_2->setCurrentIndex(0);
+            ui->tabWidget_ench->setCurrentIndex(0);
             ui->btnNext_2->setText("下一步（Next）");
         }
         else
             ui->tabWidget->setCurrentIndex(0);
     });
     connect(ui->btnNext_2, &QPushButton::clicked, this, [=](){
-        if(DM->itemconfig == ICM::AdvanceMode && ui->tabWidget_2->currentIndex() == 0)
+        if(DM->itemconfig == ICM::AdvanceMode && ui->tabWidget_ench->currentIndex() == 0)
         {
-            ui->tabWidget_2->setCurrentIndex(1);
+            ui->tabWidget_ench->setCurrentIndex(1);
             ui->btnNext_2->setText("计 算（Calculate）");
         }
         else
@@ -315,7 +318,7 @@ void AWindow::init()
         fo.saveExport();
     });
 
-    //************ Connection End ************
+    //************ Connections End ************
 }
 
 void AWindow::refreshPage(int page) //刷新页面列表 (page; 0:Reflush all, 1:Reflush page 1 and clean other pages, 2:Reflush page 2, 3:Reflush Page 3)
@@ -323,7 +326,7 @@ void AWindow::refreshPage(int page) //刷新页面列表 (page; 0:Reflush all, 1
     if(page == 0)
     {
         ui->ListEnchantingFlow->clear();
-        ui->ListItemPool->clear();
+        ui->ListItemPool->reinit();
         ui->ListOriginEnchantment->setWeapon(DM->OriginItem->name);
         ui->ListNeededEnchantment->setPlate(DM->origin_ench, DM->origin_ench_l);
         ui->ListNeededEnchantment->setWeapon(DM->OriginItem->name);
@@ -332,6 +335,7 @@ void AWindow::refreshPage(int page) //刷新页面列表 (page; 0:Reflush all, 1
     {
         ui->ListOriginEnchantment->setWeapon(DM->OriginItem->name);
         ui->ListNeededEnchantment->clear();
+        ui->ListItemPool->reinit();
     }
     if(page == 2)
     {
@@ -454,6 +458,6 @@ void AWindow::keyPressEvent(QKeyEvent *event)
 
 void AWindow::keyReleaseEvent(QKeyEvent *event)
 {
-
+    QWidget::keyReleaseEvent(event);
 }
 

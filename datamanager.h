@@ -31,6 +31,7 @@ public:
     void upload(Step*, int len);
     static Ench *resizeOriginEnchList(int size);
     static Ench *resizeNeededEnchList(int size);
+    static Step *resizeFlowList(int size);
 
     //Config
     Config config; //存储配置信息

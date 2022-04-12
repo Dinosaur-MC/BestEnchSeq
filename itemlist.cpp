@@ -41,24 +41,6 @@ int ItemList::itemCount()   //被选中物品的数量
 
 void ItemList::uploadList() //上传数据至数据管理器
 {
-//    Ench *e = new Ench[count()];
-
-//    int n = 0;
-//    for(int i = 0; i < count(); i++)
-//    {
-//        ItemListWidget *w = (ItemListWidget*)itemWidget(item(i));
-//        if(w->isChecked())
-//        {
-//            e[n] = w->ench();
-//            n++;
-//        }
-//    }
-
-//    item_pool->clear();
-//    for(int i = 0; i < n; i++)
-//        item_pool->append(ID_ECB, e, n, 0, 0);
-//    delete [] e;
-
     DM->upload(item_pool);
 
     qDebug() << "uploadList - item_pool: Done";

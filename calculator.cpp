@@ -4,10 +4,28 @@ using namespace std;
 
 
 Calculator::Calculator(QObject *parent)
-    : QObject{parent}
+    : QThread{parent}
 {
-//    qDebug() << "+ [Calculator]" << DM->mode[0] << DM->OriginItem.name << DM->OriginItem.penalty << DM->OriginItem.duration;
+    flow_l = INIT_LENGTH;
+    flow = new Step[INIT_LENGTH];
+    flow_step = 0;
 
+    if(!DM->addition[0] && !DM->addition[1])
+        additional_mode = ForgeMode::Normal;
+    else if(DM->addition[0] && !DM->addition[1])
+        additional_mode = ForgeMode::IgnoreFixing;
+    else if(!DM->addition[0] && DM->addition[1])
+        additional_mode = ForgeMode::IgnorePenalty;
+    else
+        additional_mode = ForgeMode::IgnoreFixing_Penalty;
+    pool.setForgeMode(additional_mode);
+
+    preparation();
+}
+
+
+void Calculator::preparation()
+{
     pool.append(*DM->OriginItem);
     if(DM->itemconfig == ICM::AllLevelEBook)
     {
@@ -20,30 +38,56 @@ Calculator::Calculator(QObject *parent)
             pool.append(tm);
         }
     }
+    else if(DM->itemconfig == ICM::BasicEBook)
+    {
+        for(int i = 0; i < DM->needed_ench_l; i++)
+        {
+            Item tm = {ID_ECB, {DM->needed_ench[i]}, 0, 0};
+            int p = BASE::sEnch(DM->origin_ench, DM->needed_ench[i].name, DM->origin_ench_l);
+
+            int d_NO, d_NE;
+            if(p == -1)
+                d_NO = DM->needed_ench[i].lvl;
+            else
+                d_NO = tm.ench[0].lvl - DM->origin_ench[p].lvl;
+            d_NE = DM->needed_ench[i].lvl - BASE::sTable(DM->needed_ench[i].name)->emlvl;
+
+            if(d_NE <= 0)
+            {
+                if(d_NO == 1)
+                {
+                    tm.ench[0].lvl--;
+                    pool.append(tm);
+                }
+                else
+                {
+                    pool.append(tm);
+                }
+            }
+            else if(d_NE > 0)
+            {
+                tm.ench[0].lvl -= d_NE;
+                if(d_NO == 1)
+                {
+
+                }
+                for(int j = 0; j < (2^d_NE)-1; j++)
+                {
+                    pool.append(tm);
+                }
+            }
+        }
+    }
     else if(DM->itemconfig == ICM::AdvanceMode)
     {
-//        for(int i = 0; i < DM->available_item_l; i++)
-//        {
-//            pool.append(DM->available_item[i]);
-//        }
+        pool.cloneFrom(DM->item_pool);
     }
+}
 
+void Calculator::run()
+{
+    qDebug() << "Calculating...";
 
-    if(!DM->addition[0] && !DM->addition[1])
-        additional_mode = ForgeMode::Normal;
-    else if(DM->addition[0] && !DM->addition[1])
-        additional_mode = ForgeMode::IgnoreFixing;
-    else if(!DM->addition[0] && DM->addition[1])
-        additional_mode = ForgeMode::IgnorePenalty;
-    else
-        additional_mode = ForgeMode::IgnoreFixing_Penalty;
-
-    pool.setForgeMode(additional_mode);
-
-    qDebug() << "Calculating..";
-    flow_l = INIT_LENGTH;
-    flow = new Step[INIT_LENGTH];
-    flow_step = 0;
     if(DM->alg_mode == ALGM::DifficultyFirst)
     {
         Alg_DifficultyFirst();
@@ -54,17 +98,36 @@ Calculator::Calculator(QObject *parent)
     }
     else if(DM->alg_mode == ALGM::Enumeration)
     {
+        complexity = evaluateComplexity();
+        if(complexity == 0)
+        {
+            qDebug() << "[ERROR] Calculating stop! The complexity is out of range";
+            return;
+        }
         Alg_Enumeration();
     }
 
     uploadData();
+    emit isDone();
 }
 
-
-void Calculator::preparation()
+unsigned long long Calculator::evaluateComplexity()
 {
+    unsigned long long num = 1;
+    for(int i = 1; i <= pool.count(); i++)
+    {
+        if(log2(num*i) >= 64)
+            return 0;
+        num *= i;
+    }
 
+    if(log2(num*num) >= 64)
+        return 0;
+    num *= num;
+
+    return num;
 }
+
 
 void Calculator::Alg_GlobeAverage()
 {
@@ -170,16 +233,8 @@ void Calculator::Alg_SimpleEnumeration()
 
 void Calculator::uploadData()
 {
-    delete [] DM->flow_list;
-    DM->flow_list_l = flow_step;
-    DM->flow_list = new Step[flow_step];
-    *DM->OutputItem = pool.item(0);
-
-    for(int i = 0; i < flow_step; i++)
-    {
-        DM->flow_list[i] = flow[i];
-        qDebug() << "flow_list:" << DM->flow_list[i].a.name << DM->flow_list[i].b.name << DM->flow_list[i].cost << DM->flow_list[i].penalty;
-    }
+    DM->resizeFlowList(flow_l);
+    DM->upload(flow, flow_l);
     qDebug() << "The flow has been uploaded" << flow_step;
 }
 

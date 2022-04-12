@@ -358,6 +358,20 @@ void ItemPool::setForgeMode(ForgeMode mode)
     forgeMode = mode;
 }
 
+void ItemPool::cloneFrom(ItemPool *src)
+{
+    clear();
+    forgeMode = src->forgeMode;
+    storage_mode = src->storage_mode;
+    item_count = src->item_count;
+    pool_l = src->pool_l;
+    delete [] pool;
+    pool = new Item[pool_l];
+    for(int i = 0; i < src->item_count; i++)
+        pool[i] = src->pool[i];
+}
+
+
 Step ItemPool::preForge(Item A, Item B, ForgeMode mode)
 {
     Step s;
