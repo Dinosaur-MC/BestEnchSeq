@@ -36,12 +36,13 @@
 #define INIT_LENGTH 64
 #define ID_ECB "附魔书\nEnchanted Book"
 
-//定义结构体
 #define CONFIG_NUM 8
 enum MCE {All=1, Java, Bedrock};  //枚举变量，MC编译版本
 enum ICM {AllLevelEBook=1, BasicEBook, AdvanceMode};    //枚举变量，物品配置模式
 enum ALGM {GlobalAverage=1, DifficultyFirst, Greedy, Enumeration, SimpleEnumeration};   //枚举变量，算法名
 //enum ADDITION {None, IgnoreFixing, IgnorePenalty, IgnoreCostLimit};
+
+//定义结构体
 struct Config {
   int config_version;   //配置文件版本，用于检查软件是否已更新
   MCE default_edition;  //默认MC编译版本
@@ -53,6 +54,8 @@ struct Config {
   bool enableCustomEn;  //是否启用自定义魔咒
   bool enableCustomWe;  //是否启用自定义武器
   bool autoCheckUpdate; //是否自动检查更新
+
+  bool deverloperMode;
 };
 
 struct Weapon {

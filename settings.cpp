@@ -8,6 +8,50 @@ Settings::Settings(QWidget *parent) :
     ui(new Ui::Settings)
 {
     ui->setupUi(this);
+    setWindowTitle("设置 Settings");
+    ui->tbIco->setIconSize(QSize(32,32));
+    ui->tbIco->setIcon(QIcon(":/icon/res/logo.png"));
+    qDebug() << "[Setting] " << DM->config.deverloperMode;
+    if(DM->config.deverloperMode)
+    {
+        ui->tbIco->setStyleSheet("QToolButton\
+                                 {\
+                                     border: 2px solid gold;\
+                                 }\
+                                 QToolButton:hover\
+                                 {\
+                                     border: 2px solid gold;\
+                                 }\
+                                 QToolButton:checked\
+                                 {\
+                                     border: 2px solid gold;\
+                                 }\
+                                 QToolButton:pressed\
+                                 {\
+                                     border: 2px solid gold;\
+                                 }");
+    }
+    else
+    {
+        ui->tbIco->setStyleSheet("QToolButton\
+                                 {\
+                                     border: none;\
+                                     background-color: rgba(0, 0, 0, 0);\
+                                 }\
+                                 QToolButton:hover\
+                                 {\
+                                     border: none;\
+                                 }\
+                                 QToolButton:checked\
+                                 {\
+                                     border: none;\
+                                 }\
+                                 QToolButton:pressed\
+                                 {\
+                                     border: none;\
+                                 }");
+    }
+    n = 0;
 
     //Read Config
     if(DM->config.default_edition == MCE::Java)
@@ -114,6 +158,53 @@ Settings::Settings(QWidget *parent) :
         if(DM->config.enableCustomEn)
             fo.loadEnchantmentTable();
         close();
+    });
+
+    //QToolButton Connections
+    connect(ui->tbIco, &QToolButton::clicked, this, [=](){
+        if(DM->config.deverloperMode)
+        {
+            DM->config.deverloperMode = false;
+            ui->tbIco->setStyleSheet("QToolButton\
+                                     {\
+                                         border: none;\
+                                         background-color: rgba(0, 0, 0, 0);\
+                                     }\
+                                     QToolButton:hover\
+                                     {\
+                                         border: none;\
+                                     }\
+                                     QToolButton:checked\
+                                     {\
+                                         border: none;\
+                                     }\
+                                     QToolButton:pressed\
+                                     {\
+                                         border: none;\
+                                     }");
+        }
+        if(n == 10 && !DM->config.deverloperMode)
+        {
+            DM->config.deverloperMode = true;
+            ui->tbIco->setStyleSheet("QToolButton\
+                                     {\
+                                         border: 2px solid gold;\
+                                     }\
+                                     QToolButton:hover\
+                                     {\
+                                         border: 2px solid gold;\
+                                     }\
+                                     QToolButton:checked\
+                                     {\
+                                         border: 2px solid gold;\
+                                     }\
+                                     QToolButton:pressed\
+                                     {\
+                                         border: 2px solid gold;\
+                                     }");
+        }
+        if(n < 10)
+            n++;
     });
 }
 

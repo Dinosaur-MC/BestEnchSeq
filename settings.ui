@@ -283,6 +283,59 @@ About</string>
           </property>
          </spacer>
         </item>
+        <item>
+         <widget class="QToolButton" name="tbIco">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>0</height>
+           </size>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QToolButton
+{
+	border: none;
+	background-color: rgba(255, 255, 255, 0);
+}
+
+QToolButton:hover
+{
+	border: none;
+}
+
+QToolButton:checked
+{
+	border: none;
+}
+
+QToolButton:pressed
+{
+	border: none;
+}</string>
+          </property>
+          <property name="text">
+           <string>ICO</string>
+          </property>
+          <property name="popupMode">
+           <enum>QToolButton::DelayedPopup</enum>
+          </property>
+          <property name="toolButtonStyle">
+           <enum>Qt::ToolButtonIconOnly</enum>
+          </property>
+          <property name="autoRaise">
+           <bool>false</bool>
+          </property>
+          <property name="arrowType">
+           <enum>Qt::NoArrow</enum>
+          </property>
+         </widget>
+        </item>
        </layout>
       </widget>
      </item>

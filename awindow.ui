@@ -1173,9 +1173,9 @@ No Result</string>
     <addaction name="actionWeapon"/>
     <addaction name="actionEnchantment"/>
    </widget>
-   <widget class="QMenu" name="menu_DebugTools">
+   <widget class="QMenu" name="menu_DeveloperTools">
     <property name="title">
-     <string>Debug Tools</string>
+     <string>Developer Tools</string>
     </property>
     <addaction name="actionA"/>
     <addaction name="actionB"/>
@@ -1185,7 +1185,7 @@ No Result</string>
    <addaction name="menu_Start"/>
    <addaction name="menu_Customize"/>
    <addaction name="menu_About"/>
-   <addaction name="menu_DebugTools"/>
+   <addaction name="menu_DeveloperTools"/>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
   <action name="actionInport">

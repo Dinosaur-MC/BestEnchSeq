@@ -71,7 +71,8 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 RESOURCES += \
-    icon.qrc
+    img.qrc \
+    lib.qrc
 
 DISTFILES += \
     EnchantmentTable.csv \
@@ -83,3 +84,5 @@ DISTFILES += \
     update.json
 
 RC_FILE += logo.rc
+
+TARGET = "BestEnchSeq_v3.0"

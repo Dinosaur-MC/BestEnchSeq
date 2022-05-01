@@ -1,0 +1,7 @@
+<RCC>
+    <qresource prefix="/dll">
+        <file>lib/libgcc_s_seh-1.dll</file>
+        <file>lib/libstdc++-6.dll</file>
+        <file>lib/libwinpthread-1.dll</file>
+    </qresource>
+</RCC>

@@ -18,6 +18,7 @@ public:
 
 private:
     Ui::Settings *ui;
+    int n;  //counter for opening developer mode
 
 signals:
     void refresh();

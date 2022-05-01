@@ -27,7 +27,7 @@ void DataManager::reinit()
     delete OutputItem;
     delete item_pool;
 
-    config = {FILEVERSION, MCE::Java, ICM::AllLevelEBook, ALGM::GlobalAverage, "", 0, 0, 0, 1};
+    config = {FILEVERSION, MCE::Java, ICM::AllLevelEBook, ALGM::GlobalAverage, "", 0, 0, 0, 1, 0};
     edition = MCE::Java;
     itemconfig = ICM::AllLevelEBook;
     alg_mode = ALGM::GlobalAverage;
@@ -66,6 +66,7 @@ void DataManager::uploadData(Config c)
     config.enableCustomEn = c.enableCustomEn;
     config.enableCustomWe = c.enableCustomWe;
     config.autoCheckUpdate = c.autoCheckUpdate;
+    config.deverloperMode = c.deverloperMode;
 }
 
 void DataManager::uploadData(EnchTable* et, int len)

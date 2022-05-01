@@ -16,6 +16,7 @@
         <file>res/fishing_rod.png</file>
         <file>res/logo.ico</file>
         <file>res/enchanted_book.png</file>
+        <file>res/logo.png</file>
     </qresource>
     <qresource prefix="/pic"/>
 </RCC>

@@ -29,6 +29,7 @@ void FileOperate::saveConfig()  //保存配置
             "\nenable_custom_weapon= " + QString::number(DM->config.enableCustomWe) + \
             "\nenable_custom_enchantment= " + QString::number(DM->config.enableCustomEn) + \
             "\nauto_check_update= " + QString::number(DM->config.autoCheckUpdate) + \
+            "\ndeverloper_mode_on= " + QString::number(DM->config.deverloperMode) + \
             "\n";
 
     file.write(data.toUtf8().data());
@@ -68,7 +69,8 @@ void FileOperate::loadConfig()  //加载配置
                     "constant= 0 \n" + \
                     "enable_custom_weapon= 0 \n" + \
                     "enable_custom_enchantment= 0 \n" + \
-                    "auto_check_update= 1 \n";
+                    "auto_check_update= 1 \n" + \
+                    "deverloper_mode_on = 0 \n";
             file.write(str.toUtf8().data());
         }
         DM->isFirstLaunch = true;
@@ -129,6 +131,11 @@ void FileOperate::loadConfig()  //加载配置
             else if(data2[0] == "auto_check_update")
             {
                 DM->config.autoCheckUpdate = data2[1].toInt();
+                exist += 1;
+            }
+            else if(data2[0] == "deverloper_mode_on")
+            {
+                DM->config.deverloperMode = data2[1].toInt();
                 exist += 1;
             }
         }

@@ -12,7 +12,7 @@ AWindow::AWindow(QWidget *parent) :
 {
     qDebug() << "[AWindow]";
     ui->setupUi(this);
-    ui->menu_DebugTools->menuAction()->setVisible(false);
+    ui->menu_DeveloperTools->menuAction()->setVisible(false);
     setWindowTitle(QString(PROGRAM_NAME_CN) + PROGRAM_NAME_EN + " - " + VERSION);
     setStatusBarText();
 
@@ -142,6 +142,8 @@ void AWindow::init()
     ui->tab_IP->setHidden(true);
 
     //- - - - - - - - Page 3 - - - - - - - -
+    ui->OutputItem->setIconSize(QSize(64,64));
+    ui->OutputItem->setIcon(QIcon(":/icon/res/pack.png"));
     ui->tabWidget_flow->tabBar()->setHidden(true);
 
     //************ Default Values End ************
@@ -156,6 +158,10 @@ void AWindow::init()
         if(w->exec() == Settings::Accepted)
         {
             restart();
+        }
+        else
+        {
+            ui->menu_DeveloperTools->menuAction()->setVisible(false);
         }
     });
     connect(ui->actionHelp, &QAction::triggered, this, [=](){});
@@ -442,14 +448,14 @@ void AWindow::restart()
 
 void AWindow::keyPressEvent(QKeyEvent *event)
 {
-    if(event->modifiers() == Qt::ControlModifier)
+    if(DM->config.deverloperMode && event->modifiers() == Qt::ControlModifier)
     {
         if(event->key() == Qt::Key_M)
         {
             if(event->isAutoRepeat())
                 return;
             qDebug() << "Pressed [Ctrl + M]";
-            ui->menu_DebugTools->menuAction()->setVisible(!ui->menu_DebugTools->menuAction()->isVisible());
+            ui->menu_DeveloperTools->menuAction()->setVisible(!ui->menu_DeveloperTools->menuAction()->isVisible());
         }
     }
     else
