@@ -356,7 +356,7 @@ void AWindow::refreshPage(int page) //刷新页面列表 (page; 0:Reflush all, 1
 }
 
 
-void AWindow::setStatusBarText()
+void AWindow::setStatusBarText()    //设置状态栏文本
 {
     QLabel *label = new QLabel(QString("Website: ") + WEBSITE);
     ui->statusBar->addWidget(label);
@@ -440,7 +440,7 @@ void AWindow::onUpdated()
     w->exec();
 }
 
-void AWindow::restart()
+void AWindow::restart() //重启程序
 {
     qApp->exit(RESTART_CODE);
 }

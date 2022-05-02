@@ -45,35 +45,44 @@ void Calculator::preparation()
             Item tm = {ID_ECB, {DM->needed_ench[i]}, 0, 0};
             int p = BASE::sEnch(DM->origin_ench, DM->needed_ench[i].name, DM->origin_ench_l);
 
-            int d_NO, d_NE;
-            if(p == -1)
-                d_NO = DM->needed_ench[i].lvl;
-            else
-                d_NO = tm.ench[0].lvl - DM->origin_ench[p].lvl;
-            d_NE = DM->needed_ench[i].lvl - BASE::sTable(DM->needed_ench[i].name)->emlvl;
+            int O = 0;
+            if(p != -1)
+                O = DM->origin_ench[p].lvl;
+            int N = DM->needed_ench[i].lvl;
+            int em = BASE::sTable(DM->needed_ench[i].name)->emlvl;
 
-            if(d_NE <= 0)
+            if(N <= em + 1)
             {
-                if(d_NO == 1)
+                if(N - O == 1)
                 {
-                    tm.ench[0].lvl--;
+                    tm.ench[0].lvl = O;
                     pool.append(tm);
                 }
                 else
                 {
+                    tm.ench[0].lvl = N;
                     pool.append(tm);
                 }
             }
-            else if(d_NE > 0)
+            else
             {
-                tm.ench[0].lvl -= d_NE;
-                if(d_NO == 1)
+                if(N - O == 1)
                 {
-
+                    tm.ench[0].lvl = em;
+                    for(int j = 0; j < (2^(O - em)); j++)
+                        pool.append(tm);
                 }
-                for(int j = 0; j < (2^d_NE)-1; j++)
+                else if(N - O == 2)
                 {
-                    pool.append(tm);
+                    tm.ench[0].lvl = em;
+                    for(int j = 0; j < (2^(N - em) - 1); j++)
+                        pool.append(tm);
+                }
+                else
+                {
+                    tm.ench[0].lvl = em;
+                    for(int j = 0; j < (2^(N - em)); j++)
+                        pool.append(tm);
                 }
             }
         }
