@@ -98,6 +98,17 @@ struct Step {
     int penalty;    //惩罚次数
 };
 
+struct Summary {
+    MCE edition;
+    ALGM algorithm;
+    Item outputItem;
+    int costLevel;
+    int costPoint;
+    int stepNumber;
+    int costTime;
+    int isOK;
+};
+
 
 //重载运算符
 bool operator==(const Ench a, const Ench b); //比较魔咒

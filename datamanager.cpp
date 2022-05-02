@@ -52,6 +52,8 @@ void DataManager::reinit()
     sumLevelCost = 0;
     sumPointCost = 0;
 
+    sum = {};
+
     isFirstLaunch = false;
     isUpdated = false;
 }

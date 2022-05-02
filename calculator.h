@@ -21,6 +21,7 @@ public:
     void preparation(); //预处理
     void run();   //开始计算
 
+    bool checkAvailability();   //检查列表可行性，用于高级物品配置
     unsigned long long evaluateComplexity();  //复杂度预测
 
     void Alg_GlobeAverage();    //核心算法
@@ -38,6 +39,8 @@ private:
     ForgeMode additional_mode;  //附加模式
     ItemPool pool;  //物品池
     unsigned long long complexity;
+
+    bool checkPassed;
 
 signals:
     void isDone();  //计算结束信号

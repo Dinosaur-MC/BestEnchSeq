@@ -13,3 +13,9 @@ WaitWidget::~WaitWidget()
     delete ui;
 }
 
+void WaitWidget::Done()
+{
+    //...
+    close();
+}
+

@@ -24,8 +24,9 @@ Calculator::Calculator(QObject *parent)
 }
 
 
-void Calculator::preparation()
+void Calculator::preparation()  //Prepare items
 {
+    //lvl <= mlvl
     pool.append(*DM->OriginItem);
     if(DM->itemconfig == ICM::AllLevelEBook)
     {
@@ -40,6 +41,11 @@ void Calculator::preparation()
     }
     else if(DM->itemconfig == ICM::BasicEBook)
     {
+        /* Origin, the Available, Need
+         * O + A --> N
+         * A ∈ {lvl <= emlvl}, N ∈ {lvl < mlvl}
+         */
+
         for(int i = 0; i < DM->needed_ench_l; i++)
         {
             Item tm = {ID_ECB, {DM->needed_ench[i]}, 0, 0};
@@ -89,7 +95,9 @@ void Calculator::preparation()
     }
     else if(DM->itemconfig == ICM::AdvanceMode)
     {
+        //Customized items
         pool.cloneFrom(DM->item_pool);
+        checkPassed = checkAvailability();
     }
 }
 
@@ -97,7 +105,11 @@ void Calculator::run()
 {
     qDebug() << "Calculating...";
 
-    if(DM->alg_mode == ALGM::DifficultyFirst)
+    if(DM->alg_mode == ALGM::GlobalAverage)
+    {
+        Alg_GlobeAverage();
+    }
+    else if(DM->alg_mode == ALGM::DifficultyFirst)
     {
         Alg_DifficultyFirst();
     }
@@ -115,12 +127,21 @@ void Calculator::run()
         }
         Alg_Enumeration();
     }
+    else if(DM->alg_mode == ALGM::SimpleEnumeration)
+    {
+        Alg_SimpleEnumeration();
+    }
 
     uploadData();
     emit isDone();
 }
 
-unsigned long long Calculator::evaluateComplexity()
+bool Calculator::checkAvailability()
+{
+    return true;
+}
+
+unsigned long long Calculator::evaluateComplexity() //Returns zero when overflows
 {
     unsigned long long num = 1;
     for(int i = 1; i <= pool.count(); i++)
@@ -145,7 +166,8 @@ void Calculator::Alg_GlobeAverage()
 
 void Calculator::Alg_DifficultyFirst()
 {
-    /* 1、惩罚相同且惩罚低的组合优先
+    /* V2.0Beta:
+     * 1、惩罚相同且惩罚低的组合优先
      * 2、与武器组合且等级花费高的优先
      * 3、等级花费高的作为目标物品优先
      * 4、等级花费高的作为牺牲物品优先
@@ -244,6 +266,7 @@ void Calculator::uploadData()
 {
     DM->resizeFlowList(flow_l);
     DM->upload(flow, flow_l);
+    emit isDone();
     qDebug() << "The flow has been uploaded" << flow_step;
 }
 

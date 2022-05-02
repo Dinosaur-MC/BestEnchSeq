@@ -5,6 +5,7 @@
 #include "settings.h"
 #include "checkupdate.h"
 #include "calculator.h"
+#include "waitwidget.h"
 
 AWindow::AWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -229,6 +230,7 @@ void AWindow::init()
             return;
         DM->itemconfig = ICM::BasicEBook;
         ui->groupBox_Item->setTitle("需求的魔咒（Needed Enchantment）");
+        ui->btnNext_2->setStyleSheet("");
         ui->btnNext_2->setText("计 算（Calculate）");
         ui->tabWidget_ench->setCurrentIndex(0);
         ui->tabWidget_ench->tabBar()->setHidden(true);
@@ -240,6 +242,7 @@ void AWindow::init()
             return;
         DM->itemconfig = ICM::AdvanceMode;
         ui->groupBox_Item->setTitle("物品配置（Item Configuration）");
+        ui->btnNext_2->setStyleSheet("");
         ui->btnNext_2->setText("下一步（Next）");
         ui->tabWidget_ench->tabBar()->setHidden(false);
         ui->tab_IP->setHidden(false);
@@ -280,6 +283,7 @@ void AWindow::init()
     });
 
     connect(ui->tabWidget_ench, &QTabWidget::currentChanged, this, [=](){
+        ui->btnNext_2->setStyleSheet("");
         if(ui->tabWidget_ench->currentIndex() == 0)
             ui->btnNext_2->setText("下一步（Next）");
         else
@@ -291,6 +295,7 @@ void AWindow::init()
         if(DM->itemconfig == ICM::AdvanceMode && ui->tabWidget_ench->currentIndex() == 1)
         {
             ui->tabWidget_ench->setCurrentIndex(0);
+            ui->btnNext_2->setStyleSheet("");
             ui->btnNext_2->setText("下一步（Next）");
         }
         else
@@ -300,16 +305,24 @@ void AWindow::init()
         if(DM->itemconfig == ICM::AdvanceMode && ui->tabWidget_ench->currentIndex() == 0)
         {
             ui->tabWidget_ench->setCurrentIndex(1);
+            ui->btnNext_2->setStyleSheet("");
             ui->btnNext_2->setText("计 算（Calculate）");
         }
         else
         {
             if(ui->ListNeededEnchantment->enchCount() == 0)
             {
+                ui->btnNext_2->setStyleSheet("color: red");
                 return;
             }
             ui->tabWidget->setCurrentIndex(2);
-            //Calculator();
+            WaitWidget * w = new WaitWidget();
+            Calculator * calc = new Calculator();
+            connect(calc, &Calculator::isDone, w, &WaitWidget::Done);
+            calc->run();
+            w->setModal(true);
+            w->show();
+            w->exec();
             refreshPage(3);
         }
     });

@@ -61,6 +61,8 @@ public:
     int sumLevelCost;    //定义整型变量，总等级花费
     int sumPointCost;   //定义整型变量，总经验值花费
 
+    Summary sum;
+
     //Other
     bool isFirstLaunch;    //软件是否为首次启动（若启动时找不到配置文件则为真），用于启动时展示向导和声明等操作
     bool isUpdated; //软件是否已更新，用于启动时展示更新完成提示
