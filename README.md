@@ -1,5 +1,7 @@
 >***本软件程序是安全无毒、完全开源免费的！大家只需要根据这里或[此视频](https://www.bilibili.com/video/BV11T4y1D7c2)的获取方式获取使用即可！任何对本软件进行收费、出售等行为均为诈骗，大家谨防上当！并且也不要轻易使用不明身份的陌生人提供的第三方软件，谨防病毒入侵！***
- 
+
+[English](README_EN.md)
+
 # 最佳附魔顺序计算器（The Best Enchanting Sequence）
 ---
 ## 简介
@@ -112,12 +114,4 @@ M(完成)
         | -- | -- | -- | -- | -- | -- | -- | -- | -- | -- | -- | -- | -- | -- | -- | -- | -- | -- | -- | -- |
      4. 保存为`CSV UTF-8 逗号分隔符`格式并退出编辑软件
 
----
 
-## Description
-This is a small program that can help you easily reduce the cost of experiences when you are enchanting.
-+ It is well known that in Vanilla Minecraft we can enchant items with enchanting tables and anvils to enhance their properties. However, due to game design limitations, it was not easy to forge a powerful artifact that satisfies us. Especially when enchant with anvil, not only does it will cost us a lot experiences, but it also can be too expensive to continue after multiple operations, and if you don't grasp this rule, you will not able to get all the enchantments you need. Therefore, this program comes into being. It allows you to easily figure out a low-cost path in its way to enchant all the enchantments you want as far as possible, building the artifact you want.
-
-Notice: This project is still under development and not fully functional, but it works. If you have any suggestions or found bugs, please contact me or feedback here, thank you!
-
-[Bilibili](https://www.bilibili.com/video/BV11T4y1D7c2)
