@@ -76,7 +76,6 @@ RESOURCES += \
 
 DISTFILES += \
     EnchantmentTable.csv \
-    LICENSE \
     README.md \
     README.md \
     WeaponTable.csv \
