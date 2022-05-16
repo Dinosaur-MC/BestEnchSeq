@@ -41,7 +41,7 @@ void Calculator::preparation()  //Prepare items
     }
     else if(DM->itemconfig == ICM::BasicEBook)
     {
-        /* Origin, the Available, Need
+        /* Origin(O), the Available(A), Need(N)
          * O + A --> N
          * A ∈ {lvl <= emlvl}, N ∈ {lvl < mlvl}
          */

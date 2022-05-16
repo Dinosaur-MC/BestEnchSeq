@@ -12,29 +12,34 @@ AWindow::AWindow(QWidget *parent) :
     ui(new Ui::AWindow)
 {
     qDebug() << "[AWindow]";
+    // Setup UI
     ui->setupUi(this);
     ui->menu_DeveloperTools->menuAction()->setVisible(false);
     setWindowTitle(QString(PROGRAM_NAME_CN) + PROGRAM_NAME_EN + " - " + VERSION);
     setStatusBarText();
 
+    // 载入配置&加载内置数据
     FileOperate fo;
     fo.loadConfig();
     loadInternalData();
 
+    // 读取【自定义功能】配置，加载自定义列表文件
     if(DM->config.enableCustomEn)
         fo.loadEnchantmentTable();
     if(DM->config.enableCustomWe)
         fo.loadWeapon();
 
+    // 首次启动提示
     if(DM->isFirstLaunch)
     {
         onFirstLaunch();
         DM->isFirstLaunch = false;
     }
 
-    init();
-    refreshPage(1);
+    init(); // 初始化UI内容及connections
+    refreshPage(1); // 刷新页面【1】
 
+    // 更新完成提示
     if(DM->isUpdated)
     {
         onUpdated();
@@ -42,6 +47,7 @@ AWindow::AWindow(QWidget *parent) :
         DM->isUpdated = false;
         fo.saveConfig();
     }
+    // 若autoCheckUpdate为true，则启动时检查更新
     if(DM->config.autoCheckUpdate)
     {
         CheckUpdate *cu = new CheckUpdate();
@@ -57,6 +63,7 @@ AWindow::~AWindow()
 
 void AWindow::loadInternalData()    //加载内部数据，自定义模式关闭时生效
 {
+    /* 内置武器数据 */
     DM->weapon_l = 13;
     delete [] DM->weapon;
     DM->weapon = new Weapon[DM->weapon_l];
@@ -76,6 +83,7 @@ void AWindow::loadInternalData()    //加载内部数据，自定义模式关闭
     DM->weapon[12] = {"钓鱼竿\nFishing Rod",QIcon(":/icon/res/fishing_rod.png")};
 
 
+    /* 内置魔咒数据 */
     DM->ench_table_l = 39;
     delete [] DM->ench_table;
     DM->ench_table = new EnchTable[DM->ench_table_l];
@@ -459,6 +467,7 @@ void AWindow::restart() //重启程序
 }
 
 
+// 按键事件
 void AWindow::keyPressEvent(QKeyEvent *event)
 {
     if(DM->config.deverloperMode && event->modifiers() == Qt::ControlModifier)
