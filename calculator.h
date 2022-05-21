@@ -19,7 +19,6 @@ public:
     explicit Calculator(QObject *parent = nullptr);
 
     void preparation(); //预处理
-    void run();   //开始计算
 
     bool checkAvailability();   //检查列表可行性，用于高级物品配置
     unsigned long long evaluateComplexity();  //复杂度预测
@@ -43,6 +42,9 @@ private:
 
     bool isPassed;   //是否通过物品检查
     int costTime;
+
+protected:
+    void run();   //开始计算
 
 signals:
     void isDone();  //计算结束信号

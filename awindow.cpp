@@ -331,8 +331,8 @@ void AWindow::init()
             connect(calc, &Calculator::isDone, this, [=](){
                 refreshPage(3);
             });
-            timer->start(500);
-            calc->run();
+            timer->start(100);
+            calc->start();
         }
     });
 
@@ -348,14 +348,14 @@ void AWindow::init()
 
     //- - - - - - - - Other - - - - - - - -
     connect(timer, &QTimer::timeout, this, [=](){
+        timer->stop();
         if(calc->isFinished)
             return;
-        WaitWidget w;
-        Calculator * calc = new Calculator();
-        connect(calc, &Calculator::isDone, &w, &WaitWidget::accepted);
-        w.setModal(true);
-        w.exec();
-        timer->stop();
+        WaitWidget * w = new WaitWidget(this);
+        connect(calc, &Calculator::isDone, w, &WaitWidget::Done);
+        w->setWindowFlags(windowFlags()|Qt::FramelessWindowHint);
+        w->setModal(true);
+        w->show();
     });
 
     //************ Connections End ************
@@ -397,7 +397,7 @@ void AWindow::refreshPage(int page) //刷新页面列表 (page; 0:Reflush all, 1
         if(DM->costTime < 10000)
             ui->label_CalcTime->setText(QString::number(DM->costTime) + "ms");
         else
-            ui->label_CalcTime->setText(QString::number((double)(DM->costTime)/1000, 'g', 2) + "s");
+            ui->label_CalcTime->setText(QString::number((double)(DM->costTime)/1000, 'f', 1) + "s");
 
         if(DM->maxLevelCost < 40)
         {

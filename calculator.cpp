@@ -140,9 +140,12 @@ void Calculator::run()
         Alg_SimpleEnumeration();
     }
 
+//    QTime test = QTime::currentTime();
+//    test = test.addSecs(11);
+//    while(test.second() >= QTime::currentTime().second()){}
+
     QTime et = QTime::currentTime();
-    st.msecsTo(et);
-    costTime = st.msec();
+    costTime = st.msecsTo(et);
     uploadData();
 }
 

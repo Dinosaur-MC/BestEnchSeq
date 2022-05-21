@@ -2,6 +2,8 @@
 #define WAITWIDGET_H
 
 #include <QDialog>
+#include <QTimer>
+#include <QTime>
 
 
 QT_BEGIN_NAMESPACE
@@ -15,11 +17,14 @@ public:
     explicit WaitWidget(QWidget *parent = nullptr);
     ~WaitWidget();
 
-    void Show();
+    void update();
     void Done();
 
 private:
     Ui::WaitWidget *ui;
+    QTimer *timer;
+    QTime st;
+    QTime et;
 
 };
 
