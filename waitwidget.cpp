@@ -13,9 +13,13 @@ WaitWidget::~WaitWidget()
     delete ui;
 }
 
+void WaitWidget::Show()
+{
+}
+
 void WaitWidget::Done()
 {
-    //...
-    close();
+    qDebug() << "WaitWidget: Done";
+    accept();
 }
 

@@ -4,7 +4,6 @@
 #include "fileoperate.h"
 #include "settings.h"
 #include "checkupdate.h"
-#include "calculator.h"
 #include "waitwidget.h"
 
 AWindow::AWindow(QWidget *parent) :
@@ -17,6 +16,8 @@ AWindow::AWindow(QWidget *parent) :
     ui->menu_DeveloperTools->menuAction()->setVisible(false);
     setWindowTitle(QString(PROGRAM_NAME_CN) + PROGRAM_NAME_EN + " - " + VERSION);
     setStatusBarText();
+    calc = new Calculator();
+    timer = new QTimer();
 
     // 载入配置&加载内置数据
     FileOperate fo;
@@ -323,15 +324,15 @@ void AWindow::init()
                 ui->btnNext_2->setStyleSheet("color: red");
                 return;
             }
+            ui->btnNext_2->setStyleSheet("color: black");
             ui->tabWidget->setCurrentIndex(2);
-            WaitWidget * w = new WaitWidget();
-            Calculator * calc = new Calculator();
-            connect(calc, &Calculator::isDone, w, &WaitWidget::Done);
+
+            calc = new Calculator();
+            connect(calc, &Calculator::isDone, this, [=](){
+                refreshPage(3);
+            });
+            timer->start(500);
             calc->run();
-            w->setModal(true);
-            w->show();
-            w->exec();
-            refreshPage(3);
         }
     });
 
@@ -343,6 +344,18 @@ void AWindow::init()
     connect(ui->btnSave, &QPushButton::clicked, this, [=](){
         FileOperate fo;
         fo.saveExport();
+    });
+
+    //- - - - - - - - Other - - - - - - - -
+    connect(timer, &QTimer::timeout, this, [=](){
+        if(calc->isFinished)
+            return;
+        WaitWidget w;
+        Calculator * calc = new Calculator();
+        connect(calc, &Calculator::isDone, &w, &WaitWidget::accepted);
+        w.setModal(true);
+        w.exec();
+        timer->stop();
     });
 
     //************ Connections End ************
@@ -373,6 +386,29 @@ void AWindow::refreshPage(int page) //刷新页面列表 (page; 0:Reflush all, 1
     if(page == 3)
     {
         ui->ListEnchantingFlow->refresh();
+        if(DM->flow_list_l < 1)
+            return;
+        ui->label_Durability_1->setText(QString::number(DM->OutputItem->durability));
+        ui->label_Penalty_1->setText(QString::number(DM->OutputItem->penalty));
+        ui->label_LevelCost->setText(QString::number(DM->sumLevelCost));
+        ui->label_PointCost->setText(QString::number(DM->sumPointCost));
+        ui->label_StepCount->setText(QString::number(DM->flow_list_l));
+        ui->OutputItem->setIcon(BASE::sWeapon(DM->OutputItem->name)->icon);
+        if(DM->costTime < 10000)
+            ui->label_CalcTime->setText(QString::number(DM->costTime) + "ms");
+        else
+            ui->label_CalcTime->setText(QString::number((double)(DM->costTime)/1000, 'g', 2) + "s");
+
+        if(DM->maxLevelCost < 40)
+        {
+            ui->label_Notice->setText("可行的!\nAvailabled!");
+            ui->label_Notice->setStyleSheet("color:green");
+        }
+        else
+        {
+            ui->label_Notice->setText("过于昂贵！\nToo expensive!");
+            ui->label_Notice->setStyleSheet("color:red");
+        }
     }
 }
 

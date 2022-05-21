@@ -15,6 +15,7 @@ public:
     explicit WaitWidget(QWidget *parent = nullptr);
     ~WaitWidget();
 
+    void Show();
     void Done();
 
 private:

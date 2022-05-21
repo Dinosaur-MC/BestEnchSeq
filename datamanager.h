@@ -36,7 +36,7 @@ public:
     //Config
     Config config; //存储配置信息
     MCE edition;    //存储模式信息：MC编译版本
-    ICM itemconfig;
+    ICM itemconfig; //存储模式信息：物品配置模式
     ALGM alg_mode;    //存储模式信息：算法
     bool addition[3];  //存储模式信息：附加条件
 
@@ -58,10 +58,12 @@ public:
     Item *OriginItem;   //定义原始（输入）物品，即目标武器
     Item *OutputItem;   //定义输出物品，即锻造完成后输出的物品（武器）
     ItemPool *item_pool;    //定义物品池，存储物品
+    int maxLevelCost;
     int sumLevelCost;    //定义整型变量，总等级花费
     int sumPointCost;   //定义整型变量，总经验值花费
+    int costTime;   //计算用时
 
-    Summary sum;
+//    Summary sum;
 
     //Other
     bool isFirstLaunch;    //软件是否为首次启动（若启动时找不到配置文件则为真），用于启动时展示向导和声明等操作

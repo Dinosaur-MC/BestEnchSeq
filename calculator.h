@@ -31,6 +31,7 @@ public:
     void Alg_SimpleEnumeration();
 
     void uploadData();  //数据上传
+    bool isFinished;
 
 private:
     int flow_step;  //步骤数
@@ -38,9 +39,10 @@ private:
     Step *flow; //存储流程
     ForgeMode additional_mode;  //附加模式
     ItemPool pool;  //物品池
-    unsigned long long complexity;
+    unsigned long long complexity;  //枚举计算复杂度
 
-    bool checkPassed;
+    bool isPassed;   //是否通过物品检查
+    int costTime;
 
 signals:
     void isDone();  //计算结束信号

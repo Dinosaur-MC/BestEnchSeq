@@ -9,9 +9,11 @@ FlowList::FlowList(QWidget *parent)
 
 void FlowList::refresh()
 {
-    if(DM->flow_list[0].cost <= 0)
+    qDebug() << "+ FlowList::refresh()";
+    if(DM->flow_list_l < 1)
         return;
     clear();
+    qDebug() << "Flowlist:" << DM->flow_list_l;
     for(int i = 0; i < DM->flow_list_l; i++)
     {
         FlowListWidget *w = new FlowListWidget(this);
@@ -21,5 +23,6 @@ void FlowList::refresh()
         item->setSizeHint(QSize(w->sizeHint().width(), w->sizeHint().height()));
         this->setItemWidget(item,w);
     }
+    qDebug() << "- FlowList::refresh()";
 }
 

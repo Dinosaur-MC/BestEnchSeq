@@ -52,7 +52,7 @@ void DataManager::reinit()
     sumLevelCost = 0;
     sumPointCost = 0;
 
-    sum = {};
+//    sum = {};
 
     isFirstLaunch = false;
     isUpdated = false;
@@ -73,6 +73,8 @@ void DataManager::uploadData(Config c)
 
 void DataManager::uploadData(EnchTable* et, int len)
 {
+    if(len < 1)
+        return;
     delete [] ench_table;
     ench_table = new EnchTable[len];
     ench_table_l = len;
@@ -83,6 +85,8 @@ void DataManager::uploadData(EnchTable* et, int len)
 
 void DataManager::uploadData(Weapon* w, int len)
 {
+    if(len < 1)
+        return;
     delete [] weapon;
     weapon = new Weapon[len];
     weapon_l = len;
@@ -93,6 +97,8 @@ void DataManager::uploadData(Weapon* w, int len)
 
 void DataManager::upload(Ench* e, int len, int p)
 {
+    if(len < 1)
+        return;
     if(p == 0)
     {
         delete [] origin_ench;
@@ -122,12 +128,27 @@ void DataManager::upload(ItemPool *ip)
 
 void DataManager::upload(Step* s, int len)
 {
+    flow_list_l = len;
+    maxLevelCost = 0;
+    sumLevelCost = 0;
+    sumPointCost = 0;
+    if(len < 1)
+        return;
     delete [] flow_list;
     flow_list = new Step[len];
-    flow_list_l = len;
 
     for(int i = 0; i < len; i++)
+    {
         flow_list[i] = s[i];
+        maxLevelCost = std::max(maxLevelCost, s[i].cost);
+        sumLevelCost += s[i].cost;
+        if(s[i].cost <= 16)
+            sumPointCost += (s[i].cost * s[i].cost + 6 * s[i].cost);
+        else if(s[i].cost <= 31)
+            sumPointCost += (2.5 * s[i].cost * s[i].cost - 40.5 * s[i].cost + 360);
+        else
+            sumPointCost += (4.5 * s[i].cost * s[i].cost - 162.5 * s[i].cost + 2220);
+    }
 }
 
 Ench *DataManager::resizeOriginEnchList(int size)

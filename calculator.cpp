@@ -1,4 +1,5 @@
 #include "calculator.h"
+#include <QTime>
 
 using namespace std;
 
@@ -6,9 +7,16 @@ using namespace std;
 Calculator::Calculator(QObject *parent)
     : QThread{parent}
 {
+}
+
+
+void Calculator::preparation()  //Prepare items
+{
+    //init
     flow_l = INIT_LENGTH;
     flow = new Step[INIT_LENGTH];
     flow_step = 0;
+    isFinished = false;
 
     if(!DM->addition[0] && !DM->addition[1])
         additional_mode = ForgeMode::Normal;
@@ -20,13 +28,8 @@ Calculator::Calculator(QObject *parent)
         additional_mode = ForgeMode::IgnoreFixing_Penalty;
     pool.setForgeMode(additional_mode);
 
-    preparation();
-}
-
-
-void Calculator::preparation()  //Prepare items
-{
     //lvl <= mlvl
+    isPassed = true;
     pool.append(*DM->OriginItem);
     if(DM->itemconfig == ICM::AllLevelEBook)
     {
@@ -97,14 +100,19 @@ void Calculator::preparation()  //Prepare items
     {
         //Customized items
         pool.cloneFrom(DM->item_pool);
-        checkPassed = checkAvailability();
+        isPassed = checkAvailability();
     }
 }
 
 void Calculator::run()
 {
     qDebug() << "Calculating...";
+    preparation();
 
+    if(!isPassed)
+        return;
+
+    QTime st = QTime::currentTime();
     if(DM->alg_mode == ALGM::GlobalAverage)
     {
         Alg_GlobeAverage();
@@ -132,8 +140,10 @@ void Calculator::run()
         Alg_SimpleEnumeration();
     }
 
+    QTime et = QTime::currentTime();
+    st.msecsTo(et);
+    costTime = st.msec();
     uploadData();
-    emit isDone();
 }
 
 bool Calculator::checkAvailability()
@@ -264,9 +274,11 @@ void Calculator::Alg_SimpleEnumeration()
 
 void Calculator::uploadData()
 {
-    DM->resizeFlowList(flow_l);
-    DM->upload(flow, flow_l);
-    emit isDone();
+    *DM->OutputItem = pool.item(pool.searchWeapon());
+    DM->upload(flow, flow_step);
+    DM->costTime = costTime;
     qDebug() << "The flow has been uploaded" << flow_step;
+    isFinished = true;
+    emit isDone();
 }
 

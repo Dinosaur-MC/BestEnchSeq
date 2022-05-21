@@ -8,7 +8,9 @@
 
 #include <QMainWindow>
 #include <QKeyEvent>
+#include <QTimer>
 #include "datamanager.h"
+#include "calculator.h"
 
 namespace Ui {
 class AWindow;
@@ -33,6 +35,8 @@ public:
 
 private:
     Ui::AWindow *ui;
+    QTimer *timer;
+    Calculator *calc;
 
 protected:
     void keyPressEvent(QKeyEvent *event);
