@@ -62,6 +62,8 @@ public:
     int sumLevelCost;    //定义整型变量，总等级花费
     int sumPointCost;   //定义整型变量，总经验值花费
     int costTime;   //计算用时
+    unsigned long long calcProgress;   //计算进度
+    unsigned long long complexity; //计算复杂度
 
 //    Summary sum;
 

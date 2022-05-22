@@ -160,6 +160,7 @@ void AWindow::init()
     ui->OutputItem->setIconSize(QSize(64,64));
     ui->OutputItem->setIcon(QIcon(":/icon/res/pack.png"));
     ui->tabWidget_flow->tabBar()->setHidden(true);
+    ui->btnSave->setEnabled(false);
 
     //************ Default Values End ************
 
@@ -368,14 +369,16 @@ void AWindow::init()
                 ui->btnNext_2->setStyleSheet("color: red");
                 return;
             }
+            ui->btnSave->setEnabled(false);
             ui->btnNext_2->setStyleSheet("color: black");
             ui->tabWidget->setCurrentIndex(2);
 
             calc = new Calculator();
             connect(calc, &Calculator::isDone, this, [=](){
                 refreshPage(3);
+                ui->btnSave->setEnabled(true);
             });
-            timer->start(100);
+            timer->start(20);
             calc->start();
         }
     });
@@ -443,28 +446,44 @@ void AWindow::refreshPage(int page) //刷新页面列表 (page; 0:Reflush all, 1
     if(page == 3)
     {
         ui->ListEnchantingFlow->refresh();
-        if(DM->flow_list_l < 1)
-            return;
-        ui->label_Durability_1->setText(QString::number(DM->OutputItem->durability));
-        ui->label_Penalty_1->setText(QString::number(DM->OutputItem->penalty));
-        ui->label_LevelCost->setText(QString::number(DM->sumLevelCost));
-        ui->label_PointCost->setText(QString::number(DM->sumPointCost));
-        ui->label_StepCount->setText(QString::number(DM->flow_list_l));
-        ui->OutputItem->setIcon(BASE::sWeapon(DM->OutputItem->name)->icon);
-        if(DM->costTime < 10000)
-            ui->label_CalcTime->setText(QString::number(DM->costTime) + "ms");
+        if(!DM->OutputItem->name.isEmpty())
+        {
+            ui->OutputItem->setIcon(BASE::sWeapon(DM->OutputItem->name)->icon);
+            ui->label_Durability_1->setText(QString::number(DM->OutputItem->durability));
+            ui->label_Penalty_1->setText(QString::number(DM->OutputItem->penalty));
+            ui->label_LevelCost->setText(QString::number(DM->sumLevelCost));
+            ui->label_PointCost->setText(QString::number(DM->sumPointCost));
+            ui->label_StepCount->setText(QString::number(DM->flow_list_l));
+            if(DM->costTime < 10000)
+                ui->label_CalcTime->setText(QString::number(DM->costTime) + "ms");
+            else
+                ui->label_CalcTime->setText(QString::number((double)(DM->costTime)/1000, 'f', 1) + "s");
+        }
         else
-            ui->label_CalcTime->setText(QString::number((double)(DM->costTime)/1000, 'f', 1) + "s");
+        {
+            ui->OutputItem->setIcon(QIcon(":/icon/res/pack.png"));
+            ui->label_Durability_1->setText("---");
+            ui->label_Penalty_1->setText("---");
+            ui->label_LevelCost->setText("---");
+            ui->label_PointCost->setText("----");
+            ui->label_StepCount->setText("---");
+            ui->label_CalcTime->setText("-----");
+        }
 
-        if(DM->maxLevelCost < 40)
+        if(DM->maxLevelCost < 40 && DM->maxLevelCost > 0)
         {
             ui->label_Notice->setText("可行的!\nAvailabled!");
             ui->label_Notice->setStyleSheet("color:green");
         }
-        else
+        else if(DM->maxLevelCost >= 40)
         {
             ui->label_Notice->setText("过于昂贵！\nToo expensive!");
             ui->label_Notice->setStyleSheet("color:red");
+        }
+        else
+        {
+            ui->label_Notice->setText("无结果\nNo Result");
+            ui->label_Notice->setStyleSheet("color:black");
         }
     }
 }

@@ -41,7 +41,8 @@ private:
     unsigned long long complexity;  //枚举计算复杂度
 
     bool isPassed;   //是否通过物品检查
-    int costTime;   //计算用时
+    unsigned long long calcStep;   //计算步骤
+    long costTime;   //计算用时
 
 protected:
     void run();   //开始计算

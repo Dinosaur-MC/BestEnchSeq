@@ -17,6 +17,9 @@ void Calculator::preparation()  //Prepare items
     flow = new Step[INIT_LENGTH];
     flow_step = 0;
     isFinished = false;
+    calcStep = 0;
+    costTime = 0;
+    DM->calcProgress = 0;
 
     if(!DM->addition[0] && !DM->addition[1])
         additional_mode = ForgeMode::Normal;
@@ -113,6 +116,8 @@ void Calculator::run()
         return;
 
     QTime st = QTime::currentTime();
+    complexity = evaluateComplexity();
+    DM->complexity = complexity;
     if(DM->alg_mode == ALGM::GlobalAverage)
     {
         Alg_GlobeAverage();
@@ -127,7 +132,6 @@ void Calculator::run()
     }
     else if(DM->alg_mode == ALGM::Enumeration)
     {
-        complexity = evaluateComplexity();
         if(complexity == 0)
         {
             qDebug() << "[ERROR] Calculating stop! The complexity is out of range";
@@ -141,8 +145,8 @@ void Calculator::run()
     }
 
 //    QTime test = QTime::currentTime();
-//    test = test.addSecs(11);
-//    while(test.second() >= QTime::currentTime().second()){}
+//    test = test.addMSecs(500);
+//    while(test >= QTime::currentTime()){}
 
     QTime et = QTime::currentTime();
     costTime = st.msecsTo(et);
@@ -156,25 +160,53 @@ bool Calculator::checkAvailability()
 
 unsigned long long Calculator::evaluateComplexity() //Returns zero when overflows
 {
-    unsigned long long num = 1;
-    for(int i = 1; i <= pool.count(); i++)
+    if(DM->alg_mode == ALGM::GlobalAverage)
     {
-        if(log2(num*i) >= 64)
+        return pool.count() - 1;
+    }
+    else if(DM->alg_mode == ALGM::DifficultyFirst)
+    {
+        return pool.count() - 1;
+    }
+    else if(DM->alg_mode == ALGM::Greedy)
+    {
+        return pool.count() - 1;
+    }
+    else if(DM->alg_mode == ALGM::Enumeration)
+    {
+        unsigned long long num = 1;
+        for(int i = 1; i <= pool.count(); i++)
+        {
+            if(log2(num*i) >= 64)
+                return 0;
+            num *= i;
+        }
+        if(log2(num*num) >= 64)
             return 0;
-        num *= i;
+        num *= num;
+        return num;
+    }
+    else if(DM->alg_mode == ALGM::SimpleEnumeration)
+    {
+        unsigned long long num = 1;
+        for(int i = 1; i <= pool.count(); i++)
+        {
+            if(log2(num*i) >= 64)
+                return 0;
+            num *= i;
+        }
+        return num;
     }
 
-    if(log2(num*num) >= 64)
-        return 0;
-    num *= num;
-
-    return num;
+    return 0;
 }
 
 
 void Calculator::Alg_GlobeAverage()
 {
+    qDebug() << "+ [Alg_GlobeAverage]";
 
+    qDebug() << "- [Alg_GlobeAverage]";
 }
 
 void Calculator::Alg_DifficultyFirst()
@@ -255,13 +287,24 @@ void Calculator::Alg_DifficultyFirst()
                 }
             }
         }
+
+//            QTime test = QTime::currentTime();
+//            test = test.addMSecs(1000);
+//            while(test >= QTime::currentTime()){}
+
+        calcStep++;
+//        DM->calcProgress = (double)calcStep * 100 / complexity;
+        DM->calcProgress = calcStep;
+        emit nextStep();
     }
     qDebug() << "- [Alg_DifficultyFirst]";
 }
 
 void Calculator::Alg_Greedy()
 {
+    qDebug() << "+ [Alg_Greedy]";
 
+    qDebug() << "- [Alg_Greedy]";
 }
 
 void Calculator::Alg_Enumeration()

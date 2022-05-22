@@ -1,9 +1,12 @@
 #ifndef WAITWIDGET_H
 #define WAITWIDGET_H
 
+#include "datamanager.h"
 #include <QDialog>
 #include <QTimer>
 #include <QTime>
+
+#include <QFrame>
 
 
 QT_BEGIN_NAMESPACE
@@ -25,6 +28,20 @@ private:
     QTimer *timer;
     QTime st;
     QTime et;
+
+};
+
+class WaitWidgetScreen : public QFrame
+{
+    Q_OBJECT
+public:
+    explicit WaitWidgetScreen(QWidget *parent = nullptr);
+    ~WaitWidgetScreen();
+
+private:
+
+protected:
+    void paintEvent(QPaintEvent *event);
 
 };
 

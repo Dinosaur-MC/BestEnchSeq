@@ -10,6 +10,12 @@
     <height>288</height>
    </rect>
   </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
+  </property>
   <property name="windowTitle">
    <string>Dialog</string>
   </property>
@@ -38,7 +44,7 @@
       <enum>Qt::RightToLeft</enum>
      </property>
      <property name="text">
-      <string>正在计算……
+      <string>正在计算中……
 Calculating...</string>
      </property>
      <property name="alignment">
@@ -47,12 +53,17 @@ Calculating...</string>
     </widget>
    </item>
    <item>
-    <widget class="QFrame" name="screen">
+    <widget class="WaitWidgetScreen" name="screen">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
        <horstretch>0</horstretch>
        <verstretch>1</verstretch>
       </sizepolicy>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">#screen {
+	background-color: gainsboro
+}</string>
      </property>
      <property name="frameShape">
       <enum>QFrame::StyledPanel</enum>
@@ -84,6 +95,14 @@ Calculating...</string>
    </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>WaitWidgetScreen</class>
+   <extends>QFrame</extends>
+   <header location="global">waitwidget.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>

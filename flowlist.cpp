@@ -10,7 +10,10 @@ FlowList::FlowList(QWidget *parent)
 void FlowList::refresh()
 {
     if(DM->flow_list_l < 1)
+    {
+        clear();
         return;
+    }
     clear();
 //    qDebug() << "Flowlist:" << DM->flow_list_l;
     for(int i = 0; i < DM->flow_list_l; i++)

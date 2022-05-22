@@ -57,6 +57,7 @@ void DataManager::reinit()
     isFirstLaunch = false;
     isUpdated = false;
     updateAvailablity = false;
+    calcProgress = 0;
 }
 
 void DataManager::uploadData(Config c)
