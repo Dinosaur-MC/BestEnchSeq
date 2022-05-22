@@ -41,12 +41,13 @@ private:
     unsigned long long complexity;  //枚举计算复杂度
 
     bool isPassed;   //是否通过物品检查
-    int costTime;
+    int costTime;   //计算用时
 
 protected:
     void run();   //开始计算
 
 signals:
+    void nextStep();
     void isDone();  //计算结束信号
 
 };

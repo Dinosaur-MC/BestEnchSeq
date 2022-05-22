@@ -56,6 +56,7 @@ void DataManager::reinit()
 
     isFirstLaunch = false;
     isUpdated = false;
+    updateAvailablity = false;
 }
 
 void DataManager::uploadData(Config c)

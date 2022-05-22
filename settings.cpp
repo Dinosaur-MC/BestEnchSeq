@@ -118,6 +118,7 @@ Settings::Settings(QWidget *parent) :
         layout->addWidget(web);
         layout->addWidget(btn);
 
+        w.setWindowTitle("关于 About");
         w.setFixedSize(360, 190);
         w.setLayout(layout);
         w.setModal(true);

@@ -66,6 +66,7 @@ public:
 //    Summary sum;
 
     //Other
+    bool updateAvailablity; //是否存在可用更新
     bool isFirstLaunch;    //软件是否为首次启动（若启动时找不到配置文件则为真），用于启动时展示向导和声明等操作
     bool isUpdated; //软件是否已更新，用于启动时展示更新完成提示
 

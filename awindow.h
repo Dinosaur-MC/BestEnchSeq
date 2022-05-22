@@ -11,6 +11,7 @@
 #include <QTimer>
 #include "datamanager.h"
 #include "calculator.h"
+#include <QLabel>
 
 namespace Ui {
 class AWindow;
@@ -28,7 +29,7 @@ public:
     void init();    //初始化
     void refreshPage(int page = 0);    //刷新页面列表 (page; 0:Reflush all, 1:Reflush page 1 and clean other pages, 2:Reflush page 2, 3:Reflush Page 3)
 
-    void setStatusBarText();    //设置状态栏
+    void initStatusBar();    //设置状态栏
     void onFirstLaunch();   //首次启动时展示相关信息
     void onUpdated();   //软件更新后展示相关信息
     void restart(); //软件重启
@@ -38,9 +39,17 @@ private:
     QTimer *timer;
     Calculator *calc;
 
+    QLabel *label_s;
+    QLabel *label_update;
+
 protected:
     void keyPressEvent(QKeyEvent *event);
     void keyReleaseEvent(QKeyEvent *event);
+
+signals:
+    void updateAvailable();
+    void noUpdate();
+    void updateChecked();
 };
 
 #endif // AWINDOW_H

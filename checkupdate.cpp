@@ -56,6 +56,7 @@ void CheckUpdate::AnalyseJSON(QString str)
 
         if(verison_id > VERSION_ID)
         {
+            emit updateAvailable();
             QString info = "发现更新！ Found update!";
             info += "\n新版本(Version)：" + verison;
             info += "\n更新时间(Date)： " + update_time;
@@ -87,12 +88,15 @@ void CheckUpdate::AnalyseJSON(QString str)
         }
         else if(notice_newest)
         {
-            QString info = "当前版本已是最新版本！\n";
+            emit updateAvailable();
+            QString info = "当前版本已是最新版本！\nAlready up to date!";
             msgBox.setText(info);
             QPushButton *confirm = new QPushButton("确定 Confirm");
             msgBox.addButton(confirm, QMessageBox::AcceptRole);
             msgBox.exec();
         }
+        else
+            emit updateAvailable();
     }
     emit finished();
     this->deleteLater();

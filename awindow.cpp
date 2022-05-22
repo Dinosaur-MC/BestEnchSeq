@@ -1,6 +1,8 @@
 #include "awindow.h"
 #include "ui_awindow.h"
 #include <QFile>
+#include <QUrl>
+#include <QDesktopServices>
 #include "fileoperate.h"
 #include "settings.h"
 #include "checkupdate.h"
@@ -15,7 +17,9 @@ AWindow::AWindow(QWidget *parent) :
     ui->setupUi(this);
     ui->menu_DeveloperTools->menuAction()->setVisible(false);
     setWindowTitle(QString(PROGRAM_NAME_CN) + PROGRAM_NAME_EN + " - " + VERSION);
-    setStatusBarText();
+    label_s = new QLabel(QString("Website: ") + WEBSITE, this);
+    label_update = new QLabel(this);
+    initStatusBar();
     calc = new Calculator();
     timer = new QTimer();
 
@@ -52,7 +56,8 @@ AWindow::AWindow(QWidget *parent) :
     if(DM->config.autoCheckUpdate)
     {
         CheckUpdate *cu = new CheckUpdate();
-        cu->start(0);
+        connect(cu, &CheckUpdate::finished, this, &AWindow::updateChecked);
+        cu->start(false);
     }
 }
 
@@ -174,15 +179,54 @@ void AWindow::init()
             ui->menu_DeveloperTools->menuAction()->setVisible(false);
         }
     });
-    connect(ui->actionHelp, &QAction::triggered, this, [=](){});
+    connect(ui->actionHelp, &QAction::triggered, this, [=](){
+        QUrl url(HELP_PAGE);
+        QDesktopServices::openUrl(url);
+    });
     connect(ui->actionExit, &QAction::triggered, this, &AWindow::close);
 
     connect(ui->actionEnchantment, &QAction::triggered, this, [=](){});
     connect(ui->actionWeapon, &QAction::triggered, this, [=](){});
 
-    connect(ui->actionWebsite, &QAction::triggered, this, [=](){});
-    connect(ui->actionVersion, &QAction::triggered, this, [=](){});
-    connect(ui->actionUpdate, &QAction::triggered, this, [=](){});
+    connect(ui->actionWebsite, &QAction::triggered, this, [=](){
+        QUrl url(WEBSITE);
+        QDesktopServices::openUrl(url);
+    });
+    connect(ui->actionVersion, &QAction::triggered, this, [=](){
+        QDialog w;
+        QLabel *name = new QLabel(QString("* * * ") + PROGRAM_NAME_CN + " * * *\n* * * " + PROGRAM_NAME_EN + " * * *\n", &w);
+        name->setAlignment(Qt::AlignHCenter);
+        QLabel *ver = new QLabel(QString("Version: ") + VERSION, &w);
+        ver->setAlignment(Qt::AlignHCenter);
+        QLabel *ver_id = new QLabel(QString("Version ID: ") + QString::number(VERSION_ID), &w);
+        ver_id->setAlignment(Qt::AlignHCenter);
+        QLabel *author = new QLabel(QString("Author: ") + AUTHOR, &w);
+        author->setAlignment(Qt::AlignHCenter);
+        QLabel *web = new QLabel(QString("Web: ") + WEBSITE, &w);
+        web->setAlignment(Qt::AlignHCenter);
+        QPushButton *btn = new QPushButton("确定 Confirm", &w);
+        connect(btn, &QPushButton::clicked, &w, &QDialog::accept);
+
+        QVBoxLayout *layout = new QVBoxLayout(&w);
+        layout->addWidget(name);
+        layout->addWidget(ver);
+        layout->addWidget(ver_id);
+        layout->addWidget(author);
+        layout->addWidget(web);
+        layout->addWidget(btn);
+
+        w.setWindowTitle("关于 About");
+        w.setFixedSize(360, 190);
+        w.setLayout(layout);
+        w.setModal(true);
+        w.show();
+        w.exec();
+    });
+    connect(ui->actionUpdate, &QAction::triggered, this, [=](){
+        CheckUpdate *cu = new CheckUpdate();
+        connect(cu, &CheckUpdate::finished, this, &AWindow::updateChecked);
+        cu->start(true);
+    });
 
     //- - - - - - - - Page 1 - - - - - - - -
     //Edition Selection
@@ -358,6 +402,19 @@ void AWindow::init()
         w->show();
     });
 
+    connect(this, &AWindow::updateAvailable, this, [=](){
+        DM->updateAvailablity = true;
+    });
+    connect(this, &AWindow::noUpdate, this, [=](){
+        DM->updateAvailablity = false;
+    });
+    connect(this, &AWindow::updateChecked, this, [=](){
+        if(DM->updateAvailablity)
+            label_update->setText("New update is available");
+        else
+            label_update->setText("Already up to date");
+    });
+
     //************ Connections End ************
 }
 
@@ -413,10 +470,10 @@ void AWindow::refreshPage(int page) //刷新页面列表 (page; 0:Reflush all, 1
 }
 
 
-void AWindow::setStatusBarText()    //设置状态栏文本
+void AWindow::initStatusBar()    //设置状态栏
 {
-    QLabel *label = new QLabel(QString("Website: ") + WEBSITE);
-    ui->statusBar->addWidget(label);
+    ui->statusBar->addWidget(label_s);
+    ui->statusBar->addPermanentWidget(label_update);
 }
 
 void AWindow::onFirstLaunch()

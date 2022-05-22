@@ -33,6 +33,8 @@ private:
     bool notice_newest;
 
 signals:
+    void updateAvailable();
+    void noUpdate();
     void finished();
 
 };

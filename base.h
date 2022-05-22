@@ -24,6 +24,7 @@
 
 #define AUTHOR "Dinosaur_MC(Dinosaur-MC)"
 #define WEBSITE "https://github.com/Dinosaur-MC/BestEnchSeq"
+#define HELP_PAGE "https://www.bilibili.com/video/BV11T4y1D7c2"
 #define STATEMENT "本程序为Github开源项目，完全永久免费使用！只推荐通过官方渠道获取本程序。\n任何对原程序进行收费售卖行为均为诈骗，谨防上当受骗！谨慎使用来路不明的非官方发布版本，谨防病毒入侵！"
 #define STATEMENT_EN "This program is Github open source project, completely free to use forever! Access to this program is only recommended through official channels. \nAny selling of the original program for a fee is fraud, beware of being cheated! Be careful to use unofficial releases from unknown sources to guard against virus attacks!"
 
@@ -40,7 +41,6 @@
 enum MCE {All=1, Java, Bedrock};  //枚举变量，MC编译版本
 enum ICM {AllLevelEBook=1, BasicEBook, AdvanceMode};    //枚举变量，物品配置模式
 enum ALGM {GlobalAverage=1, DifficultyFirst, Greedy, Enumeration, SimpleEnumeration};   //枚举变量，算法名
-//enum ADDITION {None, IgnoreFixing, IgnorePenalty, IgnoreCostLimit};
 
 //定义结构体
 struct Config {
