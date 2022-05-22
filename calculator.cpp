@@ -31,9 +31,14 @@ void Calculator::preparation()  //Prepare items
         additional_mode = ForgeMode::IgnoreFixing_Penalty;
     pool.setForgeMode(additional_mode);
 
-    //lvl <= mlvl
-    isPassed = true;
+
+    for(int i = 0; i < INIT_LENGTH; i++)
+        DM->OriginItem->ench[i] = {};
+    for(int i = 0; i < DM->origin_ench_l; i++)
+        DM->OriginItem->ench[i] = DM->origin_ench[i];
     pool.append(*DM->OriginItem);
+
+    isPassed = true;
     if(DM->itemconfig == ICM::AllLevelEBook)
     {
         for(int i = 0; i < DM->needed_ench_l; i++)
@@ -49,7 +54,7 @@ void Calculator::preparation()  //Prepare items
     {
         /* Origin(O), the Available(A), Need(N)
          * O + A --> N
-         * A ∈ {lvl <= emlvl}, N ∈ {lvl < mlvl}
+         * A ∈ {lvl | lvl <= emlvl}, (N ∈ {lvl | lvl < mlvl})
          */
 
         for(int i = 0; i < DM->needed_ench_l; i++)
@@ -62,6 +67,7 @@ void Calculator::preparation()  //Prepare items
                 O = DM->origin_ench[p].lvl;
             int N = DM->needed_ench[i].lvl;
             int em = BASE::sTable(DM->needed_ench[i].name)->emlvl;
+//            qDebug() << "Configuring Items:" << tm.name << tm.ench[0].name << p << O << N << em;
 
             if(N <= em + 1)
             {
@@ -221,7 +227,7 @@ void Calculator::Alg_DifficultyFirst()
 
     qDebug() << "+ [Alg_DifficultyFirst]" << pool.item(0).name << pool.item(0).ench[0].name << pool.item(0).penalty << pool.item(0).durability;
 
-    int curPenalty = pool.item(0).penalty;
+    int curPenalty = pool.minPenalty();
     int mode = 0;
 
     while(pool.count() > 1)
@@ -303,6 +309,13 @@ void Calculator::Alg_DifficultyFirst()
 void Calculator::Alg_Greedy()
 {
     qDebug() << "+ [Alg_Greedy]";
+
+//    int curPenalty = pool.minPenalty();
+//    while(pool.count() > 1)
+//    {
+
+//        calcStep++;
+//    }
 
     qDebug() << "- [Alg_Greedy]";
 }
