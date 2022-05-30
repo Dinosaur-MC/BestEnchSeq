@@ -1170,8 +1170,9 @@ No Result</string>
     <property name="title">
      <string>快速自定义 Customize</string>
     </property>
-    <addaction name="actionWeapon"/>
-    <addaction name="actionEnchantment"/>
+    <addaction name="actionOpen_the_Editor"/>
+    <addaction name="actionEnable_Custom_Weapon"/>
+    <addaction name="actionEnable_Custom_Enchantment"/>
    </widget>
    <widget class="QMenu" name="menu_DeveloperTools">
     <property name="title">
@@ -1265,6 +1266,27 @@ No Result</string>
   <action name="actionD">
    <property name="text">
     <string>D</string>
+   </property>
+  </action>
+  <action name="actionOpen_the_Editor">
+   <property name="text">
+    <string>Open the Editor</string>
+   </property>
+  </action>
+  <action name="actionEnable_Custom_Weapon">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Enable Custom Weapon</string>
+   </property>
+  </action>
+  <action name="actionEnable_Custom_Enchantment">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Enable Custom Enchantment</string>
    </property>
   </action>
  </widget>

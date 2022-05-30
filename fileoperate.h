@@ -12,15 +12,15 @@ class FileOperate : public QObject
 public:
     explicit FileOperate(QObject *parent = nullptr);
 
-    void saveConfig();  //保存配置
-    void saveWeapon();  //保存武器（用于快速自定义武器功能）
-    void saveEnchantmentTable();    //保存魔咒（用于快速自定义魔咒功能）
+    static void saveConfig();  //保存配置
+    static void saveWeapon();  //保存武器（用于快速自定义武器功能）
+    static void saveEnchantmentTable();    //保存魔咒（用于快速自定义魔咒功能）
 
-    void loadConfig();  //加载配置
-    void loadWeapon();  //加载武器
-    void loadEnchantmentTable();    //加载魔咒
+    static void loadConfig();  //加载配置
+    static void loadWeapon();  //加载武器
+    static void loadEnchantmentTable();    //加载魔咒
 
-    void saveExport(QString dir_str = "./exports/");  //保存输出结果
+    static void saveExport(QString dir_str = "./exports/");  //保存输出结果
 
 signals:
 

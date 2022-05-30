@@ -63,6 +63,7 @@ FORMS += \
     itemeditor.ui \
     itemlistwidget.ui \
     settings.ui \
+    tableeditor.ui \
     waitwidget.ui
 
 # Default rules for deployment.

@@ -7,6 +7,7 @@
 #include "settings.h"
 #include "checkupdate.h"
 #include "waitwidget.h"
+#include "tableeditor.h"
 
 AWindow::AWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -24,15 +25,14 @@ AWindow::AWindow(QWidget *parent) :
     timer = new QTimer();
 
     // 载入配置&加载内置数据
-    FileOperate fo;
-    fo.loadConfig();
+    FileOperate::loadConfig();
     loadInternalData();
 
     // 读取【自定义功能】配置，加载自定义列表文件
     if(DM->config.enableCustomEn)
-        fo.loadEnchantmentTable();
+        FileOperate::loadEnchantmentTable();
     if(DM->config.enableCustomWe)
-        fo.loadWeapon();
+        FileOperate::loadWeapon();
 
     // 首次启动提示
     if(DM->isFirstLaunch)
@@ -50,7 +50,7 @@ AWindow::AWindow(QWidget *parent) :
         onUpdated();
         DM->config.config_version = FILEVERSION;
         DM->isUpdated = false;
-        fo.saveConfig();
+        FileOperate::saveConfig();
     }
     // 若autoCheckUpdate为true，则启动时检查更新
     if(DM->config.autoCheckUpdate)
@@ -138,6 +138,10 @@ void AWindow::loadInternalData()    //加载内部数据，自定义模式关闭
 void AWindow::init()
 {
     //************ Default Values ************
+    //- - - - - - - - Menu Bar - - - - - - - -
+    ui->actionEnable_Custom_Weapon->setChecked(DM->config.enableCustomWe);
+    ui->actionEnable_Custom_Enchantment->setChecked(DM->config.enableCustomEn);
+
     //- - - - - - - - Page 1 - - - - - - - -
     ui->cb_InputItem->clear();
     for(int i = 0; i < DM->weapon_l; i++)
@@ -186,8 +190,27 @@ void AWindow::init()
     });
     connect(ui->actionExit, &QAction::triggered, this, &AWindow::close);
 
-    connect(ui->actionEnchantment, &QAction::triggered, this, [=](){});
-    connect(ui->actionWeapon, &QAction::triggered, this, [=](){});
+    connect(ui->actionOpen_the_Editor, &QAction::triggered, this, [=](){
+        TableEditor *w = new TableEditor();
+        w->setModal(true);
+        w->show();
+        if(w->exec() == TableEditor::Accepted)
+        {
+            FileOperate::loadWeapon();
+            FileOperate::loadEnchantmentTable();
+            refreshPage(0);
+        }
+    });
+    connect(ui->actionEnable_Custom_Weapon, &QAction::triggered, this, [=](){
+        DM->config.enableCustomWe = ui->actionEnable_Custom_Weapon->isChecked();
+        FileOperate::saveConfig();
+        restart();
+    });
+    connect(ui->actionEnable_Custom_Enchantment, &QAction::triggered, this, [=](){
+        DM->config.enableCustomEn = ui->actionEnable_Custom_Enchantment->isChecked();
+        FileOperate::saveConfig();
+        restart();
+    });
 
     connect(ui->actionWebsite, &QAction::triggered, this, [=](){
         QUrl url(WEBSITE);
@@ -425,11 +448,11 @@ void AWindow::refreshPage(int page) //刷新页面列表 (page; 0:Reflush all, 1
 {
     if(page == 0)
     {
-        ui->ListEnchantingFlow->clear();
-        ui->ListItemPool->reinit();
         ui->ListOriginEnchantment->setWeapon(DM->OriginItem->name);
         ui->ListNeededEnchantment->setPlate(DM->origin_ench, DM->origin_ench_l);
         ui->ListNeededEnchantment->setWeapon(DM->OriginItem->name);
+        ui->ListEnchantingFlow->clear();
+        ui->ListItemPool->reinit();
     }
     if(page == 1)
     {

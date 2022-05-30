@@ -152,12 +152,11 @@ Settings::Settings(QWidget *parent) :
         DM->config.enableCustomEn = ui->cbCustomEn->isChecked();
         DM->config.autoCheckUpdate = ui->cbCheckUpate->isChecked();
 
-        FileOperate fo; //Question
-        fo.saveConfig();
+        FileOperate::saveConfig();
         if(DM->config.enableCustomWe)
-            fo.loadWeapon();
+            FileOperate::loadWeapon();
         if(DM->config.enableCustomEn)
-            fo.loadEnchantmentTable();
+            FileOperate::loadEnchantmentTable();
         close();
     });
 
