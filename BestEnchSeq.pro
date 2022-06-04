@@ -10,61 +10,72 @@ CONFIG += c++11
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-    awindow.cpp \
-    base.cpp \
-    calculator.cpp \
-    checkupdate.cpp \
-    datamanager.cpp \
-    enchlist.cpp \
-    enchlistwidget.cpp \
-    feedback.cpp \
-    fileoperate.cpp \
-    flowlist.cpp \
-    flowlistwidget.cpp \
-    itemeditor.cpp \
-    itemlist.cpp \
-    itemlistwidget.cpp \
-    itempool.cpp \
-    logger.cpp \
+    base/Ench.cpp \
+    base/EnchSet.cpp \
+    base/FlowStep.cpp \
+    base/Item.cpp \
+    base/ItemPool.cpp \
+    base/Summary.cpp \
+    lists/EnchList.cpp \
+    lists/FlowList.cpp \
+    lists/ItemEditor.cpp \
+    lists/ItemList.cpp \
+    lists/WeaponBox.cpp \
+    lists/WeaponList.cpp \
     main.cpp \
-    msgbox.cpp \
-    settings.cpp \
-    statusbarmanager.cpp \
-    tableeditor.cpp \
-    waitwidget.cpp
+    AWindow.cpp \
+    Settings.cpp \
+    CheckUpdate.cpp \
+    CalculatingThread.cpp \
+    WaitingWidget.cpp \
+    FastCustomizing.cpp \
+    MsgBox.cpp \
+    TableEditor.cpp \
+    storage/EnchTable.cpp \
+    storage/FileOperator.cpp \
+    storage/Logger.cpp \
+    storage/WeaponTable.cpp
 
 HEADERS += \
-    awindow.h \
-    base.h \
-    calculator.h \
-    checkupdate.h \
-    datamanager.h \
-    enchlist.h \
-    enchlistwidget.h \
-    feedback.h \
-    fileoperate.h \
-    flowlist.h \
-    flowlistwidget.h \
-    itemeditor.h \
-    itemlist.h \
-    itemlistwidget.h \
-    itempool.h \
-    logger.h \
-    msgbox.h \
-    settings.h \
-    statusbarmanager.h \
-    tableeditor.h \
-    waitwidget.h
+    AWindow.h \
+    Settings.h \
+    CheckUpdate.h \
+    CalculatingThread.h \
+    WaitingWidget.h \
+    FastCustomizing.h \
+    MsgBox.h \
+    TableEditor.h \
+    base/Ench.h \
+    base/EnchSet.h \
+    base/FlowStep.h \
+    base/Item.h \
+    base/ItemPool.h \
+    base/Summary.h \
+    lists/EnchListItemWidget.h \
+    lists/EnchListWidget.h \
+    lists/FlowListItemWidget.h \
+    lists/FlowListWidget.h \
+    lists/ItemEditor.h \
+    lists/ItemListItemWidget.h \
+    lists/ItemListWidget.h \
+    lists/WeaponBox.h \
+    lists/WeaponListItemWidget.h \
+    lists/WeaponListWidget.h \
+    storage/EnchTable.h \
+    storage/FileOperator.h \
+    storage/Logger.h \
+    storage/WeaponTable.h
 
 FORMS += \
-    awindow.ui \
-    enchlistwidget.ui \
-    flowlistwidget.ui \
-    itemeditor.ui \
-    itemlistwidget.ui \
-    settings.ui \
-    tableeditor.ui \
-    waitwidget.ui
+    AWindow.ui \
+    lists/EnchListItemWidget.ui \
+    lists/FlowListItemWidget.ui \
+    lists/ItemEditor.ui \
+    lists/ItemListItemWidget.ui \
+    Settings.ui \
+    TableEditor.ui \
+    WaitingWidget.ui \
+    lists/WeaponListItemWidget.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
