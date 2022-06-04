@@ -51,6 +51,7 @@ HEADERS += \
     base/Item.h \
     base/ItemPool.h \
     base/Summary.h \
+    base/base.h \
     lists/EnchListItemWidget.h \
     lists/EnchListWidget.h \
     lists/FlowListItemWidget.h \
