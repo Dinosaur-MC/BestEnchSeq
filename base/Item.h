@@ -4,6 +4,7 @@
 #include <QObject>
 #include "base/EnchSet.h"
 
+#define ID_ECB "附魔书\nEnchanted Book"
 
 class Item : public QObject
 {

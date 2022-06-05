@@ -3,10 +3,7 @@
 
 #include <QObject>
 #include "base/Item.h"
-
-enum MCE {All=1, Java, Bedrock};  //枚举变量，MC编译版本
-enum ICM {AllLevelEBook=1, BasicEBook, AdvanceMode};    //枚举变量，物品配置模式
-enum ALGM {GlobalAverage=1, DifficultyFirst, Greedy, Enumeration, SimpleEnumeration};   //枚举变量，算法名
+#include "base/Config.h"
 
 struct Summary {
     MCE edition;

@@ -224,7 +224,7 @@ Durability</string>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout">
            <item>
-            <widget class="EnchList" name="ListOriginEnchantment">
+            <widget class="QListWidget" name="ListOriginEnchantment">
              <property name="font">
               <font>
                <pointsize>12</pointsize>
@@ -541,7 +541,7 @@ Use Advanced Config</string>
               </attribute>
               <layout class="QVBoxLayout" name="verticalLayout_8">
                <item>
-                <widget class="EnchList" name="ListNeededEnchantment">
+                <widget class="QListWidget" name="ListNeededEnchantment">
                  <property name="font">
                   <font>
                    <pointsize>12</pointsize>
@@ -569,7 +569,7 @@ Use Advanced Config</string>
               </attribute>
               <layout class="QVBoxLayout" name="verticalLayout_11">
                <item>
-                <widget class="ItemList" name="ListItemPool">
+                <widget class="QListWidget" name="ListItemPool">
                  <property name="font">
                   <font>
                    <pointsize>12</pointsize>
@@ -1063,7 +1063,7 @@ No Result</string>
               </attribute>
               <layout class="QVBoxLayout" name="verticalLayout_12">
                <item>
-                <widget class="FlowList" name="ListEnchantingFlow"/>
+                <widget class="QListWidget" name="ListEnchantingFlow"/>
                </item>
               </layout>
              </widget>
@@ -1290,23 +1290,6 @@ No Result</string>
    </property>
   </action>
  </widget>
- <customwidgets>
-  <customwidget>
-   <class>EnchList</class>
-   <extends>QListWidget</extends>
-   <header location="global">enchlist.h</header>
-  </customwidget>
-  <customwidget>
-   <class>ItemList</class>
-   <extends>QListWidget</extends>
-   <header location="global">itemlist.h</header>
-  </customwidget>
-  <customwidget>
-   <class>FlowList</class>
-   <extends>QListWidget</extends>
-   <header location="global">flowlist.h</header>
-  </customwidget>
- </customwidgets>
  <resources/>
  <connections/>
 </ui>

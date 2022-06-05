@@ -10,12 +10,16 @@ CONFIG += c++11
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    base.cpp \
+    base/Config.cpp \
     base/Ench.cpp \
     base/EnchSet.cpp \
     base/FlowStep.cpp \
     base/Item.cpp \
     base/ItemPool.cpp \
     base/Summary.cpp \
+    base/EnchTable.cpp \
+    base/WeaponTable.cpp \
     lists/EnchList.cpp \
     lists/FlowList.cpp \
     lists/ItemEditor.cpp \
@@ -31,12 +35,12 @@ SOURCES += \
     FastCustomizing.cpp \
     MsgBox.cpp \
     TableEditor.cpp \
-    storage/EnchTable.cpp \
+    storage\DataManager.cpp \
     storage/FileOperator.cpp \
-    storage/Logger.cpp \
-    storage/WeaponTable.cpp
+    storage/Logger.cpp
 
 HEADERS += \
+    base.h \
     AWindow.h \
     Settings.h \
     CheckUpdate.h \
@@ -45,13 +49,15 @@ HEADERS += \
     FastCustomizing.h \
     MsgBox.h \
     TableEditor.h \
+    base/Config.h \
     base/Ench.h \
     base/EnchSet.h \
     base/FlowStep.h \
     base/Item.h \
     base/ItemPool.h \
     base/Summary.h \
-    base/base.h \
+    base/EnchTable.h \
+    base/WeaponTable.h \
     lists/EnchListItemWidget.h \
     lists/EnchListWidget.h \
     lists/FlowListItemWidget.h \
@@ -62,10 +68,9 @@ HEADERS += \
     lists/WeaponBox.h \
     lists/WeaponListItemWidget.h \
     lists/WeaponListWidget.h \
-    storage/EnchTable.h \
+    storage\DataManager.h \
     storage/FileOperator.h \
-    storage/Logger.h \
-    storage/WeaponTable.h
+    storage/Logger.h
 
 FORMS += \
     AWindow.ui \
