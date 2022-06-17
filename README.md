@@ -6,6 +6,7 @@
 
 [![Release Version](https://img.shields.io/github/release/Dinosaur-MC/BestEnchSeq.svg?style=plastic)](https://github.com/Dinosaur-MC/BestEnchSeq/releases/latest/)
 [![Downloads](https://img.shields.io/github/downloads/Dinosaur-MC/BestEnchSeq/latest/total.svg?style=plastic)](https://github.com/Dinosaur-MC/BestEnchSeq/releases/latest/)
+[![LICENSE](https://img.shields.io/github/license/Dinosaur-MC/BestEnchSeq)](LICENSE)
 [![Bilibili Link](https://img.shields.io/badge/Bilibili-BV11T4y1D7c2-ff69b4.svg)](https://www.bilibili.com/video/BV11T4y1D7c2)
 
 ## 简介
