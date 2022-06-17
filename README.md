@@ -3,7 +3,11 @@
 [English](README_EN.md)
 
 # 最佳附魔顺序计算器（The Best Enchanting Sequence）
----
+
+[![Release Version](https://img.shields.io/github/release/Dinosaur-MC/BestEnchSeq.svg?style=plastic)](https://github.com/Dinosaur-MC/BestEnchSeq/releases/latest/)
+[![Downloads](https://img.shields.io/github/downloads/Dinosaur-MC/BestEnchSeq/latest/total.svg?style=plastic)](https://github.com/Dinosaur-MC/BestEnchSeq/releases/latest/)
+[![Bilibili Link](https://img.shields.io/badge/Bilibili-BV11T4y1D7c2-ff69b4.svg)](https://www.bilibili.com/video/BV11T4y1D7c2)
+
 ## 简介
 这是一个可以帮助你在附魔的时候轻松降低附魔成本的小程序。
 
@@ -12,7 +16,6 @@
 注意：这个项目仍在开发中，功能尚未完善，但已经能用了。由于作者开学了，所以剩下的功能可能将要推迟到以后慢慢更新完善。如果你有什么建议或发现了BUG，请联系我或反馈到这里来，谢谢！
 
 + 现已支持Java版和基岩版！
-[哔哩哔哩](https://www.bilibili.com/video/BV11T4y1D7c2)
 
 
 ## 功能介绍&使用方法
