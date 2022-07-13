@@ -28,6 +28,7 @@ Settings::Settings(QWidget *parent) :
     ui->cbCustomWe->setChecked(Basic::config.enableCustomWe);
     ui->cbCustomEn->setChecked(Basic::config.enableCustomEn);
     ui->cbCheckUpate->setChecked(Basic::config.autoCheckUpdate);
+    ui->cbERW->setChecked(Basic::config.enableReszieWindow);
 
     //QPushButton Connections
     connect(ui->btnBrowse, &QPushButton::clicked, this, [=](){
@@ -98,6 +99,8 @@ Settings::Settings(QWidget *parent) :
         Basic::config.enableCustomWe = ui->cbCustomWe->isChecked();
         Basic::config.enableCustomEn = ui->cbCustomEn->isChecked();
         Basic::config.autoCheckUpdate = ui->cbCheckUpate->isChecked();
+
+        Basic::config.enableReszieWindow = ui->cbERW->isChecked();
 
         FileOperate fo;
         fo.saveConfig();

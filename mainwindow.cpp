@@ -235,6 +235,17 @@ MainWindow::MainWindow(QWidget *parent)
         task->start(false);
     }
 
+    //enable_reszie_window
+    if(Basic::config.enableReszieWindow)
+    {
+        QSizePolicy sp;
+        sp.setVerticalPolicy(QSizePolicy::Preferred);
+        this->setSizePolicy(sp);
+        this->setMinimumSize(QSize(1, 1));
+        this->setMaximumSize(QSize(QWIDGETSIZE_MAX,QWIDGETSIZE_MAX));
+    }
+
+
     refresh();
 }
 
@@ -266,7 +277,7 @@ void MainWindow::initialize()
     Basic::weapon[12] = {"钓鱼竿\nFishing Rod",QIcon(":/icon/res/fishing_rod.png")};
 
 
-    Basic::ench_table_l = 38;
+    Basic::ench_table_l = 40;
     delete [] Basic::ench_table;
     Basic::ench_table = new EnchTable[Basic::ench_table_l];
 
@@ -284,7 +295,7 @@ void MainWindow::initialize()
     Basic::ench_table[11] = {"火矢-flame",1,{4,2},2,{},{0,0,0,0,0,0,0,0,0,1,0,0,0}};
     Basic::ench_table[12] = {"时运-fortune",3,{4,2},2,{"精准采集-silk_touch"},{0,1,1,1,1,0,0,0,0,0,0,0,0}};
     Basic::ench_table[13] = {"冰霜行者-frost_walker",2,{4,2},2,{"深海探索者-depth_strider"},{0,0,0,0,0,0,0,0,1,0,0,0,0}};
-    Basic::ench_table[14] = {"穿刺-impaling",5,{4,2},2,{},{0,0,0,0,0,0,0,0,0,0,0,1,0}};
+    Basic::ench_table[14] = {"穿刺-impaling",5,{4,2},0,{},{0,0,0,0,0,0,0,0,0,0,0,1,0}};
     Basic::ench_table[15] = {"无限-infinity",1,{8,4},2,{"经验修补-mending"},{0,0,0,0,0,0,0,0,0,1,0,0,0}};
     Basic::ench_table[16] = {"击退-knockback",2,{2,1},2,{},{1,0,0,0,0,0,0,0,0,0,0,0,0}};
     Basic::ench_table[17] = {"抢夺-looting",3,{4,2},2,{},{1,0,0,0,0,0,0,0,0,0,0,0,0}};
@@ -308,6 +319,8 @@ void MainWindow::initialize()
     Basic::ench_table[35] = {"横扫之刃-sweeping",3,{4,2},0,{},{1,0,0,0,0,0,0,0,0,0,0,0,0}};
     Basic::ench_table[36] = {"荆棘-thorns",3,{8,4},2,{},{0,0,0,0,0,1,1,1,1,0,0,0,0}};
     Basic::ench_table[37] = {"耐久-unbreaking",3,{2,1},2,{},{1,1,1,1,1,1,1,1,1,1,1,1,1}};
+    Basic::ench_table[38] = {"迅捷潜行-swift_sneak",3,{8,4},2,{},{0,0,0,0,0,0,0,1,0,0,0,0,0}};
+    Basic::ench_table[39] = {"穿刺-impaling",5,{2,1},1,{},{0,0,0,0,0,0,0,0,0,0,0,1,0}};
 
 
     Basic::OriginItem.name = Basic::weapon[0].name;
@@ -330,4 +343,32 @@ void MainWindow::refresh()
 
     ui->OriginEnchantment->setWeapon(Basic::weapon[ui->InputItem->currentIndex()].name);
     ui->NeededEnchantment->setWeapon(Basic::weapon[ui->InputItem->currentIndex()].name);
+}
+
+
+void MainWindow::keyPressEvent(QKeyEvent *e)
+{
+    if(!e->isAutoRepeat())
+    {
+        if(e->modifiers() == Qt::ControlModifier)
+        {
+            if(Basic::config.enableReszieWindow)
+            {
+                if(e->key() == Qt::Key_BracketLeft)
+                {
+                    this->resize((int)(size().width()*0.95), (int)(size().height()*0.95));
+                }
+                else if(e->key() == Qt::Key_BracketRight)
+                {
+                    this->resize((int)(size().width()*1.05), (int)(size().height()*1.05));
+                }
+            }
+        }
+    }
+    QMainWindow::keyPressEvent(e);
+}
+
+void MainWindow::keyReleaseEvent(QKeyEvent *e)
+{
+    QMainWindow::keyReleaseEvent(e);
 }

@@ -208,6 +208,14 @@ Check Update when Launch</string>
           </property>
          </widget>
         </item>
+        <item row="2" column="1">
+         <widget class="QCheckBox" name="cbERW">
+          <property name="text">
+           <string>自由调节窗口大小
+Enable Resize Window</string>
+          </property>
+         </widget>
+        </item>
        </layout>
       </widget>
      </item>

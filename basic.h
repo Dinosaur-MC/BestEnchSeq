@@ -7,8 +7,8 @@
 
 #define PROGRAM_NAME_CN "最佳附魔顺序计算器"
 #define PROGRAM_NAME_EN "The Best Enchanting Sequence"
-#define VERSION "2.0_Beta"
-#define VERSION_ID 12203012 //NyymmXXx; N:number of year, yy:the two last number of recent year, mm:recent month, XX:version number, x:small number
+#define VERSION "2.0.1_Beta"
+#define VERSION_ID 12203013 //NyymmXXx; N:number of year, yy:the two last number of recent year, mm:recent month, XX:version number, x:small number
 #define AUTHOR "Dinosaur_MC(Dinosaur-MC)"
 #define WEBSITE "https://github.com/Dinosaur-MC/BestEnchSeq"
 #define UPDATE_JSON "https://raw.githubusercontent.com/Dinosaur-MC/BestEnchSeq/master/update.json"
@@ -19,7 +19,7 @@
 #define FILE_ENCHTABLE "EnchantmentTable.csv"
 #define TEXT_NOTE_SYMBOL '#'
 
-#define CONFIG_NUM 7
+#define CONFIG_NUM 8
 #define INIT_LENGTH 64
 #define ID_ECB "附魔书\nEnchanted Book"
 
@@ -32,6 +32,8 @@ struct Config {
   bool enableCustomEn;
   bool enableCustomWe;
   bool autoCheckUpdate;
+
+  bool enableReszieWindow;
 };
 
 struct Weapon {

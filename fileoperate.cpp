@@ -29,6 +29,7 @@ void FileOperate::saveConfig()
             "\nenable_custom_weapon= " + QString::number(Basic::config.enableCustomWe) + \
             "\nenable_custom_enchantment= " + QString::number(Basic::config.enableCustomEn) + \
             "\nauto_check_update= " + QString::number(Basic::config.autoCheckUpdate) + \
+            "\nenable_reszie_window= " + QString::number(Basic::config.enableReszieWindow) + \
             "\n";
 
     file.write(data.toUtf8().data());
@@ -66,7 +67,8 @@ void FileOperate::loadConfig()
                     "constant= 0 \n" + \
                     "enable_custom_weapon= 0 \n" + \
                     "enable_custom_enchantment= 0 \n" + \
-                    "auto_check_update= 0 \n";
+                    "auto_check_update= 0 \n" + \
+                    "enable_reszie_window=0 \n";
             file.write(str.toUtf8().data());
         }
         qDebug() << "File" << FILE_CONFIG << "created successfully.";
@@ -122,6 +124,11 @@ void FileOperate::loadConfig()
             {
                 Basic::config.autoCheckUpdate = data2[1].toInt();
                 exist[6] = 1;
+            }
+            else if(data2[0] == "enable_reszie_window")
+            {
+                Basic::config.enableReszieWindow = data2[1].toInt();
+                exist[7] = 1;
             }
         }
     }

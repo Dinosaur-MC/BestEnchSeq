@@ -5,6 +5,7 @@
 #include <QComboBox>
 #include <QTimer>
 #include <QTime>
+#include <QKeyEvent>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -26,6 +27,10 @@ private:
     QTimer *timer = new QTimer();
 
 signals:
+
+protected:
+    void keyPressEvent(QKeyEvent *e);
+    void keyReleaseEvent(QKeyEvent *e);
 
 };
 

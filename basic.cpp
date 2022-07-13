@@ -1,7 +1,7 @@
 #include "basic.h"
 using namespace std;
 
-Config Basic::config;
+Config Basic::config = {};
 int Basic::edition = 0;
 int Basic::mode[2] = {0, 0};
 bool Basic::lever[3] = {0, 0, 0};
