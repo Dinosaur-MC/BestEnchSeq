@@ -10,78 +10,33 @@ CONFIG += c++11
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-    base.cpp \
-    base/Config.cpp \
-    base/Ench.cpp \
-    base/EnchSet.cpp \
-    base/FlowStep.cpp \
-    base/Item.cpp \
-    base/ItemPool.cpp \
-    base/Summary.cpp \
-    base/EnchTable.cpp \
-    base/WeaponTable.cpp \
-    lists/EnchList.cpp \
-    lists/FlowList.cpp \
-    lists/ItemEditor.cpp \
-    lists/ItemList.cpp \
-    lists/WeaponBox.cpp \
-    lists/WeaponList.cpp \
+    basiclists.cpp \
+    basicoperator.cpp \
+    basicvariable.cpp \
     main.cpp \
-    AWindow.cpp \
-    Settings.cpp \
-    CheckUpdate.cpp \
-    CalculatingThread.cpp \
-    WaitingWidget.cpp \
-    FastCustomizing.cpp \
-    MsgBox.cpp \
-    TableEditor.cpp \
-    storage\DataManager.cpp \
-    storage/FileOperator.cpp \
-    storage/Logger.cpp
+    awindow.cpp \
+    settings.cpp \
+    waitingwidget.cpp
 
 HEADERS += \
-    base.h \
-    AWindow.h \
-    Settings.h \
-    CheckUpdate.h \
-    CalculatingThread.h \
-    WaitingWidget.h \
-    FastCustomizing.h \
-    MsgBox.h \
-    TableEditor.h \
-    base/Config.h \
-    base/Ench.h \
-    base/EnchSet.h \
-    base/FlowStep.h \
-    base/Item.h \
-    base/ItemPool.h \
-    base/Summary.h \
-    base/EnchTable.h \
-    base/WeaponTable.h \
-    lists/EnchListItemWidget.h \
-    lists/EnchListWidget.h \
-    lists/FlowListItemWidget.h \
-    lists/FlowListWidget.h \
-    lists/ItemEditor.h \
-    lists/ItemListItemWidget.h \
-    lists/ItemListWidget.h \
-    lists/WeaponBox.h \
-    lists/WeaponListItemWidget.h \
-    lists/WeaponListWidget.h \
-    storage\DataManager.h \
-    storage/FileOperator.h \
-    storage/Logger.h
+    basicdata.h \
+    awindow.h \
+    basiclists.h \
+    basicoperator.h \
+    basicvariable.h \
+    settings.h \
+    waitingwidget.h
 
 FORMS += \
-    AWindow.ui \
-    lists/EnchListItemWidget.ui \
-    lists/FlowListItemWidget.ui \
-    lists/ItemEditor.ui \
-    lists/ItemListItemWidget.ui \
-    Settings.ui \
-    TableEditor.ui \
-    WaitingWidget.ui \
-    lists/WeaponListItemWidget.ui
+    lists/enchListitemwidget.ui \
+    lists/flowListitemwidget.ui \
+    lists/itemeditor.ui \
+    lists/itemListitemwidget.ui \
+    lists/weaponlistitemwidget.ui \
+    awindow.ui \
+    settings.ui \
+    tableeditor.ui \
+    waitingwidget.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
@@ -93,13 +48,13 @@ RESOURCES += \
     lib.qrc
 
 DISTFILES += \
-    EnchantmentTable.csv \
     README.md \
-    README.md \
-    WeaponTable.csv \
-    logo.rc \
-    update.json
+    README_EN.md \
+    tables/EnchantmentTable.csv \
+    tables/WeaponTable.csv \
+    update.json \
+    logo.rc
 
 RC_FILE += logo.rc
 
-TARGET = "BestEnchSeq_v3.0"
+TARGET = "BestEnchSeq_v4.0"
