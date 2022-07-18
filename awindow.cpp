@@ -1,5 +1,6 @@
-#include "AWindow.h"
-#include "ui_AWindow.h"
+#include "awindow.h"
+#include "ui_awindow.h"
+#include "qdebug.h"
 
 AWindow::AWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -9,3 +10,20 @@ AWindow::AWindow(QWidget *parent) :
     ui->setupUi(this);
 
 }
+
+AWindow::~AWindow()
+{
+
+}
+
+
+void AWindow::keyPressEvent(QKeyEvent *event)
+{
+
+}
+
+void AWindow::keyReleaseEvent(QKeyEvent *event)
+{
+
+}
+

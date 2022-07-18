@@ -15,7 +15,7 @@
 #include <QJsonObject>
 #include <QJsonArray>
 
-#include "base.h"
+//#include "base.h"
 
 
 class CheckUpdate : public QObject

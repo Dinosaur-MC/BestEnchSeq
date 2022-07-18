@@ -12,7 +12,7 @@ void CheckUpdate::start(bool m)
 {
     qDebug() << "Requesting..";
     notice_newest = m;
-    QNetworkRequest request(QUrl(UPDATE_JSON));
+    QNetworkRequest request((QUrl(UPDATE_JSON)));
     manager->get(request);
     qDebug() << "Requested";
 }

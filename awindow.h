@@ -3,7 +3,7 @@
 
 #include <QMainWindow>
 #include <QKeyEvent>
-#include "base.h"
+//#include "base.h"
 
 #define RESTART_CODE 19491001
 
@@ -18,7 +18,6 @@ class AWindow : public QMainWindow
 public:
     explicit AWindow(QWidget *parent = nullptr);
     ~AWindow();
-
 
 
 private:
