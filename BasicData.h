@@ -3,7 +3,7 @@
 
 
 //## 程序关键字
-#define VERSION_ID 12204120 //NyymmXXx; N:number of year, yy:the two last number of recent year, mm:recent month, XX:version number, x:small number
+#define VERSION_ID 12204120 //NyymmXXx; N:number of century, yy:the two last number of recent year, mm:recent month, XX:version number, x:small number
 #define FILEVERSION 4   //Used to control the file version
 
 #define FILE_CONFIG "config.ini"
