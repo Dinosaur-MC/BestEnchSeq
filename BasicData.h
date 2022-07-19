@@ -2,6 +2,9 @@
 #define BASICDATA_H
 
 
+#include <QDebug>
+
+
 //## 程序关键字
 #define VERSION_ID 12204120 //NyymmXXx; N:number of century, yy:the two last number of recent year, mm:recent month, XX:version number, x:small number
 #define FILEVERSION 4   //Used to control the file version
@@ -10,7 +13,7 @@
 #define FILE_WEAPONTABLE "WeaponTable.csv"
 #define FILE_ENCHTABLE "EnchantmentTable.csv"
 
-#define CONFIG_NUM 8 //Count of config items
+#define CONFIG_NUM 11 //Count of config items
 #define FILEHEAD "\xef\xbb\xbf\x0d\x0a"
 #define TEXT_NOTE_SYMBOL '#'
 #define ID_ECB "附魔书\nEnchanted Book"
@@ -38,25 +41,5 @@
 #include "basicvariable.h"
 
 void loadInternalData();
-
-enum ValueType {
-    Int = 0, Float, String
-};
-
-struct Option {
-    QString name;
-    ValueType value_type;
-};
-
-QVector<Option> config_option;
-
-Config current_config;
-
-
-QVector<raw_Weapon> raw_weapon_table;
-QVector<Weapon> weapon_table;
-QVector<raw_EnchPlus> raw_enchantment_table;
-QVector<EnchPlus> enchantment_table;
-
 
 #endif // BASICDATA_H

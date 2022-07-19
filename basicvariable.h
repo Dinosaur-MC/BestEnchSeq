@@ -7,23 +7,96 @@
 #include <QIcon>
 
 
+enum ValueType {
+    Null = 0, Bool, Int, Float, Double, Char, String
+};
+
+struct Option {
+    QString name;   // 设置项键名
+    ValueType value_type;   // 键值类型
+};
+
+QVector<Option> config_option;
+
+
 enum MCE {All=1, Java, Bedrock};  // 枚举变量，MC编译版本
 enum ICM {AllLevelEBook=1, BasicEBook, AdvanceMode};    // 枚举变量，物品配置模式
 enum ALGM {GlobalAverage=1, DifficultyFirst, Greedy, Enumeration, SimpleEnumeration};   // 枚举变量，算法名
 
 struct Config {
   int config_version;   // 配置文件版本，用于检查软件是否已更新
+
   MCE default_edition;  // 默认MC编译版本
   ICM default_itemconfig;   // 默认物品配置模式
   ALGM default_algorithm;    // 默认算法
+
   QString export_path;  // 默认流程导出路径
   bool constant;    // 是否自动导出
+  bool auto_check_update; // 是否自动检查更新
 
-  bool enableCustomEn;  // 是否启用自定义魔咒
-  bool enableCustomWe;  // 是否启用自定义武器
-  bool autoCheckUpdate; // 是否自动检查更新
+  bool enable_custom_we;  // 是否启用自定义武器
+  bool enable_custom_en;  // 是否启用自定义魔咒
+  bool enable_reszie_window;  // 是否开启自由窗口大小模式
 
-  bool deverloperMode;  // 开发者模式
+  bool deverloper_mode;  // 开发者模式
+};
+
+Config current_config;
+
+
+template<class T>   // 下标访问Config结构体 ~~脑回路清奇~~
+class CfgOpr {
+public:
+    CfgOpr(Config* c = &current_config) {
+        cfg = c;
+    }
+    void set(Config* c) {
+        cfg = c;
+    }
+
+    T* operator[](int i) {
+        switch (i) {
+        case 0:
+            return &cfg->config_version;
+            break;
+        case 1:
+            return &cfg->default_edition;
+            break;
+        case 2:
+            return &cfg->default_itemconfig;
+            break;
+        case 3:
+            return &cfg->default_algorithm;
+            break;
+        case 4:
+            return &cfg->export_path;
+            break;
+        case 5:
+            return &cfg->constant;
+            break;
+        case 6:
+            return &cfg->auto_check_update;
+            break;
+        case 7:
+            return &cfg->enable_custom_we;
+            break;
+        case 8:
+            return &cfg->enable_custom_en;
+            break;
+        case 9:
+            return &cfg->enable_reszie_window;
+            break;
+        case 10:
+            return &cfg->deverloper_mode;
+            break;
+        default:
+            return NULL;
+            break;
+        }
+    }
+
+private:
+    Config *cfg;
 };
 
 
@@ -58,7 +131,25 @@ struct EnchPlus {
 };
 
 
-//QVector<EnchPlus> enchantment_table;
+QVector<raw_EnchPlus> raw_enchantment_table;
+QVector<EnchPlus> enchantment_table;
+
+
+// Raw Data
+struct raw_Weapon {
+    QString name;   // Weapon名
+    QIcon icon; // Weapon图标
+};
+
+// Optimized Data
+struct Weapon {
+    int id; // Weapon ID
+    QVector<EnchPlus> suitableE;    // 适配的物品
+};
+
+
+QVector<raw_Weapon> raw_weapon_table;
+QVector<Weapon> weapon_table;
 
 
 struct Item {
@@ -97,22 +188,5 @@ struct Summary {
     int costTime;
     bool isProcessable;
 };
-
-
-// Raw Data
-struct raw_Weapon {
-    QString name;   // Weapon名
-    QIcon icon; // Weapon图标
-};
-
-// Optimized Data
-struct Weapon {
-    int id; // Weapon ID
-    QVector<EnchPlus> suitableE;    // 适配的物品
-};
-
-
-//QVector<Weapon> weapon_table;
-
 
 #endif // BASICVARIABLE_H

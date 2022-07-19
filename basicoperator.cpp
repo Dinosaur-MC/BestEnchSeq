@@ -1,49 +1,365 @@
 #include "basicoperator.h"
 #include "basicdata.h"
+#include <QDateTime>
+#include <QFile>
+#include <QUrl>
 
 FileOperator::FileOperator(QObject *parent) :
     QObject{parent}
 {
-
+    qDebug() << "[FileOperator] Initialized.";
 }
 
-void FileOperator::saveConfig(Config *)
+void FileOperator::saveConfig() // 保存配置
 {
+    qDebug() << "[FileOperator] Saving configuration...";
 
+    QFile file(FILE_CONFIG);
+    if(!file.open(QIODevice::WriteOnly))
+    {
+        qDebug() << "Error: cannot open" << FILE_CONFIG;
+        return;
+    }
+
+    QString data = "";
+    for(int i = 0; i < CONFIG_NUM; i++)
+    {
+        if(config_option.at(i).value_type == ValueType::Bool)
+            data += config_option.at(i).name + "= " + QString::number(*CfgOpr<bool>()[i]) + "\n";
+        if(config_option.at(i).value_type == ValueType::Int)
+            data += config_option.at(i).name + "= " + QString::number(*CfgOpr<int>()[i]) + "\n";
+        else if(config_option.at(i).value_type == ValueType::Float)
+            data += config_option.at(i).name + "= " +  QString::number(*CfgOpr<float>()[i]) + "\n";
+        else if(config_option.at(i).value_type == ValueType::Double)
+            data += config_option.at(i).name + "= " +  QString::number(*CfgOpr<double>()[i]) + "\n";
+        else if(config_option.at(i).value_type == ValueType::Char)
+            data += config_option.at(i).name + "= " +  *CfgOpr<char>()[i] + "\n";
+        else if(config_option.at(i).value_type == ValueType::String)
+            data += config_option.at(i).name + "= " +  *CfgOpr<QString>()[i] + "\n";
+    }
+
+    file.write(data.toUtf8().data());
+    file.close();
 }
 
-void FileOperator::saveWeaponTable(QVector<Weapon> *)
+void FileOperator::saveWeaponTable(QVector<raw_Weapon> weapon)  // 保存 WeaponTable
 {
+    qDebug() << "[FileOperator] Saving weapon table...";
 
+    QFile file(FILE_WEAPONTABLE);
+    if(!file.open(QIODevice::WriteOnly))
+    {
+        qDebug() << "[FileOperator] ERROR: cannot open" << FILE_WEAPONTABLE;
+        return;
+    }
+
+    QString data = FILEHEAD;    // csv BOM
+    data += "# 武器Weapon, 图标Icon\n"; // 这是一行注释
+
+    for(int i = 0; i < weapon.count(); i++)
+    {
+        data += weapon.at(i).name + ", " + weapon.at(i).icon.name() + "\n";
+    }
+
+    file.write(data.toUtf8().data());
+    file.close();
 }
 
-void FileOperator::saveEnchantmentTable(QVector<Ench> *)
+void FileOperator::saveEnchantmentTable(QVector<raw_EnchPlus> ench_table) // 保存 EnchantmentTable
 {
+    qDebug() << "[FileOperator] Saving enchantment table...";
 
+    QFile file(FILE_ENCHTABLE);
+    if(!file.open(QIODevice::WriteOnly))
+    {
+        qDebug() << "[FileOperator] ERROR: cannot open" << FILE_ENCHTABLE;
+        return;
+    }
+
+    QString data = FILEHEAD;    // csv BOM
+    data += "# 魔咒名称, 适用版本(), 最高等级, 附魔台最高等级, 物品乘数, 附魔书乘数, 魔咒冲突列表(竖线“|”分隔), 是否适配物品#1(1:是，0:否), #2, #3, ...\n";    // 这是一行注释
+
+    for(int i = 0; i < ench_table.count(); i++)
+    {
+        data += ench_table.at(i).name + ", " \
+                + QString::number(ench_table.at(i).edition) + ", " \
+                + QString::number(ench_table.at(i).max_level) + ", " \
+                + QString::number(ench_table.at(i).poor_max_level) + ", " \
+                + QString::number(ench_table.at(i).multiplier[0]) + ", " \
+                + QString::number(ench_table.at(i).multiplier[1]) + ", ";
+
+        if(ench_table.at(i).repulsion.count() > 0)
+        {
+            data += ench_table.at(i).repulsion.at(0);
+            for(int j = 1; j < ench_table.at(i).repulsion.count(); j++)
+                data += " | " + ench_table.at(i).repulsion.at(j);
+        }
+
+        if(ench_table.at(i).suitable.count() > 0)
+        {
+            for(int j = 0; j < ench_table.at(i).suitable.count(); j++)
+                data += ", " + QString::number(ench_table.at(i).suitable.at(j));
+        }
+
+        data += "\n";
+    }
+
+    file.write(data.toUtf8().data());
+    file.close();
 }
 
 
-void FileOperator::loadConfig(Config *)
+void FileOperator::loadConfig() // 加载配置
 {
+    qDebug() << "[FileOperator] Loading configuration...";
 
+    QFile file(FILE_CONFIG);
+    if(!file.open(QIODevice::ReadOnly)) // 若没有配置文件则创建一个默认配置文件
+    {
+        qDebug() << "[FileOperator] WARNING: Cannot find" << FILE_CONFIG;
+        if(!file.open(QIODevice::WriteOnly))    // 若无法创建则退出
+        {
+            qDebug() << "[FileOperator] ERROR: cannot open" << FILE_CONFIG;
+            return;
+        }
+        file.close();
+
+        saveConfig();   // 创建配置文件
+        if(!file.open(QIODevice::ReadOnly)) // 若文件不可读则退出
+        {
+            qDebug() << "[FileOperator] ERROR: cannot open" << FILE_CONFIG;
+            return;
+        }
+        qDebug() << "[FileOperator] File " << FILE_CONFIG << " is created successfully.";
+        return; // 创建完成并退出
+    }
+
+    QStringList data = QString(file.readAll()).trimmed().split('\n'); // 读取文件内容并除杂切片
+    file.close();   // 关闭文件
+
+    bool exist[CONFIG_NUM];
+    for(int i = 0; i < data.count(); i++)
+    {
+        QStringList key__value = data[i].trimmed().split('='); // 进一步除杂并切片
+
+        if(key__value[0][0] == TEXT_NOTE_SYMBOL) // 如果该数据为注释行，则忽略
+            continue;
+        if(key__value[1].isEmpty()) // 排除空值
+            continue;
+
+        if(key__value.count() == 2)  // 若该组数据为键值对则读取内容，否则忽略
+        {
+            key__value[0] = key__value[0].simplified();  // 对键名深度除杂
+            key__value[1] = key__value[1].simplified();  // 对键值深度除杂
+
+            for(int j = 0; j < CONFIG_NUM; j++) // 遍历 config_option ，匹配相应键值对并赋值
+            {
+                if(key__value[0] == config_option.at(j).name)
+                {
+                    if(config_option.at(i).value_type == ValueType::Bool)
+                        *CfgOpr<bool>()[j] = (bool)key__value[1].toInt();
+                    if(config_option.at(i).value_type == ValueType::Int)
+                        *CfgOpr<int>()[j] = key__value[1].toInt();
+                    else if(config_option.at(i).value_type == ValueType::Float)
+                        *CfgOpr<float>()[j] = key__value[1].toFloat();
+                    else if(config_option.at(i).value_type == ValueType::Double)
+                        *CfgOpr<double>()[j] = key__value[1].toDouble();
+                    else if(config_option.at(i).value_type == ValueType::Char)
+                        *CfgOpr<char>()[j] = key__value[1].toUtf8().data()[0];
+                    else if(config_option.at(i).value_type == ValueType::String)
+                        *CfgOpr<QString>()[j] = key__value[1];
+                    exist[j] = true;
+                    break;
+                }
+            }
+        }
+    }
+
+    for(int i = 0; i < CONFIG_NUM; i++) // 检查是否存在未匹配键值对
+    {
+        if(!exist[i])   // 发现未匹配键值对则立即保存一次配置以更新
+        {
+            saveConfig();
+            break;
+        }
+    }
+
+    qDebug() << "[FileOperator] Configuration has been loaded!";
 }
 
-void FileOperator::loadWeaponTable(QVector<Weapon> *)
+void FileOperator::loadWeaponTable(QVector<raw_Weapon> *weapon) // 加载 WeaponTable
 {
+    qDebug() << "[FileOperator] Loading weapon table...";
 
+    QFile file(FILE_WEAPONTABLE);
+    if(!file.open(QIODevice::ReadOnly))
+    {
+        qDebug() << "[FileOperator] WARNING: cannot find" << FILE_WEAPONTABLE;
+        if(!file.open(QIODevice::ReadWrite))
+        {
+            qDebug() << "[FileOperator] ERROR: cannot open" << FILE_WEAPONTABLE;
+            return;
+        }
+        qDebug() << "[FileOperator] File " << FILE_WEAPONTABLE << " is created successfully.";
+    }
+    QStringList raw_data = QString(file.readAll()).trimmed().replace("\"", "").split('\n'); // 读取文件内容并除杂切片
+    file.close();
+
+    QStringList data;
+    for(int i = 0; i < raw_data.count(); i++)
+    {
+        raw_data[i] = raw_data[i].simplified();    // 深度除杂
+
+        if(raw_data[i].isEmpty()) // 排除空行
+            continue;
+        if(raw_data[i][0] == TEXT_NOTE_SYMBOL)  // 排除注释行
+            continue;
+
+        data << raw_data[i];
+    }
+
+    if(data.count() == 0)   // 如果没有内容则退出
+    {
+        qDebug() << "[FileOperator] The weapon table is empty!";
+        return;
+    }
+
+    for(int i = 0; i < data.count(); i++)
+    {
+        QStringList values = data[i].split(','); // 对行切片，只使用前两项值
+        raw_Weapon tm;
+        tm.name = data[0];
+        tm.icon = QIcon(data[1]);
+        weapon->append(tm);
+    }
+
+    qDebug() << "[FileOperator] Weapon table has been loaded!";
 }
 
-void FileOperator::loadEnchantmentTable(QVector<Ench> *)
+void FileOperator::loadEnchantmentTable(QVector<raw_EnchPlus> *ench_table)    // 加载 EnchantmentTable
 {
+    qDebug() << "[FileOperator] Loading enchantment table...";
 
+    QFile file(FILE_ENCHTABLE);
+    if(!file.open(QIODevice::ReadOnly | QIODevice::Text))
+    {
+        qDebug() << "[FileOperator] WARNING: cannot find" << FILE_ENCHTABLE;
+        if(!file.open(QIODevice::ReadWrite | QIODevice::Text))
+        {
+            qDebug() << "[FileOperator] ERROR: cannot open" << FILE_ENCHTABLE;
+            return;
+        }
+        qDebug() << "[FileOperator] File" << FILE_ENCHTABLE << "created successfully.";
+    }
+    QStringList raw_data = QString(file.readAll()).trimmed().replace("\"", "").split('\n'); // 读取文件内容并除杂切片
+    file.close();
+
+    QStringList data;
+    for(int i = 0; i < raw_data.count(); i++)
+    {
+        raw_data[i] = raw_data[i].simplified();    // 深度除杂
+
+        if(raw_data[i].isEmpty()) // 排除空行
+            continue;
+        if(raw_data[i][0] == TEXT_NOTE_SYMBOL)  // 排除注释行
+            continue;
+
+        data << raw_data[i];
+    }
+
+    if(data.count() == 0)   // 如果没有内容则退出
+    {
+        qDebug() << "[FileOperator] The weapon table is empty!";
+        return;
+    }
+
+    for(int i = 0; i < data.count(); i++)
+    {
+        QStringList values = data[i].split(','); // 对行切片，只使用前两项值
+        raw_EnchPlus tm;
+
+        tm.name = values[0];
+        tm.edition = (MCE)values[1].toInt();
+        tm.max_level = values[2].toInt();
+        tm.poor_max_level = values[3].toInt();
+        tm.multiplier[0] = values[4].toInt();
+        tm.multiplier[1] = values[5].toInt();
+
+        QStringList vdata = values[6].split('|');   // 小切片
+        for(int j = 0; j < vdata.count(); j++)
+            tm.repulsion.append(vdata[j]);
+
+        for(int j = 7; j < values.count(); j++)   // 可扩展
+            tm.suitable.append((bool)values[i].toInt());
+
+        ench_table->append(tm);
+    }
+
+    /*
+     * 在这里可以做一个数据完整性检查 passed[][]
+     * 类似于 LoadConfig() 中的 exist[]
+     */
+
+    qDebug() << "Enchantment table has been loaded!";
 }
 
 
-void FileOperator::saveExport(ListItemWidget_FlowStep *)
+void FileOperator::saveExport(ListItemWidget_FlowStep *LIW_FS)  // 保存输出结果
 {
+    qDebug() << "[FileOperator] Saving exportation...";
 
+//    QString dir_str;
+//    if(!Basic::config.export_path.isEmpty())
+//        dir_str = Basic::config.export_path;
+//    else
+//        dir_str = "./exports/";
+
+//    QDir dir;
+//    if(!dir.exists(dir_str))
+//    {
+//          bool res = dir.mkpath(dir_str);
+//          if(!res)
+//              return;
+//    }
+
+//    if(Basic::flow_list_l > 0)
+//    {
+//        QString name = dir_str + "output_" + QDateTime::currentDateTime().toString("yyyyMMdd-hhmmsszzz") + ".txt";
+//        QFile file(name);
+//        if (!file.open(QIODevice::WriteOnly | QIODevice::Text))
+//        {
+//            qDebug() << "Error: cannot output the file!";
+//            return;
+//        }
+//        file.write(QString(QString("步数 Step: ") + QString::number(Basic::flow_list_l) + "  总花费等级 AllCost: " + QString::number(Basic::sumCost) + "\n").toUtf8().data());
+//        for(int i = 0; i < Basic::flow_list_l; i++)
+//        {
+//            QString temp = "\n(" + QString::number(i+1) + ")  花费Cost: " + QString::number(Basic::flow_list[i].cost) + "\n";
+
+//            if(Basic::flow_list[i].a.name == ID_ECB)
+//                temp += QString("A. ") + QString(ID_ECB).simplified() + "\n";
+//            else
+//                temp += QString("A. ") + Basic::OriginItem.name.simplified() + "\n";
+//            for(int j = 0; j < INIT_LENGTH && Basic::flow_list[i].a.ench[j].name != ""; j++)
+//            {
+//                temp += "---" + Basic::flow_list[i].a.ench[j].name + " [" + QString::number(Basic::flow_list[i].a.ench[j].lvl) + "]\n";
+//            }
+
+//            if(Basic::flow_list[i].b.name == ID_ECB)
+//                temp += QString("B. ") + QString(ID_ECB).simplified() + "\n";
+//            else
+//                temp += QString("B. ") + Basic::OriginItem.name.simplified() + "\n";
+//            for(int j = 0; j < INIT_LENGTH && Basic::flow_list[i].b.ench[j].name != ""; j++)
+//            {
+//                temp += "---" + Basic::flow_list[i].b.ench[j].name + " [" + QString::number(Basic::flow_list[i].b.ench[j].lvl) + "]\n";
+//            }
+
+//            file.write(temp.toUtf8().data());
+//        }
+//        file.close();
+//        QDesktopServices::openUrl(QUrl::fromLocalFile(name));
+//    }
 }
-
 
 
 EnchFilter::EnchFilter()

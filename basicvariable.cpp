@@ -1,6 +1,7 @@
 #include "basicvariable.h"
 #include "basicoperator.h"
 
+
 bool operator<(const Ench a, const Ench b)
 {
     if(a.lvl < b.lvl)
