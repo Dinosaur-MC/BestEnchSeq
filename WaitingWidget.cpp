@@ -13,6 +13,11 @@ WaitingWidgetScreen::~WaitingWidgetScreen()
 
 }
 
+void WaitingWidgetScreen::paintEvent(QPaintEvent *e)
+{
+    QFrame::paintEvent(e);
+}
+
 
 WaitingWidget::WaitingWidget(QWidget *parent) :
     QDialog{parent},
