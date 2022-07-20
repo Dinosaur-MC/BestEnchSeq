@@ -21,10 +21,13 @@ bool operator>(const Ench a, const Ench b)
 
 bool operator<(const Item a, const Item b)
 {
-    int cl_a = a.ench.count();
-    int cl_b = b.ench.count();
+    int *A = preforge(Item(), a, current_mce);
+    int *B = preforge(Item(), b, current_mce);
+    int r = A[0] - B[0];
+    delete [] A;
+    delete [] B;
 
-    if(cl_a < cl_b)
+    if(r < 0)
         return true;
     else
         return false;
@@ -32,10 +35,13 @@ bool operator<(const Item a, const Item b)
 
 bool operator>(const Item a, const Item b)
 {
-    int cl_a = a.ench.count();
-    int cl_b = b.ench.count();
+    int *A = preforge(Item(), a, current_mce);
+    int *B = preforge(Item(), b, current_mce);
+    int r = A[0] - B[0];
+    delete [] A;
+    delete [] B;
 
-    if(cl_a > cl_b)
+    if(r > 0)
         return true;
     else
         return false;
@@ -49,24 +55,43 @@ Item operator+=(const Item a, const Item b)
 }
 
 
-FlowStep operator+(const Item a, const Item b)  // Quetion: MCE, Addtions
+FlowStep operator+(const Item a, const Item b)
 {
-    FlowStep fs;
-    int *C;
-    C = preforge(a, b, MCE::Java);  // 计算合并花费
+    int *C = preforge(a, b, current_mce);  // 计算合并花费
+    if(C == NULL)
+        return FlowStep();
 
+    int add;
+    switch(pf_addtion) {
+    case PFADDN::Normal:
+        add = C[0];
+        break;
+    case PFADDN::NoRepair:
+        add = C[1];
+        break;
+    case PFADDN::NoRepRepulsion:
+        add = C[2];
+        break;
+    case PFADDN::Extreme:
+        add = C[3];
+        break;
+    default:
+        add = C[0];
+        break;
+    }
+    delete [] C;    // 释放内存
+
+    FlowStep fs;
     fs.a = a;
     fs.b = b;
-    fs.levelCost = C[0];
+    fs.levelCost = add;
 
-    if(C[0] <= 16)  // 计算经验值花费
-        fs.pointCost = (C[0] * C[0] + 6 * C[0]);
-    else if(C[0] <= 31)
-        fs.pointCost = (2.5 * C[0] * C[0] - 40.5 * C[0] + 360);
+    if(add <= 16)  // 计算经验值花费
+        fs.pointCost = (add * add + 6 * add);
+    else if(add <= 31)
+        fs.pointCost = (2.5 * add * add - 40.5 * add + 360);
     else
-        fs.pointCost = (4.5 * C[0] * C[0] - 162.5 * C[0] + 2220);
-
-    delete [] C;    // 释放内存
+        fs.pointCost = (4.5 * add * add - 162.5 * add + 2220);
 
     return fs;
 }

@@ -476,7 +476,21 @@ void deliverID()    // 分配魔咒和Weapon的数字ID
 }
 
 
-bool checkRepulsed(Ench e, Item it) // 检查是否存在魔咒冲突
+bool checkRepulsed(Ench a, Ench b) // 检查是否存在魔咒冲突，魔咒与魔咒
+{
+    EnchPlus ep = enchantment_table.at(a.id);
+    int ec = ep.repulsion.count();
+
+    for(int i = 0; i < ec; i++)
+    {
+        if(ep.repulsion.at(i) == b.id)
+            return true;
+    }
+
+    return false;
+}
+
+bool checkRepulsed(Ench e, Item it) // 检查是否存在魔咒冲突，魔咒与物品
 {
     EnchPlus ep = enchantment_table.at(e.id);
     int ec = ep.repulsion.count();

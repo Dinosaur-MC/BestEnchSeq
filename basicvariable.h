@@ -7,12 +7,9 @@
 #include <QIcon>
 
 
-enum ValueType {
-    Null = 0, Bool, Int, Float, Double, Char, String
-};
-
+enum ValueType {Null=0, Bool, Int, Float, Double, Char, String};  // 配置项数据类型
 struct Option {
-    QString name;   // 设置项键名
+    QString name;   // 配置项键名
     ValueType value_type;   // 键值类型
 };
 
@@ -20,6 +17,7 @@ QVector<Option> config_option;
 
 
 enum MCE {All=0, Java, Bedrock};  // 枚举变量，MC编译版本
+MCE current_mce;
 enum ICM {AllLevelEBook=0, BasicEBook, AdvanceMode};    // 枚举变量，物品配置模式
 enum ALGM {GlobalAverage=0, DifficultyFirst, Greedy, Enumeration, SimpleEnumeration};   // 枚举变量，算法名
 
@@ -42,7 +40,6 @@ struct Config {
 };
 
 Config current_config;
-
 
 template<class T>   // 下标访问Config结构体 ~~脑回路清奇~~
 class CfgOpr {
@@ -99,6 +96,9 @@ private:
     Config *cfg;
 };
 
+
+enum PFADDN {Normal=0, NoRepair, NoRepRepulsion, Extreme};  // preforge 附加条件
+PFADDN pf_addtion;
 
 struct Ench {
     int id; // 程序识别ID

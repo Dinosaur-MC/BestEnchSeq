@@ -47,6 +47,7 @@ public:
 void deliverID();
 
 
+bool checkRepulsed(Ench, Ench);
 bool checkRepulsed(Ench, Item);
 int* preforge(Item, Item, MCE);
 int forge(int, int);
