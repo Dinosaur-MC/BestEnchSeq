@@ -29,10 +29,10 @@ HEADERS += \
     waitingwidget.h
 
 FORMS += \
-    lists/enchListitemwidget.ui \
-    lists/flowListitemwidget.ui \
+    lists/itemwidget_ench.ui \
+    lists/itemwidget_item.ui \
+    lists/itemwidget_flowstep.ui \
     lists/itemeditor.ui \
-    lists/itemListitemwidget.ui \
     lists/weaponlistitemwidget.ui \
     awindow.ui \
     settings.ui \

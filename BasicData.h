@@ -20,6 +20,7 @@
 #define FILEHEAD "\xef\xbb\xbf\x0d\x0a"
 #define TEXT_NOTE_SYMBOL '#'
 #define ID_ECB "附魔书\nEnchanted Book"
+#define ICON_ECB QIcon(":/icon/res/enchanted_book.png")
 
 #define UPDATE_JSON "https://raw.githubusercontent.com/Dinosaur-MC/BestEnchSeq/master/update.json"
 

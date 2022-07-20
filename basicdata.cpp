@@ -29,19 +29,19 @@ void loadInternalData()
     current_config.deverloper_mode = false;
 
     // 内置Weapon数据表
-    raw_weapon_table.append({"剑\nSword", "res/netherite_sword.png"});
-    raw_weapon_table.append({"镐\nPickaxe", "res/netherite_pickaxe.png"});
-    raw_weapon_table.append({"斧\nAxe","res/netherite_axe.png"});
-    raw_weapon_table.append({"铲\nShovel", "res/netherite_shovel.png"});
-    raw_weapon_table.append({"锄\nHoe", "res/netherite_hoe.png"});
-    raw_weapon_table.append({"头盔\nHelmet", "res/netherite_helmet.png"});
-    raw_weapon_table.append({"胸甲\nChestplate", "res/netherite_chestplate.png"});
-    raw_weapon_table.append({"护腿\nLeggings", "res/netherite_leggings.png"});
-    raw_weapon_table.append({"靴\nBoots", "res/netherite_boots.png"});
-    raw_weapon_table.append({"弓\nBow", "res/bow.png"});
-    raw_weapon_table.append({"弩\nCrossbow", "res/crossbow_standby.png"});
-    raw_weapon_table.append({"三叉戟\nTrident", "res/trident.png"});
-    raw_weapon_table.append({"钓鱼竿\nFishing Rod", "res/fishing_rod.png"});
+    raw_weapon_table.append({"剑\nSword", QIcon("res/netherite_sword.png")});
+    raw_weapon_table.append({"镐\nPickaxe", QIcon("res/netherite_pickaxe.png")});
+    raw_weapon_table.append({"斧\nAxe",QIcon("res/netherite_axe.png")});
+    raw_weapon_table.append({"铲\nShovel", QIcon("res/netherite_shovel.png")});
+    raw_weapon_table.append({"锄\nHoe", QIcon("res/netherite_hoe.png")});
+    raw_weapon_table.append({"头盔\nHelmet", QIcon("res/netherite_helmet.png")});
+    raw_weapon_table.append({"胸甲\nChestplate", QIcon("res/netherite_chestplate.png")});
+    raw_weapon_table.append({"护腿\nLeggings", QIcon("res/netherite_leggings.png")});
+    raw_weapon_table.append({"靴\nBoots", QIcon("res/netherite_boots.png")});
+    raw_weapon_table.append({"弓\nBow", QIcon("res/bow.png")});
+    raw_weapon_table.append({"弩\nCrossbow", QIcon("res/crossbow_standby.png")});
+    raw_weapon_table.append({"三叉戟\nTrident", QIcon("res/trident.png")});
+    raw_weapon_table.append({"钓鱼竿\nFishing Rod", QIcon("res/fishing_rod.png")});
 
     // 内置魔咒数据表
     raw_enchantment_table.append({"水下速掘-aqua_affinity", MCE::All, 1, 1, {4, 2}, {""}, {0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0}});

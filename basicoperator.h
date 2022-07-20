@@ -5,8 +5,8 @@
 #include <QObject>
 #include <QVector>
 #include "basicdata.h"
-#include "basicvariable.h"
 #include "basiclists.h"
+#include "basicvariable.h"
 
 
 class FileOperator : public QObject
@@ -52,6 +52,9 @@ bool checkRepulsed(Ench, Item);
 int* preforge(Item, Item, MCE);
 int forge(int, int);
 Item forge(Item, Item);
+
+
+QString numToRoman(int);
 
 
 #endif // BASICOPERATOR_H

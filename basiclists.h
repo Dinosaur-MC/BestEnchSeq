@@ -2,27 +2,28 @@
 #define BASICLISTS_H
 
 
-#include <QListWidget>
+#include <QWidget>
 #include <QComboBox>
+#include <QListWidget>
 #include "basicvariable.h"
 
 
+// ListWidget
 class ListWidget_Ench : public QListWidget
 {
     Q_OBJECT
 
 public:
     explicit ListWidget_Ench(QWidget *parent = nullptr);
-    ~ListWidget_Ench();
 
-    Ench item(int);
-    void pushItem(Ench);
+    EnchPro getItem(int);   // 获取指定行的项目值
+    void pushItem(EnchPro); // 追加物品
 
-    int checkedItemCount();
-    void refresh();
+    int checkedItemCount(); // 被选中的项数
+    void reload(QVector<EnchPro>);  // 加载（重载）列表
 
 signals:
-    void itemStateChanged();
+    void itemStateChanged();    // 存在项目选中状态改变
 
 };
 
@@ -33,16 +34,15 @@ class ListWidget_Item : public QListWidget
 
 public:
     explicit ListWidget_Item(QWidget *parent = nullptr);
-    ~ListWidget_Item();
 
-    Item item(int);
-    void pushItem(Item);
+    Item getItem(int);   // 获取指定行的项目值
+    void pushItem(Item); // 追加物品
 
-    int checkedItemCount();
-    void refresh();
+    int checkedItemCount(); // 被选中的项数
+    void reload(QVector<Item>);  // 加载（重载）列表
 
 signals:
-    void itemStateChanged();
+    void itemStateChanged();    // 存在项目选中状态改变
 
 };
 
@@ -53,46 +53,48 @@ class ListWidget_FlowStep : public QListWidget
 
 public:
     explicit ListWidget_FlowStep(QWidget *parent = nullptr);
-    ~ListWidget_FlowStep();
 
-    FlowStep item(int);
-    void pushItem(FlowStep);
+    FlowStep getItem(int);   // 获取指定行的项目值
+    void pushItem(FlowStep); // 追加物品
 
-    int checkedItemCount();
-    void refresh();
+    void reload(QVector<FlowStep>);  // 加载（重载）列表
 
 signals:
-    void itemStateChanged();
+    void itemStateChanged();    // 存在项目选中状态改变
 
 };
 
 
 
 
-namespace Ui1 {
-class ListItemWidget_Ench;
+// ItemWidget
+namespace Ui {
+    class ItemWidget_Ench;
+    class ItemWidget_Item;
+    class ItemWidget_FlowStep;
 };
-class ListItemWidget_Ench : public QWidget
+
+
+class ItemWidget_Ench : public QWidget
 {
     Q_OBJECT
 
 public:
-    explicit ListItemWidget_Ench(QWidget *parent = nullptr);
-    ~ListItemWidget_Ench();
+    explicit ItemWidget_Ench(QWidget *parent = nullptr);
+    ~ItemWidget_Ench();
 
-    Ench item(int);
-    void setItem(Ench);
+    EnchPro item();
+    void setItem(EnchPro);
 
-    void setEnable(bool);
-    bool isEnabled();
     void setCheck(bool);
     bool isChecked();
 
-    void setHideDisabled(bool);
+    void setCheckboxHidden(bool);
+    void setSpinboxHidden(bool);
 
 private:
-    Ench this_item;
-    Ui1::ListItemWidget_Ench *ui;
+    EnchPro this_item;
+    Ui::ItemWidget_Ench *ui;
 
 signals:
     void stateChanged();
@@ -101,30 +103,26 @@ signals:
 };
 
 
-namespace Ui2 {
-class ListItemWidget_Item;
-};
-class ListItemWidget_Item : public QWidget
+class ItemWidget_Item : public QWidget
 {
     Q_OBJECT
 
 public:
-    explicit ListItemWidget_Item(QWidget *parent = nullptr);
-    ~ListItemWidget_Item();
+    explicit ItemWidget_Item(QWidget *parent = nullptr);
+    ~ItemWidget_Item();
 
-    Item item(int);
+    Item item();
     void setItem(Item);
 
-    void setEnable(bool);
-    bool isEnabled();
     void setCheck(bool);
     bool isChecked();
 
-    void setHideDisabled(bool);
+    void setCheckboxHidden(bool);
+    void setSpinboxHidden(bool);
 
 private:
     Item this_item;
-    Ui2::ListItemWidget_Item *ui;
+    Ui::ItemWidget_Item *ui;
 
 signals:
     void stateChanged();
@@ -133,30 +131,20 @@ signals:
 };
 
 
-namespace Ui3 {
-class ListItemWidget_FlowStep;
-};
-class ListItemWidget_FlowStep : public QWidget
+class ItemWidget_FlowStep : public QWidget
 {
     Q_OBJECT
 
 public:
-    explicit ListItemWidget_FlowStep(QWidget *parent = nullptr);
-    ~ListItemWidget_FlowStep();
+    explicit ItemWidget_FlowStep(QWidget *parent = nullptr);
+    ~ItemWidget_FlowStep();
 
-    FlowStep item(int);
+    FlowStep item();
     void setItem(FlowStep);
-
-    void setEnable(bool);
-    bool isEnabled();
-    void setCheck(bool);
-    bool isChecked();
-
-    void setHideDisabled(bool);
 
 private:
     FlowStep this_item;
-    Ui3::ListItemWidget_FlowStep *ui;
+    Ui::ItemWidget_FlowStep *ui;
 
 signals:
     void stateChanged();

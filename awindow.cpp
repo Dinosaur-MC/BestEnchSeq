@@ -13,17 +13,17 @@ AWindow::AWindow(QWidget *parent) :
 
 AWindow::~AWindow()
 {
-
+    delete ui;
 }
 
 
-void AWindow::keyPressEvent(QKeyEvent *event)
+void AWindow::keyPressEvent(QKeyEvent *e)
 {
-
+    QWidget::keyPressEvent(e);
 }
 
-void AWindow::keyReleaseEvent(QKeyEvent *event)
+void AWindow::keyReleaseEvent(QKeyEvent *e)
 {
-
+    QWidget::keyReleaseEvent(e);
 }
 

@@ -3,12 +3,9 @@
 
 #include <QMainWindow>
 #include <QKeyEvent>
-//#include "base.h"
-
-#define RESTART_CODE 19491001
 
 namespace Ui {
-class AWindow;
+    class AWindow;
 }
 
 class AWindow : public QMainWindow

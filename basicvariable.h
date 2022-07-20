@@ -2,8 +2,8 @@
 #define BASICVARIABLE_H
 
 
-#include <QObject>
 #include <QVector>
+#include <QObject>
 #include <QIcon>
 
 
@@ -41,8 +41,9 @@ struct Config {
 
 Config current_config;
 
-template<class T>   // 下标访问Config结构体 ~~脑回路清奇~~
-class CfgOpr {
+
+class CfgOpr    // 下标访问Config结构体 ~~脑回路清奇~~
+{
 public:
     CfgOpr(Config* c = &current_config) {
         cfg = c;
@@ -51,46 +52,7 @@ public:
         cfg = c;
     }
 
-    T* operator[](int i) {
-        switch (i) {
-        case 0:
-            return &cfg->config_version;
-            break;
-        case 1:
-            return &cfg->default_edition;
-            break;
-        case 2:
-            return &cfg->default_itemconfig;
-            break;
-        case 3:
-            return &cfg->default_algorithm;
-            break;
-        case 4:
-            return &cfg->export_path;
-            break;
-        case 5:
-            return &cfg->constant;
-            break;
-        case 6:
-            return &cfg->auto_check_update;
-            break;
-        case 7:
-            return &cfg->enable_custom_we;
-            break;
-        case 8:
-            return &cfg->enable_custom_en;
-            break;
-        case 9:
-            return &cfg->enable_reszie_window;
-            break;
-        case 10:
-            return &cfg->deverloper_mode;
-            break;
-        default:
-            return NULL;
-            break;
-        }
-    }
+    void* operator[](int i);
 
 private:
     Config *cfg;
@@ -107,6 +69,14 @@ struct Ench {
 
 bool operator<(const Ench, const Ench);
 bool operator>(const Ench, const Ench);
+
+
+struct EnchPro {
+    int id; // 程序识别ID
+    QString text;   // 显示名称
+    int minimum;    // 最小等级
+    int maximum;    // 最大等级
+};
 
 
 // Raw Data
@@ -153,7 +123,7 @@ QVector<Weapon> weapon_table;
 
 
 struct Item {
-    bool isECB;   // 是否为附魔书
+    int type;   // 物品种类，-1 时为附魔书
     QVector<Ench> ench; // 物品魔咒
     int durability;   // 物品耐久
     int penalty;    // 惩罚数
