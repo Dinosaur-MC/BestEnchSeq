@@ -2,6 +2,24 @@
 #include "basicoperator.h"
 
 
+QVector<Option> config_option;
+MCE current_mce;
+Config current_config;
+PFADDN pf_addtion;
+QVector<raw_EnchPlus> raw_enchantment_table;
+QVector<EnchPlus> enchantment_table;
+QVector<raw_Weapon> raw_weapon_table;
+QVector<Weapon> weapon_table;
+
+
+CfgOpr::CfgOpr(Config *c){
+    cfg = c;
+}
+
+void CfgOpr::set(Config* c) {
+    cfg = c;
+}
+
 void* CfgOpr::operator[](int i) {
     switch (i) {
     case 0:

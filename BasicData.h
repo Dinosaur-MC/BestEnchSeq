@@ -44,6 +44,8 @@
 //## 内置加载数据
 #include "basicvariable.h"
 
+
+
 void loadInternalData();
 
 #endif // BASICDATA_H

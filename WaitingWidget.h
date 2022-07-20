@@ -1,9 +1,9 @@
 #ifndef WAITINGWIDGET_H
 #define WAITINGWIDGET_H
 
-#include <QObject>
 #include <QDialog>
 #include <QFrame>
+#include <QTimer>
 #include <QTime>
 
 

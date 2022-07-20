@@ -648,7 +648,7 @@ Item forge(Item a, Item b)  // 物品合并
 }
 
 
-QString numToRomen(int num) // 阿拉伯数字转罗马数字
+QString numToRoman(int num) // 阿拉伯数字转罗马数字
 {
     if(num > 10 || num < 1)
         return "level." + QString::number(num);

@@ -13,11 +13,11 @@ struct Option {
     ValueType value_type;   // 键值类型
 };
 
-QVector<Option> config_option;
+extern QVector<Option> config_option;
 
 
 enum MCE {All=0, Java, Bedrock};  // 枚举变量，MC编译版本
-MCE current_mce;
+extern MCE current_mce;
 enum ICM {AllLevelEBook=0, BasicEBook, AdvanceMode};    // 枚举变量，物品配置模式
 enum ALGM {GlobalAverage=0, DifficultyFirst, Greedy, Enumeration, SimpleEnumeration};   // 枚举变量，算法名
 
@@ -39,18 +39,14 @@ struct Config {
   bool deverloper_mode;  // 开发者模式
 };
 
-Config current_config;
+extern Config current_config;
 
 
 class CfgOpr    // 下标访问Config结构体 ~~脑回路清奇~~
 {
 public:
-    CfgOpr(Config* c = &current_config) {
-        cfg = c;
-    }
-    void set(Config* c) {
-        cfg = c;
-    }
+    CfgOpr(Config* c = &current_config);
+    void set(Config* c);
 
     void* operator[](int i);
 
@@ -60,7 +56,7 @@ private:
 
 
 enum PFADDN {Normal=0, NoRepair, NoRepRepulsion, Extreme};  // preforge 附加条件
-PFADDN pf_addtion;
+extern PFADDN pf_addtion;
 
 struct Ench {
     int id; // 程序识别ID
@@ -101,8 +97,8 @@ struct EnchPlus {
 };
 
 
-QVector<raw_EnchPlus> raw_enchantment_table;
-QVector<EnchPlus> enchantment_table;
+extern QVector<raw_EnchPlus> raw_enchantment_table;
+extern QVector<EnchPlus> enchantment_table;
 
 
 // Raw Data
@@ -118,8 +114,8 @@ struct Weapon {
 };
 
 
-QVector<raw_Weapon> raw_weapon_table;
-QVector<Weapon> weapon_table;
+extern QVector<raw_Weapon> raw_weapon_table;
+extern QVector<Weapon> weapon_table;
 
 
 struct Item {

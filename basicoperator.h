@@ -3,6 +3,7 @@
 
 
 #include <QObject>
+#include <QString>
 #include <QVector>
 #include "basicdata.h"
 #include "basiclists.h"

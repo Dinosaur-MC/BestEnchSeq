@@ -289,3 +289,11 @@ void ItemWidget_FlowStep::setItem(FlowStep fs)
     ui->enchB->setText(data);
 }
 
+
+
+
+WeaponBox::WeaponBox()
+{
+
+}
+
