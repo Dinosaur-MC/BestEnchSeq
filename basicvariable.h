@@ -19,9 +19,9 @@ struct Option {
 QVector<Option> config_option;
 
 
-enum MCE {All=1, Java, Bedrock};  // 枚举变量，MC编译版本
-enum ICM {AllLevelEBook=1, BasicEBook, AdvanceMode};    // 枚举变量，物品配置模式
-enum ALGM {GlobalAverage=1, DifficultyFirst, Greedy, Enumeration, SimpleEnumeration};   // 枚举变量，算法名
+enum MCE {All=0, Java, Bedrock};  // 枚举变量，MC编译版本
+enum ICM {AllLevelEBook=0, BasicEBook, AdvanceMode};    // 枚举变量，物品配置模式
+enum ALGM {GlobalAverage=0, DifficultyFirst, Greedy, Enumeration, SimpleEnumeration};   // 枚举变量，算法名
 
 struct Config {
   int config_version;   // 配置文件版本，用于检查软件是否已更新
@@ -180,13 +180,15 @@ FlowStep operator+(const Item, const Item);
 struct Summary {
     MCE edition;
     ALGM algorithm;
-    Item inputItem;
-    Item outputItem;
-    int costLevel;
-    int costPoint;
-    int stepCount;
-    int costTime;
-    bool isProcessable;
+    raw_Weapon input_item;
+    raw_Weapon output_item;
+    QVector<Ench> input_item_ench;
+    QVector<Ench> output_item_ench;
+    int level_cost;
+    int point_cost;
+    int step_count;
+    int time_cost;
+    bool processable;
 };
 
 #endif // BASICVARIABLE_H

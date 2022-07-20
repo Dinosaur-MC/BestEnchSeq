@@ -14,15 +14,15 @@ class FileOperator : public QObject
 public:
     explicit FileOperator(QObject *parent = nullptr);
 
-    static void saveConfig();
-    static void saveWeaponTable(QVector<raw_Weapon>);
-    static void saveEnchantmentTable(QVector<raw_EnchPlus>);
+    void saveConfig();
+    void saveWeaponTable(QVector<raw_Weapon>);
+    void saveEnchantmentTable(QVector<raw_EnchPlus>);
 
-    static void loadConfig();
-    static void loadWeaponTable(QVector<raw_Weapon> *);
-    static void loadEnchantmentTable(QVector<raw_EnchPlus> *);
+    void loadConfig();
+    void loadWeaponTable(QVector<raw_Weapon> *);
+    void loadEnchantmentTable(QVector<raw_EnchPlus> *);
 
-    void saveExport(ListItemWidget_FlowStep *);
+    void saveExport(Summary summary, QVector<FlowStep>);
 
 signals:
 

@@ -3,6 +3,7 @@
 #include <QDateTime>
 #include <QFile>
 #include <QUrl>
+#include <QDir>
 
 FileOperator::FileOperator(QObject *parent) :
     QObject{parent}
@@ -49,12 +50,12 @@ void FileOperator::saveWeaponTable(QVector<raw_Weapon> weapon)  // 保存 Weapon
     QFile file(FILE_WEAPONTABLE);
     if(!file.open(QIODevice::WriteOnly))
     {
-        qDebug() << "[FileOperator] ERROR: cannot open" << FILE_WEAPONTABLE;
+        qDebug() << "[FileOperator] ERROR: Unable to open file " << FILE_WEAPONTABLE << ".";
         return;
     }
 
     QString data = FILEHEAD;    // csv BOM
-    data += "# 武器Weapon, 图标Icon\n"; // 这是一行注释
+    data += "# 武器Weapon, 图标Icon\n"; // 这是一行注释，真的是一行注释
 
     for(int i = 0; i < weapon.count(); i++)
     {
@@ -72,7 +73,7 @@ void FileOperator::saveEnchantmentTable(QVector<raw_EnchPlus> ench_table) // 保
     QFile file(FILE_ENCHTABLE);
     if(!file.open(QIODevice::WriteOnly))
     {
-        qDebug() << "[FileOperator] ERROR: cannot open" << FILE_ENCHTABLE;
+        qDebug() << "[FileOperator] ERROR: Unable to open file " << FILE_ENCHTABLE << ".";
         return;
     }
 
@@ -116,10 +117,10 @@ void FileOperator::loadConfig() // 加载配置
     QFile file(FILE_CONFIG);
     if(!file.open(QIODevice::ReadOnly)) // 若没有配置文件则创建一个默认配置文件
     {
-        qDebug() << "[FileOperator] WARNING: Cannot find" << FILE_CONFIG;
+        qDebug() << "[FileOperator] WARNING: file " << FILE_CONFIG << " not found.";
         if(!file.open(QIODevice::WriteOnly))    // 若无法创建则退出
         {
-            qDebug() << "[FileOperator] ERROR: cannot open" << FILE_CONFIG;
+            qDebug() << "[FileOperator] ERROR: Unable to open file " << FILE_CONFIG << ".";
             return;
         }
         file.close();
@@ -127,7 +128,7 @@ void FileOperator::loadConfig() // 加载配置
         saveConfig();   // 创建配置文件
         if(!file.open(QIODevice::ReadOnly)) // 若文件不可读则退出
         {
-            qDebug() << "[FileOperator] ERROR: cannot open" << FILE_CONFIG;
+            qDebug() << "[FileOperator] ERROR: Unable to open file " << FILE_CONFIG << ".";
             return;
         }
         qDebug() << "[FileOperator] File " << FILE_CONFIG << " is created successfully.";
@@ -194,10 +195,10 @@ void FileOperator::loadWeaponTable(QVector<raw_Weapon> *weapon) // 加载 Weapon
     QFile file(FILE_WEAPONTABLE);
     if(!file.open(QIODevice::ReadOnly))
     {
-        qDebug() << "[FileOperator] WARNING: cannot find" << FILE_WEAPONTABLE;
+        qDebug() << "[FileOperator] WARNING: file " << FILE_WEAPONTABLE << " not found.";
         if(!file.open(QIODevice::ReadWrite))
         {
-            qDebug() << "[FileOperator] ERROR: cannot open" << FILE_WEAPONTABLE;
+            qDebug() << "[FileOperator] ERROR: Unable to open" << FILE_WEAPONTABLE << ".";
             return;
         }
         qDebug() << "[FileOperator] File " << FILE_WEAPONTABLE << " is created successfully.";
@@ -243,13 +244,13 @@ void FileOperator::loadEnchantmentTable(QVector<raw_EnchPlus> *ench_table)    //
     QFile file(FILE_ENCHTABLE);
     if(!file.open(QIODevice::ReadOnly | QIODevice::Text))
     {
-        qDebug() << "[FileOperator] WARNING: cannot find" << FILE_ENCHTABLE;
+        qDebug() << "[FileOperator] WARNING: " <<  FILE_ENCHTABLE << " not found.";
         if(!file.open(QIODevice::ReadWrite | QIODevice::Text))
         {
-            qDebug() << "[FileOperator] ERROR: cannot open" << FILE_ENCHTABLE;
+            qDebug() << "[FileOperator] ERROR: Unable to open file " << FILE_ENCHTABLE << ".";
             return;
         }
-        qDebug() << "[FileOperator] File" << FILE_ENCHTABLE << "created successfully.";
+        qDebug() << "[FileOperator] File " << FILE_ENCHTABLE << " is created successfully.";
     }
     QStringList raw_data = QString(file.readAll()).trimmed().replace("\"", "").split('\n'); // 读取文件内容并除杂切片
     file.close();
@@ -273,11 +274,13 @@ void FileOperator::loadEnchantmentTable(QVector<raw_EnchPlus> *ench_table)    //
         return;
     }
 
-    for(int i = 0; i < data.count(); i++)
+    for(int i = 0; i < data.count(); i++)   // 加载数据
     {
         QStringList values = data[i].split(','); // 对行切片，只使用前两项值
-        raw_EnchPlus tm;
+        if(values.count() < MINIMUM_EP_ITEM_C)  // 跳过不完整数据行
+            continue;
 
+        raw_EnchPlus tm;
         tm.name = values[0];
         tm.edition = (MCE)values[1].toInt();
         tm.max_level = values[2].toInt();
@@ -295,70 +298,113 @@ void FileOperator::loadEnchantmentTable(QVector<raw_EnchPlus> *ench_table)    //
         ench_table->append(tm);
     }
 
-    /*
-     * 在这里可以做一个数据完整性检查 passed[][]
-     * 类似于 LoadConfig() 中的 exist[]
-     */
+    for(int i = 0; i < ench_table->count(); i++)    // 数据有效性校验
+    {
+        if(ench_table->at(i).name.isEmpty() || ench_table->at(i).edition < 0 ||
+                ench_table->at(i).max_level == 0 || ench_table->at(i).poor_max_level < 0 ||
+                ench_table->at(i).multiplier[0] == 0 || ench_table->at(i).multiplier[1] == 0)   // 删除无效数据
+        {
+            ench_table->remove(i);
+            i--;
+        }
+    }
+    ench_table->squeeze();  // 释放空闲内存
 
-    qDebug() << "Enchantment table has been loaded!";
+    qDebug() << "[FileOperator] Enchantment table has been loaded!";
 }
 
 
-void FileOperator::saveExport(ListItemWidget_FlowStep *LIW_FS)  // 保存输出结果
+void FileOperator::saveExport(Summary summary, QVector<FlowStep> flow)  // 保存输出结果
 {
     qDebug() << "[FileOperator] Saving exportation...";
 
-//    QString dir_str;
-//    if(!Basic::config.export_path.isEmpty())
-//        dir_str = Basic::config.export_path;
-//    else
-//        dir_str = "./exports/";
+    QString dir_str;
+    if(current_config.export_path.isEmpty())    // 检查相应配置项，若未配置则使用默认值
+        dir_str = DIR_EXPORT;
+    else
+        dir_str = current_config.export_path;
 
-//    QDir dir;
-//    if(!dir.exists(dir_str))
-//    {
-//          bool res = dir.mkpath(dir_str);
-//          if(!res)
-//              return;
-//    }
+    QDir dir;
+    if(!dir.exists(dir_str))    // 若输出路径不存在，则创建它
+    {
+        if(!dir.mkpath(dir_str))    // 若创建失败则退出
+        {
+            qDebug() << "[FileOperator] ERROR: Unable to access the path " << dir_str << ".";
+            return;
+        }
+    }
 
-//    if(Basic::flow_list_l > 0)
-//    {
-//        QString name = dir_str + "output_" + QDateTime::currentDateTime().toString("yyyyMMdd-hhmmsszzz") + ".txt";
-//        QFile file(name);
-//        if (!file.open(QIODevice::WriteOnly | QIODevice::Text))
-//        {
-//            qDebug() << "Error: cannot output the file!";
-//            return;
-//        }
-//        file.write(QString(QString("步数 Step: ") + QString::number(Basic::flow_list_l) + "  总花费等级 AllCost: " + QString::number(Basic::sumCost) + "\n").toUtf8().data());
-//        for(int i = 0; i < Basic::flow_list_l; i++)
-//        {
-//            QString temp = "\n(" + QString::number(i+1) + ")  花费Cost: " + QString::number(Basic::flow_list[i].cost) + "\n";
+    if(flow.count() < 1)    // 不输出空流程
+    {
+        qDebug() << "[FileOperator] No export, because the flow is empty.";
+        return;
+    }
 
-//            if(Basic::flow_list[i].a.name == ID_ECB)
-//                temp += QString("A. ") + QString(ID_ECB).simplified() + "\n";
-//            else
-//                temp += QString("A. ") + Basic::OriginItem.name.simplified() + "\n";
-//            for(int j = 0; j < INIT_LENGTH && Basic::flow_list[i].a.ench[j].name != ""; j++)
-//            {
-//                temp += "---" + Basic::flow_list[i].a.ench[j].name + " [" + QString::number(Basic::flow_list[i].a.ench[j].lvl) + "]\n";
-//            }
+    QString name = dir_str + "output_" + QDateTime::currentDateTime().toString("yyyyMMdd-hhmmsszzz") + ".txt";  // 文件名
+    QFile file(name);
+    if(!file.open(QIODevice::WriteOnly))   // 创建文件
+    {
+        qDebug() << "[FileOperator] ERROR: Unable to output the file!";
+        return;
+    }
 
-//            if(Basic::flow_list[i].b.name == ID_ECB)
-//                temp += QString("B. ") + QString(ID_ECB).simplified() + "\n";
-//            else
-//                temp += QString("B. ") + Basic::OriginItem.name.simplified() + "\n";
-//            for(int j = 0; j < INIT_LENGTH && Basic::flow_list[i].b.ench[j].name != ""; j++)
-//            {
-//                temp += "---" + Basic::flow_list[i].b.ench[j].name + " [" + QString::number(Basic::flow_list[i].b.ench[j].lvl) + "]\n";
-//            }
+    QString data = name + "\n";
 
-//            file.write(temp.toUtf8().data());
-//        }
-//        file.close();
-//        QDesktopServices::openUrl(QUrl::fromLocalFile(name));
-//    }
+    // 输出流程概要
+    for(int i = 0; i < name.count(); i++)
+        data += '-';
+    data += "\nEdition: " + QString::number(summary.edition);
+    data += "\nInput: " + summary.input_item.name.simplified();
+    if(summary.input_item_ench.count() > 0)
+    {
+        for(int i = 0; i < summary.input_item_ench.count(); i++)
+        {
+            raw_EnchPlus rep = raw_enchantment_table.at(summary.input_item_ench.at(i).id);
+            data += "\n    " + rep.name.simplified() + " [" + QString::number(summary.input_item_ench.at(i).lvl) + "]";
+        }
+    }
+    data += "\nOutput: " + summary.output_item.name.simplified();
+    if(summary.output_item_ench.count() > 0)
+    {
+        for(int i = 0; i < summary.output_item_ench.count(); i++)
+        {
+            raw_EnchPlus rep = raw_enchantment_table.at(summary.output_item_ench.at(i).id);
+            data += "\n    " + rep.name.simplified() + " [" + QString::number(summary.output_item_ench.at(i).lvl) + "]";
+        }
+    }
+    data += "\nLevel Cost: " + QString::number(summary.level_cost);
+    data += "\nPoint Cost: " + QString::number(summary.point_cost);
+    data += "\nStep Count: " + QString::number(summary.step_count);
+    data += "\nProcessable: " + QString(summary.processable? "Yes": "No");
+    for(int i = 0; i < name.count(); i++)
+        data += '-';
+    data += "\n";
+
+    // 输出具体流程
+    for(int i = 0; i < flow.count(); i++)
+    {
+        data += "\n[" + QString::number(i) + "]A: " + QString(flow.at(i).a.isECB? ID_ECB: summary.input_item.name.simplified());    // 步骤序号+目标物品名称
+        for(int j = 0; j < flow.at(i).a.ench.count(); j++)  // 目标物品魔咒
+        {
+            raw_EnchPlus rep = raw_enchantment_table.at(flow.at(i).a.ench.at(j).id);
+            data += "\n    " + rep.name.simplified() + " [" + QString::number(flow.at(i).a.ench.at(j).lvl) + "]";
+        }
+
+        data += "\n[" + QString::number(i) + "]B: " + QString(flow.at(i).a.isECB? ID_ECB: summary.input_item.name.simplified());    // 步骤序号+牺牲物品名称
+        for(int j = 0; j < flow.at(i).a.ench.count(); j++)  // 牺牲物品魔咒
+        {
+            raw_EnchPlus rep = raw_enchantment_table.at(flow.at(i).a.ench.at(j).id);
+            data += "\n    " + rep.name.simplified() + " [" + QString::number(flow.at(i).a.ench.at(j).lvl) + "]";
+        }
+
+        data += "\n";   // 换行
+    }
+
+
+    file.write(data.toUtf8().data());
+    file.close();
+
+    qDebug() << "[FileOperator] Finished!";
 }
 
 
@@ -473,7 +519,6 @@ int* preforge(Item a, Item b, MCE mode) // 花费计算
             }
         }
     }
-    b.ench.squeeze();   // 释放多余内存
     b_ec = b.ench.count();  // 更新魔咒数
 
     cost[2] = cost[0];  // 暂存冲突花费
@@ -545,7 +590,6 @@ Item forge(Item a, Item b)  // 物品合并
             }
         }
     }
-    b.ench.squeeze();   // 释放多余内存
     b_ec = b.ench.count();  // 更新魔咒数
 
 
@@ -569,8 +613,7 @@ Item forge(Item a, Item b)  // 物品合并
             tm.ench.append(b.ench.at(i));
     }
 
-    // 返回合并后的物品
-    return tm;
+    return tm;  // 返回合并后的物品
 }
 
 

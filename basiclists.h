@@ -26,6 +26,7 @@ signals:
 
 };
 
+
 class ListWidget_Item : public QListWidget
 {
     Q_OBJECT
@@ -45,6 +46,7 @@ signals:
 
 };
 
+
 class ListWidget_FlowStep : public QListWidget
 {
     Q_OBJECT
@@ -63,6 +65,8 @@ signals:
     void itemStateChanged();
 
 };
+
+
 
 
 namespace Ui1 {
@@ -96,6 +100,7 @@ signals:
 
 };
 
+
 namespace Ui2 {
 class ListItemWidget_Item;
 };
@@ -127,6 +132,7 @@ signals:
 
 };
 
+
 namespace Ui3 {
 class ListItemWidget_FlowStep;
 };
@@ -157,6 +163,8 @@ signals:
     void valueChanged();
 
 };
+
+
 
 
 class WeaponBox : public QComboBox

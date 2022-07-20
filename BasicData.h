@@ -12,8 +12,11 @@
 #define FILE_CONFIG "config.ini"
 #define FILE_WEAPONTABLE "WeaponTable.csv"
 #define FILE_ENCHTABLE "EnchantmentTable.csv"
+#define DIR_EXPORT "./exports/"
 
 #define CONFIG_NUM 11 //Count of config items
+#define MINIMUM_EP_ITEM_C 7 //Count of config items
+
 #define FILEHEAD "\xef\xbb\xbf\x0d\x0a"
 #define TEXT_NOTE_SYMBOL '#'
 #define ID_ECB "附魔书\nEnchanted Book"
