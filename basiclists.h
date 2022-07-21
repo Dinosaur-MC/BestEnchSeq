@@ -37,6 +37,8 @@ private:
     EnchPro this_item;
     Ui::ItemWidget_Ench *ui;
 
+
+
 signals:
     void stateChanged();
 //    void valueChanged();

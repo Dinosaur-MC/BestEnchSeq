@@ -1,4 +1,5 @@
 #include "checkupdate.h"
+#include "basicdata.h"
 
 CheckUpdate::CheckUpdate(QObject *parent)
     : QObject{parent}
