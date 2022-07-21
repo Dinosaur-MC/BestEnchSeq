@@ -13,11 +13,8 @@ struct Option {
     ValueType value_type;   // 键值类型
 };
 
-extern QVector<Option> config_option;
-
 
 enum MCE {All=0, Java, Bedrock};  // 枚举变量，MC编译版本
-extern MCE current_mce;
 enum ICM {AllLevelEBook=0, BasicEBook, AdvanceMode};    // 枚举变量，物品配置模式
 enum ALGM {GlobalAverage=0, DifficultyFirst, Greedy, Enumeration, SimpleEnumeration};   // 枚举变量，算法名
 
@@ -39,14 +36,12 @@ struct Config {
   bool deverloper_mode;  // 开发者模式
 };
 
-extern Config current_config;
-
 
 class CfgOpr    // 下标访问Config结构体 ~~脑回路清奇~~
 {
 public:
-    CfgOpr(Config* c = &current_config);
-    void set(Config* c);
+    CfgOpr(Config* c = nullptr);
+    void link(Config* c);
 
     void* operator[](int i);
 
@@ -56,7 +51,7 @@ private:
 
 
 enum PFADDN {Normal=0, NoRepair, NoRepRepulsion, Extreme};  // preforge 附加条件
-extern PFADDN pf_addtion;
+
 
 struct Ench {
     int id; // 程序识别ID
@@ -97,10 +92,6 @@ struct EnchPlus {
 };
 
 
-extern QVector<raw_EnchPlus> raw_enchantment_table;
-extern QVector<EnchPlus> enchantment_table;
-
-
 // Raw Data
 struct raw_Weapon {
     QString name;   // Weapon名
@@ -114,20 +105,12 @@ struct Weapon {
 };
 
 
-extern QVector<raw_Weapon> raw_weapon_table;
-extern QVector<Weapon> weapon_table;
-
-
 struct Item {
     int type;   // 物品种类，-1 时为附魔书
     QVector<Ench> ench; // 物品魔咒
     int durability;   // 物品耐久
     int penalty;    // 惩罚数
 };
-
-bool operator<(const Item, const Item);
-bool operator>(const Item, const Item);
-Item operator+=(const Item, const Item);
 
 
 struct FlowStep {
@@ -136,11 +119,6 @@ struct FlowStep {
     int pointCost;   // 经验值花费
     int levelCost;   // 等级花费
 };
-
-FlowStep operator+(const Item, const Item);
-
-
-//QVector<FlowStep> flow;
 
 
 struct Summary {

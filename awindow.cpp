@@ -22,38 +22,38 @@ AWindow::~AWindow()
 }
 
 
-void loadInternalData()    // 加载内置数据
+void AWindow::loadInternalData()    // 加载内置数据
 {
 
 }
 
-void initialize()    // 初始化
+void AWindow::initialize()    // 初始化
 {
 
 }
 
-void refreshPage(int page = 0)    // 刷新页面列表
+void AWindow::refreshPage(int page)    // 刷新页面列表
 {
 
 }
 
 
-void initStatusBar()    // 设置状态栏
+void AWindow::initStatusBar()    // 设置状态栏
 {
 
 }
 
-void onFirstLaunch()   // 首次启动时展示相关信息
+void AWindow::onFirstLaunch()   // 首次启动时展示相关信息
 {
 
 }
 
-void onUpdated()   // 软件更新后展示相关信息
+void AWindow::onUpdated()   // 软件更新后展示相关信息
 {
 
 }
 
-void restart()  // 重启
+void AWindow::restart()  // 重启程序
 {
 
 }

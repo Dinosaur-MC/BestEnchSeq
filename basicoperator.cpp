@@ -10,7 +10,7 @@ FileOperator::FileOperator(QObject *parent) :
     qDebug() << "[FileOperator] Initialized.";
 }
 
-void FileOperator::saveConfig() // 保存配置
+void FileOperator::saveConfig(Config config, const QVector<Option> *opt) // 保存配置
 {
     qDebug() << "[FileOperator] Saving configuration...";
 
@@ -24,18 +24,20 @@ void FileOperator::saveConfig() // 保存配置
     QString data = "";
     for(int i = 0; i < CONFIG_NUM; i++)
     {
-        if(config_option.at(i).value_type == ValueType::Bool)
-            data += config_option.at(i).name + "= " + QString::number(*(bool*)CfgOpr()[i]) + "\n";
-        if(config_option.at(i).value_type == ValueType::Int)
-            data += config_option.at(i).name + "= " + QString::number(*(int*)CfgOpr()[i]) + "\n";
-        else if(config_option.at(i).value_type == ValueType::Float)
-            data += config_option.at(i).name + "= " +  QString::number(*(float*)CfgOpr()[i]) + "\n";
-        else if(config_option.at(i).value_type == ValueType::Double)
-            data += config_option.at(i).name + "= " +  QString::number(*(double*)CfgOpr()[i]) + "\n";
-        else if(config_option.at(i).value_type == ValueType::Char)
-            data += config_option.at(i).name + "= " +  *(char*)CfgOpr()[i] + "\n";
-        else if(config_option.at(i).value_type == ValueType::String)
-            data += config_option.at(i).name + "= " +  *(QString*)CfgOpr()[i] + "\n";
+        CfgOpr opr;
+        opr.link(&config);
+        if(opt->at(i).value_type == ValueType::Bool)
+            data += opt->at(i).name + "= " + QString::number(*(bool*)opr[i]) + "\n";
+        if(opt->at(i).value_type == ValueType::Int)
+            data += opt->at(i).name + "= " + QString::number(*(int*)opr[i]) + "\n";
+        else if(opt->at(i).value_type == ValueType::Float)
+            data += opt->at(i).name + "= " +  QString::number(*(float*)opr[i]) + "\n";
+        else if(opt->at(i).value_type == ValueType::Double)
+            data += opt->at(i).name + "= " +  QString::number(*(double*)opr[i]) + "\n";
+        else if(opt->at(i).value_type == ValueType::Char)
+            data += opt->at(i).name + "= " +  *(char*)opr[i] + "\n";
+        else if(opt->at(i).value_type == ValueType::String)
+            data += opt->at(i).name + "= " +  *(QString*)opr[i] + "\n";
     }
 
     file.write(data.toUtf8().data());
@@ -109,7 +111,7 @@ void FileOperator::saveEnchantmentTable(QVector<raw_EnchPlus> ench_table) // 保
 }
 
 
-void FileOperator::loadConfig() // 加载配置
+void FileOperator::loadConfig(Config *config, const QVector<Option> *opt) // 加载配置
 {
     qDebug() << "[FileOperator] Loading configuration...";
 
@@ -124,7 +126,7 @@ void FileOperator::loadConfig() // 加载配置
         }
         file.close();
 
-        saveConfig();   // 创建配置文件
+        saveConfig(*config, opt);   // 创建配置文件
         if(!file.open(QIODevice::ReadOnly)) // 若文件不可读则退出
         {
             qDebug() << "[FileOperator] ERROR: Unable to open file " << FILE_CONFIG << ".";
@@ -154,20 +156,22 @@ void FileOperator::loadConfig() // 加载配置
 
             for(int j = 0; j < CONFIG_NUM; j++) // 遍历 config_option ，匹配相应键值对并赋值
             {
-                if(key__value[0] == config_option.at(j).name)
+                if(key__value[0] == opt->at(j).name)
                 {
-                    if(config_option.at(i).value_type == ValueType::Bool)
-                        *(bool*)CfgOpr()[j] = (bool)key__value[1].toInt();
-                    if(config_option.at(i).value_type == ValueType::Int)
-                        *(int*)CfgOpr()[j] = key__value[1].toInt();
-                    else if(config_option.at(i).value_type == ValueType::Float)
-                        *(float*)CfgOpr()[j] = key__value[1].toFloat();
-                    else if(config_option.at(i).value_type == ValueType::Double)
-                        *(double*)CfgOpr()[j] = key__value[1].toDouble();
-                    else if(config_option.at(i).value_type == ValueType::Char)
-                        *(char*)CfgOpr()[j] = key__value[1].toUtf8().data()[0];
-                    else if(config_option.at(i).value_type == ValueType::String)
-                        *(QString*)CfgOpr()[j] = key__value[1];
+                    CfgOpr opr;
+                    opr.link(config);
+                    if(opt->at(i).value_type == ValueType::Bool)
+                        *(bool*)opr[j] = (bool)key__value[1].toInt();
+                    if(opt->at(i).value_type == ValueType::Int)
+                        *(int*)opr[j] = key__value[1].toInt();
+                    else if(opt->at(i).value_type == ValueType::Float)
+                        *(float*)opr[j] = key__value[1].toFloat();
+                    else if(opt->at(i).value_type == ValueType::Double)
+                        *(double*)opr[j] = key__value[1].toDouble();
+                    else if(opt->at(i).value_type == ValueType::Char)
+                        *(char*)opr[j] = key__value[1].toUtf8().data()[0];
+                    else if(opt->at(i).value_type == ValueType::String)
+                        *(QString*)opr[j] = key__value[1];
                     exist[j] = true;
                     break;
                 }
@@ -179,7 +183,7 @@ void FileOperator::loadConfig() // 加载配置
     {
         if(!exist[i])   // 发现未匹配键值对则立即保存一次配置以更新
         {
-            saveConfig();
+            saveConfig(*config, opt);
             break;
         }
     }
@@ -228,8 +232,8 @@ void FileOperator::loadWeaponTable(QVector<raw_Weapon> *weapon) // 加载 Weapon
     {
         QStringList values = data[i].split(','); // 对行切片，只使用前两项值
         raw_Weapon tm;
-        tm.name = data[0];
-        tm.icon = QIcon(data[1]);
+        tm.name = values[0];
+        tm.icon = QIcon(values[1]);
         weapon->append(tm);
     }
 
@@ -313,15 +317,15 @@ void FileOperator::loadEnchantmentTable(QVector<raw_EnchPlus> *ench_table)    //
 }
 
 
-void FileOperator::saveExport(Summary summary, QVector<FlowStep> flow)  // 保存输出结果
+void FileOperator::saveExport(const Config config, const QVector<raw_EnchPlus> reps, const Summary summary, const QVector<FlowStep> flow)  // 保存输出结果
 {
     qDebug() << "[FileOperator] Saving exportation...";
 
     QString dir_str;
-    if(current_config.export_path.isEmpty())    // 检查相应配置项，若未配置则使用默认值
+    if(config.export_path.isEmpty())    // 检查相应配置项，若未配置则使用默认值
         dir_str = DIR_EXPORT;
     else
-        dir_str = current_config.export_path;
+        dir_str = config.export_path;
 
     QDir dir;
     if(!dir.exists(dir_str))    // 若输出路径不存在，则创建它
@@ -358,7 +362,7 @@ void FileOperator::saveExport(Summary summary, QVector<FlowStep> flow)  // 保�
     {
         for(int i = 0; i < summary.input_item_ench.count(); i++)
         {
-            raw_EnchPlus rep = raw_enchantment_table.at(summary.input_item_ench.at(i).id);
+            raw_EnchPlus rep = reps.at(summary.input_item_ench.at(i).id);
             data += "\n    " + rep.name.simplified() + " [" + QString::number(summary.input_item_ench.at(i).lvl) + "]";
         }
     }
@@ -367,7 +371,7 @@ void FileOperator::saveExport(Summary summary, QVector<FlowStep> flow)  // 保�
     {
         for(int i = 0; i < summary.output_item_ench.count(); i++)
         {
-            raw_EnchPlus rep = raw_enchantment_table.at(summary.output_item_ench.at(i).id);
+            raw_EnchPlus rep = reps.at(summary.output_item_ench.at(i).id);
             data += "\n    " + rep.name.simplified() + " [" + QString::number(summary.output_item_ench.at(i).lvl) + "]";
         }
     }
@@ -385,14 +389,14 @@ void FileOperator::saveExport(Summary summary, QVector<FlowStep> flow)  // 保�
         data += "\n[" + QString::number(i) + "]A: " + QString(flow.at(i).a.type < 0? ID_ECB: summary.input_item.name.simplified());    // 步骤序号+目标物品名称
         for(int j = 0; j < flow.at(i).a.ench.count(); j++)  // 目标物品魔咒
         {
-            raw_EnchPlus rep = raw_enchantment_table.at(flow.at(i).a.ench.at(j).id);
+            raw_EnchPlus rep = reps.at(flow.at(i).a.ench.at(j).id);
             data += "\n    " + rep.name.simplified() + " [" + QString::number(flow.at(i).a.ench.at(j).lvl) + "]";
         }
 
         data += "\n[" + QString::number(i) + "]B: " + QString(flow.at(i).a.type < 0? ID_ECB: summary.input_item.name.simplified());    // 步骤序号+牺牲物品名称
         for(int j = 0; j < flow.at(i).a.ench.count(); j++)  // 牺牲物品魔咒
         {
-            raw_EnchPlus rep = raw_enchantment_table.at(flow.at(i).a.ench.at(j).id);
+            raw_EnchPlus rep = reps.at(flow.at(i).a.ench.at(j).id);
             data += "\n    " + rep.name.simplified() + " [" + QString::number(flow.at(i).a.ench.at(j).lvl) + "]";
         }
 
@@ -407,77 +411,16 @@ void FileOperator::saveExport(Summary summary, QVector<FlowStep> flow)  // 保�
 }
 
 
-EnchFilter::EnchFilter()
+Anvil::Anvil(MCE mce, PFADDN add, const QVector<EnchPlus> * ep)
 {
-
+    edition = mce;
+    addition = add;
+    eps = ep;
 }
 
-ItemFilter::ItemFilter()
+bool Anvil::checkRepulsed(const Ench a, const Ench b) // 检查是否存在魔咒冲突，魔咒与魔咒
 {
-
-}
-
-
-void deliverID()    // 分配魔咒和Weapon的数字ID
-{
-    // 魔咒的数字ID
-    int retc = raw_enchantment_table.count();
-
-    for(int i = 0; i < retc; i++)
-    {
-        EnchPlus tm;
-        tm.id = i;
-        tm.edition = raw_enchantment_table.at(i).edition;
-        tm.poor_max_level = raw_enchantment_table.at(i).poor_max_level;
-        tm.max_level = raw_enchantment_table.at(i).max_level;
-        tm.multiplier[0] = raw_enchantment_table.at(i).multiplier[0];
-        tm.multiplier[1] = raw_enchantment_table.at(i).multiplier[1];
-        enchantment_table.append(tm);
-    }
-
-    for(int i = 0; i < retc; i++)
-    {
-        int repc = raw_enchantment_table.at(i).repulsion.count();
-        for(int j = 0; j < repc; j++)
-        {
-            for(int k = 0; k < retc; k++)
-            {
-                if(raw_enchantment_table.at(i).repulsion.at(j) == raw_enchantment_table.at(k).name)
-                {
-                    enchantment_table[i].repulsion.append(k);
-                    break;
-                }
-            }
-        }
-    }
-
-
-    // Weapon的数字ID
-    int wpc = raw_weapon_table.count();
-
-    for(int i = 0; i < wpc; i++)
-    {
-        Weapon tm;
-        tm.id = i;
-        weapon_table.append(tm);
-    }
-
-    for(int i = 0; i < retc; i++)
-    {
-        for(int j = 0; j < wpc; j++)
-        {
-            if(raw_enchantment_table.at(i).suitable.at(j))
-            {
-                weapon_table[j].suitableE.append(enchantment_table.at(i));
-            }
-        }
-    }
-}
-
-
-bool checkRepulsed(Ench a, Ench b) // 检查是否存在魔咒冲突，魔咒与魔咒
-{
-    EnchPlus ep = enchantment_table.at(a.id);
+    EnchPlus ep = eps->at(a.id);
     int ec = ep.repulsion.count();
 
     for(int i = 0; i < ec; i++)
@@ -489,9 +432,9 @@ bool checkRepulsed(Ench a, Ench b) // 检查是否存在魔咒冲突，魔咒与
     return false;
 }
 
-bool checkRepulsed(Ench e, Item it) // 检查是否存在魔咒冲突，魔咒与物品
+bool Anvil::checkRepulsed(const Ench e, const Item it) // 检查是否存在魔咒冲突，魔咒与物品
 {
-    EnchPlus ep = enchantment_table.at(e.id);
+    EnchPlus ep = eps->at(e.id);
     int ec = ep.repulsion.count();
     int iec = it.ench.count();
 
@@ -507,26 +450,27 @@ bool checkRepulsed(Ench e, Item it) // 检查是否存在魔咒冲突，魔咒�
     return false;
 }
 
-int* preforge(Item a, Item b, MCE mode) // 花费计算
+int Anvil::preforge(const Item a, Item b) // 花费计算
 {
-    if(mode == MCE::All)    // 排除不支持的mode
+    if(edition == MCE::All)    // 排除不支持的mode
         return NULL;
 
-    int *cost = new int[4]; // 0:总花费；1:忽略维修；2:忽略维修和冲突；3:忽略维修、冲突和惩罚
+    int cost = 0;
     int a_ec = a.ench.count();  // 目标物品的魔咒数
     int b_ec = b.ench.count();  // 牺牲物品的魔咒数
     int multi = b.type < 0? 1: 0;  // 选择乘数
 
 
     // 处理冲突的魔咒
+    int replc = 0;  // 暂存冲突花费
     if(a_ec > 0)
     {
         for(int i = 0; i < b_ec; i++)
         {
             if(checkRepulsed(b.ench.at(i), a))
             {
-                if(mode == MCE::Java)   // JE中每一项冲突花费+1
-                    cost[0] += 1;
+                if(edition == MCE::Java)   // JE中每一项冲突花费+1
+                    replc += 1;
                 b.ench.remove(i);   // 删除冲突的魔咒
                 i--;
             }
@@ -534,13 +478,12 @@ int* preforge(Item a, Item b, MCE mode) // 花费计算
     }
     b_ec = b.ench.count();  // 更新魔咒数
 
-    cost[2] = cost[0];  // 暂存冲突花费
 
 
     // 计算魔咒等级花费
     for(int i = 0; i < b_ec; i++)
     {
-        EnchPlus bep = enchantment_table.at(b.ench.at(i).id);   // 拉取魔咒表对应数据
+        EnchPlus bep = eps->at(b.ench.at(i).id);   // 拉取魔咒表对应数据
         if(a_ec > 0)
         {
             int p = -1;
@@ -554,36 +497,46 @@ int* preforge(Item a, Item b, MCE mode) // 花费计算
             }
 
             if(p < 0)   // 不存在
-                cost[0] += bep.multiplier[multi] * b.ench.at(i).lvl;
+                cost += bep.multiplier[multi] * b.ench.at(i).lvl;
             else    // 存在
             {
-                if(mode == MCE::Java)
-                    cost[0] += bep.multiplier[multi] * std::min(forge(a.ench.at(p).lvl, b.ench.at(i).lvl), bep.max_level);
+                if(edition == MCE::Java)
+                    cost += bep.multiplier[multi] * std::min(forge(a.ench.at(p).lvl, b.ench.at(i).lvl), bep.max_level);
                 else
-                    cost[0] += bep.multiplier[multi] * (std::min(forge(a.ench.at(p).lvl, b.ench.at(i).lvl), bep.max_level) - a.ench.at(p).lvl);
+                    cost += bep.multiplier[multi] * (std::min(forge(a.ench.at(p).lvl, b.ench.at(i).lvl), bep.max_level) - a.ench.at(p).lvl);
             }
         }
         else
-            cost[0] += bep.multiplier[multi] * b.ench.at(i).lvl;
+            cost += bep.multiplier[multi] * b.ench.at(i).lvl;
     }
 
 
     // 计算其它项
-    cost[3] = cost[0] - cost[2];
+    switch(addition) {
+    case PFADDN::Normal:
+        cost += replc;  // 计入冲突花费
+        cost += pow(2, a.penalty) + pow(2, b.penalty) -2; // 计算累积惩罚
+        if(a.durability < 100 && b.durability > 0)  // 计算维修费用
+            cost += 2;
+        break;
+    case PFADDN::NoRepair:
+        cost += replc;  // 计入冲突花费
+        cost += pow(2, a.penalty) + pow(2, b.penalty) -2; // 计算累积惩罚
+        break;
+    case PFADDN::NoRepRepulsion:
+        cost += replc;  // 计入冲突花费
+        break;
+    case PFADDN::Extreme:
+        break;
+    default:
+        return -1;
+        break;
+    }
 
-    cost[0] += pow(2, a.penalty) + pow(2, b.penalty) -2; // 计算累积惩罚
-    cost[2] = cost[0] - cost[2];
-
-    cost[1] = cost[0];
-    if(a.durability < 100 && b.durability > 0)  // 计算维修费用
-        cost[0] += 2;
-
-
-    // 计算完成，返回4个花费等级数，用完记得释放
     return cost;
 }
 
-int forge(int a, int b) // 等级合并（不计上限）
+int Anvil::forge(int a, int b) // 等级合并（不计上限）
 {
     if(a == b)
         a++;
@@ -593,7 +546,7 @@ int forge(int a, int b) // 等级合并（不计上限）
     return a;
 }
 
-Item forge(Item a, Item b)  // 物品合并
+Item Anvil::forge(const Item a, Item b)  // 物品合并
 {
     Item tm = a;
 
@@ -618,7 +571,7 @@ Item forge(Item a, Item b)  // 物品合并
     // 合并物品
     for(int i = 0; i < b_ec; i++)
     {
-        EnchPlus bep = enchantment_table.at(b.ench.at(i).id);   // 拉取魔咒表对应数据
+        EnchPlus bep = eps->at(b.ench.at(i).id);   // 拉取魔咒表对应数据
         if(a_ec > 0)
         {
             int p = -1;
@@ -645,6 +598,100 @@ Item forge(Item a, Item b)  // 物品合并
     }
 
     return tm;  // 返回合并后的物品
+}
+
+int Anvil::compare(const Item a, Item b)
+{
+    return preforge(Item(), a) - preforge(Item(), b);
+}
+
+FlowStep Anvil::combine(const Item a, Item b)
+{
+    int cost = preforge(a, b);  // 计算合并花费
+    if(cost < 0)
+        return FlowStep();
+
+    FlowStep fs;
+    fs.a = a;
+    fs.b = b;
+    fs.levelCost = cost;
+
+    if(cost <= 16)  // 计算经验值花费
+        fs.pointCost = (cost * cost + 6 * cost);
+    else if(cost <= 31)
+        fs.pointCost = (2.5 * cost * cost - 40.5 * cost + 360);
+    else
+        fs.pointCost = (4.5 * cost * cost - 162.5 * cost + 2220);
+
+    return fs;
+}
+
+
+EnchFilter::EnchFilter()
+{
+
+}
+
+ItemFilter::ItemFilter()
+{
+
+}
+
+
+void deliverID(QVector<raw_EnchPlus> *reps, QVector<raw_Weapon> *rwps, QVector<EnchPlus> *eps, QVector<Weapon> *wps)    // 分配魔咒和Weapon的数字ID
+{
+    // 魔咒的数字ID
+    int retc = reps->count();
+
+    for(int i = 0; i < retc; i++)
+    {
+        EnchPlus tm;
+        tm.id = i;
+        tm.edition = reps->at(i).edition;
+        tm.poor_max_level = reps->at(i).poor_max_level;
+        tm.max_level = reps->at(i).max_level;
+        tm.multiplier[0] = reps->at(i).multiplier[0];
+        tm.multiplier[1] = reps->at(i).multiplier[1];
+        eps->append(tm);
+    }
+
+    for(int i = 0; i < retc; i++)
+    {
+        int repc = reps->at(i).repulsion.count();
+        for(int j = 0; j < repc; j++)
+        {
+            for(int k = 0; k < retc; k++)
+            {
+                if(reps->at(i).repulsion.at(j) == reps->at(k).name)
+                {
+                    (*eps)[i].repulsion.append(k);
+                    break;
+                }
+            }
+        }
+    }
+
+
+    // Weapon的数字ID
+    int wpc = rwps->count();
+
+    for(int i = 0; i < wpc; i++)
+    {
+        Weapon tm;
+        tm.id = i;
+        wps->append(tm);
+    }
+
+    for(int i = 0; i < retc; i++)
+    {
+        for(int j = 0; j < wpc; j++)
+        {
+            if(reps->at(i).suitable.at(j))
+            {
+                (*wps)[j].suitableE.append(eps->at(i));
+            }
+        }
+    }
 }
 
 

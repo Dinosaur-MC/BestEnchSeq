@@ -3,6 +3,7 @@
 
 
 #include <QDebug>
+#include "basicvariable.h"
 
 
 //## 程序关键字
@@ -42,9 +43,10 @@
 
 
 //## 内置加载数据
-#include "basicvariable.h"
-
-void loadInternalData();
+void loadInternalData(QVector<Option> *opt);
+void loadInternalData(Config *config);
+void loadInternalData(QVector<raw_Weapon> *rwps);
+void loadInternalData(QVector<raw_EnchPlus> *reps);
 
 
 #endif // BASICDATA_H
