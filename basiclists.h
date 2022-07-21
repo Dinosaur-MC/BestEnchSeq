@@ -8,65 +8,6 @@
 #include "basicvariable.h"
 
 
-// ListWidget
-class ListWidget_Ench : public QListWidget
-{
-    Q_OBJECT
-
-public:
-    explicit ListWidget_Ench(QWidget *parent = nullptr);
-
-    EnchPro getItem(int);   // 获取指定行的项目值
-    void pushItem(EnchPro); // 追加物品
-
-    int checkedItemCount(); // 被选中的项数
-    void reload(QVector<EnchPro>);  // 加载（重载）列表
-
-signals:
-    void itemStateChanged();    // 存在项目选中状态改变
-
-};
-
-
-class ListWidget_Item : public QListWidget
-{
-    Q_OBJECT
-
-public:
-    explicit ListWidget_Item(QWidget *parent = nullptr);
-
-    Item getItem(int);   // 获取指定行的项目值
-    void pushItem(Item); // 追加物品
-
-    int checkedItemCount(); // 被选中的项数
-    void reload(QVector<Item>);  // 加载（重载）列表
-
-signals:
-    void itemStateChanged();    // 存在项目选中状态改变
-
-};
-
-
-class ListWidget_FlowStep : public QListWidget
-{
-    Q_OBJECT
-
-public:
-    explicit ListWidget_FlowStep(QWidget *parent = nullptr);
-
-    FlowStep getItem(int);   // 获取指定行的项目值
-    void pushItem(FlowStep); // 追加物品
-
-    void reload(QVector<FlowStep>);  // 加载（重载）列表
-
-signals:
-    void itemStateChanged();    // 存在项目选中状态改变
-
-};
-
-
-
-
 // ItemWidget
 namespace Ui {
     class ItemWidget_Ench;
@@ -98,7 +39,7 @@ private:
 
 signals:
     void stateChanged();
-    void valueChanged();
+//    void valueChanged();
 
 };
 
@@ -126,7 +67,7 @@ private:
 
 signals:
     void stateChanged();
-    void valueChanged();
+//    void valueChanged();
 
 };
 
@@ -147,8 +88,65 @@ private:
     Ui::ItemWidget_FlowStep *ui;
 
 signals:
-    void stateChanged();
-    void valueChanged();
+
+};
+
+
+
+
+// ListWidget
+class ListWidget_Ench : public QListWidget
+{
+    Q_OBJECT
+
+public:
+    explicit ListWidget_Ench(QWidget *parent = nullptr);
+
+    ItemWidget_Ench* getItem(int);   // 获取指定行的项目值
+    void pushItem(EnchPro); // 追加物品
+
+    int checkedItemCount(); // 被选中的项数
+    void reload(QVector<EnchPro>);  // 加载（重载）列表
+
+signals:
+    void itemStateChanged();    // 存在项目选中状态改变
+
+};
+
+
+class ListWidget_Item : public QListWidget
+{
+    Q_OBJECT
+
+public:
+    explicit ListWidget_Item(QWidget *parent = nullptr);
+
+    ItemWidget_Item* getItem(int);   // 获取指定行的项目值
+    void pushItem(Item); // 追加物品
+
+    int checkedItemCount(); // 被选中的项数
+    void reload(QVector<Item>);  // 加载（重载）列表
+
+signals:
+    void itemStateChanged();    // 存在项目选中状态改变
+
+};
+
+
+class ListWidget_FlowStep : public QListWidget
+{
+    Q_OBJECT
+
+public:
+    explicit ListWidget_FlowStep(QWidget *parent = nullptr);
+
+    ItemWidget_FlowStep* getItem(int);   // 获取指定行的项目值
+    void pushItem(FlowStep); // 追加物品
+
+    void reload(QVector<FlowStep>);  // 加载（重载）列表
+
+signals:
+    void itemStateChanged();    // 存在项目选中状态改变
 
 };
 
@@ -160,7 +158,12 @@ class WeaponBox : public QComboBox
     Q_OBJECT
 
 public:
-    WeaponBox();
+    WeaponBox(QWidget *parent = nullptr);
+
+    void addWeapon(raw_Weapon);
+    void reload(QVector<raw_Weapon>);
+
+    raw_Weapon currentWeapon();
 
 signals:
 

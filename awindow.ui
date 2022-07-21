@@ -109,7 +109,7 @@
              </property>
              <layout class="QHBoxLayout" name="horizontalLayout_4">
               <item>
-               <widget class="QComboBox" name="cb_InputItem">
+               <widget class="WeaponBox" name="cb_InputItem">
                 <property name="minimumSize">
                  <size>
                   <width>64</width>
@@ -224,7 +224,7 @@ Durability</string>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout">
            <item>
-            <widget class="QListWidget" name="ListOriginEnchantment">
+            <widget class="ListWidget_Ench" name="ListOriginEnchantment">
              <property name="font">
               <font>
                <pointsize>12</pointsize>
@@ -374,13 +374,13 @@ Ignore Penalty</string>
                </widget>
               </item>
               <item row="2" column="0">
-               <widget class="QCheckBox" name="cb_IgnoreCL">
+               <widget class="QCheckBox" name="cb_IgnoreRepulsion">
                 <property name="enabled">
                  <bool>true</bool>
                 </property>
                 <property name="text">
-                 <string>忽略花费限制
-Ignore Cost Limit</string>
+                 <string>忽略魔咒冲突
+Ignore Repulsion</string>
                 </property>
                </widget>
               </item>
@@ -541,7 +541,7 @@ Use Advanced Config</string>
               </attribute>
               <layout class="QVBoxLayout" name="verticalLayout_8">
                <item>
-                <widget class="QListWidget" name="ListNeededEnchantment">
+                <widget class="ListWidget_Ench" name="ListNeededEnchantment">
                  <property name="font">
                   <font>
                    <pointsize>12</pointsize>
@@ -569,7 +569,7 @@ Use Advanced Config</string>
               </attribute>
               <layout class="QVBoxLayout" name="verticalLayout_11">
                <item>
-                <widget class="QListWidget" name="ListItemPool">
+                <widget class="ListWidget_Item" name="ListItemPool">
                  <property name="font">
                   <font>
                    <pointsize>12</pointsize>
@@ -1063,7 +1063,7 @@ No Result</string>
               </attribute>
               <layout class="QVBoxLayout" name="verticalLayout_12">
                <item>
-                <widget class="QListWidget" name="ListEnchantingFlow"/>
+                <widget class="ListWidget_FlowStep" name="ListEnchantingFlow"/>
                </item>
               </layout>
              </widget>
@@ -1290,6 +1290,28 @@ No Result</string>
    </property>
   </action>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>WeaponBox</class>
+   <extends>QComboBox</extends>
+   <header location="global">basiclists.h</header>
+  </customwidget>
+  <customwidget>
+   <class>ListWidget_FlowStep</class>
+   <extends>QListWidget</extends>
+   <header location="global">basiclists.h</header>
+  </customwidget>
+  <customwidget>
+   <class>ListWidget_Ench</class>
+   <extends>QListWidget</extends>
+   <header location="global">basiclists.h</header>
+  </customwidget>
+  <customwidget>
+   <class>ListWidget_Item</class>
+   <extends>QListWidget</extends>
+   <header location="global">basiclists.h</header>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>

@@ -1,7 +1,9 @@
+#include "basiclists.h"
 #include "basicoperator.h"
 #include "ui_itemwidget_ench.h"
 #include "ui_itemwidget_item.h"
 #include "ui_itemwidget_flowstep.h"
+
 
 // ListWidget
 ListWidget_Ench::ListWidget_Ench(QWidget *parent) :
@@ -11,10 +13,9 @@ ListWidget_Ench::ListWidget_Ench(QWidget *parent) :
 }
 
 
-EnchPro ListWidget_Ench::getItem(int a)
+ItemWidget_Ench* ListWidget_Ench::getItem(int a)
 {
-    ItemWidget_Ench *w = (ItemWidget_Ench*)itemWidget(item(a));
-    return w->item();
+    return (ItemWidget_Ench*)itemWidget(item(a));
 }
 
 void ListWidget_Ench::pushItem(EnchPro epr)
@@ -56,10 +57,9 @@ ListWidget_Item::ListWidget_Item(QWidget *parent) :
 }
 
 
-Item ListWidget_Item::getItem(int a)
+ItemWidget_Item* ListWidget_Item::getItem(int a)
 {
-    ItemWidget_Item *w = (ItemWidget_Item*)itemWidget(item(a));
-    return w->item();
+    return (ItemWidget_Item*)itemWidget(item(a));
 }
 
 void ListWidget_Item::pushItem(Item it)
@@ -101,17 +101,15 @@ ListWidget_FlowStep::ListWidget_FlowStep(QWidget *parent) :
 }
 
 
-FlowStep ListWidget_FlowStep::getItem(int a)
+ItemWidget_FlowStep* ListWidget_FlowStep::getItem(int a)
 {
-    ItemWidget_FlowStep *w = (ItemWidget_FlowStep*)itemWidget(item(a));
-    return w->item();
+    return (ItemWidget_FlowStep*)itemWidget(item(a));
 }
 
 void ListWidget_FlowStep::pushItem(FlowStep fs)
 {
     ItemWidget_FlowStep *w = new ItemWidget_FlowStep(this);
     w->setItem(fs);
-    connect(w, &ItemWidget_FlowStep::stateChanged, this, &ListWidget_FlowStep::itemStateChanged);
     this->addItem("");
     this->setItemWidget(item(count()-1), w);
 }
@@ -132,6 +130,7 @@ ItemWidget_Ench::ItemWidget_Ench(QWidget *parent)
       ui(new Ui::ItemWidget_Ench)
 {
     ui->setupUi(this);
+    connect(ui->cb, &QCheckBox::stateChanged, this, &ItemWidget_Ench::stateChanged);
 }
 
 ItemWidget_Ench::~ItemWidget_Ench()
@@ -181,6 +180,7 @@ ItemWidget_Item::ItemWidget_Item(QWidget *parent)
       ui(new Ui::ItemWidget_Item)
 {
     ui->setupUi(this);
+    connect(ui->cb, &QCheckBox::stateChanged, this, &ItemWidget_Item::stateChanged);
 }
 
 ItemWidget_Item::~ItemWidget_Item()
@@ -292,8 +292,33 @@ void ItemWidget_FlowStep::setItem(FlowStep fs)
 
 
 
-WeaponBox::WeaponBox()
+WeaponBox::WeaponBox(QWidget *parent)
+    : QComboBox{parent}
 {
 
+}
+
+
+void WeaponBox::addWeapon(raw_Weapon rw)
+{
+    this->addItem(rw.icon, rw.name);
+}
+
+void WeaponBox::reload(QVector<raw_Weapon> rws)
+{
+    this->clear();
+    for(int i = 0; i < rws.count(); i++)
+        addWeapon(rws.at(i));
+}
+
+raw_Weapon WeaponBox::currentWeapon()
+{
+    int p = this->currentIndex();
+
+    raw_Weapon rw;
+    rw.icon = this->itemIcon(p);
+    rw.name = this->itemText(p);
+
+    return rw;
 }
 
