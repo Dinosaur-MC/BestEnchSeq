@@ -62,7 +62,7 @@ ItemWidget_Item* ListWidget_Item::getItem(int a)
     return (ItemWidget_Item*)itemWidget(item(a));
 }
 
-void ListWidget_Item::pushItem(Item it)
+void ListWidget_Item::pushItem(ItemPro it)
 {
     ItemWidget_Item *w = new ItemWidget_Item(this);
     w->setItem(it);
@@ -84,7 +84,7 @@ int ListWidget_Item::checkedItemCount()
     return c;
 }
 
-void ListWidget_Item::reload(QVector<Item> items)
+void ListWidget_Item::reload(QVector<ItemPro> items)
 {
     this->clear();
     for(int i = 0; i < items.count(); i++)
@@ -106,7 +106,7 @@ ItemWidget_FlowStep* ListWidget_FlowStep::getItem(int a)
     return (ItemWidget_FlowStep*)itemWidget(item(a));
 }
 
-void ListWidget_FlowStep::pushItem(FlowStep fs)
+void ListWidget_FlowStep::pushItem(FlowStepPro fs)
 {
     ItemWidget_FlowStep *w = new ItemWidget_FlowStep(this);
     w->setItem(fs);
@@ -114,7 +114,7 @@ void ListWidget_FlowStep::pushItem(FlowStep fs)
     this->setItemWidget(item(count()-1), w);
 }
 
-void ListWidget_FlowStep::reload(QVector<FlowStep> fs)
+void ListWidget_FlowStep::reload(QVector<FlowStepPro> fs)
 {
     this->clear();
     for(int i = 0; i < fs.count(); i++)
@@ -194,27 +194,11 @@ Item ItemWidget_Item::item()
     return this_item;
 }
 
-void ItemWidget_Item::setItem(Item it)
+void ItemWidget_Item::setItem(ItemPro it)
 {
-    if(it.type < 0)
-    {
-        ui->toolButton->setIcon(ICON_ECB);
-        ui->weapon_name->setText(ID_ECB);
-    }
-    else
-    {
-        ui->toolButton->setIcon(raw_weapon_table.at(it.type).icon);
-        ui->weapon_name->setText(raw_weapon_table.at(it.type).name);
-    }
-
-    QString data = "";
-    if(it.ench.count() > 0)
-    {
-        data += raw_enchantment_table.at(it.ench.at(0).id).name + " " + numToRoman(it.ench.at(0).lvl);
-        for(int i = 1; i < it.ench.count(); i++)
-            data += "\n" + raw_enchantment_table.at(it.ench.at(i).id).name + " " + numToRoman(it.ench.at(i).lvl);
-    }
-    ui->ench_name->setText(data);
+    ui->icon->setIcon(it.icon);
+    ui->weapon_name->setText(it.name);
+    ui->ench_set->setText(it.ench_set);
 }
 
 void ItemWidget_Item::setCheck(bool a)
@@ -258,35 +242,41 @@ FlowStep ItemWidget_FlowStep::item()
     return this_item;
 }
 
-void ItemWidget_FlowStep::setItem(FlowStep fs)
+void ItemWidget_FlowStep::setItem(FlowStepPro fs)
 {
-    if(fs.a.type < 0)
-        ui->iconA->setIcon(ICON_ECB);
-    else
-        ui->iconA->setIcon(raw_weapon_table.at(fs.a.type).icon);
+//    if(fs.a.type < 0)
+//        ui->iconA->setIcon(ICON_ECB);
+//    else
+//        ui->iconA->setIcon(raw_weapon_table.at(fs.a.type).icon);
 
-    if(fs.b.type < 0)
-        ui->iconB->setIcon(ICON_ECB);
-    else
-        ui->iconB->setIcon(raw_weapon_table.at(fs.b.type).icon);
+//    if(fs.b.type < 0)
+//        ui->iconB->setIcon(ICON_ECB);
+//    else
+//        ui->iconB->setIcon(raw_weapon_table.at(fs.b.type).icon);
 
-    QString data = "";
-    if(fs.a.ench.count() > 0)
-    {
-        data += raw_enchantment_table.at(fs.a.ench.at(0).id).name + " " + numToRoman(fs.a.ench.at(0).lvl);
-        for(int i = 1; i < fs.a.ench.count(); i++)
-            data += "\n" + raw_enchantment_table.at(fs.a.ench.at(i).id).name + " " + numToRoman(fs.a.ench.at(i).lvl);
-    }
-    ui->enchA->setText(data);
+//    QString data = "";
+//    if(fs.a.ench.count() > 0)
+//    {
+//        data += raw_enchantment_table.at(fs.a.ench.at(0).id).name + " " + numToRoman(fs.a.ench.at(0).lvl);
+//        for(int i = 1; i < fs.a.ench.count(); i++)
+//            data += "\n" + raw_enchantment_table.at(fs.a.ench.at(i).id).name + " " + numToRoman(fs.a.ench.at(i).lvl);
+//    }
+//    ui->enchA->setText(data);
 
-    data = "";
-    if(fs.b.ench.count() > 0)
-    {
-        data += raw_enchantment_table.at(fs.b.ench.at(0).id).name + " " + numToRoman(fs.b.ench.at(0).lvl);
-        for(int i = 1; i < fs.b.ench.count(); i++)
-            data += "\n" + raw_enchantment_table.at(fs.b.ench.at(i).id).name + " " + numToRoman(fs.b.ench.at(i).lvl);
-    }
-    ui->enchB->setText(data);
+//    data = "";
+//    if(fs.b.ench.count() > 0)
+//    {
+//        data += raw_enchantment_table.at(fs.b.ench.at(0).id).name + " " + numToRoman(fs.b.ench.at(0).lvl);
+//        for(int i = 1; i < fs.b.ench.count(); i++)
+//            data += "\n" + raw_enchantment_table.at(fs.b.ench.at(i).id).name + " " + numToRoman(fs.b.ench.at(i).lvl);
+//    }
+//    ui->enchB->setText(data);
+
+    ui->iconA->setIcon(fs.a.icon);
+    ui->enchA->setText(fs.a.ench_set);
+    ui->iconB->setIcon(fs.b.icon);
+    ui->enchB->setText(fs.b.ench_set);
+    ui->cost->setText(QString::number(fs.levelCost));
 }
 
 

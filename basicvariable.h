@@ -112,12 +112,24 @@ struct Item {
     int penalty;    // 惩罚数
 };
 
+struct ItemPro {
+    QIcon icon; // 物品图标
+    QString name;   // 物品名称
+    QString ench_set;   // 魔咒信息
+};
+
 
 struct FlowStep {
     Item a; // 目标物品
     Item b; // 牺牲物品
-    int pointCost;   // 经验值花费
     int levelCost;   // 等级花费
+};
+
+struct FlowStepPro {
+    ItemPro a; // 目标物品
+    ItemPro b; // 牺牲物品
+    int levelCost;   // 等级花费
+    int pointCost;   // 经验值花费
 };
 
 

@@ -616,13 +616,6 @@ FlowStep Anvil::combine(const Item a, Item b)
     fs.b = b;
     fs.levelCost = cost;
 
-    if(cost <= 16)  // 计算经验值花费
-        fs.pointCost = (cost * cost + 6 * cost);
-    else if(cost <= 31)
-        fs.pointCost = (2.5 * cost * cost - 40.5 * cost + 360);
-    else
-        fs.pointCost = (4.5 * cost * cost - 162.5 * cost + 2220);
-
     return fs;
 }
 
@@ -635,6 +628,57 @@ EnchFilter::EnchFilter()
 ItemFilter::ItemFilter()
 {
 
+}
+
+
+Transformer::Transformer(const QVector<raw_Weapon> * rwp, const QVector<raw_EnchPlus> * rep)
+{
+    rwps = rwp;
+    reps = rep;
+}
+
+ItemPro Transformer::operator=(const Item* it)
+{
+    ItemPro itp;
+
+    if(it->type < 0)    // 转换图标和名称
+    {
+        itp.icon = ICON_ECB;
+        itp.name = ID_ECB;
+    }
+    else
+    {
+        itp.icon = rwps->at(it->type).icon;
+        itp.name = rwps->at(it->type).name;
+    }
+
+    QString data = "";
+    if(it->ench.count() > 0)    // 转换魔咒信息
+    {
+        data += reps->at(it->ench.at(0).id).name + " " + numToRoman(it->ench.at(0).lvl);
+        for(int i = 1; i < it->ench.count(); i++)
+            data += "\n" + reps->at(it->ench.at(i).id).name + " " + numToRoman(it->ench.at(i).lvl);
+    }
+    itp.ench_set = data;
+
+    return itp;
+}
+
+FlowStepPro Transformer::operator=(const FlowStep* fs)
+{
+    FlowStepPro fsp;
+    fsp.a = Transformer::operator=(&fs->a);
+    fsp.b = Transformer::operator=(&fs->b);
+    fsp.levelCost = fs->levelCost;
+
+    if(fs->levelCost <= 16)  // 计算经验值花费
+        fsp.pointCost = (fs->levelCost * fs->levelCost + 6 * fs->levelCost);
+    else if(fs->levelCost <= 31)
+        fsp.pointCost = (2.5 * fs->levelCost * fs->levelCost - 40.5 * fs->levelCost + 360);
+    else
+        fsp.pointCost = (4.5 * fs->levelCost * fs->levelCost - 162.5 * fs->levelCost + 2220);
+
+    return fsp;
 }
 
 

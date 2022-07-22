@@ -55,7 +55,7 @@ public:
     ~ItemWidget_Item();
 
     Item item();
-    void setItem(Item);
+    void setItem(ItemPro);
 
     void setCheck(bool);
     bool isChecked();
@@ -83,7 +83,7 @@ public:
     ~ItemWidget_FlowStep();
 
     FlowStep item();
-    void setItem(FlowStep);
+    void setItem(FlowStepPro);
 
 private:
     FlowStep this_item;
@@ -124,10 +124,10 @@ public:
     explicit ListWidget_Item(QWidget *parent = nullptr);
 
     ItemWidget_Item* getItem(int);   // 获取指定行的项目值
-    void pushItem(Item); // 追加物品
+    void pushItem(ItemPro); // 追加物品
 
     int checkedItemCount(); // 被选中的项数
-    void reload(QVector<Item>);  // 加载（重载）列表
+    void reload(QVector<ItemPro>);  // 加载（重载）列表
 
 signals:
     void itemStateChanged();    // 存在项目选中状态改变
@@ -143,9 +143,9 @@ public:
     explicit ListWidget_FlowStep(QWidget *parent = nullptr);
 
     ItemWidget_FlowStep* getItem(int);   // 获取指定行的项目值
-    void pushItem(FlowStep); // 追加物品
+    void pushItem(FlowStepPro); // 追加物品
 
-    void reload(QVector<FlowStep>);  // 加载（重载）列表
+    void reload(QVector<FlowStepPro>);  // 加载（重载）列表
 
 signals:
     void itemStateChanged();    // 存在项目选中状态改变

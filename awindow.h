@@ -32,6 +32,19 @@ public:
 private:
     Ui::AWindow *ui;
 
+    Option opt;
+    Config cfg;
+    MCE mce;
+    PFADDN addn;
+
+    QVector<raw_Weapon> raw_weapon_table;
+    QVector<raw_EnchPlus> raw_enchantment_table;
+    QVector<Weapon> weapon_table;
+    QVector<EnchPlus> enchantment_table;
+
+    Anvil *anv;
+
+
 
 protected:
     void keyPressEvent(QKeyEvent *event);

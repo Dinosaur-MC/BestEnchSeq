@@ -67,6 +67,21 @@ public:
 };
 
 
+class Transformer
+{
+public:
+    Transformer(const QVector<raw_Weapon> *, const QVector<raw_EnchPlus> *);
+
+    ItemPro operator=(const Item*);
+    FlowStepPro operator=(const FlowStep*);
+
+private:
+    const QVector<raw_Weapon> *rwps;
+    const QVector<raw_EnchPlus> *reps;
+
+};
+
+
 void deliverID(QVector<raw_EnchPlus> *reps, QVector<raw_Weapon> *rwps, QVector<EnchPlus> *eps, QVector<Weapon> *wps);
 
 QString numToRoman(int);
