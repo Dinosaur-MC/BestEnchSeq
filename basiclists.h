@@ -24,8 +24,8 @@ public:
     explicit ItemWidget_Ench(QWidget *parent = nullptr);
     ~ItemWidget_Ench();
 
-    EnchPro item();
-    void setItem(EnchPro);
+    Ench item();
+    void setItem(Ench, EnchPro);
 
     void setCheck(bool);
     bool isChecked();
@@ -34,14 +34,13 @@ public:
     void setSpinboxHidden(bool);
 
 private:
-    EnchPro this_item;
+    Ench this_item;
     Ui::ItemWidget_Ench *ui;
 
 
 
 signals:
     void stateChanged();
-//    void valueChanged();
 
 };
 
@@ -55,7 +54,7 @@ public:
     ~ItemWidget_Item();
 
     Item item();
-    void setItem(ItemPro);
+    void setItem(Item, ItemPro);
 
     void setCheck(bool);
     bool isChecked();
@@ -69,7 +68,6 @@ private:
 
 signals:
     void stateChanged();
-//    void valueChanged();
 
 };
 
@@ -83,7 +81,7 @@ public:
     ~ItemWidget_FlowStep();
 
     FlowStep item();
-    void setItem(FlowStepPro);
+    void setItem(FlowStep, FlowStepPro);
 
 private:
     FlowStep this_item;
@@ -105,10 +103,11 @@ public:
     explicit ListWidget_Ench(QWidget *parent = nullptr);
 
     ItemWidget_Ench* getItem(int);   // 获取指定行的项目值
-    void pushItem(EnchPro); // 追加物品
+    void pushItem(Ench, EnchPro); // 追加物品
 
     int checkedItemCount(); // 被选中的项数
-    void reload(QVector<EnchPro>);  // 加载（重载）列表
+    QVector<Ench> getCheckedItem();  // 获取被选中的项
+    void reload(const QVector<Ench> *, const QVector<EnchPro> *);  // 加载（重载）列表
 
 signals:
     void itemStateChanged();    // 存在项目选中状态改变
@@ -124,10 +123,11 @@ public:
     explicit ListWidget_Item(QWidget *parent = nullptr);
 
     ItemWidget_Item* getItem(int);   // 获取指定行的项目值
-    void pushItem(ItemPro); // 追加物品
+    void pushItem(Item, ItemPro); // 追加物品
 
     int checkedItemCount(); // 被选中的项数
-    void reload(QVector<ItemPro>);  // 加载（重载）列表
+    QVector<Item> getCheckedItem();  // 获取被选中的项
+    void reload(const QVector<Item> *, const QVector<ItemPro> *);  // 加载（重载）列表
 
 signals:
     void itemStateChanged();    // 存在项目选中状态改变
@@ -143,9 +143,9 @@ public:
     explicit ListWidget_FlowStep(QWidget *parent = nullptr);
 
     ItemWidget_FlowStep* getItem(int);   // 获取指定行的项目值
-    void pushItem(FlowStepPro); // 追加物品
+    void pushItem(FlowStep, FlowStepPro); // 追加物品
 
-    void reload(QVector<FlowStepPro>);  // 加载（重载）列表
+    void reload(const QVector<FlowStep> *, const QVector<FlowStepPro> *);  // 加载（重载）列表
 
 signals:
     void itemStateChanged();    // 存在项目选中状态改变

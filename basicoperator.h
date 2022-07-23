@@ -34,6 +34,7 @@ class Anvil
 {
 public:
     explicit Anvil(MCE, PFADDN, const QVector<EnchPlus> *);
+    explicit Anvil(const QVector<EnchPlus> *);
 
     bool checkRepulsed(const Ench, const Ench);
     bool checkRepulsed(const Ench, const Item);
@@ -55,7 +56,21 @@ private:
 class EnchFilter
 {
 public:
-    explicit EnchFilter();
+    explicit EnchFilter(const QVector<Weapon> *, const QVector<EnchPlus> *);
+
+    void setWeapon(Weapon);
+    void setBase(const QVector<Ench> *es);
+
+    QVector<Ench> getEnchSet();
+    QVector<EnchPro> toEnchPro(const QVector<Ench> *, const QVector<raw_EnchPlus> *);
+
+private:
+    const QVector<Weapon> *w_table;
+    const QVector<EnchPlus> *e_table;
+
+    const QVector<Ench> *base_set;
+
+    Weapon weapon;
 
 };
 

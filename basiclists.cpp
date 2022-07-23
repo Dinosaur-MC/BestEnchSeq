@@ -18,10 +18,10 @@ ItemWidget_Ench* ListWidget_Ench::getItem(int a)
     return (ItemWidget_Ench*)itemWidget(item(a));
 }
 
-void ListWidget_Ench::pushItem(EnchPro epr)
+void ListWidget_Ench::pushItem(Ench e, EnchPro epr)
 {
     ItemWidget_Ench *w = new ItemWidget_Ench(this);
-    w->setItem(epr);
+    w->setItem(e, epr);
     connect(w, &ItemWidget_Ench::stateChanged, this, &ListWidget_Ench::itemStateChanged);
     this->addItem("");
     this->setItemWidget(item(count()-1), w);
@@ -40,11 +40,23 @@ int ListWidget_Ench::checkedItemCount()
     return c;
 }
 
-void ListWidget_Ench::reload(QVector<EnchPro> eprs)
+QVector<Ench> ListWidget_Ench::getCheckedItem()
+{
+    QVector<Ench> es;
+    for(int i = 0; i < count(); i++)
+    {
+        ItemWidget_Ench *w = (ItemWidget_Ench*)itemWidget(item(i));
+        if(w->isChecked())
+            es.append(w->item());
+    }
+    return es;
+}
+
+void ListWidget_Ench::reload(const QVector<Ench> *es, const QVector<EnchPro> *eprs)
 {
     this->clear();
-    for(int i = 0; i < eprs.count(); i++)
-        pushItem(eprs.at(i));
+    for(int i = 0; i < eprs->count(); i++)
+        pushItem(es->at(i), eprs->at(i));
 }
 
 
@@ -62,10 +74,10 @@ ItemWidget_Item* ListWidget_Item::getItem(int a)
     return (ItemWidget_Item*)itemWidget(item(a));
 }
 
-void ListWidget_Item::pushItem(ItemPro it)
+void ListWidget_Item::pushItem(Item it, ItemPro itpr)
 {
     ItemWidget_Item *w = new ItemWidget_Item(this);
-    w->setItem(it);
+    w->setItem(it, itpr);
     connect(w, &ItemWidget_Item::stateChanged, this, &ListWidget_Item::itemStateChanged);
     this->addItem("");
     this->setItemWidget(item(count()-1), w);
@@ -84,11 +96,23 @@ int ListWidget_Item::checkedItemCount()
     return c;
 }
 
-void ListWidget_Item::reload(QVector<ItemPro> items)
+QVector<Item> ListWidget_Item::getCheckedItem()
+{
+    QVector<Item> its;
+    for(int i = 0; i < count(); i++)
+    {
+        ItemWidget_Item *w = (ItemWidget_Item*)itemWidget(item(i));
+        if(w->isChecked())
+            its.append(w->item());
+    }
+    return its;
+}
+
+void ListWidget_Item::reload(const QVector<Item> *its, const QVector<ItemPro> *itprs)
 {
     this->clear();
-    for(int i = 0; i < items.count(); i++)
-        pushItem(items.at(i));
+    for(int i = 0; i < itprs->count(); i++)
+        pushItem(its->at(i), itprs->at(i));
 }
 
 
@@ -106,19 +130,19 @@ ItemWidget_FlowStep* ListWidget_FlowStep::getItem(int a)
     return (ItemWidget_FlowStep*)itemWidget(item(a));
 }
 
-void ListWidget_FlowStep::pushItem(FlowStepPro fs)
+void ListWidget_FlowStep::pushItem(FlowStep fs, FlowStepPro fspr)
 {
     ItemWidget_FlowStep *w = new ItemWidget_FlowStep(this);
-    w->setItem(fs);
+    w->setItem(fs, fspr);
     this->addItem("");
     this->setItemWidget(item(count()-1), w);
 }
 
-void ListWidget_FlowStep::reload(QVector<FlowStepPro> fs)
+void ListWidget_FlowStep::reload(const QVector<FlowStep> *fses, const QVector<FlowStepPro> *fsprs)
 {
     this->clear();
-    for(int i = 0; i < fs.count(); i++)
-        pushItem(fs.at(i));
+    for(int i = 0; i < fsprs->count(); i++)
+        pushItem(fses->at(i), fsprs->at(i));
 }
 
 
@@ -139,13 +163,14 @@ ItemWidget_Ench::~ItemWidget_Ench()
 }
 
 
-EnchPro ItemWidget_Ench::item()
+Ench ItemWidget_Ench::item()
 {
     return this_item;
 }
 
-void ItemWidget_Ench::setItem(EnchPro epr)
+void ItemWidget_Ench::setItem(Ench e, EnchPro epr)
 {
+    this_item = e;
     ui->name->setText(epr.text);
     ui->sb->setValue(epr.maximum);  // Need more mode
     ui->sb->setMinimum(epr.minimum);
@@ -194,11 +219,12 @@ Item ItemWidget_Item::item()
     return this_item;
 }
 
-void ItemWidget_Item::setItem(ItemPro it)
+void ItemWidget_Item::setItem(Item it, ItemPro itpr)
 {
-    ui->icon->setIcon(it.icon);
-    ui->weapon_name->setText(it.name);
-    ui->ench_set->setText(it.ench_set);
+    this_item = it;
+    ui->icon->setIcon(itpr.icon);
+    ui->weapon_name->setText(itpr.name);
+    ui->ench_set->setText(itpr.ench_set);
 }
 
 void ItemWidget_Item::setCheck(bool a)
@@ -242,41 +268,14 @@ FlowStep ItemWidget_FlowStep::item()
     return this_item;
 }
 
-void ItemWidget_FlowStep::setItem(FlowStepPro fs)
+void ItemWidget_FlowStep::setItem(FlowStep fs, FlowStepPro fsp)
 {
-//    if(fs.a.type < 0)
-//        ui->iconA->setIcon(ICON_ECB);
-//    else
-//        ui->iconA->setIcon(raw_weapon_table.at(fs.a.type).icon);
-
-//    if(fs.b.type < 0)
-//        ui->iconB->setIcon(ICON_ECB);
-//    else
-//        ui->iconB->setIcon(raw_weapon_table.at(fs.b.type).icon);
-
-//    QString data = "";
-//    if(fs.a.ench.count() > 0)
-//    {
-//        data += raw_enchantment_table.at(fs.a.ench.at(0).id).name + " " + numToRoman(fs.a.ench.at(0).lvl);
-//        for(int i = 1; i < fs.a.ench.count(); i++)
-//            data += "\n" + raw_enchantment_table.at(fs.a.ench.at(i).id).name + " " + numToRoman(fs.a.ench.at(i).lvl);
-//    }
-//    ui->enchA->setText(data);
-
-//    data = "";
-//    if(fs.b.ench.count() > 0)
-//    {
-//        data += raw_enchantment_table.at(fs.b.ench.at(0).id).name + " " + numToRoman(fs.b.ench.at(0).lvl);
-//        for(int i = 1; i < fs.b.ench.count(); i++)
-//            data += "\n" + raw_enchantment_table.at(fs.b.ench.at(i).id).name + " " + numToRoman(fs.b.ench.at(i).lvl);
-//    }
-//    ui->enchB->setText(data);
-
-    ui->iconA->setIcon(fs.a.icon);
-    ui->enchA->setText(fs.a.ench_set);
-    ui->iconB->setIcon(fs.b.icon);
-    ui->enchB->setText(fs.b.ench_set);
-    ui->cost->setText(QString::number(fs.levelCost));
+    this_item = fs;
+    ui->iconA->setIcon(fsp.a.icon);
+    ui->enchA->setText(fsp.a.ench_set);
+    ui->iconB->setIcon(fsp.b.icon);
+    ui->enchB->setText(fsp.b.ench_set);
+    ui->cost->setText(QString::number(fsp.levelCost));
 }
 
 
