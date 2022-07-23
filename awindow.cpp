@@ -2,60 +2,208 @@
 #include "ui_awindow.h"
 
 #include <QDebug>
+#include <QFile>
+#include "checkupdate.h"
 
 
 AWindow::AWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::AWindow)
 {
-    qDebug() << "[AWindow]";
-    ui->setupUi(this);
+    qDebug() << "[AWindow] (SETUP)";
 
+    // 首次启动提示
+    QFile fp(FILE_CONFIG);
+    if(!fp.exists())
+        onFirstLaunch();
 
+    ui->setupUi(this);  // Setup ui
 
+    initialize();   // 初始化
+
+    if(cfg.auto_check_update)   // 启动时检查更新
+    {
+        CheckUpdate *cu = new CheckUpdate();
+        connect(cu, &CheckUpdate::finished, this, [=](){
+            int status = cu->status;
+            if(status == 0)
+                lb_update->setText("无更新 No upadte");
+            else if(status == 1)
+                lb_update->setText("发现更新 Found update!");
+            else
+                lb_update->setText("获取更新失败 Failed to get update");
+        });
+
+        cu->setUrl(QUrl(UPDATE_JSON));
+        cu->start(false);
+    }
+
+    if(cfg.config_version < VERSION_ID) // 更新完成提示
+    {
+        onUpdated();
+        cfg.config_version = VERSION_ID; // 更新配置版本号
+        file_opr.saveConfig(cfg, &opt);
+    }
 
 }
 
 AWindow::~AWindow()
 {
     delete ui;
+    delete anv;
+    delete e_filter;
+    delete transf;
+    delete lb_update;
 }
 
-
-void AWindow::loadInternalData()    // 加载内置数据
-{
-
-}
 
 void AWindow::initialize()    // 初始化
 {
+    // 初始化 Operator
+    anv = new Anvil(&mce, &addn, &enchantment_table);
+    e_filter = new EnchFilter(&weapon_table, &enchantment_table);
+    transf = new Transformer(&raw_weapon_table, &raw_enchantment_table);
 
+    // 加载数据
+    loadInternalData(&opt);
+    loadInternalData(&cfg);
+    file_opr.loadConfig(&cfg, &opt);
+
+    if(cfg.enable_custom_we)
+        file_opr.loadWeaponTable(&raw_weapon_table);
+    else
+        loadInternalData(&raw_weapon_table);
+
+    if(cfg.enable_custom_en)
+        file_opr.loadEnchantmentTable(&raw_enchantment_table);
+    else
+        loadInternalData(&raw_enchantment_table);
+
+    // 分配 ID
+    deliverID(&raw_weapon_table, &raw_enchantment_table, &weapon_table, &enchantment_table);
+
+    // 配置状态栏
+    initStatusBar();
+
+    /* Connections */
+    connect(ui->actionSettings, &QAction::triggered, this, [=](){
+        Settings s;
+        s.setModal(true);
+        s.show();
+        s.exec();
+    });
+
+
+    /* Connections */
 }
 
 void AWindow::refreshPage(int page)    // 刷新页面列表
 {
+    switch (page) {
+    case 0:
 
+        break;
+    case 1:
+
+        break;
+    case 2:
+
+        break;
+    case 3:
+
+        break;
+    default:
+        break;
+    }
 }
 
 
 void AWindow::initStatusBar()    // 设置状态栏
 {
-
+    lb_update = new QLabel(this);
+    ui->statusBar->addWidget(lb_update);
 }
 
 void AWindow::onFirstLaunch()   // 首次启动时展示相关信息
 {
+    QDialog *w = new QDialog();
+    w->setWindowFlags(Qt::WindowCloseButtonHint | Qt::Dialog);
+    w->setWindowTitle("欢迎使用 Welcome to use");
+    QVBoxLayout *layout = new QVBoxLayout(w);
+    layout->setSizeConstraint(QLayout::SetFixedSize);
 
+    QFont ft;
+    ft.setPointSize(20);
+    QLabel *title = new QLabel(w);
+    title->setFont(ft);
+    title->setAlignment(Qt::AlignCenter);
+    title->setText(QString("") + PROGRAM_NAME_CN + " " + VERSION + "\n" + PROGRAM_NAME_EN);
+
+    QFont ft2;
+    ft2.setPointSize(12);
+    QLabel *text = new QLabel(w);
+    text->setFont(ft2);
+    text->setWordWrap(true);
+    text->setText(QString("\n【声明】") + STATEMENT + "\n[STATEMENT] " + STATEMENT_EN + "\n\n");
+
+    QPushButton *btnY = new QPushButton(w);
+    connect(btnY, &QPushButton::clicked, w, &QDialog::accept);
+    btnY->setText("I Know");
+    QPushButton *btnN = new QPushButton(w);
+    connect(btnN, &QPushButton::clicked, w, &QDialog::reject);
+    connect(w, &QDialog::rejected, this, [=](){
+        exit(0);
+    });
+    btnN->setText("Close");
+
+    layout->addWidget(title);
+    layout->addWidget(text);
+    layout->addWidget(btnY);
+    layout->addWidget(btnN);
+    w->setLayout(layout);
+    w->show();
+    w->setModal(true);
+    w->exec();
 }
 
 void AWindow::onUpdated()   // 软件更新后展示相关信息
 {
+    QDialog *w = new QDialog();
+    w->setWindowFlags(Qt::WindowCloseButtonHint | Qt::Dialog);
+    w->setWindowTitle("提示 Notice");
+    QVBoxLayout *layout = new QVBoxLayout(w);
+    layout->setSizeConstraint(QLayout::SetFixedSize);
 
+    QFont ft;
+    ft.setPointSize(12);
+    QLabel *title = new QLabel(w);
+    title->setFont(ft);
+    title->setAlignment(Qt::AlignCenter);
+    title->setText(QString("") + PROGRAM_NAME_CN + " " + VERSION + "\n" + PROGRAM_NAME_EN);
+
+    QFont ft2;
+    ft2.setPointSize(10);
+    QLabel *text = new QLabel(w);
+    text->setFont(ft2);
+    text->setWordWrap(true);
+    text->setText(QString("\n软件已升级至 ") + VERSION + " ！\n" + "Updated to version " + VERSION + " successfully!\n");
+
+    QPushButton *btn = new QPushButton(w);
+    connect(btn, &QPushButton::clicked, w, &QDialog::accept);
+    btn->setText("Yes");
+
+    layout->addWidget(title);
+    layout->addWidget(text);
+    layout->addWidget(btn);
+    w->setLayout(layout);
+    w->show();
+    w->setModal(true);
+    w->exec();
 }
 
 void AWindow::restart()  // 重启程序
 {
-
+    QApplication::exit(RESTART_CODE);
 }
 
 

@@ -22,15 +22,21 @@ class CheckUpdate : public QObject
 public:
     explicit CheckUpdate(QObject *parent = nullptr);
 
+    void setUrl(QUrl l);
+
     void start(bool m); //获取更新
     void ReadData(QNetworkReply *reply);    //接收并读取返回数据
     void AnalyseJSON(QString str);  //JSON解析 & 弹窗提示
 
+    int status;
+
 private:
     QNetworkAccessManager *manager;
-    bool notice_newest;
+    bool show_notice;
+    QUrl url;
 
 signals:
+    void failed();
     void updateAvailable();
     void noUpdate();
     void finished();

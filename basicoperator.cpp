@@ -411,7 +411,7 @@ void FileOperator::saveExport(const Config config, const QVector<raw_EnchPlus> r
 }
 
 
-Anvil::Anvil(MCE mce, PFADDN add, const QVector<EnchPlus> * ep)
+Anvil::Anvil(MCE *mce, PFADDN *add, const QVector<EnchPlus> * ep)
 {
     edition = mce;
     addition = add;
@@ -420,8 +420,8 @@ Anvil::Anvil(MCE mce, PFADDN add, const QVector<EnchPlus> * ep)
 
 Anvil::Anvil(const QVector<EnchPlus> *ep)
 {
-    edition = MCE::Java;
-    addition = PFADDN::Normal;
+    edition = NULL;
+    addition = NULL;
     eps = ep;
 }
 
@@ -459,7 +459,7 @@ bool Anvil::checkRepulsed(const Ench e, const Item it) // 检查是否存在魔�
 
 int Anvil::preforge(const Item a, Item b) // 花费计算
 {
-    if(edition == MCE::All)    // 排除不支持的mode
+    if(*edition == MCE::All || edition == NULL || addition == NULL)    // 排除不支持的mode
         return -1;
 
     int cost = 0;
@@ -475,7 +475,7 @@ int Anvil::preforge(const Item a, Item b) // 花费计算
         {
             if(checkRepulsed(b.ench.at(i), a))
             {
-                if(edition == MCE::Java)   // JE中每一项冲突花费+1
+                if(*edition == MCE::Java)   // JE中每一项冲突花费+1
                     replc += 1;
                 b.ench.remove(i);   // 删除冲突的魔咒
                 i--;
@@ -505,7 +505,7 @@ int Anvil::preforge(const Item a, Item b) // 花费计算
                 cost += bep.multiplier[multi] * b.ench.at(i).lvl;
             else    // 存在
             {
-                if(edition == MCE::Java)
+                if(*edition == MCE::Java)
                     cost += bep.multiplier[multi] * std::min(forge(a.ench.at(p).lvl, b.ench.at(i).lvl), bep.max_level);
                 else
                     cost += bep.multiplier[multi] * (std::min(forge(a.ench.at(p).lvl, b.ench.at(i).lvl), bep.max_level) - a.ench.at(p).lvl);
@@ -517,7 +517,7 @@ int Anvil::preforge(const Item a, Item b) // 花费计算
 
 
     // 计算其它项
-    switch(addition) {
+    switch(*addition) {
     case PFADDN::Normal:
         cost += replc;  // 计入冲突花费
         cost += pow(2, a.penalty) + pow(2, b.penalty) -2; // 计算累积惩罚
@@ -606,6 +606,8 @@ Item Anvil::forge(const Item a, Item b)  // 物品合并
 
 int Anvil::compare(const Item a, Item b)
 {
+    if(edition == NULL || addition == NULL)
+        return 0x00;
     return preforge(Item(), a) - preforge(Item(), b);
 }
 
@@ -757,7 +759,7 @@ FlowStepPro Transformer::operator=(const FlowStep* fs)
 }
 
 
-void deliverID(QVector<raw_EnchPlus> *reps, QVector<raw_Weapon> *rwps, QVector<EnchPlus> *eps, QVector<Weapon> *wps)    // 分配魔咒和Weapon的数字ID
+void deliverID(const QVector<raw_Weapon> *rwps, const QVector<raw_EnchPlus> *reps, QVector<Weapon> *wps, QVector<EnchPlus> *eps)    // 分配魔咒和Weapon的数字ID
 {
     // 魔咒的数字ID
     int retc = reps->count();

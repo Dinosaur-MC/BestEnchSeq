@@ -33,7 +33,7 @@ signals:
 class Anvil
 {
 public:
-    explicit Anvil(MCE, PFADDN, const QVector<EnchPlus> *);
+    explicit Anvil(MCE *, PFADDN *, const QVector<EnchPlus> *);
     explicit Anvil(const QVector<EnchPlus> *);
 
     bool checkRepulsed(const Ench, const Ench);
@@ -46,8 +46,8 @@ public:
     FlowStep combine(const Item, Item);
 
 private:
-    MCE edition;
-    PFADDN addition;
+    MCE *edition;
+    PFADDN *addition;
     const QVector<EnchPlus> *eps;
 
 };
@@ -97,7 +97,7 @@ private:
 };
 
 
-void deliverID(QVector<raw_EnchPlus> *reps, QVector<raw_Weapon> *rwps, QVector<EnchPlus> *eps, QVector<Weapon> *wps);
+void deliverID(const QVector<raw_Weapon> *rwps, const QVector<raw_EnchPlus> *reps, QVector<Weapon> *wps, QVector<EnchPlus> *eps);
 
 QString numToRoman(int);
 

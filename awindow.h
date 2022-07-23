@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include <QKeyEvent>
+#include <QLabel>
 
 #include "basicoperator.h"
 #include "settings.h"
@@ -20,7 +21,6 @@ public:
     explicit AWindow(QWidget *parent = nullptr);
     ~AWindow();
 
-    void loadInternalData();    // 加载内置数据
     void initialize();    // 初始化
     void refreshPage(int page = 0);    // 刷新页面列表
 
@@ -32,19 +32,24 @@ public:
 private:
     Ui::AWindow *ui;
 
-    Option opt;
+    QVector<Option> opt;
     Config cfg;
+
+    QVector<raw_Weapon> raw_weapon_table;
+    QVector<Weapon> weapon_table;
+    QVector<raw_EnchPlus> raw_enchantment_table;
+    QVector<EnchPlus> enchantment_table;
+
     MCE mce;
     PFADDN addn;
 
-    QVector<raw_Weapon> raw_weapon_table;
-    QVector<raw_EnchPlus> raw_enchantment_table;
-    QVector<Weapon> weapon_table;
-    QVector<EnchPlus> enchantment_table;
-
+    FileOperator file_opr;
     Anvil *anv;
+    EnchFilter *e_filter;
+    Transformer *transf;
 
-
+    QLabel *lb_update;
+    QString statusbar_text;
 
 protected:
     void keyPressEvent(QKeyEvent *event);

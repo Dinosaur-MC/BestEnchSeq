@@ -6,14 +6,19 @@ CheckUpdate::CheckUpdate(QObject *parent)
 {
     manager = new QNetworkAccessManager(this);
     connect(manager, &QNetworkAccessManager::finished, this, &CheckUpdate::ReadData);
+    connect(manager, &QNetworkAccessManager::sslErrors, this, &CheckUpdate::failed);
 }
 
+void CheckUpdate::setUrl(QUrl l)
+{
+    url = l;
+}
 
 void CheckUpdate::start(bool m)
 {
     qDebug() << "Requesting..";
-    notice_newest = m;
-    QNetworkRequest request((QUrl(UPDATE_JSON)));
+    show_notice = m;
+    QNetworkRequest request(url);
     manager->get(request);
     qDebug() << "Requested";
 }
@@ -30,16 +35,24 @@ void CheckUpdate::AnalyseJSON(QString str)
 {
     QJsonParseError err_rpt;
     QJsonDocument  root_Doc = QJsonDocument::fromJson(str.toUtf8().data(), &err_rpt);
+
     if(err_rpt.error != QJsonParseError::NoError)
     {
-        QMessageBox msgBox;
-        msgBox.setIcon(QMessageBox::Critical);
-        msgBox.setWindowTitle("错误 Error：JSON解析失败");
-        msgBox.setText("服务器访问失败或JSON格式错误");
-        msgBox.exec();
+        emit failed();
+        if(show_notice)
+        {
+            QMessageBox msgBox;
+            msgBox.setIcon(QMessageBox::Critical);
+            msgBox.setWindowTitle("错误 ERROR：JSON解析失败");
+            msgBox.setText("服务器访问失败或JSON格式错误");
+            msgBox.exec();
+        }
+
+        status = -1;
         emit finished();
         return;
     }
+
     if(root_Doc.isObject())
     {
         QJsonObject root_Obj = root_Doc.object();
@@ -58,6 +71,7 @@ void CheckUpdate::AnalyseJSON(QString str)
         if(verison_id > VERSION_ID)
         {
             emit updateAvailable();
+            status = 1;
             QString info = "发现更新！ Found update!";
             info += "\n新版本(Version)：" + verison;
             info += "\n更新时间(Date)： " + update_time;
@@ -87,18 +101,21 @@ void CheckUpdate::AnalyseJSON(QString str)
                 }
             }
         }
-        else if(notice_newest)
-        {
-            emit updateAvailable();
-            QString info = "当前版本已是最新版本！\nAlready up to date!";
-            msgBox.setText(info);
-            QPushButton *confirm = new QPushButton("确定 Confirm");
-            msgBox.addButton(confirm, QMessageBox::AcceptRole);
-            msgBox.exec();
-        }
         else
-            emit updateAvailable();
+        {
+            emit noUpdate();
+            if(show_notice)
+            {
+                QString info = "当前版本已是最新版本！\nAlready up to date!";
+                msgBox.setText(info);
+                QPushButton *confirm = new QPushButton("确定 Confirm");
+                msgBox.addButton(confirm, QMessageBox::AcceptRole);
+                msgBox.exec();
+            }
+            status = 0;
+        }
     }
+
     emit finished();
     this->deleteLater();
 }
