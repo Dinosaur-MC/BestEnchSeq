@@ -85,14 +85,37 @@ void AWindow::initialize()    // 初始化
     // 配置状态栏
     initStatusBar();
 
+
     /* Connections */
-    connect(ui->actionSettings, &QAction::triggered, this, [=](){
+
+    connect(ui->actionSettings, &QAction::triggered, this, [=](){   // 打开设置窗口
         Settings s;
         s.setModal(true);
         s.show();
         s.exec();
     });
 
+    connect(ui->actionHelp, &QAction::triggered, this, [=](){   // 打开帮助窗口
+
+    });
+
+    connect(ui->actionExit, &QAction::triggered, this, &exit);
+
+    connect(ui->actionOpen_the_Editor, &QAction::triggered, this, [=](){
+
+    });
+
+    connect(ui->actionEnable_Custom_Weapon, &QAction::triggered, this, [=](){
+
+    });
+
+    connect(ui->actionEnable_Custom_Enchantment, &QAction::triggered, this, [=](){
+
+    });
+
+    connect(ui->actionWebsite, &QAction::triggered, this, [=](){
+
+    });
 
     /* Connections */
 }
@@ -121,7 +144,7 @@ void AWindow::refreshPage(int page)    // 刷新页面列表
 void AWindow::initStatusBar()    // 设置状态栏
 {
     lb_update = new QLabel(this);
-    ui->statusBar->addWidget(lb_update);
+    ui->statusBar->addPermanentWidget(lb_update);
 }
 
 void AWindow::onFirstLaunch()   // 首次启动时展示相关信息
