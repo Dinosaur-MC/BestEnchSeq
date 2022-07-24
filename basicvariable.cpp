@@ -4,6 +4,8 @@
 
 CfgOpr::CfgOpr(Config *c){
     cfg = c;
+
+    qDebug() << "[CfgOpr] Initialized.";
 }
 
 void CfgOpr::link(Config* c) {

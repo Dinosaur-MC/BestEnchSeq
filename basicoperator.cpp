@@ -319,7 +319,6 @@ void FileOperator::loadEnchantmentTable(QVector<raw_EnchPlus> *ench_table)    //
 
 void FileOperator::saveExport(const Config config, const QVector<raw_EnchPlus> reps, const Summary summary, const QVector<FlowStep> flow)  // 保存输出结果
 {
-    qDebug() << "[FileOperator] Saving exportation...";
 
     QString dir_str;
     if(config.export_path.isEmpty())    // 检查相应配置项，若未配置则使用默认值
@@ -330,6 +329,7 @@ void FileOperator::saveExport(const Config config, const QVector<raw_EnchPlus> r
     QDir dir;
     if(!dir.exists(dir_str))    // 若输出路径不存在，则创建它
     {
+        qDebug() << "[FileOperator] Export dir is not exist so it will be created.";
         if(!dir.mkpath(dir_str))    // 若创建失败则退出
         {
             qDebug() << "[FileOperator] ERROR: Unable to access the path " << dir_str << ".";
@@ -342,6 +342,8 @@ void FileOperator::saveExport(const Config config, const QVector<raw_EnchPlus> r
         qDebug() << "[FileOperator] No export, because the flow is empty.";
         return;
     }
+
+    qDebug() << "[FileOperator] Saving exportation...";
 
     QString name = dir_str + "output_" + QDateTime::currentDateTime().toString("yyyyMMdd-hhmmsszzz") + ".txt";  // 文件名
     QFile file(name);
@@ -416,6 +418,8 @@ Anvil::Anvil(MCE *mce, PFADDN *add, const QVector<EnchPlus> * ep)
     edition = mce;
     addition = add;
     eps = ep;
+
+    qDebug() << "[Anvil] Initialized.";
 }
 
 Anvil::Anvil(const QVector<EnchPlus> *ep)
@@ -423,6 +427,8 @@ Anvil::Anvil(const QVector<EnchPlus> *ep)
     edition = NULL;
     addition = NULL;
     eps = ep;
+
+    qDebug() << "[Anvil] Initialized.";
 }
 
 bool Anvil::checkRepulsed(const Ench a, const Ench b) // 检查是否存在魔咒冲突，魔咒与魔咒
@@ -517,7 +523,7 @@ int Anvil::preforge(const Item a, Item b) // 花费计算
 
 
     // 计算其它项
-    switch(*addition) {
+    switch(*addition) {                                       //--------------------------- Quetion --------------------------
     case PFADDN::Normal:
         cost += replc;  // 计入冲突花费
         cost += pow(2, a.penalty) + pow(2, b.penalty) -2; // 计算累积惩罚
@@ -528,7 +534,7 @@ int Anvil::preforge(const Item a, Item b) // 花费计算
         cost += replc;  // 计入冲突花费
         cost += pow(2, a.penalty) + pow(2, b.penalty) -2; // 计算累积惩罚
         break;
-    case PFADDN::NoRepRepulsion:
+    case PFADDN::NoRepulsion:
         cost += replc;  // 计入冲突花费
         break;
     case PFADDN::Extreme:
@@ -630,6 +636,8 @@ EnchFilter::EnchFilter(const QVector<Weapon> *wp, const QVector<EnchPlus> *ep)
 {
     w_table = wp;
     e_table = ep;
+
+    qDebug() << "[EnchFilter] Initialized.";
 }
 
 void EnchFilter::setWeapon(Weapon w)
@@ -712,6 +720,8 @@ Transformer::Transformer(const QVector<raw_Weapon> * rwp, const QVector<raw_Ench
 {
     rwps = rwp;
     reps = rep;
+
+    qDebug() << "[Transformer] Initialized.";
 }
 
 ItemPro Transformer::operator=(const Item* it)

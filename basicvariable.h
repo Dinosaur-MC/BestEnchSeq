@@ -50,7 +50,7 @@ private:
 };
 
 
-enum PFADDN {Normal=0, NoRepair, NoRepRepulsion, Extreme};  // preforge 附加条件
+enum PFADDN {Normal=0, NoRepair, NoRepulsion, NoDRep, NoPenalty, NoRepairPen, NoRepulsionPen, Extreme};  // preforge 附加条件
 
 
 struct Ench {

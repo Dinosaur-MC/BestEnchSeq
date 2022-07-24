@@ -7,6 +7,8 @@ CheckUpdate::CheckUpdate(QObject *parent)
     manager = new QNetworkAccessManager(this);
     connect(manager, &QNetworkAccessManager::finished, this, &CheckUpdate::ReadData);
     connect(manager, &QNetworkAccessManager::sslErrors, this, &CheckUpdate::failed);
+
+    qDebug() << "[CheckUpdate] Initialized.";
 }
 
 void CheckUpdate::setUrl(QUrl l)

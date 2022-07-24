@@ -45,6 +45,7 @@ AWindow::AWindow(QWidget *parent) :
         file_opr.saveConfig(cfg, &opt);
     }
 
+    qDebug() << "[AWindow] Initialized.";
 }
 
 AWindow::~AWindow()
@@ -88,6 +89,7 @@ void AWindow::initialize()    // 初始化
 
     /* Connections */
 
+    // 菜单项
     connect(ui->actionSettings, &QAction::triggered, this, [=](){   // 打开设置窗口
         Settings s;
         s.setModal(true);
@@ -96,25 +98,164 @@ void AWindow::initialize()    // 初始化
     });
 
     connect(ui->actionHelp, &QAction::triggered, this, [=](){   // 打开帮助窗口
-
+        // Local helper
     });
 
     connect(ui->actionExit, &QAction::triggered, this, &exit);
-
     connect(ui->actionOpen_the_Editor, &QAction::triggered, this, [=](){
-
+        // Table editor
     });
 
     connect(ui->actionEnable_Custom_Weapon, &QAction::triggered, this, [=](){
-
+        cfg.enable_custom_we = ui->actionEnable_Custom_Weapon->isChecked();
     });
 
     connect(ui->actionEnable_Custom_Enchantment, &QAction::triggered, this, [=](){
-
+        cfg.enable_custom_en = ui->actionEnable_Custom_Enchantment->isChecked();
     });
 
     connect(ui->actionWebsite, &QAction::triggered, this, [=](){
+        QDesktopServices::openUrl(QUrl(WEBSITE));
+    });
 
+    connect(ui->actionVersion, &QAction::triggered, this, [=](){
+        QDialog w;
+        QLabel *name = new QLabel(QString("* * * ") + PROGRAM_NAME_CN + " * * *\n* * * " + PROGRAM_NAME_EN + " * * *\n", &w);
+        name->setAlignment(Qt::AlignHCenter);
+        QLabel *ver = new QLabel(QString("Version: ") + VERSION, &w);
+        ver->setAlignment(Qt::AlignHCenter);
+        QLabel *author = new QLabel(QString("Author: ") + AUTHOR, &w);
+        author->setAlignment(Qt::AlignHCenter);
+        QPushButton *btn = new QPushButton("确定 Confirm", &w);
+        connect(btn, &QPushButton::clicked, &w, &QDialog::accept);
+
+        QVBoxLayout *layout = new QVBoxLayout(&w);
+        layout->addWidget(name);
+        layout->addWidget(ver);
+        layout->addWidget(author);
+        layout->addWidget(btn);
+
+        w.setFixedSize(320, 140);
+        w.setLayout(layout);
+        w.setModal(true);
+        w.show();
+        w.exec();
+    });
+
+    connect(ui->actionUpdate, &QAction::triggered, this, [=](){
+        CheckUpdate *cu = new CheckUpdate();
+        connect(cu, &CheckUpdate::finished, this, [=](){
+            int status = cu->status;
+            if(status == 0)
+                lb_update->setText("无更新 No upadte");
+            else if(status == 1)
+                lb_update->setText("发现更新 Found update!");
+            else
+                lb_update->setText("获取更新失败 Failed to get update");
+        });
+
+        cu->setUrl(QUrl(UPDATE_JSON));
+        cu->start(true);
+    });
+
+
+    // Check Box
+    connect(ui->cb_IgnoreFixing, &QCheckBox::clicked, this, [=](){
+
+    });
+
+    connect(ui->cb_IgnorePenalty, &QCheckBox::clicked, this, [=](){
+
+    });
+
+    connect(ui->cb_IgnoreRepulsion, &QCheckBox::clicked, this, [=](){
+
+    });
+
+
+    // Combo Box
+    connect(ui->cb_InputItem, &QComboBox::currentIndexChanged, this, [=](){
+        weapon = weapon_table.at(ui->cb_InputItem->currentIndex());
+        raw_weapon = ui->cb_InputItem->currentWeapon();
+        current_item.type = weapon.id;
+        aim_item.type = weapon.id;
+        refreshPage(1);
+    });
+
+
+    // Spin Box
+    connect(ui->sb_Durability_0, &QSpinBox::valueChanged, this, [=](){
+        current_item.durability = ui->sb_Durability_0->value();
+    });
+
+    connect(ui->sb_Penalty_0, &QSpinBox::valueChanged, this, [=](){
+        current_item.penalty = ui->sb_Penalty_0->value();
+    });
+
+
+    // Push Button
+    connect(ui->btnExit, &QPushButton::clicked, ui->actionExit, &QAction::triggered);
+    connect(ui->btnReset, &QPushButton::clicked, this, &AWindow::restart);
+    connect(ui->btnNext_1, &QPushButton::clicked, this, [=](){
+        ui->tabWidget->setCurrentIndex(1);
+    });
+
+    connect(ui->btnNext_2, &QPushButton::clicked, this, [=](){
+        ui->tabWidget->setCurrentIndex(2);
+    });
+
+    connect(ui->btnBack_2, &QPushButton::clicked, this, [=](){
+        ui->tabWidget->setCurrentIndex(0);
+    });
+
+    connect(ui->btnBack_3, &QPushButton::clicked, this, [=](){
+        ui->tabWidget->setCurrentIndex(1);
+    });
+
+    connect(ui->btnSave, &QPushButton::clicked, this, [=](){
+        file_opr.saveExport(cfg, raw_enchantment_table, summary, flow);
+    });
+
+
+    // Radio Button
+    connect(ui->radioE_JE, &QRadioButton::clicked, this, [=](){
+        mce = MCE::Java;
+    });
+
+    connect(ui->radioE_BE, &QRadioButton::clicked, this, [=](){
+        mce = MCE::Bedrock;
+    });
+
+    connect(ui->radioSI_ALEB, &QRadioButton::clicked, this, [=](){
+        icm = ICM::AllLevelEBook;
+    });
+
+    connect(ui->radioSI_EB, &QRadioButton::clicked, this, [=](){
+        icm = ICM::BasicEBook;
+    });
+
+    connect(ui->radioSI_AC, &QRadioButton::clicked, this, [=](){
+        icm = ICM::AdvanceMode;
+    });
+
+    connect(ui->radioA_GA, &QRadioButton::clicked, this, [=](){
+        alg = ALGM::GlobalAverage;
+    });
+
+    connect(ui->radioA_DF, &QRadioButton::clicked, this, [=](){
+        alg = ALGM::DifficultyFirst;
+    });
+
+    connect(ui->radioA_G, &QRadioButton::clicked, this, [=](){
+        alg = ALGM::Greedy;
+    });
+
+    connect(ui->radioA_E, &QRadioButton::clicked, this, [=](){
+        alg = ALGM::Enumeration;
+    });
+
+    connect(ui->radioA_SE, &QRadioButton::clicked, this, [=](){
+        alg = ALGM::SimpleEnumeration;
     });
 
     /* Connections */
@@ -239,5 +380,22 @@ void AWindow::keyPressEvent(QKeyEvent *e)
 void AWindow::keyReleaseEvent(QKeyEvent *e)
 {
     QWidget::keyReleaseEvent(e);
+}
+
+
+PFADDN toPFADDN(bool n[3])  // ---- Quetion ----
+{
+    int a = n[0] + 2*n[1] + 4*n[3];
+    PFADDN pfaddn;
+    if(a == 0)
+        pfaddn = PFADDN::Normal;
+    else if(a%2)
+        pfaddn = PFADDN::NoRepair;
+    else if(a%4)
+        pfaddn = PFADDN::NoRepulsion;
+    else
+        pfaddn = PFADDN::Extreme;
+
+    return pfaddn;
 }
 
