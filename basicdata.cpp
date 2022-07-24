@@ -12,7 +12,7 @@ void loadInternalData(QVector<Option> *opt)
     opt->append({"auto_check_update", ValueType::Bool});
     opt->append({"enable_custom_weapon", ValueType::Bool});
     opt->append({"enable_custom_enchantment", ValueType::Bool});
-    opt->append({"enable_reszie_window", ValueType::Bool});
+    opt->append({"enable_free_zoom", ValueType::Bool});
     opt->append({"deverloper_mode", ValueType::Bool});
 }
 
@@ -35,19 +35,19 @@ void loadInternalData(Config *config)
 void loadInternalData(QVector<raw_Weapon> *rwps)
 {
     // 内置Weapon数据表
-    rwps->append({"剑\nSword", QIcon("res/netherite_sword->png")});
-    rwps->append({"镐\nPickaxe", QIcon("res/netherite_pickaxe->png")});
-    rwps->append({"斧\nAxe",QIcon("res/netherite_axe->png")});
-    rwps->append({"铲\nShovel", QIcon("res/netherite_shovel->png")});
-    rwps->append({"锄\nHoe", QIcon("res/netherite_hoe->png")});
-    rwps->append({"头盔\nHelmet", QIcon("res/netherite_helmet->png")});
-    rwps->append({"胸甲\nChestplate", QIcon("res/netherite_chestplate->png")});
-    rwps->append({"护腿\nLeggings", QIcon("res/netherite_leggings->png")});
-    rwps->append({"靴\nBoots", QIcon("res/netherite_boots->png")});
-    rwps->append({"弓\nBow", QIcon("res/bow->png")});
-    rwps->append({"弩\nCrossbow", QIcon("res/crossbow_standby->png")});
-    rwps->append({"三叉戟\nTrident", QIcon("res/trident->png")});
-    rwps->append({"钓鱼竿\nFishing Rod", QIcon("res/fishing_rod->png")});
+    rwps->append({"剑\nSword", QIcon(":icon/res/netherite_sword.png")});
+    rwps->append({"镐\nPickaxe", QIcon(":icon/res/netherite_pickaxe.png")});
+    rwps->append({"斧\nAxe",QIcon(":icon/res/netherite_axe.png")});
+    rwps->append({"铲\nShovel", QIcon(":icon/res/netherite_shovel.png")});
+    rwps->append({"锄\nHoe", QIcon(":icon/res/netherite_hoe.png")});
+    rwps->append({"头盔\nHelmet", QIcon(":icon/res/netherite_helmet.png")});
+    rwps->append({"胸甲\nChestplate", QIcon(":icon/res/netherite_chestplate.png")});
+    rwps->append({"护腿\nLeggings", QIcon(":icon/res/netherite_leggings.png")});
+    rwps->append({"靴\nBoots", QIcon(":icon/res/netherite_boots.png")});
+    rwps->append({"弓\nBow", QIcon(":icon/res/bow.png")});
+    rwps->append({"弩\nCrossbow", QIcon(":icon/res/crossbow_standby.png")});
+    rwps->append({"三叉戟\nTrident", QIcon(":icon/res/trident.png")});
+    rwps->append({"钓鱼竿\nFishing Rod", QIcon(":icon/res/fishing_rod.png")});
 }
 
 void loadInternalData(QVector<raw_EnchPlus> *reps)

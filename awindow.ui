@@ -181,7 +181,7 @@ Prior Work </string>
                  <item row="0" column="0">
                   <widget class="QLabel" name="label">
                    <property name="styleSheet">
-                    <string notr="true">color: rgb(155, 155, 155);</string>
+                    <string notr="true"/>
                    </property>
                    <property name="text">
                     <string>耐久度(%)：
@@ -1201,6 +1201,9 @@ No Result</string>
    <property name="text">
     <string>退出 Exit</string>
    </property>
+   <property name="statusTip">
+    <string>退出程序 Exit</string>
+   </property>
   </action>
   <action name="actionExport">
    <property name="enabled">
@@ -1214,38 +1217,40 @@ No Result</string>
    <property name="text">
     <string>版本 Version</string>
    </property>
+   <property name="statusTip">
+    <string>查看版本信息 Version</string>
+   </property>
   </action>
   <action name="actionWebsite">
    <property name="text">
     <string>官网 Website</string>
+   </property>
+   <property name="statusTip">
+    <string>打开官网 Open the website</string>
    </property>
   </action>
   <action name="actionSettings">
    <property name="text">
     <string>设置 Settings</string>
    </property>
+   <property name="statusTip">
+    <string>打开设置 Open settings</string>
+   </property>
   </action>
   <action name="actionHelp">
    <property name="text">
     <string>帮助 Help</string>
    </property>
-  </action>
-  <action name="actionWeapon">
-   <property name="enabled">
-    <bool>true</bool>
-   </property>
-   <property name="text">
-    <string>武器 Weapon</string>
-   </property>
-  </action>
-  <action name="actionEnchantment">
-   <property name="text">
-    <string>魔咒 Enchantment</string>
+   <property name="statusTip">
+    <string>打开帮助页面 Open help page</string>
    </property>
   </action>
   <action name="actionUpdate">
    <property name="text">
     <string>检查更新 Update</string>
+   </property>
+   <property name="statusTip">
+    <string>检查更新 Check update</string>
    </property>
   </action>
   <action name="actionA">
@@ -1272,6 +1277,9 @@ No Result</string>
    <property name="text">
     <string>Open the Editor</string>
    </property>
+   <property name="statusTip">
+    <string>打开自定义列表编辑器</string>
+   </property>
   </action>
   <action name="actionEnable_Custom_Weapon">
    <property name="checkable">
@@ -1280,6 +1288,9 @@ No Result</string>
    <property name="text">
     <string>Enable Custom Weapon</string>
    </property>
+   <property name="statusTip">
+    <string>定义武器</string>
+   </property>
   </action>
   <action name="actionEnable_Custom_Enchantment">
    <property name="checkable">
@@ -1287,6 +1298,9 @@ No Result</string>
    </property>
    <property name="text">
     <string>Enable Custom Enchantment</string>
+   </property>
+   <property name="statusTip">
+    <string>自定义魔咒</string>
    </property>
   </action>
  </widget>

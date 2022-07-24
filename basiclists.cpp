@@ -284,7 +284,7 @@ void ItemWidget_FlowStep::setItem(FlowStep fs, FlowStepPro fsp)
 WeaponBox::WeaponBox(QWidget *parent)
     : QComboBox{parent}
 {
-
+    qDebug() << "[WeaponBox] Initialized.";
 }
 
 
@@ -293,11 +293,11 @@ void WeaponBox::addWeapon(raw_Weapon rw)
     this->addItem(rw.icon, rw.name);
 }
 
-void WeaponBox::reload(QVector<raw_Weapon> rws)
+void WeaponBox::reload(const QVector<raw_Weapon> *rws)
 {
     this->clear();
-    for(int i = 0; i < rws.count(); i++)
-        addWeapon(rws.at(i));
+    for(int i = 0; i < rws->count(); i++)
+        addWeapon(rws->at(i));
 }
 
 raw_Weapon WeaponBox::currentWeapon()

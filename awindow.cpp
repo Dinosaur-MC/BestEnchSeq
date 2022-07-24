@@ -18,8 +18,14 @@ AWindow::AWindow(QWidget *parent) :
         onFirstLaunch();
 
     ui->setupUi(this);  // Setup ui
+    this->setWindowTitle(QString(PROGRAM_NAME_CN) + " - " + VERSION);
 
     initialize();   // 初始化
+
+    if(cfg.deverloper_mode) // 开发者模式
+        ui->menu_DeveloperTools->menuAction()->setVisible(true);
+    else
+        ui->menu_DeveloperTools->menuAction()->setVisible(false);
 
     if(cfg.auto_check_update)   // 启动时检查更新
     {
@@ -27,7 +33,7 @@ AWindow::AWindow(QWidget *parent) :
         connect(cu, &CheckUpdate::finished, this, [=](){
             int status = cu->status;
             if(status == 0)
-                lb_update->setText("无更新 No upadte");
+                lb_update->setText("无更新 No upadate");
             else if(status == 1)
                 lb_update->setText("发现更新 Found update!");
             else
@@ -60,13 +66,8 @@ AWindow::~AWindow()
 
 void AWindow::initialize()    // 初始化
 {
-    // 初始化数据
+    // 数据初始化
     pfaddn = 0b000;
-
-    // 初始化 Operator
-    anv = new Anvil(&mce, &pfaddn, &enchantment_table);
-    e_filter = new EnchFilter(&weapon_table, &enchantment_table);
-    transf = new Transformer(&raw_weapon_table, &raw_enchantment_table);
 
     // 加载数据
     loadInternalData(&opt);
@@ -83,8 +84,13 @@ void AWindow::initialize()    // 初始化
     else
         loadInternalData(&raw_enchantment_table);
 
-    // 分配 ID
+    // 分配数字 ID
     deliverID(&raw_weapon_table, &raw_enchantment_table, &weapon_table, &enchantment_table);
+
+    // 初始化 Operator
+    anv = new Anvil(&mce, &pfaddn, &enchantment_table);
+    e_filter = new EnchFilter(&weapon_table, &enchantment_table);
+    transf = new Transformer(&raw_weapon_table, &raw_enchantment_table);
 
     // 配置状态栏
     initStatusBar();
@@ -125,7 +131,7 @@ void AWindow::initialize()    // 初始化
         QDialog w;
         QLabel *name = new QLabel(QString("* * * ") + PROGRAM_NAME_CN + " * * *\n* * * " + PROGRAM_NAME_EN + " * * *\n", &w);
         name->setAlignment(Qt::AlignHCenter);
-        QLabel *ver = new QLabel(QString("Version: ") + VERSION + "(" + QString::number(VERSION_ID) + ")", &w);
+        QLabel *ver = new QLabel(QString("Version: ") + VERSION + " (" + QString::number(VERSION_ID) + ")", &w);
         ver->setAlignment(Qt::AlignHCenter);
         QLabel *author = new QLabel(QString("Author: ") + AUTHOR, &w);
         author->setAlignment(Qt::AlignHCenter);
@@ -150,7 +156,7 @@ void AWindow::initialize()    // 初始化
         connect(cu, &CheckUpdate::finished, this, [=](){
             int status = cu->status;
             if(status == 0)
-                lb_update->setText("无更新 No upadte");
+                lb_update->setText("无更新 No upadate");
             else if(status == 1)
                 lb_update->setText("发现更新 Found update!");
             else
@@ -271,6 +277,10 @@ void AWindow::initialize()    // 初始化
     });
 
     /* Connections */
+
+    // 容器初始化
+    ui->cb_InputItem->reload(&raw_weapon_table);
+
 }
 
 void AWindow::refreshPage(int page)    // 刷新页面列表

@@ -163,7 +163,7 @@ public:
     WeaponBox(QWidget *parent = nullptr);
 
     void addWeapon(raw_Weapon);
-    void reload(QVector<raw_Weapon>);
+    void reload(const QVector<raw_Weapon> *);
 
     raw_Weapon currentWeapon();
 
