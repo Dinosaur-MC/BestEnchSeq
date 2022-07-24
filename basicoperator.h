@@ -33,12 +33,13 @@ signals:
 class Anvil
 {
 public:
-    explicit Anvil(MCE *, PFADDN *, const QVector<EnchPlus> *);
+    explicit Anvil(MCE *, unsigned short *, const QVector<EnchPlus> *);
     explicit Anvil(const QVector<EnchPlus> *);
+    ~Anvil();
 
     bool checkRepulsed(const Ench, const Ench);
     bool checkRepulsed(const Ench, const Item);
-    int preforge(const Item, Item);
+    int *preforge(const Item, Item);
     int forge(int, int);
     Item forge(const Item, Item);
 
@@ -47,8 +48,10 @@ public:
 
 private:
     MCE *edition;
-    PFADDN *addition;
+    unsigned short *addition;
     const QVector<EnchPlus> *eps;
+
+    bool simple_mode;
 
 };
 

@@ -60,8 +60,11 @@ AWindow::~AWindow()
 
 void AWindow::initialize()    // 初始化
 {
+    // 初始化数据
+    pfaddn = 0b000;
+
     // 初始化 Operator
-    anv = new Anvil(&mce, &addn, &enchantment_table);
+    anv = new Anvil(&mce, &pfaddn, &enchantment_table);
     e_filter = new EnchFilter(&weapon_table, &enchantment_table);
     transf = new Transformer(&raw_weapon_table, &raw_enchantment_table);
 
@@ -122,7 +125,7 @@ void AWindow::initialize()    // 初始化
         QDialog w;
         QLabel *name = new QLabel(QString("* * * ") + PROGRAM_NAME_CN + " * * *\n* * * " + PROGRAM_NAME_EN + " * * *\n", &w);
         name->setAlignment(Qt::AlignHCenter);
-        QLabel *ver = new QLabel(QString("Version: ") + VERSION, &w);
+        QLabel *ver = new QLabel(QString("Version: ") + VERSION + "(" + QString::number(VERSION_ID) + ")", &w);
         ver->setAlignment(Qt::AlignHCenter);
         QLabel *author = new QLabel(QString("Author: ") + AUTHOR, &w);
         author->setAlignment(Qt::AlignHCenter);
@@ -160,16 +163,25 @@ void AWindow::initialize()    // 初始化
 
 
     // Check Box
-    connect(ui->cb_IgnoreFixing, &QCheckBox::clicked, this, [=](){
-
-    });
-
     connect(ui->cb_IgnorePenalty, &QCheckBox::clicked, this, [=](){
-
+        if(ui->cb_IgnorePenalty->isChecked())
+            pfaddn = pfaddn & ~0b100;
+        else
+            pfaddn = pfaddn | 0b100;
     });
 
     connect(ui->cb_IgnoreRepulsion, &QCheckBox::clicked, this, [=](){
+        if(ui->cb_IgnoreRepulsion->isChecked())
+            pfaddn = pfaddn & ~0b010;
+        else
+            pfaddn = pfaddn | 0b010;
+    });
 
+    connect(ui->cb_IgnoreFixing, &QCheckBox::clicked, this, [=](){
+        if(ui->cb_IgnoreFixing->isChecked())
+            pfaddn = pfaddn & ~0b001;
+        else
+            pfaddn = pfaddn | 0b001;
     });
 
 
@@ -380,22 +392,5 @@ void AWindow::keyPressEvent(QKeyEvent *e)
 void AWindow::keyReleaseEvent(QKeyEvent *e)
 {
     QWidget::keyReleaseEvent(e);
-}
-
-
-PFADDN toPFADDN(bool n[3])  // ---- Quetion ----
-{
-    int a = n[0] + 2*n[1] + 4*n[3];
-    PFADDN pfaddn;
-    if(a == 0)
-        pfaddn = PFADDN::Normal;
-    else if(a%2)
-        pfaddn = PFADDN::NoRepair;
-    else if(a%4)
-        pfaddn = PFADDN::NoRepulsion;
-    else
-        pfaddn = PFADDN::Extreme;
-
-    return pfaddn;
 }
 

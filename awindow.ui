@@ -352,6 +352,25 @@ Durability</string>
              </property>
              <layout class="QGridLayout" name="gridLayout_5">
               <item row="0" column="0">
+               <widget class="QCheckBox" name="cb_IgnorePenalty">
+                <property name="text">
+                 <string>忽略累积惩罚
+Ignore Penalty</string>
+                </property>
+               </widget>
+              </item>
+              <item row="3" column="0">
+               <widget class="QCheckBox" name="cb_IgnoreRepulsion">
+                <property name="enabled">
+                 <bool>true</bool>
+                </property>
+                <property name="text">
+                 <string>忽略魔咒冲突
+Ignore Repulsion</string>
+                </property>
+               </widget>
+              </item>
+              <item row="4" column="0">
                <widget class="QCheckBox" name="cb_IgnoreFixing">
                 <property name="enabled">
                  <bool>true</bool>
@@ -362,25 +381,6 @@ Ignore Fixing</string>
                 </property>
                 <property name="checked">
                  <bool>false</bool>
-                </property>
-               </widget>
-              </item>
-              <item row="1" column="0">
-               <widget class="QCheckBox" name="cb_IgnorePenalty">
-                <property name="text">
-                 <string>忽略累积惩罚
-Ignore Penalty</string>
-                </property>
-               </widget>
-              </item>
-              <item row="2" column="0">
-               <widget class="QCheckBox" name="cb_IgnoreRepulsion">
-                <property name="enabled">
-                 <bool>true</bool>
-                </property>
-                <property name="text">
-                 <string>忽略魔咒冲突
-Ignore Repulsion</string>
                 </property>
                </widget>
               </item>

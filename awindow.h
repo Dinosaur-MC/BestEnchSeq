@@ -43,8 +43,8 @@ private:
 
     // 工作模式
     MCE mce;
-    PFADDN addn;
-    int pfaddn;
+//    PFADDN addn;
+    unsigned short pfaddn;  // 3 * 0b; 0(No), 1(Yes)
     ICM icm;
     ALGM alg;
 
