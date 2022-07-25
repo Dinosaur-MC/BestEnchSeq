@@ -781,9 +781,9 @@ FlowStepPro Transformer::operator=(const FlowStep* fs)
 void deliverID(const QVector<raw_Weapon> *rwps, const QVector<raw_EnchPlus> *reps, QVector<Weapon> *wps, QVector<EnchPlus> *eps)    // 分配魔咒和Weapon的数字ID
 {
     // 魔咒的数字ID
-    int retc = reps->count();
+    int repc = reps->count();
 
-    for(int i = 0; i < retc; i++)
+    for(int i = 0; i < repc; i++)
     {
         EnchPlus tm;
         tm.id = i;
@@ -795,12 +795,12 @@ void deliverID(const QVector<raw_Weapon> *rwps, const QVector<raw_EnchPlus> *rep
         eps->append(tm);
     }
 
-    for(int i = 0; i < retc; i++)
+    for(int i = 0; i < repc; i++)
     {
         int repc = reps->at(i).repulsion.count();
         for(int j = 0; j < repc; j++)
         {
-            for(int k = 0; k < retc; k++)
+            for(int k = 0; k < repc; k++)
             {
                 if(reps->at(i).repulsion.at(j) == reps->at(k).name)
                 {
@@ -822,13 +822,13 @@ void deliverID(const QVector<raw_Weapon> *rwps, const QVector<raw_EnchPlus> *rep
         wps->append(tm);
     }
 
-    for(int i = 0; i < retc; i++)
+    for(int i = 0; i < repc; i++)
     {
         for(int j = 0; j < wpc; j++)
         {
             if(reps->at(i).suitable.at(j))
             {
-                (*wps)[j].suitableE.append(eps->at(j));
+                (*wps)[j].suitableE.append(eps->at(i));
             }
         }
     }
