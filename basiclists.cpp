@@ -59,6 +59,18 @@ void ListWidget_Ench::reload(const QVector<Ench> *es, const QVector<EnchPro> *ep
         pushItem(es->at(i), eprs->at(i));
 }
 
+void ListWidget_Ench::reload(const QVector<EnchPlus> *eps, const QVector<EnchPro> *eprs)
+{
+    this->clear();
+    for(int i = 0; i < eprs->count(); i++)
+    {
+        Ench e;
+        e.id = eps->at(i).id;
+        e.lvl = 1;
+        pushItem(e, eprs->at(i));
+    }
+}
+
 
 
 

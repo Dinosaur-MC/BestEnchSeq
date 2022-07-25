@@ -310,6 +310,7 @@ void AWindow::initialize()    // 初始化
 
     // 容器初始化
     ui->cb_InputItem->reload(&raw_weapon_table);
+//    ui->ListOriginEnchantment->reload(&weapon.suitableE, e_filter->toEnchPro(&weapon.suitableE, &));
 
 }
 

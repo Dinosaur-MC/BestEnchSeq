@@ -147,4 +147,32 @@ struct Summary {
     bool processable;
 };
 
+
+class Chameleon
+{
+public:
+    Chameleon(QVector<raw_EnchPlus> *reps = nullptr);
+    ~Chameleon();
+    bool link(QVector<raw_EnchPlus> *reps);
+    QVector<int> data;
+
+    Chameleon *fromVEnch(QVector<Ench>);
+    Chameleon *fromVEnchPlus(QVector<EnchPlus>);
+    Chameleon *fromVEnchPro(QVector<EnchPro>);
+
+    QVector<Ench> toVEnch();
+    QVector<EnchPlus> toVEnchPlus();
+    QVector<EnchPro> toVEnchPro();
+    QVector<Item> toVEBook();
+    Item toEBook();
+
+private:
+    QVector<raw_EnchPlus> *raw_ench_table;
+
+    bool isRich;
+    QVector<int> *lvl;
+
+};
+
+
 #endif // BASICVARIABLE_H

@@ -70,3 +70,161 @@ bool operator>(const Ench a, const Ench b)
         return false;
 }
 
+
+Chameleon::Chameleon(QVector<raw_EnchPlus> *reps)
+{
+    raw_ench_table = reps;
+    isRich = false;
+    lvl = NULL;
+}
+
+Chameleon::~Chameleon()
+{
+    if(isRich)
+        delete lvl;
+}
+
+bool Chameleon::link(QVector<raw_EnchPlus> *reps)
+{
+    if(reps == NULL)
+        return false;
+    else
+        raw_ench_table = reps;
+    return true;
+}
+
+Chameleon *Chameleon::fromVEnch(QVector<Ench> es)
+{
+    if(es.count() == 0)
+        return NULL;
+
+    data.clear();
+    if(lvl == NULL)
+        lvl = new QVector<int>;
+    else
+        lvl->clear();
+
+    for(int i = 0; i < es.count(); i++)
+    {
+        data.append(es.at(i).id);
+        lvl->append(es.at(i).lvl);
+    }
+
+    data.squeeze();
+    if(isRich)
+        lvl->squeeze();
+
+    isRich = true;
+    return this;
+}
+
+Chameleon *Chameleon::fromVEnchPlus(QVector<EnchPlus> eps)
+{
+    if(eps.count() == 0)
+        return NULL;
+
+    data.clear();
+    for(int i = 0; i < eps.count(); i++)
+        data.append(eps.at(i).id);
+    data.squeeze();
+
+    return this;
+}
+
+Chameleon *Chameleon::fromVEnchPro(QVector<EnchPro> eprs)
+{
+    if(eprs.count() == 0)
+        return NULL;
+
+    data.clear();
+    for(int i = 0; i < eprs.count(); i++)
+        data.append(eprs.at(i).id);
+    data.squeeze();
+
+    return this;
+}
+
+
+QVector<Ench> Chameleon::toVEnch()
+{
+    QVector<Ench> es;
+    if(isRich)
+    {
+        for(int i = 0; i < data.count(); i++)
+            es.append({data.at(i), lvl->at(i)});
+    }
+    else
+    {
+        for(int i = 0; i < data.count(); i++)
+            es.append({data.at(i), 1});
+    }
+    return es;
+}
+
+QVector<EnchPlus> Chameleon::toVEnchPlus()
+{
+    QVector<EnchPlus> eps;
+    for(int i = 0; i < data.count(); i++)
+    {
+        EnchPlus tm;
+        tm.id = data.at(i);
+        tm.edition = raw_ench_table->at(data.at(i)).edition;
+        tm.poor_max_level = raw_ench_table->at(data.at(i)).poor_max_level;
+        tm.max_level = raw_ench_table->at(data.at(i)).max_level;
+        tm.multiplier[0] = raw_ench_table->at(data.at(i)).multiplier[0];
+        tm.multiplier[1] = raw_ench_table->at(data.at(i)).multiplier[1];
+        for(int j = 0; j < raw_ench_table->at(data.at(i)).repulsion.count(); j++)
+        {
+            for(int k = 0; k < raw_ench_table->count(); k++)
+            {
+                if(raw_ench_table->at(data.at(i)).repulsion.at(j) == raw_ench_table->at(k).name)
+                    tm.repulsion.append(k);
+            }
+        }
+        eps.append(tm);
+    }
+    return eps;
+}
+
+QVector<EnchPro> Chameleon::toVEnchPro()
+{
+    QVector<EnchPro> eprs;
+    for(int i = 0; i < data.count(); i++)
+    {
+        EnchPro tm;
+        tm.id = data.at(i);
+        tm.minimum = (isRich? lvl->at(i): 1);
+        tm.maximum = raw_ench_table->at(data.at(i)).max_level;
+        tm.text = raw_ench_table->at(data.at(i)).name;
+        eprs.append(tm);
+    }
+    return eprs;
+}
+
+QVector<Item> Chameleon::toVEBook()
+{
+    QVector<Item> its;
+    QVector<Ench> es = this->toVEnch();
+    for(int i = 0; i < data.count(); i++)
+    {
+        Item tm;
+        tm.type = -1;
+        tm.ench.append(es.at(i));
+        tm.durability = 0;
+        tm.penalty = 0;
+        its.append(tm);
+    }
+    return its;
+}
+
+Item Chameleon::toEBook()
+{
+    Item it;
+    it.type = -1;
+    it.ench = this->toVEnch();
+    it.durability = 0;
+    it.penalty = 0;
+    return it;
+}
+
+

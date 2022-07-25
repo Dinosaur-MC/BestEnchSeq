@@ -66,6 +66,7 @@ public:
 
     QVector<Ench> getEnchSet();
     QVector<EnchPro> toEnchPro(const QVector<Ench> *, const QVector<raw_EnchPlus> *);
+    QVector<EnchPro> toEnchPro(const QVector<EnchPlus> *, const QVector<raw_EnchPlus> *);
 
 private:
     const QVector<Weapon> *w_table;

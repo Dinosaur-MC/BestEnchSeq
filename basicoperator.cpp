@@ -703,19 +703,34 @@ QVector<Ench> EnchFilter::getEnchSet()
     return ench_set;
 }
 
-QVector<EnchPro> EnchFilter::toEnchPro(const QVector<Ench> * es, const QVector<raw_EnchPlus> *re_table)
+QVector<EnchPro> EnchFilter::toEnchPro(const QVector<Ench> *es, const QVector<raw_EnchPlus> *re_table)
 {
-    QVector<EnchPro> ep;
+    QVector<EnchPro> epr;
     for(int i = 0; i < es->count(); i++)
     {
         EnchPro tm;
         tm.id = es->at(i).id;
         tm.minimum = es->at(i).lvl;
         tm.maximum = e_table->at(es->at(i).id).max_level;
-        tm.text = re_table->at(i).name;
-        ep.append(tm);
+        tm.text = re_table->at(es->at(i).id).name;
+        epr.append(tm);
     }
-    return ep;
+    return epr;
+}
+
+QVector<EnchPro> EnchFilter::toEnchPro(const QVector<EnchPlus> *eps, const QVector<raw_EnchPlus> *re_table)
+{
+    QVector<EnchPro> epr;
+    for(int i = 0; i < eps->count(); i++)
+    {
+        EnchPro tm;
+        tm.id = eps->at(i).id;
+        tm.minimum = 1;
+        tm.maximum = eps->at(i).max_level;
+        tm.text = re_table->at(eps->at(i).id).name;
+        epr.append(tm);
+    }
+    return epr;
 }
 
 

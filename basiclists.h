@@ -108,6 +108,7 @@ public:
     int checkedItemCount(); // 被选中的项数
     QVector<Ench> getCheckedItem();  // 获取被选中的项
     void reload(const QVector<Ench> *, const QVector<EnchPro> *);  // 加载（重载）列表
+    void reload(const QVector<EnchPlus> *eps, const QVector<EnchPro> *eprs);
 
 signals:
     void itemStateChanged();    // 存在项目选中状态改变
