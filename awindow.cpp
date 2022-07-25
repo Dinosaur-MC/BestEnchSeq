@@ -19,6 +19,7 @@ AWindow::AWindow(QWidget *parent) :
 
     ui->setupUi(this);  // Setup ui
     this->setWindowTitle(QString(PROGRAM_NAME_CN) + " - " + VERSION);
+    ui->tabWidget_ench->setTabVisible(1, false);
 
     initialize();   // 初始化
 
@@ -219,11 +220,20 @@ void AWindow::initialize()    // 初始化
     });
 
     connect(ui->btnNext_2, &QPushButton::clicked, this, [=](){
-        ui->tabWidget->setCurrentIndex(2);
+        if(ui->radioSI_AC->isChecked() && ui->tabWidget_ench->currentIndex() == 0) // 计算|下一页
+            ui->tabWidget_ench->setCurrentIndex(1);
+        else
+        {
+
+            ui->tabWidget->setCurrentIndex(2);
+        }
     });
 
     connect(ui->btnBack_2, &QPushButton::clicked, this, [=](){
-        ui->tabWidget->setCurrentIndex(0);
+        if(ui->radioSI_AC->isChecked() && ui->tabWidget_ench->currentIndex() == 1)
+            ui->tabWidget_ench->setCurrentIndex(0);
+        else
+            ui->tabWidget->setCurrentIndex(0);
     });
 
     connect(ui->btnBack_3, &QPushButton::clicked, this, [=](){
@@ -252,8 +262,20 @@ void AWindow::initialize()    // 初始化
         icm = ICM::BasicEBook;
     });
 
-    connect(ui->radioSI_AC, &QRadioButton::clicked, this, [=](){
-        icm = ICM::AdvanceMode;
+    connect(ui->radioSI_AC, &QRadioButton::toggled, this, [=](){
+        if(ui->radioSI_AC->isChecked()) // 高级物品配置模式
+        {
+            icm = ICM::AdvanceMode;
+            ui->tabWidget_ench->setCurrentIndex(0);
+            ui->tabWidget_ench->setTabVisible(1, true);
+            ui->btnNext_2->setText("下一步（Next）");
+        }
+        else
+        {
+            ui->tabWidget_ench->setCurrentIndex(0);
+            ui->tabWidget_ench->setTabVisible(1, false);
+            ui->btnNext_2->setText("计 算（Calculate）");
+        }
     });
 
     connect(ui->radioA_GA, &QRadioButton::clicked, this, [=](){
@@ -274,6 +296,14 @@ void AWindow::initialize()    // 初始化
 
     connect(ui->radioA_SE, &QRadioButton::clicked, this, [=](){
         alg = ALGM::SimpleEnumeration;
+    });
+
+    // Tab Widget
+    connect(ui->tabWidget_ench, &QTabWidget::currentChanged, [=]{
+        if(ui->tabWidget_ench->currentIndex() == 0)
+            ui->btnNext_2->setText("下一步（Next）");
+        else
+            ui->btnNext_2->setText("计 算（Calculate）");
     });
 
     /* Connections */

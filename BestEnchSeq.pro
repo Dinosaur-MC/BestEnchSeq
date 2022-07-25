@@ -14,6 +14,7 @@ SOURCES += \
     basiclists.cpp \
     basicoperator.cpp \
     basicvariable.cpp \
+    calculator.cpp \
     checkupdate.cpp \
     main.cpp \
     awindow.cpp \
@@ -26,6 +27,7 @@ HEADERS += \
     basiclists.h \
     basicoperator.h \
     basicvariable.h \
+    calculator.h \
     checkupdate.h \
     settings.h \
     waitingwidget.h
