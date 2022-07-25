@@ -14,6 +14,8 @@ void loadInternalData(QVector<Option> *opt)
     opt->append({"enable_custom_enchantment", ValueType::Bool});
     opt->append({"enable_free_zoom", ValueType::Bool});
     opt->append({"deverloper_mode", ValueType::Bool});
+
+    qDebug() << "[loadInternalData] Option loaded.";
 }
 
 void loadInternalData(Config *config)
@@ -30,6 +32,8 @@ void loadInternalData(Config *config)
     config->enable_custom_en = false;
     config->enable_reszie_window = false;
     config->deverloper_mode = false;
+
+    qDebug() << "[loadInternalData] Config loaded.";
 }
 
 void loadInternalData(QVector<raw_Weapon> *rwps)
@@ -48,6 +52,8 @@ void loadInternalData(QVector<raw_Weapon> *rwps)
     rwps->append({"弩\nCrossbow", QIcon(":icon/res/crossbow_standby.png")});
     rwps->append({"三叉戟\nTrident", QIcon(":icon/res/trident.png")});
     rwps->append({"钓鱼竿\nFishing Rod", QIcon(":icon/res/fishing_rod.png")});
+
+    qDebug() << "[loadInternalData] raw_Weapon loaded.";
 }
 
 void loadInternalData(QVector<raw_EnchPlus> *reps)
@@ -93,5 +99,7 @@ void loadInternalData(QVector<raw_EnchPlus> *reps)
     reps->append({"荆棘-thorns", MCE::All, 3, 3, {8, 4}, {""}, {0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0}});
     reps->append({"耐久-unbreaking", MCE::All, 3, 3, {2, 1}, {""}, {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}});
     reps->append({"迅捷潜行_swift_sneak", MCE::All, 3, 0, {8, 4}, {""}, {0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0}});
+
+    qDebug() << "[loadInternalData] raw_EnchPlus loaded.";
 }
 

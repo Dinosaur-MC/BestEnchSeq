@@ -53,6 +53,7 @@ private:
     Anvil *anv;
     EnchFilter *e_filter;
     Transformer *transf;
+    Chameleon *chml;
 
     // 工作数据
     QLabel *lb_update;

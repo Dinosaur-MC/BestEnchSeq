@@ -76,6 +76,8 @@ Chameleon::Chameleon(QVector<raw_EnchPlus> *reps)
     raw_ench_table = reps;
     isRich = false;
     lvl = NULL;
+
+    qDebug() << "[Chameleon] Initialized.";
 }
 
 Chameleon::~Chameleon()
@@ -139,6 +141,25 @@ Chameleon *Chameleon::fromVEnchPro(QVector<EnchPro> eprs)
     data.clear();
     for(int i = 0; i < eprs.count(); i++)
         data.append(eprs.at(i).id);
+    data.squeeze();
+
+    return this;
+}
+
+Chameleon *Chameleon::fromVRawEnchPlus(QVector<raw_EnchPlus> reps)
+{
+    if(reps.count() == 0)
+        return NULL;
+
+    data.clear();
+    for(int i = 0; i < reps.count(); i++)
+    {
+        for(int j = 0; j < raw_ench_table->count(); j++)
+        {
+            if(reps.at(i).edition == raw_ench_table->at(j).edition && reps.at(i).name == raw_ench_table->at(j).name)
+                data.append(j);
+        }
+    }
     data.squeeze();
 
     return this;
@@ -227,4 +248,10 @@ Item Chameleon::toEBook()
     return it;
 }
 
+void Chameleon::clear()
+{
+    data.clear();
+    lvl->clear();
+    isRich = false;
+}
 

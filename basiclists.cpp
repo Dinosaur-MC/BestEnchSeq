@@ -18,13 +18,15 @@ ItemWidget_Ench* ListWidget_Ench::getItem(int a)
     return (ItemWidget_Ench*)itemWidget(item(a));
 }
 
-void ListWidget_Ench::pushItem(Ench e, EnchPro epr)
+void ListWidget_Ench::pushItem(EnchPro epr)
 {
     ItemWidget_Ench *w = new ItemWidget_Ench(this);
-    w->setItem(e, epr);
+    w->setItem(epr);
+    QListWidgetItem *it = new QListWidgetItem();
+    it->setSizeHint(w->sizeHint());
+    this->addItem(it);
+    this->setItemWidget(it, w);
     connect(w, &ItemWidget_Ench::stateChanged, this, &ListWidget_Ench::itemStateChanged);
-    this->addItem("");
-    this->setItemWidget(item(count()-1), w);
 }
 
 
@@ -52,23 +54,11 @@ QVector<Ench> ListWidget_Ench::getCheckedItem()
     return es;
 }
 
-void ListWidget_Ench::reload(const QVector<Ench> *es, const QVector<EnchPro> *eprs)
+void ListWidget_Ench::reload(const QVector<EnchPro> *eprs)
 {
     this->clear();
     for(int i = 0; i < eprs->count(); i++)
-        pushItem(es->at(i), eprs->at(i));
-}
-
-void ListWidget_Ench::reload(const QVector<EnchPlus> *eps, const QVector<EnchPro> *eprs)
-{
-    this->clear();
-    for(int i = 0; i < eprs->count(); i++)
-    {
-        Ench e;
-        e.id = eps->at(i).id;
-        e.lvl = 1;
-        pushItem(e, eprs->at(i));
-    }
+        pushItem(eprs->at(i));
 }
 
 
@@ -90,9 +80,11 @@ void ListWidget_Item::pushItem(Item it, ItemPro itpr)
 {
     ItemWidget_Item *w = new ItemWidget_Item(this);
     w->setItem(it, itpr);
+    QListWidgetItem *ite = new QListWidgetItem();
+    ite->setSizeHint(w->sizeHint());
+    this->addItem(ite);
+    this->setItemWidget(ite, w);
     connect(w, &ItemWidget_Item::stateChanged, this, &ListWidget_Item::itemStateChanged);
-    this->addItem("");
-    this->setItemWidget(item(count()-1), w);
 }
 
 
@@ -146,8 +138,10 @@ void ListWidget_FlowStep::pushItem(FlowStep fs, FlowStepPro fspr)
 {
     ItemWidget_FlowStep *w = new ItemWidget_FlowStep(this);
     w->setItem(fs, fspr);
-    this->addItem("");
-    this->setItemWidget(item(count()-1), w);
+    QListWidgetItem *it = new QListWidgetItem();
+    it->setSizeHint(w->sizeHint());
+    this->addItem(it);
+    this->setItemWidget(it, w);
 }
 
 void ListWidget_FlowStep::reload(const QVector<FlowStep> *fses, const QVector<FlowStepPro> *fsprs)
@@ -175,16 +169,27 @@ ItemWidget_Ench::~ItemWidget_Ench()
 }
 
 
-Ench ItemWidget_Ench::item()
+void ItemWidget_Ench::setMode(int m)
 {
-    return this_item;
+    mode = m;
 }
 
-void ItemWidget_Ench::setItem(Ench e, EnchPro epr)
+Ench ItemWidget_Ench::item()
 {
-    this_item = e;
+    Ench e;
+    e.id = this_item.id;
+    e.lvl = ui->sb->value();
+    return e;
+}
+
+void ItemWidget_Ench::setItem(EnchPro epr)
+{
+    this_item = epr;
     ui->name->setText(epr.text);
-    ui->sb->setValue(epr.maximum);  // Need more mode
+    if(mode == 0)
+        ui->sb->setValue(epr.minimum);
+    else
+        ui->sb->setValue(epr.maximum);
     ui->sb->setMinimum(epr.minimum);
     ui->sb->setMaximum(epr.maximum);
 }

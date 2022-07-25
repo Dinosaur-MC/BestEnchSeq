@@ -65,8 +65,6 @@ public:
     void setBase(const QVector<Ench> *es);
 
     QVector<Ench> getEnchSet();
-    QVector<EnchPro> toEnchPro(const QVector<Ench> *, const QVector<raw_EnchPlus> *);
-    QVector<EnchPro> toEnchPro(const QVector<EnchPlus> *, const QVector<raw_EnchPlus> *);
 
 private:
     const QVector<Weapon> *w_table;
@@ -102,7 +100,8 @@ private:
 
 
 void deliverID(const QVector<raw_Weapon> *rwps, const QVector<raw_EnchPlus> *reps, QVector<Weapon> *wps, QVector<EnchPlus> *eps);
-
+bool checkRedefinition(const QVector<raw_EnchPlus> *);
+bool checkRedefinition(const QVector<raw_Weapon> *);
 QString numToRoman(int);
 
 

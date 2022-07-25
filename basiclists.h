@@ -24,8 +24,10 @@ public:
     explicit ItemWidget_Ench(QWidget *parent = nullptr);
     ~ItemWidget_Ench();
 
+    void setMode(int);
+
     Ench item();
-    void setItem(Ench, EnchPro);
+    void setItem(EnchPro);
 
     void setCheck(bool);
     bool isChecked();
@@ -34,10 +36,9 @@ public:
     void setSpinboxHidden(bool);
 
 private:
-    Ench this_item;
     Ui::ItemWidget_Ench *ui;
-
-
+    EnchPro this_item;
+    int mode;
 
 signals:
     void stateChanged();
@@ -103,12 +104,11 @@ public:
     explicit ListWidget_Ench(QWidget *parent = nullptr);
 
     ItemWidget_Ench* getItem(int);   // 获取指定行的项目值
-    void pushItem(Ench, EnchPro); // 追加物品
+    void pushItem(EnchPro); // 追加物品
 
     int checkedItemCount(); // 被选中的项数
     QVector<Ench> getCheckedItem();  // 获取被选中的项
-    void reload(const QVector<Ench> *, const QVector<EnchPro> *);  // 加载（重载）列表
-    void reload(const QVector<EnchPlus> *eps, const QVector<EnchPro> *eprs);
+    void reload(const QVector<EnchPro> *);  // 加载（重载）列表
 
 signals:
     void itemStateChanged();    // 存在项目选中状态改变

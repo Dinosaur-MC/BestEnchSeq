@@ -237,7 +237,15 @@ void FileOperator::loadWeaponTable(QVector<raw_Weapon> *weapon) // 加载 Weapon
         weapon->append(tm);
     }
 
-    qDebug() << "[FileOperator] Weapon table has been loaded!";
+    if(checkRedefinition(weapon))
+        qDebug() << "[FileOperator] Weapon table has been loaded!";
+    else
+    {
+        qDebug() << "[FileOperator] ERROR: The extern weapon table has redefined item!";
+        weapon->clear();
+        loadInternalData(weapon);
+        weapon->squeeze();
+    }
 }
 
 void FileOperator::loadEnchantmentTable(QVector<raw_EnchPlus> *ench_table)    // 加载 EnchantmentTable
@@ -313,7 +321,15 @@ void FileOperator::loadEnchantmentTable(QVector<raw_EnchPlus> *ench_table)    //
     }
     ench_table->squeeze();  // 释放空闲内存
 
-    qDebug() << "[FileOperator] Enchantment table has been loaded!";
+    if(checkRedefinition(ench_table))
+        qDebug() << "[FileOperator] Enchantment table has been loaded!";
+    else
+    {
+        qDebug() << "[FileOperator] ERROR: The extern enchantment table has redefined item!";
+        ench_table->clear();
+        loadInternalData(ench_table);
+        ench_table->squeeze();
+    }
 }
 
 
@@ -488,7 +504,7 @@ int* Anvil::preforge(const Item a, Item b) // 花费计算
 
     int *cost = new int[4]; // *** 0等级花费，1惩罚花费，2冲突花费，3修复花费 ***
     int a_ec = a.ench.count();  // 目标物品的魔咒数
-    int multi = b.type < 0? 1: 0;  // 选择乘数
+    int multi = (b.type < 0? 1: 0);  // 选择乘数
 
 
     // 处理冲突的魔咒
@@ -670,13 +686,13 @@ QVector<Ench> EnchFilter::getEnchSet()
         ench_set.append(e);
     }
 
-    Anvil *anv = new Anvil(e_table);
+    Anvil anv(e_table);
     int bsc = base_set->count();
     for(int i = 0; i < ench_set.count(); i++)
     {
         for(int j = 0; j < bsc; j++)
         {
-            if(anv->checkRepulsed(ench_set.at(i), base_set->at(j))) // 移除与base冲突的魔咒
+            if(anv.checkRepulsed(ench_set.at(i), base_set->at(j))) // 移除与base冲突的魔咒
             {
                 ench_set.remove(i);
                 i--;
@@ -698,39 +714,8 @@ QVector<Ench> EnchFilter::getEnchSet()
             }
         }
     }
-    delete anv;
 
     return ench_set;
-}
-
-QVector<EnchPro> EnchFilter::toEnchPro(const QVector<Ench> *es, const QVector<raw_EnchPlus> *re_table)
-{
-    QVector<EnchPro> epr;
-    for(int i = 0; i < es->count(); i++)
-    {
-        EnchPro tm;
-        tm.id = es->at(i).id;
-        tm.minimum = es->at(i).lvl;
-        tm.maximum = e_table->at(es->at(i).id).max_level;
-        tm.text = re_table->at(es->at(i).id).name;
-        epr.append(tm);
-    }
-    return epr;
-}
-
-QVector<EnchPro> EnchFilter::toEnchPro(const QVector<EnchPlus> *eps, const QVector<raw_EnchPlus> *re_table)
-{
-    QVector<EnchPro> epr;
-    for(int i = 0; i < eps->count(); i++)
-    {
-        EnchPro tm;
-        tm.id = eps->at(i).id;
-        tm.minimum = 1;
-        tm.maximum = eps->at(i).max_level;
-        tm.text = re_table->at(eps->at(i).id).name;
-        epr.append(tm);
-    }
-    return epr;
 }
 
 
@@ -847,6 +832,33 @@ void deliverID(const QVector<raw_Weapon> *rwps, const QVector<raw_EnchPlus> *rep
             }
         }
     }
+}
+
+
+bool checkRedefinition(const QVector<raw_EnchPlus> *reps)   // 检查是否存在重复定义项，若不存在则通过，否则不通过。下同
+{
+    for(int i = 0; i < reps->count(); i++)
+    {
+        for(int j = 0; j < reps->count(); j++)
+        {
+            if(reps->at(i).edition == reps->at(j).edition && reps->at(i).name == reps->at(j).name)
+                return false;
+        }
+    }
+    return true;
+}
+
+bool checkRedefinition(const QVector<raw_Weapon> *rwps)
+{
+    for(int i = 0; i < rwps->count(); i++)
+    {
+        for(int j = 0; j < rwps->count(); j++)
+        {
+            if(rwps->at(i).name == rwps->at(j).name)
+                return false;
+        }
+    }
+    return true;
 }
 
 

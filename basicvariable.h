@@ -159,12 +159,15 @@ public:
     Chameleon *fromVEnch(QVector<Ench>);
     Chameleon *fromVEnchPlus(QVector<EnchPlus>);
     Chameleon *fromVEnchPro(QVector<EnchPro>);
+    Chameleon *fromVRawEnchPlus(QVector<raw_EnchPlus>);
 
     QVector<Ench> toVEnch();
     QVector<EnchPlus> toVEnchPlus();
     QVector<EnchPro> toVEnchPro();
     QVector<Item> toVEBook();
     Item toEBook();
+
+    void clear();
 
 private:
     QVector<raw_EnchPlus> *raw_ench_table;

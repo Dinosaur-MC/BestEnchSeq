@@ -62,6 +62,7 @@ AWindow::~AWindow()
     delete e_filter;
     delete transf;
     delete lb_update;
+    delete chml;
 }
 
 
@@ -92,6 +93,7 @@ void AWindow::initialize()    // 初始化
     anv = new Anvil(&mce, &pfaddn, &enchantment_table);
     e_filter = new EnchFilter(&weapon_table, &enchantment_table);
     transf = new Transformer(&raw_weapon_table, &raw_enchantment_table);
+    chml = new Chameleon(&raw_enchantment_table);
 
     // 配置状态栏
     initStatusBar();
@@ -310,7 +312,11 @@ void AWindow::initialize()    // 初始化
 
     // 容器初始化
     ui->cb_InputItem->reload(&raw_weapon_table);
-//    ui->ListOriginEnchantment->reload(&weapon.suitableE, e_filter->toEnchPro(&weapon.suitableE, &));
+
+    weapon = weapon_table.at(ui->cb_InputItem->currentIndex());
+    chml->fromVEnchPlus(weapon.suitableE);
+    QVector<EnchPro> eprs = chml->toVEnchPro();
+    ui->ListOriginEnchantment->reload(&eprs);
 
 }
 
