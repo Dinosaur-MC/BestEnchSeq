@@ -12,6 +12,10 @@ ListWidget_Ench::ListWidget_Ench(QWidget *parent) :
 
 }
 
+void ListWidget_Ench::setMode(int m)
+{
+    mode = m;
+}
 
 ItemWidget_Ench* ListWidget_Ench::getItem(int a)
 {
@@ -21,6 +25,7 @@ ItemWidget_Ench* ListWidget_Ench::getItem(int a)
 void ListWidget_Ench::pushItem(EnchPro epr)
 {
     ItemWidget_Ench *w = new ItemWidget_Ench(this);
+    w->setMode(mode);
     w->setItem(epr);
     QListWidgetItem *it = new QListWidgetItem();
     it->setSizeHint(w->sizeHint());
@@ -54,11 +59,16 @@ QVector<Ench> ListWidget_Ench::getCheckedItem()
     return es;
 }
 
-void ListWidget_Ench::reload(const QVector<EnchPro> *eprs)
+void ListWidget_Ench::reload(QVector<EnchPro> eprs)
 {
     this->clear();
-    for(int i = 0; i < eprs->count(); i++)
-        pushItem(eprs->at(i));
+    for(int i = 0; i < eprs.count(); i++)
+        pushItem(eprs.at(i));
+}
+
+void ListWidget_Ench::dealRepulsion()
+{
+
 }
 
 
@@ -112,11 +122,11 @@ QVector<Item> ListWidget_Item::getCheckedItem()
     return its;
 }
 
-void ListWidget_Item::reload(const QVector<Item> *its, const QVector<ItemPro> *itprs)
+void ListWidget_Item::reload(QVector<Item> its, QVector<ItemPro> itprs)
 {
     this->clear();
-    for(int i = 0; i < itprs->count(); i++)
-        pushItem(its->at(i), itprs->at(i));
+    for(int i = 0; i < itprs.count(); i++)
+        pushItem(its.at(i), itprs.at(i));
 }
 
 
@@ -144,11 +154,11 @@ void ListWidget_FlowStep::pushItem(FlowStep fs, FlowStepPro fspr)
     this->setItemWidget(it, w);
 }
 
-void ListWidget_FlowStep::reload(const QVector<FlowStep> *fses, const QVector<FlowStepPro> *fsprs)
+void ListWidget_FlowStep::reload(QVector<FlowStep> fses, QVector<FlowStepPro> fsprs)
 {
     this->clear();
-    for(int i = 0; i < fsprs->count(); i++)
-        pushItem(fses->at(i), fsprs->at(i));
+    for(int i = 0; i < fsprs.count(); i++)
+        pushItem(fses.at(i), fsprs.at(i));
 }
 
 
@@ -310,11 +320,15 @@ void WeaponBox::addWeapon(raw_Weapon rw)
     this->addItem(rw.icon, rw.name);
 }
 
-void WeaponBox::reload(const QVector<raw_Weapon> *rws)
+void WeaponBox::reload(QVector<raw_Weapon> rws)
 {
+    this->blockSignals(true);
     this->clear();
-    for(int i = 0; i < rws->count(); i++)
-        addWeapon(rws->at(i));
+    this->blockSignals(false);
+
+    for(int i = 0; i < rws.count(); i++)
+        addWeapon(rws.at(i));
+    setCurrentIndex(0);
 }
 
 raw_Weapon WeaponBox::currentWeapon()

@@ -102,13 +102,19 @@ class ListWidget_Ench : public QListWidget
 
 public:
     explicit ListWidget_Ench(QWidget *parent = nullptr);
+    void setMode(int);
 
     ItemWidget_Ench* getItem(int);   // 获取指定行的项目值
     void pushItem(EnchPro); // 追加物品
 
     int checkedItemCount(); // 被选中的项数
     QVector<Ench> getCheckedItem();  // 获取被选中的项
-    void reload(const QVector<EnchPro> *);  // 加载（重载）列表
+    void reload(QVector<EnchPro>);  // 加载（重载）列表
+
+    void dealRepulsion();
+
+private:
+    int mode;
 
 signals:
     void itemStateChanged();    // 存在项目选中状态改变
@@ -128,7 +134,7 @@ public:
 
     int checkedItemCount(); // 被选中的项数
     QVector<Item> getCheckedItem();  // 获取被选中的项
-    void reload(const QVector<Item> *, const QVector<ItemPro> *);  // 加载（重载）列表
+    void reload(QVector<Item>, QVector<ItemPro>);  // 加载（重载）列表
 
 signals:
     void itemStateChanged();    // 存在项目选中状态改变
@@ -146,7 +152,7 @@ public:
     ItemWidget_FlowStep* getItem(int);   // 获取指定行的项目值
     void pushItem(FlowStep, FlowStepPro); // 追加物品
 
-    void reload(const QVector<FlowStep> *, const QVector<FlowStepPro> *);  // 加载（重载）列表
+    void reload(QVector<FlowStep>, QVector<FlowStepPro>);  // 加载（重载）列表
 
 signals:
     void itemStateChanged();    // 存在项目选中状态改变
@@ -164,7 +170,7 @@ public:
     WeaponBox(QWidget *parent = nullptr);
 
     void addWeapon(raw_Weapon);
-    void reload(const QVector<raw_Weapon> *);
+    void reload(QVector<raw_Weapon>);
 
     raw_Weapon currentWeapon();
 

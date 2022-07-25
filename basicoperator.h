@@ -59,7 +59,7 @@ private:
 class EnchFilter
 {
 public:
-    explicit EnchFilter(const QVector<Weapon> *, const QVector<EnchPlus> *);
+    explicit EnchFilter(const MCE *, const QVector<Weapon> *, const QVector<EnchPlus> *);
 
     void setWeapon(Weapon);
     void setBase(const QVector<Ench> *es);
@@ -67,6 +67,7 @@ public:
     QVector<Ench> getEnchSet();
 
 private:
+    const MCE *edition;
     const QVector<Weapon> *w_table;
     const QVector<EnchPlus> *e_table;
 
@@ -89,8 +90,8 @@ class Transformer
 public:
     Transformer(const QVector<raw_Weapon> *, const QVector<raw_EnchPlus> *);
 
-    ItemPro operator=(const Item*);
-    FlowStepPro operator=(const FlowStep*);
+    ItemPro toItemPro(const Item*);
+    FlowStepPro toFlowStepPro(const FlowStep*);
 
 private:
     const QVector<raw_Weapon> *rwps;

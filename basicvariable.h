@@ -154,7 +154,6 @@ public:
     Chameleon(QVector<raw_EnchPlus> *reps = nullptr);
     ~Chameleon();
     bool link(QVector<raw_EnchPlus> *reps);
-    QVector<int> data;
 
     Chameleon *fromVEnch(QVector<Ench>);
     Chameleon *fromVEnchPlus(QVector<EnchPlus>);
@@ -172,6 +171,7 @@ public:
 private:
     QVector<raw_EnchPlus> *raw_ench_table;
 
+    QVector<int> data;
     bool isRich;
     QVector<int> *lvl;
 

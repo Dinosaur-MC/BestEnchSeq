@@ -70,6 +70,7 @@ void AWindow::initialize()    // 初始化
 {
     // 数据初始化
     pfaddn = 0b000;
+    mce = MCE::Java;
 
     // 加载数据
     loadInternalData(&opt);
@@ -91,7 +92,7 @@ void AWindow::initialize()    // 初始化
 
     // 初始化 Operator
     anv = new Anvil(&mce, &pfaddn, &enchantment_table);
-    e_filter = new EnchFilter(&weapon_table, &enchantment_table);
+    e_filter = new EnchFilter(&mce, &weapon_table, &enchantment_table);
     transf = new Transformer(&raw_weapon_table, &raw_enchantment_table);
     chml = new Chameleon(&raw_enchantment_table);
 
@@ -196,11 +197,14 @@ void AWindow::initialize()    // 初始化
 
     // Combo Box
     connect(ui->cb_InputItem, &QComboBox::currentIndexChanged, this, [=](){
-        weapon = weapon_table.at(ui->cb_InputItem->currentIndex());
-        raw_weapon = ui->cb_InputItem->currentWeapon();
-        current_item.type = weapon.id;
-        aim_item.type = weapon.id;
-        refreshPage(1);
+        if(ui->cb_InputItem->currentIndex() >= 0)
+        {
+            raw_weapon = ui->cb_InputItem->currentWeapon();
+            weapon = weapon_table.at(ui->cb_InputItem->currentIndex());
+            current_item.type = weapon.id;
+            aim_item.type = weapon.id;
+            refreshPage(1);
+        }
     });
 
 
@@ -218,6 +222,7 @@ void AWindow::initialize()    // 初始化
     connect(ui->btnExit, &QPushButton::clicked, ui->actionExit, &QAction::triggered);
     connect(ui->btnReset, &QPushButton::clicked, this, &AWindow::restart);
     connect(ui->btnNext_1, &QPushButton::clicked, this, [=](){
+        refreshPage(2);
         ui->tabWidget->setCurrentIndex(1);
     });
 
@@ -226,6 +231,7 @@ void AWindow::initialize()    // 初始化
             ui->tabWidget_ench->setCurrentIndex(1);
         else
         {
+            // Calculator
 
             ui->tabWidget->setCurrentIndex(2);
         }
@@ -248,12 +254,13 @@ void AWindow::initialize()    // 初始化
 
 
     // Radio Button
-    connect(ui->radioE_JE, &QRadioButton::clicked, this, [=](){
-        mce = MCE::Java;
-    });
+    connect(ui->radioE_JE, &QRadioButton::toggled, this, [=](){
+        if(ui->radioE_JE->isChecked())
+            mce = MCE::Java;
+        else
+            mce = MCE::Bedrock;
 
-    connect(ui->radioE_BE, &QRadioButton::clicked, this, [=](){
-        mce = MCE::Bedrock;
+        refreshPage(0);
     });
 
     connect(ui->radioSI_ALEB, &QRadioButton::clicked, this, [=](){
@@ -311,32 +318,59 @@ void AWindow::initialize()    // 初始化
     /* Connections */
 
     // 容器初始化
-    ui->cb_InputItem->reload(&raw_weapon_table);
+    ui->ListOriginEnchantment->setMode(0);
+    ui->ListNeededEnchantment->setMode(1);
+    e_filter->setBase(&current_item.ench);
 
-    weapon = weapon_table.at(ui->cb_InputItem->currentIndex());
-    chml->fromVEnchPlus(weapon.suitableE);
-    QVector<EnchPro> eprs = chml->toVEnchPro();
-    ui->ListOriginEnchantment->reload(&eprs);
+    refreshPage(0);
 
 }
 
 void AWindow::refreshPage(int page)    // 刷新页面列表
 {
-    switch (page) {
-    case 0:
+    if(page == 0)
+    {
+        ui->cb_InputItem->reload(raw_weapon_table);
+        raw_weapon = ui->cb_InputItem->currentWeapon();
+        weapon = weapon_table.at(ui->cb_InputItem->currentIndex());
+        current_item.type = weapon.id;
+        aim_item.type = weapon.id;
+        e_filter->setWeapon(weapon);
 
-        break;
-    case 1:
-
-        break;
-    case 2:
-
-        break;
-    case 3:
-
-        break;
-    default:
-        break;
+        refreshPage(3);
+        refreshPage(1);
+        refreshPage(2);
+    }
+    else if(page == 1)
+    {
+        qDebug() << "ui->cb_InputItem->currentIndex() " << weapon_table.count() << ui->cb_InputItem->currentIndex();
+        weapon = weapon_table.at(ui->cb_InputItem->currentIndex());
+        if(chml->fromVEnchPlus(weapon.suitableE) != NULL)
+            ui->ListOriginEnchantment->reload(chml->toVEnchPro());
+    }
+    else if(page == 2)
+    {
+        current_item.ench = ui->ListOriginEnchantment->getCheckedItem();
+        if(chml->fromVEnch(e_filter->getEnchSet()) != NULL)
+            ui->ListNeededEnchantment->reload(chml->toVEnchPro());
+//        ui->ListItemPool->clear();
+    }
+    else if(page == 3)
+    {
+        ui->label_Durability_1->setText("---");
+        ui->label_Penalty_1->setText("---");
+        ui->label_LevelCost->setText("---");
+        ui->label_PointCost->setText("---");
+        ui->label_StepCount->setText("---");
+        ui->label_CalcTime->setText("------");
+        ui->label_Notice->setText("无结果\nNo Result");
+        if(flow.count() > 0)
+        {
+            QVector<FlowStepPro> fsps;
+            for(int i = 0; i < flow.count(); i++)
+                fsps.append(transf->toFlowStepPro(&flow.at(i)));
+            ui->ListEnchantingFlow->reload(flow, fsps);
+        }
     }
 }
 

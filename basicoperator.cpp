@@ -657,8 +657,9 @@ FlowStep Anvil::combine(const Item a, Item b)
 }
 
 
-EnchFilter::EnchFilter(const QVector<Weapon> *wp, const QVector<EnchPlus> *ep)
+EnchFilter::EnchFilter(const MCE *mce, const QVector<Weapon> *wp, const QVector<EnchPlus> *ep)
 {
+    edition = mce;
     w_table = wp;
     e_table = ep;
 
@@ -680,17 +681,14 @@ QVector<Ench> EnchFilter::getEnchSet()
     QVector<Ench> ench_set;
     for(int i = 0; i < weapon.suitableE.count(); i++)   // 加载该weapon所能支持的魔咒
     {
-        Ench e;
-        e.id = weapon.suitableE.at(i).id;
-        e.lvl = 0;
-        ench_set.append(e);
+        if(weapon.suitableE.at(i).edition == MCE::All || *edition == weapon.suitableE.at(i).edition)
+            ench_set.append({weapon.suitableE.at(i).id, 1});
     }
 
     Anvil anv(e_table);
-    int bsc = base_set->count();
     for(int i = 0; i < ench_set.count(); i++)
     {
-        for(int j = 0; j < bsc; j++)
+        for(int j = 0; j < base_set->count(); j++)
         {
             if(anv.checkRepulsed(ench_set.at(i), base_set->at(j))) // 移除与base冲突的魔咒
             {
@@ -733,7 +731,7 @@ Transformer::Transformer(const QVector<raw_Weapon> * rwp, const QVector<raw_Ench
     qDebug() << "[Transformer] Initialized.";
 }
 
-ItemPro Transformer::operator=(const Item* it)
+ItemPro Transformer::toItemPro(const Item *it)
 {
     ItemPro itp;
 
@@ -760,11 +758,11 @@ ItemPro Transformer::operator=(const Item* it)
     return itp;
 }
 
-FlowStepPro Transformer::operator=(const FlowStep* fs)
+FlowStepPro Transformer::toFlowStepPro(const FlowStep *fs)
 {
     FlowStepPro fsp;
-    fsp.a = Transformer::operator=(&fs->a);
-    fsp.b = Transformer::operator=(&fs->b);
+    fsp.a = toItemPro(&fs->a);
+    fsp.b = toItemPro(&fs->b);
     fsp.levelCost = fs->levelCost;
 
     if(fs->levelCost <= 16)  // 计算经验值花费

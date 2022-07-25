@@ -97,14 +97,18 @@ bool Chameleon::link(QVector<raw_EnchPlus> *reps)
 
 Chameleon *Chameleon::fromVEnch(QVector<Ench> es)
 {
-    if(es.count() == 0)
+    if(es.count() < 1)
         return NULL;
 
     data.clear();
     if(lvl == NULL)
         lvl = new QVector<int>;
     else
-        lvl->clear();
+    {
+        delete lvl;
+        lvl = new QVector<int>;
+    }
+
 
     for(int i = 0; i < es.count(); i++)
     {
@@ -113,8 +117,7 @@ Chameleon *Chameleon::fromVEnch(QVector<Ench> es)
     }
 
     data.squeeze();
-    if(isRich)
-        lvl->squeeze();
+    lvl->squeeze();
 
     isRich = true;
     return this;
@@ -122,7 +125,7 @@ Chameleon *Chameleon::fromVEnch(QVector<Ench> es)
 
 Chameleon *Chameleon::fromVEnchPlus(QVector<EnchPlus> eps)
 {
-    if(eps.count() == 0)
+    if(eps.count() < 1)
         return NULL;
 
     data.clear();
@@ -130,6 +133,12 @@ Chameleon *Chameleon::fromVEnchPlus(QVector<EnchPlus> eps)
         data.append(eps.at(i).id);
     data.squeeze();
 
+    if(isRich)
+    {
+        delete lvl;
+        lvl = NULL;
+        isRich = false;
+    }
     return this;
 }
 
@@ -143,6 +152,12 @@ Chameleon *Chameleon::fromVEnchPro(QVector<EnchPro> eprs)
         data.append(eprs.at(i).id);
     data.squeeze();
 
+    if(isRich)
+    {
+        delete lvl;
+        lvl = NULL;
+        isRich = false;
+    }
     return this;
 }
 
@@ -162,6 +177,12 @@ Chameleon *Chameleon::fromVRawEnchPlus(QVector<raw_EnchPlus> reps)
     }
     data.squeeze();
 
+    if(isRich)
+    {
+        delete lvl;
+        lvl = NULL;
+        isRich = false;
+    }
     return this;
 }
 
