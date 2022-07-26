@@ -61,7 +61,7 @@ class EnchFilter
 public:
     explicit EnchFilter(const MCE *, const QVector<Weapon> *, const QVector<EnchPlus> *);
 
-    void setWeapon(Weapon);
+    void setWeapon(const Weapon *);
     void setBase(const QVector<Ench> *es);
 
     QVector<Ench> getEnchSet();
@@ -71,9 +71,8 @@ private:
     const QVector<Weapon> *w_table;
     const QVector<EnchPlus> *e_table;
 
+    const Weapon *weapon;
     const QVector<Ench> *base_set;
-
-    Weapon weapon;
 
 };
 

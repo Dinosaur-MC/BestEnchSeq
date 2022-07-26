@@ -323,12 +323,13 @@ void WeaponBox::addWeapon(raw_Weapon rw)
 void WeaponBox::reload(QVector<raw_Weapon> rws)
 {
     this->blockSignals(true);
-    this->clear();
-    this->blockSignals(false);
 
+    this->clear();
     for(int i = 0; i < rws.count(); i++)
         addWeapon(rws.at(i));
     setCurrentIndex(0);
+
+    this->blockSignals(false);
 }
 
 raw_Weapon WeaponBox::currentWeapon()

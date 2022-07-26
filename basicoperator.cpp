@@ -666,7 +666,7 @@ EnchFilter::EnchFilter(const MCE *mce, const QVector<Weapon> *wp, const QVector<
     qDebug() << "[EnchFilter] Initialized.";
 }
 
-void EnchFilter::setWeapon(Weapon w)
+void EnchFilter::setWeapon(const Weapon *w)
 {
     weapon = w;
 }
@@ -679,16 +679,16 @@ void EnchFilter::setBase(const QVector<Ench> *es)
 QVector<Ench> EnchFilter::getEnchSet()
 {
     QVector<Ench> ench_set;
-    for(int i = 0; i < weapon.suitableE.count(); i++)   // 加载该weapon所能支持的魔咒
+    for(int i = 0; i < weapon->suitableE.count(); i++)   // 加载该weapon所能支持的魔咒
     {
-        if(weapon.suitableE.at(i).edition == MCE::All || *edition == weapon.suitableE.at(i).edition)
-            ench_set.append({weapon.suitableE.at(i).id, 1});
+        if(weapon->suitableE.at(i).edition == MCE::All || *edition == weapon->suitableE.at(i).edition)
+            ench_set.append({weapon->suitableE.at(i).id, 1});
     }
 
     Anvil anv(e_table);
-    for(int i = 0; i < ench_set.count(); i++)
+    for(int j = 0; j < base_set->count(); j++)
     {
-        for(int j = 0; j < base_set->count(); j++)
+        for(int i = 0; i < ench_set.count(); i++)
         {
             if(anv.checkRepulsed(ench_set.at(i), base_set->at(j))) // 移除与base冲突的魔咒
             {

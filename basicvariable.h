@@ -33,7 +33,7 @@ struct Config {
   bool enable_custom_en;  // 是否启用自定义魔咒
   bool enable_reszie_window;  // 是否开启自由窗口大小模式
 
-  bool deverloper_mode;  // 开发者模式
+  bool deverloper_mode;  // 开发者模式，用于后续开发测试
 };
 
 

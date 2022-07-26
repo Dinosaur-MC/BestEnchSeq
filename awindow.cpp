@@ -204,6 +204,7 @@ void AWindow::initialize()    // 初始化
             current_item.type = weapon.id;
             aim_item.type = weapon.id;
             refreshPage(1);
+            refreshPage(2);
         }
     });
 
@@ -308,6 +309,11 @@ void AWindow::initialize()    // 初始化
     });
 
     // Tab Widget
+//    connect(ui->tabWidget, &QTabWidget::currentChanged, [=](){
+//        if(ui->tabWidget->currentIndex() == 1)
+//            refreshPage(2);
+//    });
+
     connect(ui->tabWidget_ench, &QTabWidget::currentChanged, [=]{
         if(ui->tabWidget_ench->currentIndex() == 0)
             ui->btnNext_2->setText("下一步（Next）");
@@ -321,6 +327,7 @@ void AWindow::initialize()    // 初始化
     ui->ListOriginEnchantment->setMode(0);
     ui->ListNeededEnchantment->setMode(1);
     e_filter->setBase(&current_item.ench);
+    e_filter->setWeapon(&weapon);
 
     refreshPage(0);
 
@@ -334,18 +341,17 @@ void AWindow::refreshPage(int page)    // 刷新页面列表
         raw_weapon = ui->cb_InputItem->currentWeapon();
         weapon = weapon_table.at(ui->cb_InputItem->currentIndex());
         current_item.type = weapon.id;
+        current_item.ench.clear();
         aim_item.type = weapon.id;
-        e_filter->setWeapon(weapon);
 
         refreshPage(3);
-        refreshPage(1);
         refreshPage(2);
+        refreshPage(1);
     }
     else if(page == 1)
     {
-        qDebug() << "ui->cb_InputItem->currentIndex() " << weapon_table.count() << ui->cb_InputItem->currentIndex();
         weapon = weapon_table.at(ui->cb_InputItem->currentIndex());
-        if(chml->fromVEnchPlus(weapon.suitableE) != NULL)
+        if(chml->fromVEnch(e_filter->getEnchSet()) != NULL)
             ui->ListOriginEnchantment->reload(chml->toVEnchPro());
     }
     else if(page == 2)
