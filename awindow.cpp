@@ -333,7 +333,7 @@ void AWindow::initialize()    // 初始化
 
 }
 
-void AWindow::refreshPage(int page)    // 刷新页面列表
+void AWindow::refreshPage(int page)    // 刷新页面
 {
     if(page == 0)
     {

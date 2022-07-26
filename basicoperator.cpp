@@ -686,28 +686,28 @@ QVector<Ench> EnchFilter::getEnchSet()
     }
 
     Anvil anv(e_table);
-    for(int j = 0; j < base_set->count(); j++)
+    for(int i = 0; i < base_set->count(); i++)
     {
-        for(int i = 0; i < ench_set.count(); i++)
+        for(int j = 0; j < ench_set.count(); j++)
         {
-            if(anv.checkRepulsed(ench_set.at(i), base_set->at(j))) // 移除与base冲突的魔咒
+            if(anv.checkRepulsed(base_set->at(i), ench_set.at(j))) // 移除与base冲突的魔咒
             {
-                ench_set.remove(i);
-                i--;
-                break;
+                ench_set.remove(j);
+                j--;
+                continue;
             }
 
-            if(ench_set.at(i).id == base_set->at(j).id) // 移除已满级魔咒
+            if(base_set->at(i).id == ench_set.at(j).id) // 移除已满级魔咒
             {
-                if(base_set->at(j).lvl >= e_table->at(base_set->at(j).id).max_level)
+                if(base_set->at(i).lvl >= e_table->at(base_set->at(i).id).max_level)
                 {
-                    ench_set.remove(i);
-                    i--;
-                    break;
+                    ench_set.remove(j);
+                    j--;
+                    continue;
                 }
                 else
                 {
-                    ench_set[i].lvl = base_set->at(j).lvl + 1;  // 更新等级下限
+                    ench_set[j].lvl = base_set->at(i).lvl + 1;  // 更新等级下限
                 }
             }
         }
@@ -779,9 +779,7 @@ FlowStepPro Transformer::toFlowStepPro(const FlowStep *fs)
 void deliverID(const QVector<raw_Weapon> *rwps, const QVector<raw_EnchPlus> *reps, QVector<Weapon> *wps, QVector<EnchPlus> *eps)    // 分配魔咒和Weapon的数字ID
 {
     // 魔咒的数字ID
-    int repc = reps->count();
-
-    for(int i = 0; i < repc; i++)
+    for(int i = 0; i < reps->count(); i++)
     {
         EnchPlus tm;
         tm.id = i;
@@ -793,12 +791,11 @@ void deliverID(const QVector<raw_Weapon> *rwps, const QVector<raw_EnchPlus> *rep
         eps->append(tm);
     }
 
-    for(int i = 0; i < repc; i++)
+    for(int i = 0; i < reps->count(); i++)
     {
-        int repc = reps->at(i).repulsion.count();
-        for(int j = 0; j < repc; j++)
+        for(int j = 0; j < reps->at(i).repulsion.count(); j++)
         {
-            for(int k = 0; k < repc; k++)
+            for(int k = 0; k < reps->count(); k++)
             {
                 if(reps->at(i).repulsion.at(j) == reps->at(k).name)
                 {
@@ -811,18 +808,16 @@ void deliverID(const QVector<raw_Weapon> *rwps, const QVector<raw_EnchPlus> *rep
 
 
     // Weapon的数字ID
-    int wpc = rwps->count();
-
-    for(int i = 0; i < wpc; i++)
+    for(int i = 0; i < rwps->count(); i++)
     {
         Weapon tm;
         tm.id = i;
         wps->append(tm);
     }
 
-    for(int i = 0; i < repc; i++)
+    for(int i = 0; i < reps->count(); i++)
     {
-        for(int j = 0; j < wpc; j++)
+        for(int j = 0; j < rwps->count(); j++)
         {
             if(reps->at(i).suitable.at(j))
             {
