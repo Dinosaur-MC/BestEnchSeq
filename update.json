@@ -1,10 +1,10 @@
 {
     "BestEnchSeq":
     {
-        "LatestVerison":"v2.0_Beta",
-        "VerisonID":12203012,
-        "Url":"https://github.com/Dinosaur-MC/BestEnchSeq/releases/download/2.0_Beta/BestEnchSeq_V2.0Beta.zip",
-        "UpdateTime":"2022-03-13",
-        "ReleaseNote":"【重大更新】主要更新内容有：\n1、优化了核心算法\n2、添加基岩版计算支持\n3、优化了操作流程\n4、实装了配置选项\n5、添加了检查更新功能\n6、添加自定义武器支持\n7、自定义附魔和武器更新为通过修改csv文件编辑（可用Excel编辑）\n8、添加了状态栏声明"
+        "LatestVerison":"v2.0.1_Beta",
+        "VerisonID":12203013,
+        "Url":"https://github.com/Dinosaur-MC/BestEnchSeq/releases/download/2.0_Beta/BestEnchSeq_V2.0.1Beta.exe",
+        "UpdateTime":"2022-07-13",
+        "ReleaseNote":"【小更新】主要更新内容如下: \n1. 新增了更自由的缩放功能以缓解小屏幕设备中程序窗口过大的问题\n(开启【自由调节窗口大小】功能后可以通过鼠标自由调节窗口大小，也可以使用快捷键【Ctrl + [】或【Ctrl + ]】来调节窗口大小).\n2. 将程序需要的dll也打包进了exe中，是程序成为了单文件程序."
     }
 }

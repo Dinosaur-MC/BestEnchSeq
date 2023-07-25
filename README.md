@@ -1,18 +1,21 @@
 >***本软件程序是安全无毒、完全开源免费的！大家只需要根据这里或[此视频](https://www.bilibili.com/video/BV11T4y1D7c2)的获取方式获取使用即可！任何对本软件进行收费、出售等行为均为诈骗，大家谨防上当！并且也不要轻易使用不明身份的陌生人提供的第三方软件，谨防病毒入侵！***
 
-[English](README_EN.md)
 
 # 最佳附魔顺序计算器（The Best Enchanting Sequence）
----
+
+[![Release Version](https://img.shields.io/github/release/Dinosaur-MC/BestEnchSeq.svg?style=plastic)](https://github.com/Dinosaur-MC/BestEnchSeq/releases/latest/)
+[![Downloads](https://img.shields.io/github/downloads/Dinosaur-MC/BestEnchSeq/latest/total.svg?style=plastic)](https://github.com/Dinosaur-MC/BestEnchSeq/releases/latest/)
+[![LICENSE](https://img.shields.io/github/license/Dinosaur-MC/BestEnchSeq)](LICENSE)
+[![Bilibili Link](https://img.shields.io/badge/Bilibili-BV11T4y1D7c2-ff69b4.svg)](https://www.bilibili.com/video/BV11T4y1D7c2)
+
 ## 简介
 这是一个可以帮助你在附魔的时候轻松降低附魔成本的小程序。
 
 + 众所周知，在原版Minecraft中我们可以通过附魔台和铁砧给物品附魔，以增强它们的属性。但是，由于游戏设计限制，我们并不能轻易地打造出一件令我们满意的附魔属性强大的神器。尤其是当使用铁砧进行附魔的时候，不仅经验花费巨大，更棘手的是操作多次后还会由于过于昂贵而无法继续操作，若你没能把握住这个规律，你需要的附魔往往就不能全部实现。因此，本程序应运而生。你可以通过它轻易地计算出一条可行的低成本的路径来实现你想要的附魔，打造出你想要的神器。
 
-注意：这个项目仍在开发中，功能尚未完善，但已经能用了。由于作者开学了，所以剩下的功能可能将要推迟到以后慢慢更新完善。如果你有什么建议或发现了BUG，请联系我或反馈到这里来，谢谢！
+注意：这个项目仍在开发中，功能尚未完善，但已经能用了。由于作者学业繁忙，剩下的功能可能要推迟到以后（至少高考后）慢慢更新完善。如果你有什么建议或发现了BUG，请联系我或反馈到这里来，谢谢！
 
 + 现已支持Java版和基岩版！
-[哔哩哔哩](https://www.bilibili.com/video/BV11T4y1D7c2)
 
 
 ## 功能介绍&使用方法
@@ -114,4 +117,26 @@ M(完成)
         | -- | -- | -- | -- | -- | -- | -- | -- | -- | -- | -- | -- | -- | -- | -- | -- | -- | -- | -- | -- |
      4. 保存为`CSV UTF-8 逗号分隔符`格式并退出编辑软件
 
+## 开发计划简报
+
+重写的全新版本v4.1计划在2023年7月底完成，计划实现以下**特性**（2023.06.28）：
+
++ 【使前后端独立】将核心功能方法独立出来，聚合成一个独立计算核心，大幅降低核心功能与其它模块的耦合度，同时提高计算的效率
++ 【重写算法】通过新的数学模型建立新的算法模型，优化算法，使其支持更高级的物品配置策略，如武器附魔，附魔书合成，自由合成等
++ 【重新设计文件数据结构】如武器池文件、魔咒池文件等
++ 【重写GUI】使用全新的UI设计（*关键还是要好用*）
++ 【提供CMD/Console版本】可在命令行使用命令直接进行计算和结果输出等操作，也可以以控制台模式启动，能在DOS窗口中进行交互 ~~（朴实无华）~~
++ 【添加小工具】在GUI完整版中提供一些小工具来辅助附魔、计算等
++ 【实装快速自定义功能】实现在GUI中快捷编辑自定义列表，并可对自定义列表进行分组按需应用 ~~（整合包玩家狂喜）~~
++ 【更改显示语言】程序计划提供English、简体中文、繁体中文和文言，不再对其它语言提供官方支持，有需要的可自行翻译
+
+## 参考资料 & 鸣谢
+
++ [铁砧机制 - Minecraft Wiki](https://minecraft.fandom.com/zh/wiki/%E9%93%81%E7%A0%A7%E6%9C%BA%E5%88%B6)
++ [F13-怎么给你的武器装备用最佳顺序附魔？ - 肥啾U_ruby](https://www.bilibili.com/read/cv14725362)
++ [[Minecraft]最优化附魔顺序攻略 - hqqaazz](https://www.bilibili.com/read/cv9565707)
++ [Anvil mechanics - Minecraft Wiki](https://minecraft.fandom.com/wiki/Anvil_mechanics)
++ [YueLengM (Github)](https://github.com/YueLengM)
++ [半只洛伊 (Bilibili)](https://space.bilibili.com/105384464)
++ 帮忙测试的群友们
 

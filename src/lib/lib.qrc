@@ -1,0 +1,8 @@
+<RCC>
+    <qresource prefix="/dll">
+        <file>libgcc_s_seh-1.dll</file>
+        <file>libstdc++-6.dll</file>
+        <file>libwinpthread-1.dll</file>
+        <file>qwindowsvistastyle.dll</file>
+    </qresource>
+</RCC>

@@ -1,0 +1,15 @@
+﻿#? file_version = 4,
+# <武器名>,[武器图标]
+剑,res/netherite_sword.png
+镐,res/netherite_pickaxe.png
+斧,res/netherite_axe.png
+铲,res/netherite_shovel.png
+锄,res/netherite_hoe.png
+头盔,res/netherite_helmet.png
+胸甲,res/netherite_chestplate.png
+护腿,res/netherite_leggings.png
+靴,res/netherite_boots.png
+弓,res/bow.png
+弩,res/crossbow_standby.png
+三叉戟,res/trident.png
+钓鱼竿,res/fishing_rod.png

@@ -1,0 +1,31 @@
+{
+    "0": {
+        "BestEnchSeq": {
+            "LatestVerison": "v2.0.1_Beta",
+            "VerisonID": 12203013,
+            "Url": "https://github.com/Dinosaur-MC/BestEnchSeq/releases/download/2.0_Beta/BestEnchSeq_V2.0.1Beta.exe",
+            "UpdateTime": "2022-07-13",
+            "ReleaseNote": "【小更新】主要更新内容如下: \n1. 新增了更自由的缩放功能以缓解小屏幕设备中程序窗口过大的问题\n(开启【自由调节窗口大小】功能后可以通过鼠标自由调节窗口大小，也可以使用快捷键【Ctrl + [】或【Ctrl + ]】来调节窗口大小).\n2. 将程序需要的dll也打包进了exe中，是程序成为了单文件程序."
+        }
+    },
+    "1": {
+        "LatestVerison": {
+            "LatestVerison": "v2.0.1_Beta",
+            "VerisonID": 12203013,
+            "Url": "https://github.com/Dinosaur-MC/BestEnchSeq/releases/download/2.0_Beta/BestEnchSeq_V2.0.1Beta.exe",
+            "UpdateTime": "2022-07-13",
+            "ReleaseNote": "【小更新】主要更新内容如下: \n1. 新增了更自由的缩放功能以缓解小屏幕设备中程序窗口过大的问题\n(开启【自由调节窗口大小】功能后可以通过鼠标自由调节窗口大小，也可以使用快捷键【Ctrl + [】或【Ctrl + ]】来调节窗口大小).\n2. 将程序需要的dll也打包进了exe中，是程序成为了单文件程序.",
+            "IsAvailable": true
+        },
+        "HistoryVersions": [
+            {
+                "Name": "BestEnchSeq",
+                "VerisonID": "NaN",
+                "Url": "Null",
+                "UpdateTime": "Null",
+                "ReleaseNote": "Null",
+                "IsAvailable": false
+            }
+        ]
+    }
+}
