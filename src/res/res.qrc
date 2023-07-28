@@ -1,0 +1,26 @@
+<RCC>
+    <qresource prefix="/icon">
+        <file>bow.png</file>
+        <file>crossbow_standby.png</file>
+        <file>enchanted_book.png</file>
+        <file>fishing_rod.png</file>
+        <file>logo.ico</file>
+        <file>logo.png</file>
+        <file>pack.png</file>
+        <file>trident.png</file>
+        <file>axe.png</file>
+        <file>boots.png</file>
+        <file>chestplate.png</file>
+        <file>hoe.png</file>
+        <file>ingot.png</file>
+        <file>leggings.png</file>
+        <file>pickaxe.png</file>
+        <file>shovel.png</file>
+        <file>sword.png</file>
+        <file>helmet.png</file>
+        <file>upgrade.png</file>
+    </qresource>
+    <qresource prefix="/table">
+        <file>default_table.json</file>
+    </qresource>
+</RCC>

@@ -4,8 +4,9 @@
 #include <QWidget>
 #include "core/core.h"
 
-namespace Ui {
-class MainWindow;
+namespace Ui
+{
+    class MainWindow;
 }
 
 class MainWindow : public QWidget

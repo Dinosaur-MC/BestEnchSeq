@@ -1,0 +1,841 @@
+{
+    "content": {
+        "enchantments": [
+            {
+                "book_multiplier": 2,
+                "conflictions": [
+                ],
+                "editions": [
+                    "Java",
+                    "Bedrock"
+                ],
+                "groups": [
+                    "头盔",
+					"附魔书"
+                ],
+                "item_multiplier": 4,
+                "max_level": 1,
+                "name": "水下速掘",
+                "poor_max_level": 1
+            },
+            {
+                "book_multiplier": 1,
+                "conflictions": [
+                    "锋利",
+                    "亡灵杀手"
+                ],
+                "editions": [
+                    "Java",
+                    "Bedrock"
+                ],
+                "groups": [
+                    "斧",
+                    "剑",
+					"附魔书"
+                ],
+                "item_multiplier": 2,
+                "max_level": 5,
+                "name": "节肢杀手",
+                "poor_max_level": 4
+            },
+            {
+                "book_multiplier": 2,
+                "conflictions": [
+                    "火焰保护",
+                    "弹射物保护",
+                    "保护"
+                ],
+                "editions": [
+                    "Java",
+                    "Bedrock"
+                ],
+                "groups": [
+                    "头盔",
+                    "胸甲",
+                    "靴",
+                    "护腿",
+					"附魔书"
+                ],
+                "item_multiplier": 4,
+                "max_level": 4,
+                "name": "爆炸保护",
+                "poor_max_level": 4
+            },
+            {
+                "book_multiplier": 4,
+                "conflictions": [
+                    "激流"
+                ],
+                "editions": [
+                    "Java",
+                    "Bedrock"
+                ],
+                "groups": [
+                    "三叉戟",
+					"附魔书"
+                ],
+                "item_multiplier": 8,
+                "max_level": 1,
+                "name": "引雷",
+                "poor_max_level": 1
+            },
+            {
+                "book_multiplier": 4,
+                "conflictions": [
+                ],
+                "editions": [
+                    "Java",
+                    "Bedrock"
+                ],
+                "groups": [
+                    "头盔",
+                    "胸甲",
+                    "靴",
+                    "护腿",
+					"附魔书"
+                ],
+                "item_multiplier": 8,
+                "max_level": 1,
+                "name": "绑定诅咒",
+                "poor_max_level": 0
+            },
+            {
+                "book_multiplier": 4,
+                "conflictions": [
+                ],
+                "editions": [
+                    "Java",
+                    "Bedrock"
+                ],
+                "groups": [
+                    "斧",
+                    "剑",
+                    "头盔",
+                    "胸甲",
+                    "靴",
+                    "弓",
+                    "钓鱼竿",
+                    "锄",
+                    "护腿",
+                    "弩",
+                    "铲",
+                    "镐",
+                    "三叉戟",
+					"附魔书"
+                ],
+                "item_multiplier": 8,
+                "max_level": 1,
+                "name": "消失诅咒",
+                "poor_max_level": 0
+            },
+            {
+                "book_multiplier": 2,
+                "conflictions": [
+                    "冰霜行者"
+                ],
+                "editions": [
+                    "Java",
+                    "Bedrock"
+                ],
+                "groups": [
+                    "靴",
+					"附魔书"
+                ],
+                "item_multiplier": 4,
+                "max_level": 3,
+                "name": "深海探索者",
+                "poor_max_level": 3
+            },
+            {
+                "book_multiplier": 1,
+                "conflictions": [
+                ],
+                "editions": [
+                    "Java",
+                    "Bedrock"
+                ],
+                "groups": [
+                    "斧",
+                    "锄",
+                    "铲",
+                    "镐",
+					"附魔书"
+                ],
+                "item_multiplier": 1,
+                "max_level": 5,
+                "name": "效率",
+                "poor_max_level": 4
+            },
+            {
+                "book_multiplier": 1,
+                "conflictions": [
+                ],
+                "editions": [
+                    "Java",
+                    "Bedrock"
+                ],
+                "groups": [
+                    "靴",
+					"附魔书"
+                ],
+                "item_multiplier": 2,
+                "max_level": 4,
+                "name": "摔落保护",
+                "poor_max_level": 4
+            },
+            {
+                "book_multiplier": 2,
+                "conflictions": [
+                ],
+                "editions": [
+                    "Java",
+                    "Bedrock"
+                ],
+                "groups": [
+                    "剑",
+					"附魔书"
+                ],
+                "item_multiplier": 4,
+                "max_level": 2,
+                "name": "火焰附加",
+                "poor_max_level": 2
+            },
+            {
+                "book_multiplier": 1,
+                "conflictions": [
+                    "爆炸保护",
+                    "弹射物保护",
+                    "保护"
+                ],
+                "editions": [
+                    "Java",
+                    "Bedrock"
+                ],
+                "groups": [
+                    "头盔",
+                    "胸甲",
+                    "靴",
+                    "护腿",
+					"附魔书"
+                ],
+                "item_multiplier": 2,
+                "max_level": 4,
+                "name": "火焰保护",
+                "poor_max_level": 4
+            },
+            {
+                "book_multiplier": 2,
+                "conflictions": [
+                ],
+                "editions": [
+                    "Java",
+                    "Bedrock"
+                ],
+                "groups": [
+                    "弓",
+					"附魔书"
+                ],
+                "item_multiplier": 4,
+                "max_level": 1,
+                "name": "火矢",
+                "poor_max_level": 1
+            },
+            {
+                "book_multiplier": 2,
+                "conflictions": [
+                    "精准采集"
+                ],
+                "editions": [
+                    "Java",
+                    "Bedrock"
+                ],
+                "groups": [
+                    "斧",
+                    "锄",
+                    "铲",
+                    "镐",
+					"附魔书"
+                ],
+                "item_multiplier": 4,
+                "max_level": 3,
+                "name": "时运",
+                "poor_max_level": 3
+            },
+            {
+                "book_multiplier": 2,
+                "conflictions": [
+                    "深海探索者"
+                ],
+                "editions": [
+                    "Java",
+                    "Bedrock"
+                ],
+                "groups": [
+                    "靴",
+					"附魔书"
+                ],
+                "item_multiplier": 4,
+                "max_level": 2,
+                "name": "冰霜行者",
+                "poor_max_level": 0
+            },
+            {
+                "book_multiplier": 2,
+                "conflictions": [
+                ],
+                "editions": [
+                    "Java"
+                ],
+                "groups": [
+                    "三叉戟",
+					"附魔书"
+                ],
+                "item_multiplier": 4,
+                "max_level": 5,
+                "name": "穿刺",
+                "poor_max_level": 5
+            },
+            {
+                "book_multiplier": 1,
+                "conflictions": [
+                ],
+                "editions": [
+                    "Bedrock"
+                ],
+                "groups": [
+                    "三叉戟",
+					"附魔书"
+                ],
+                "item_multiplier": 2,
+                "max_level": 5,
+                "name": "穿刺",
+                "poor_max_level": 5
+            },
+            {
+                "book_multiplier": 4,
+                "conflictions": [
+                    "经验修补"
+                ],
+                "editions": [
+                    "Java",
+                    "Bedrock"
+                ],
+                "groups": [
+                    "弓",
+					"附魔书"
+                ],
+                "item_multiplier": 8,
+                "max_level": 1,
+                "name": "无限",
+                "poor_max_level": 1
+            },
+            {
+                "book_multiplier": 1,
+                "conflictions": [
+                ],
+                "editions": [
+                    "Java",
+                    "Bedrock"
+                ],
+                "groups": [
+                    "剑",
+					"附魔书"
+                ],
+                "item_multiplier": 2,
+                "max_level": 2,
+                "name": "击退",
+                "poor_max_level": 2
+            },
+            {
+                "book_multiplier": 2,
+                "conflictions": [
+                ],
+                "editions": [
+                    "Java",
+                    "Bedrock"
+                ],
+                "groups": [
+                    "剑",
+					"附魔书"
+                ],
+                "item_multiplier": 4,
+                "max_level": 3,
+                "name": "抢夺",
+                "poor_max_level": 3
+            },
+            {
+                "book_multiplier": 1,
+                "conflictions": [
+                    "激流"
+                ],
+                "editions": [
+                    "Java",
+                    "Bedrock"
+                ],
+                "groups": [
+                    "三叉戟",
+					"附魔书"
+                ],
+                "item_multiplier": 1,
+                "max_level": 3,
+                "name": "忠诚",
+                "poor_max_level": 3
+            },
+            {
+                "book_multiplier": 2,
+                "conflictions": [
+                ],
+                "editions": [
+                    "Java",
+                    "Bedrock"
+                ],
+                "groups": [
+                    "钓鱼竿",
+					"附魔书"
+                ],
+                "item_multiplier": 4,
+                "max_level": 3,
+                "name": "海之眷顾",
+                "poor_max_level": 3
+            },
+            {
+                "book_multiplier": 2,
+                "conflictions": [
+                ],
+                "editions": [
+                    "Java",
+                    "Bedrock"
+                ],
+                "groups": [
+                    "钓鱼竿",
+					"附魔书"
+                ],
+                "item_multiplier": 4,
+                "max_level": 3,
+                "name": "饵钓",
+                "poor_max_level": 3
+            },
+            {
+                "book_multiplier": 2,
+                "conflictions": [
+                    "无限"
+                ],
+                "editions": [
+                    "Java",
+                    "Bedrock"
+                ],
+                "groups": [
+                    "斧",
+                    "剑",
+                    "头盔",
+                    "胸甲",
+                    "靴",
+                    "弓",
+                    "钓鱼竿",
+                    "锄",
+                    "护腿",
+                    "弩",
+                    "铲",
+                    "镐",
+                    "三叉戟",
+					"附魔书"
+                ],
+                "item_multiplier": 4,
+                "max_level": 1,
+                "name": "经验修补",
+                "poor_max_level": 0
+            },
+            {
+                "book_multiplier": 2,
+                "conflictions": [
+                    "穿透"
+                ],
+                "editions": [
+                    "Java",
+                    "Bedrock"
+                ],
+                "groups": [
+                    "弩",
+					"附魔书"
+                ],
+                "item_multiplier": 4,
+                "max_level": 1,
+                "name": "多重射击",
+                "poor_max_level": 1
+            },
+            {
+                "book_multiplier": 1,
+                "conflictions": [
+                    "多重射击"
+                ],
+                "editions": [
+                    "Java",
+                    "Bedrock"
+                ],
+                "groups": [
+                    "弩",
+					"附魔书"
+                ],
+                "item_multiplier": 1,
+                "max_level": 4,
+                "name": "穿透",
+                "poor_max_level": 4
+            },
+            {
+                "book_multiplier": 1,
+                "conflictions": [
+                ],
+                "editions": [
+                    "Java",
+                    "Bedrock"
+                ],
+                "groups": [
+                    "弓",
+					"附魔书"
+                ],
+                "item_multiplier": 1,
+                "max_level": 5,
+                "name": "力量",
+                "poor_max_level": 4
+            },
+            {
+                "book_multiplier": 1,
+                "conflictions": [
+                    "爆炸保护",
+                    "火焰保护",
+                    "保护"
+                ],
+                "editions": [
+                    "Java",
+                    "Bedrock"
+                ],
+                "groups": [
+                    "头盔",
+                    "胸甲",
+                    "靴",
+                    "护腿",
+					"附魔书"
+                ],
+                "item_multiplier": 2,
+                "max_level": 4,
+                "name": "弹射物保护",
+                "poor_max_level": 4
+            },
+            {
+                "book_multiplier": 1,
+                "conflictions": [
+                    "爆炸保护",
+                    "火焰保护",
+                    "弹射物保护"
+                ],
+                "editions": [
+                    "Java",
+                    "Bedrock"
+                ],
+                "groups": [
+                    "头盔",
+                    "胸甲",
+                    "靴",
+                    "护腿",
+					"附魔书"
+                ],
+                "item_multiplier": 1,
+                "max_level": 4,
+                "name": "保护",
+                "poor_max_level": 4
+            },
+            {
+                "book_multiplier": 2,
+                "conflictions": [
+                ],
+                "editions": [
+                    "Java",
+                    "Bedrock"
+                ],
+                "groups": [
+                    "弓",
+					"附魔书"
+                ],
+                "item_multiplier": 4,
+                "max_level": 2,
+                "name": "冲击",
+                "poor_max_level": 2
+            },
+            {
+                "book_multiplier": 1,
+                "conflictions": [
+                ],
+                "editions": [
+                    "Java",
+                    "Bedrock"
+                ],
+                "groups": [
+                    "弩",
+					"附魔书"
+                ],
+                "item_multiplier": 2,
+                "max_level": 3,
+                "name": "快速装填",
+                "poor_max_level": 3
+            },
+            {
+                "book_multiplier": 2,
+                "conflictions": [
+                ],
+                "editions": [
+                    "Java",
+                    "Bedrock"
+                ],
+                "groups": [
+                    "头盔",
+					"附魔书"
+                ],
+                "item_multiplier": 4,
+                "max_level": 3,
+                "name": "水下呼吸",
+                "poor_max_level": 3
+            },
+            {
+                "book_multiplier": 2,
+                "conflictions": [
+                    "引雷",
+                    "忠诚"
+                ],
+                "editions": [
+                    "Java",
+                    "Bedrock"
+                ],
+                "groups": [
+                    "三叉戟",
+					"附魔书"
+                ],
+                "item_multiplier": 4,
+                "max_level": 3,
+                "name": "激流",
+                "poor_max_level": 3
+            },
+            {
+                "book_multiplier": 1,
+                "conflictions": [
+                    "节肢杀手",
+                    "亡灵杀手"
+                ],
+                "editions": [
+                    "Java",
+                    "Bedrock"
+                ],
+                "groups": [
+                    "斧",
+                    "剑",
+					"附魔书"
+                ],
+                "item_multiplier": 1,
+                "max_level": 5,
+                "name": "锋利",
+                "poor_max_level": 4
+            },
+            {
+                "book_multiplier": 4,
+                "conflictions": [
+                    "时运"
+                ],
+                "editions": [
+                    "Java",
+                    "Bedrock"
+                ],
+                "groups": [
+                    "斧",
+                    "锄",
+                    "铲",
+                    "镐",
+					"附魔书"
+                ],
+                "item_multiplier": 8,
+                "max_level": 1,
+                "name": "精准采集",
+                "poor_max_level": 1
+            },
+            {
+                "book_multiplier": 1,
+                "conflictions": [
+                    "节肢杀手",
+                    "锋利"
+                ],
+                "editions": [
+                    "Java",
+                    "Bedrock"
+                ],
+                "groups": [
+                    "斧",
+                    "剑",
+					"附魔书"
+                ],
+                "item_multiplier": 2,
+                "max_level": 5,
+                "name": "亡灵杀手",
+                "poor_max_level": 4
+            },
+            {
+                "book_multiplier": 4,
+                "conflictions": [
+                ],
+                "editions": [
+                    "Java",
+                    "Bedrock"
+                ],
+                "groups": [
+                    "靴",
+					"附魔书"
+                ],
+                "item_multiplier": 8,
+                "max_level": 3,
+                "name": "灵魂疾行",
+                "poor_max_level": 0
+            },
+            {
+                "book_multiplier": 2,
+                "conflictions": [
+                ],
+                "editions": [
+                    "Java"
+                ],
+                "groups": [
+                    "剑",
+					"附魔书"
+                ],
+                "item_multiplier": 4,
+                "max_level": 3,
+                "name": "横扫之刃",
+                "poor_max_level": 3
+            },
+            {
+                "book_multiplier": 4,
+                "conflictions": [
+                ],
+                "editions": [
+                    "Java",
+                    "Bedrock"
+                ],
+                "groups": [
+                    "头盔",
+                    "胸甲",
+                    "靴",
+                    "护腿",
+					"附魔书"
+                ],
+                "item_multiplier": 8,
+                "max_level": 3,
+                "name": "荆棘",
+                "poor_max_level": 3
+            },
+            {
+                "book_multiplier": 1,
+                "conflictions": [
+                ],
+                "editions": [
+                    "Java",
+                    "Bedrock"
+                ],
+                "groups": [
+                    "斧",
+                    "剑",
+                    "头盔",
+                    "胸甲",
+                    "靴",
+                    "弓",
+                    "钓鱼竿",
+                    "锄",
+                    "护腿",
+                    "弩",
+                    "铲",
+                    "镐",
+                    "三叉戟",
+					"附魔书"
+                ],
+                "item_multiplier": 2,
+                "max_level": 3,
+                "name": "耐久",
+                "poor_max_level": 3
+            },
+            {
+                "book_multiplier": 4,
+                "conflictions": [
+                ],
+                "editions": [
+                    "Java",
+                    "Bedrock"
+                ],
+                "groups": [
+                    "护腿",
+					"附魔书"
+                ],
+                "item_multiplier": 8,
+                "max_level": 3,
+                "name": "迅捷潜行",
+                "poor_max_level": 0
+            }
+        ],
+        "groups": [
+            {
+                "icon": ":/icon/sword.png",
+                "name": "剑"
+            },
+            {
+                "icon": ":/icon/pickaxe.png",
+                "name": "镐"
+            },
+            {
+                "icon": ":/icon/axe.png",
+                "name": "斧"
+            },
+            {
+                "icon": ":/icon/shovel.png",
+                "name": "铲"
+            },
+            {
+                "icon": ":/icon/hoe.png",
+                "name": "锄"
+            },
+            {
+                "icon": ":/icon/helmet.png",
+                "name": "头盔"
+            },
+            {
+                "icon": ":/icon/chestplate.png",
+                "name": "胸甲"
+            },
+            {
+                "icon": ":/icon/leggings.png",
+                "name": "护腿"
+            },
+            {
+                "icon": ":/icon/boots.png",
+                "name": "靴"
+            },
+            {
+                "icon": ":/icon/bow.png",
+                "name": "弓"
+            },
+            {
+                "icon": ":/icon/crossbow_standby.png",
+                "name": "弩"
+            },
+            {
+                "icon": ":/icon/trident.png",
+                "name": "三叉戟"
+            },
+            {
+                "icon": ":/icon/fishing_rod.png",
+                "name": "钓鱼竿"
+            },
+			{
+				"icon": ":/icon/enchanted_book.png",
+				"name": "附魔书"
+			}
+        ]
+    },
+    "description": "",
+    "format_version": 5,
+    "table_version": "",
+    "type": "custom_table"
+}

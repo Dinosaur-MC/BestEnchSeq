@@ -1,5 +1,4 @@
 #include "checkupdate.h"
-#include "core/core.h"
 
 CheckUpdate::CheckUpdate(QObject *parent)
     : QObject{parent}
@@ -14,9 +13,10 @@ void CheckUpdate::setUrl(QUrl l)
     url = l;
 }
 
-void CheckUpdate::start(bool m)
+void CheckUpdate::start(int verison_id, bool m)
 {
     qDebug() << "<CheckUpdate>[info] Requesting...";
+    target_verison_id = verison_id;
     show_notice = m;
     QNetworkRequest request(url);
     manager->get(request);
@@ -34,12 +34,12 @@ void CheckUpdate::ReadData(QNetworkReply *reply)
 void CheckUpdate::AnalyseJSON(QString str)
 {
     QJsonParseError err_rpt;
-    QJsonDocument  root_Doc = QJsonDocument::fromJson(str.toUtf8().data(), &err_rpt);
+    QJsonDocument root_Doc = QJsonDocument::fromJson(str.toUtf8().data(), &err_rpt);
 
-    if(err_rpt.error != QJsonParseError::NoError)
+    if (err_rpt.error != QJsonParseError::NoError)
     {
         emit failed();
-        if(show_notice)
+        if (show_notice)
         {
             QMessageBox msgBox;
             msgBox.setIcon(QMessageBox::Critical);
@@ -53,7 +53,7 @@ void CheckUpdate::AnalyseJSON(QString str)
         return;
     }
 
-    if(root_Doc.isObject())
+    if (root_Doc.isObject())
     {
         QJsonObject root_Obj = root_Doc.object();
         QJsonObject value = root_Obj.value("BestEnchSeq").toObject();
@@ -68,7 +68,7 @@ void CheckUpdate::AnalyseJSON(QString str)
         msgBox.setIcon(QMessageBox::Information);
         msgBox.setWindowTitle("检查更新 Check Update");
 
-        if(verison_id > VERSION_ID)
+        if (verison_id > target_verison_id)
         {
             emit updateAvailable();
             status = 1;
@@ -84,9 +84,9 @@ void CheckUpdate::AnalyseJSON(QString str)
             msgBox.addButton(yes, QMessageBox::YesRole);
             msgBox.setDefaultButton(yes);
             msgBox.show();
-            if(msgBox.exec() == QDialog::Accepted)
+            if (msgBox.exec() == QDialog::Accepted)
             {
-                if(!QDesktopServices::openUrl(QUrl(url)))
+                if (!QDesktopServices::openUrl(QUrl(url)))
                 {
                     QMessageBox msgBox2;
                     msgBox2.setIcon(QMessageBox::Critical);
@@ -103,7 +103,7 @@ void CheckUpdate::AnalyseJSON(QString str)
         else
         {
             emit noUpdate();
-            if(show_notice)
+            if (show_notice)
             {
                 QString info = "当前已是最新版本！";
                 msgBox.setText(info);
@@ -118,4 +118,3 @@ void CheckUpdate::AnalyseJSON(QString str)
     emit finished();
     this->deleteLater();
 }
-

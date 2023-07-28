@@ -1,446 +1,237 @@
 #include "core.h"
-#include <QMessageBox>
 
-void loadInternalData(Config *config)
+QVector<EnchData> global_u_ench_table;
+QVector<_EnchData> global_p_ench_table;
+QSet<Group> global_groups;
+QMap<QString, QVariant> global_settings;
+QVector<DataTableInfo> table_list;
+DataTableInfo current_table;
+
+QString intToRoman(int num)
 {
-    // 程序默认设置值
-    config->config_version = VERSION_ID;
-    config->default_edition = MCE::Java;
-    config->default_itemconfig = ICM::AllLevelEBook;
-    config->default_algorithm = ALGM::AlgM_0;
-    config->export_path = "";
-    config->auto_save = false;
-    config->auto_check_update = true;
-    config->enable_custom_we = false;
-    config->enable_custom_en = false;
-    config->enable_reszie_window = false;
-    config->deverloper_mode = false;
-}
-
-void loadInternalData(QVector<WeaponPlus> *wps)
-{
-    // 内置武器数据表
-    wps->append({"剑", QIcon(":/icon/netherite_sword.png"), {}});
-    wps->append({"镐", QIcon(":/icon/netherite_pickaxe.png"), {}});
-    wps->append({"斧",QIcon(":/icon/netherite_axe.png"), {}});
-    wps->append({"铲", QIcon(":/icon/netherite_shovel.png"), {}});
-    wps->append({"锄", QIcon(":/icon/netherite_hoe.png"), {}});
-    wps->append({"头盔", QIcon(":/icon/netherite_helmet.png"), {}});
-    wps->append({"胸甲", QIcon(":/icon/netherite_chestplate.png"), {}});
-    wps->append({"护腿", QIcon(":/icon/netherite_leggings.png"), {}});
-    wps->append({"靴", QIcon(":/icon/netherite_boots.png"), {}});
-    wps->append({"弓", QIcon(":/icon/bow.png"), {}});
-    wps->append({"弩", QIcon(":/icon/crossbow_standby.png"), {}});
-    wps->append({"三叉戟", QIcon(":/icon/trident.png"), {}});
-    wps->append({"钓鱼竿", QIcon(":/icon/fishing_rod.png"), {}});
-}
-
-void loadInternalData(QVector<EnchPlus> *eps)
-{
-    // 内置魔咒数据表
-    eps->append({"水下速掘", MCE::All, 1, 1, {4, 2}, {}});
-    eps->append({"节肢杀手", MCE::All, 5, 4, {2, 1}, {{"锋利"},{"亡灵杀手"}}});
-    eps->append({"爆炸保护", MCE::All, 4, 4, {4, 2}, {{"火焰保护"},{"弹射物保护"},{"保护"}}});
-    eps->append({"引雷", MCE::All, 1, 1, {8, 4}, {{"激流"}}});
-    eps->append({"绑定诅咒", MCE::All, 1, 0, {8, 4}, {}});
-    eps->append({"消失诅咒", MCE::All, 1, 0, {8, 4}, {}});
-    eps->append({"深海探索者", MCE::All, 3, 3, {4, 2}, {{"冰霜行者"}}});
-    eps->append({"效率", MCE::All, 5, 4, {1, 1}, {}});
-    eps->append({"摔落保护", MCE::All, 4, 4, {2, 1}, {}});
-    eps->append({"火焰附加", MCE::All, 2, 2, {4, 2}, {}});
-    eps->append({"火焰保护", MCE::All, 4, 4, {2, 1}, {{"爆炸保护"},{"弹射物保护"},{"保护"}}});
-    eps->append({"火矢", MCE::All, 1, 1, {4, 2}, {}});
-    eps->append({"时运", MCE::All, 3, 3, {4, 2}, {{"精准采集"}}});
-    eps->append({"冰霜行者", MCE::All, 2, 0, {4, 2}, {{"深海探索者"}}});
-    eps->append({"穿刺", MCE::Java, 5, 5, {4, 2}, {}});
-    eps->append({"穿刺", MCE::Bedrock, 5, 5, {2, 1}, {}});
-    eps->append({"无限", MCE::All, 1, 1, {8, 4}, {{"经验修补"}}});
-    eps->append({"击退", MCE::All, 2, 2, {2, 1}, {}});
-    eps->append({"抢夺", MCE::All, 3, 3, {4, 2}, {}});
-    eps->append({"忠诚", MCE::All, 3, 3, {1, 1}, {{"激流"}}});
-    eps->append({"海之眷顾", MCE::All, 3, 3, {4, 2}, {}});
-    eps->append({"饵钓", MCE::All, 3, 3, {4, 2}, {}});
-    eps->append({"经验修补", MCE::All, 1, 0, {4, 2}, {{"无限"}}});
-    eps->append({"多重射击", MCE::All, 1, 1, {4, 2}, {{"穿透"}}});
-    eps->append({"穿透", MCE::All, 4, 4, {1, 1}, {{"多重射击"}}});
-    eps->append({"力量", MCE::All, 5, 4, {1, 1}, {}});
-    eps->append({"弹射物保护", MCE::All, 4, 4, {2, 1}, {{"爆炸保护"},{"火焰保护"},{"保护"}}});
-    eps->append({"保护", MCE::All, 4, 4, {1, 1}, {{"爆炸保护"},{"火焰保护"},{"弹射物保护"}}});
-    eps->append({"冲击", MCE::All, 2, 2, {4, 2}, {}});
-    eps->append({"快速装填", MCE::All, 3, 3, {2, 1}, {}});
-    eps->append({"水下呼吸", MCE::All, 3, 3, {4, 2}, {}});
-    eps->append({"激流", MCE::All, 3, 3, {4, 2}, {{"引雷"},{"忠诚"}}});
-    eps->append({"锋利", MCE::All, 5, 4, {1, 1}, {{"节肢杀手"},{"亡灵杀手"}}});
-    eps->append({"精准采集", MCE::All, 1, 1, {8, 4}, {{"时运"}}});
-    eps->append({"亡灵杀手", MCE::All, 5, 4, {2, 1}, {{"节肢杀手"},{"锋利"}}});
-    eps->append({"灵魂疾行", MCE::All, 3, 0, {8, 4}, {}});
-    eps->append({"横扫之刃", MCE::Java, 3, 3, {4, 2}, {}});
-    eps->append({"荆棘", MCE::All, 3, 3, {8, 4}, {}});
-    eps->append({"耐久", MCE::All, 3, 3, {2, 1}, {}});
-    eps->append({"迅捷潜行", MCE::All, 3, 0, {8, 4}, {}});
-}
-
-QString numToRoman(int num) // 魔咒等级 阿拉伯数字转罗马数字
-{
-    if(num > 10 || num < 1)
-        return "level." + QString::number(num);
-    else if(num == 10)
-        return "X";
-    else if(num == 9)
-        return "IX";
-    else if(num == 4)
-        return "IV";
-    QString str = "";
-    if(num > 4)
+    int values[] = {1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1};
+    QString reps[] = {"M", "CM", "D", "CD", "C", "XC", "L", "XL", "X", "IX", "V", "IV", "I"};
+    QString res;
+    for (int i = 0; i < 13; i++)
     {
-        str += "V";
-        for(int i = num%5; i > 0; i--)
-            str += "I";
-    }
-    else if(num < 4)
-    {
-        for(int i = num; i > 0; i--)
-            str += "I";
-    }
-    return str;
-}
-
-long levelToPoint(int level)  // 经验等级转换为经验值
-{
-    long point;
-    if(level <= 16)
-        point = (level * level + 6 * level);
-    else if(level <= 31)
-        point = (2.5 * level * level - 40.5 * level + 360);
-    else
-        point = (4.5 * level * level - 162.5 * level + 2220);
-    return point;
-}
-
-
-MDebug::MDebug(QString name, QObject *parent)
-    : QObject{parent}
-{
-    // 设置消息发送者
-    method_name = name;
-}
-
-QString MDebug::name()
-{
-    return method_name;
-}
-
-void MDebug::setName(QString name)
-{
-    method_name = name;
-}
-
-void MDebug::msg(MsgType type, QString str, bool l, int i)
-{
-    // 判断消息类型
-    QString addition;
-    if(type == MsgType::info)
-        addition = "info";
-    else if(type == MsgType::warning)
-        addition = "warning";
-    else if(type == MsgType::wrong)
-        addition = "wrong";
-    else if(type == MsgType::error)
-        addition = "error";
-    else
-        addition = "unknow";
-
-    // QDebug
-    if(l)
-    {
-        qDebug() << QString("<" + method_name + ">" + "[" + addition + "][" + QString::number(i) + "] " + str).toUtf8().data();
-    }
-    else
-    {
-        qDebug() << QString("<" + method_name + ">" + "[" + addition + "] " + str).toUtf8().data();
-    }
-
-    // error级的消息将会弹窗警告并随后结束进程
-    if(type == MsgType::error)
-    {
-        QMessageBox msgb(QMessageBox::Critical, method_name, str);
-        msgb.show();
-        msgb.exec();
-        exit(1);
-    }
-}
-
-void MDebug::msg(QString str, bool l, int i)
-{
-    // 消息默认以info级发送
-    if(l)
-    {
-        qDebug() << QString("<" + method_name + ">" + "[info][" + QString::number(i) + "] " + str).toUtf8().data();
-    }
-    else
-    {
-        qDebug() << QString("<" + method_name + ">" + "[info] " + str).toUtf8().data();
-    }
-}
-
-void MDebug::msg(MsgType type, QStringList strs, bool l, int i)
-{
-    // 判断消息类型
-    QString addition;
-    if(type == MsgType::info)
-        addition = "info";
-    else if(type == MsgType::warning)
-        addition = "warning";
-    else if(type == MsgType::wrong)
-        addition = "wrong";
-    else if(type == MsgType::error)
-        addition = "wrong";
-    else
-        addition = "unknow";
-
-    // QDebug
-    if(l)
-    {
-        qDebug() << QString("<" + method_name + ">" + "[" + addition + "][" + QString::number(i) + "] ").toUtf8().data() << strs;
-    }
-    else
-    {
-        qDebug() << QString("<" + method_name + ">" + "[" + addition + "] ").toUtf8().data() << strs;
-    }
-
-    // error级的消息将会弹窗警告并随后结束进程
-    if(type == MsgType::error)
-    {
-        // QStringList -> QString
-        QString str;
-        for(int i = 0; i < strs.count(); i++)
-            str += strs.at(i);
-
-        QMessageBox msgb(QMessageBox::Critical, method_name, str);
-        msgb.show();
-        msgb.exec();
-        exit(1);
-    }
-}
-
-void MDebug::msg(QStringList strs, bool l, int i)
-{
-    // 消息默认以info级发送
-    if(l)
-    {
-        qDebug() << QString("<" + method_name + ">" + "[info][" + QString::number(i) + "] ").toUtf8().data() << strs;
-    }
-    else
-    {
-        qDebug() << QString("<" + method_name + ">" + "[info] ").toUtf8().data() << strs;
-    }
-}
-
-MDebug StringKnife::mdb("StringKnife");
-StringKnife::StringKnife() {}
-
-QStringList StringKnife::lineSlice(QString str, char c) // 逐行分割（一维分割）
-{
-    if(str.isEmpty())
-        return QStringList();
-
-    QStringList strs = str.trimmed().split(c);
-    QString s = strs.at(0).simplified();
-
-    for(int i = 0; i < strs.count(); i++)
-    {
-        if(strs.at(i).isEmpty())
+        while (num >= values[i])
         {
-            strs.takeAt(i);
-            i--;
-        }
-        else if(strs.at(i).at(0) == TEXT_NOTE_SYMBOL || strs.at(i).isEmpty())
-        {
-            strs.takeAt(i);
-            i--;
-        }
-        else
-            strs[i] = strs.at(i).simplified();
-    }
-
-    // 保留文件版本信息
-    if(s.startsWith("#?"))
-    {
-        s.remove(0, 2);
-        QStringList ss = s.split('=');
-        if(ss.count() == 2 && ss.at(0).trimmed() == "file_version")
-        {
-            strs.append(TEXT_NOTE_SYMBOL + ss.at(1).trimmed());
+            num -= values[i];
+            res += reps[i];
         }
     }
-
-    return strs;
+    return res;
 }
 
-QList<QStringList> StringKnife::crossSlice(QString str, char lc, char cc, int n)    // 二维齐次分割
+QString MCEToString(MCE mce)
 {
-    if(str.isEmpty())
-        return QList<QStringList>();
+    if (mce == MCE::Java)
+        return "Java";
+    else if (mce == MCE::Bedrock)
+        return "Bedrock";
+    else
+        return "Null";
+}
+MCE StringToMCE(QString str)
+{
+    if (str == "Java")
+        return MCE::Java;
+    else if (str == "Bedrock")
+        return MCE::Bedrock;
+    else
+        return MCE::Null;
+}
 
-    QList<QStringList> strx;
-    if(n < 2 || lc == cc)
-        return strx;
-
-    QString s = "";
-    QStringList strs = lineSlice(str, lc);
-    if(strs.isEmpty())
-        return QList<QStringList>();
-    if(strs.last().startsWith(TEXT_NOTE_SYMBOL))    // 保留文件版本信息
+Ench::Ench(const _Ench &e)
+{
+    if (e.id < global_u_ench_table.size() && e.id >= 0)
     {
-        s = strs.takeLast().split(cc).at(0);
+        this->name = global_u_ench_table.at(e.id).name;
+        this->mce = global_u_ench_table.at(e.id).editions;
+        this->lvl = e.lvl;
     }
-    int ln = strs.count();
-
-    for(int i = 0; i < ln; i++)
+    else
     {
-        QStringList tm = strs.at(i).split(cc);
-        if(tm.count() == n)
+        this->name = "@Unknown";
+        this->mce.insert(MCE::Null);
+        this->lvl = 0;
+    }
+}
+bool Ench::isValid()
+{
+    if (this->name != "@Unknown" && this->lvl > 0 && !this->mce.contains(MCE::Null))
+        return true;
+    else
+        return false;
+}
+bool operator==(const Ench &e1, const Ench &e2)
+{
+    if (e1.name == e2.name && e1.lvl == e2.lvl)
+        return true;
+    else
+        return false;
+}
+bool operator<(const Ench &e1, const Ench &e2)
+{
+    if ((_Ench)e1 < (_Ench)e2)
+        return true;
+    else
+        return false;
+}
+uint qHash(const Ench &key, uint seed)
+{
+    return qHash(key.name, seed) ^ key.lvl;
+}
+
+_Ench::_Ench(const Ench &e)
+{
+    this->id = -1;
+    this->lvl = 0;
+
+    for (int i = 0; i < global_u_ench_table.size(); i++)
+    {
+        if (global_u_ench_table.at(i).name == e.name && global_u_ench_table.at(i).editions == e.mce)
         {
-            for(int j = 0; j < n; j++)
-                tm[j] = tm[j].trimmed();
-            strx.append(tm);
+            this->id = i;
+            this->lvl = e.lvl;
         }
     }
-
-    if(!s.isEmpty())
-        strx.append(QStringList() << s);
-    return strx;
+}
+bool _Ench::isValid()
+{
+    if (this->id >= 0 && this->lvl > 0)
+        return true;
+    else
+        return false;
+}
+bool operator==(const _Ench &e1, const _Ench &e2)
+{
+    if (e1.id == e2.id && e1.lvl == e2.lvl)
+        return true;
+    else
+        return false;
+}
+bool operator<(const _Ench &e1, const _Ench &e2)
+{
+    if ((e1.id < e2.id) || (e1.id == e2.id && e1.lvl < e2.lvl))
+        return true;
+    else
+        return false;
+}
+uint qHash(const _Ench &key, uint seed)
+{
+    return qHash(key.id, seed) ^ key.lvl;
 }
 
-QList<QStringList> StringKnife::multicrossSlice(QString str, char lc, char cc)  // 二维非齐次分割
+bool EnchData::isValid()
 {
-    if(str.isEmpty())
-        return QList<QStringList>();
-
-    QList<QStringList> strx;
-    if(lc == cc)
-        return strx;
-
-    QString s = "";
-    QStringList strs = lineSlice(str, lc);
-    if(strs.isEmpty())
-        return QList<QStringList>();
-    if(strs.last().startsWith(TEXT_NOTE_SYMBOL))    // 保留文件版本信息
+    if (this->name != "@Unknown" && this->max_lvl > 0 && this->book_multiplier > 0 && this->item_multiplier > 0 && this->editions.contains(MCE::Null) == false)
+        return true;
+    else
     {
-        s = strs.takeLast().split(cc).at(0);
+        qDebug() << "Invalid Enchantment: " << this->name;
+        return false;
     }
-    int ln = strs.count();
+}
+bool _EnchData::isValid()
+{
+    if (this->max_lvl > 0 && this->book_multiplier > 0 && this->item_multiplier > 0 && this->editions.contains(MCE::Null) == false)
+        return true;
+    else
+        return false;
+}
 
-    for(int i = 0; i < ln; i++)
+bool operator==(const EnchData &e1, const EnchData &e2)
+{
+    if (e1.name == e2.name && e1.editions == e2.editions)
+        return true;
+    else
+        return false;
+}
+uint qHash(const EnchData &key, uint seed) // EnchData 仅以名称和版本(editions)区分
+{
+    uint hash = seed;
+
+    hash ^= qHash(key.name) + 0x9e3779b9 + (hash << 6) + (hash >> 2);
+    for (const auto &edition : key.editions)
     {
-        QStringList tm = strs.at(i).simplified().split(cc);
-        for(int j = 0; j < tm.count(); j++)
-            tm[j] = tm[j].trimmed();
-        strx.append(tm);
+        hash ^= qHash(static_cast<int>(edition)) + 0x9e3779b9 + (hash << 6) + (hash >> 2);
     }
 
-    if(!s.isEmpty())
-        strx.append(QStringList() << s);
-    return strx;
+    return hash;
 }
 
-
-Q_GLOBAL_STATIC(Core, core);    // 全局单例类
-Core::Core(QObject *parent)
-    : QObject{parent},
-      mdb("Core")
+QVector<_EnchData> convertEnchTable(QVector<EnchData> &table) // 数据容器转换
 {
-    // 初始化
-    startDT = QDateTime::currentDateTime();
-    mdb.msg("Start at " + startDT.toString("hh:mm:ss.zzz"));
-
-    // 加载内置数据，设置默认值
-    loadInternalData(&config);
-    loadInternalData(&ench_table);
-    loadInternalData(&weapon_table);
-}
-
-Core *Core::getInstance()   // 获取全局单例类指针
-{
-    return core;
-}
-
-
-#include "core/calculator.h"
-// 测试函数
-void Core::_methodTest()
-{
-    mdb.setName("_methodTest");
-
-
-    // 锻造模拟
-    int f = 7;
-
-    QVector<int> pool;
-    for(int i = 0; i  < pow(2, f); i++)
+    QVector<_EnchData> _table;
+    for (int i = 0; i < table.size(); i++)
     {
-        int n = 0;
-        for(int j = i; j > 0; j/=2)
+        _EnchData ed;
+        ed.max_lvl = table.at(i).max_lvl;
+        ed.poor_max_lvl = table.at(i).poor_max_lvl;
+        ed.book_multiplier = table.at(i).book_multiplier;
+        ed.item_multiplier = table.at(i).item_multiplier;
+        ed.editions = table.at(i).editions;
+        _table.append(ed);
+    }
+    for (int i = 0; i < table.size(); i++)
+    {
+        for (auto &conf : table.at(i).conflictions)
         {
-            if(j%2 == 1)
-                n++;
+            int n = -1;
+            QString name = conf;
+            for (int j = 0; j < global_u_ench_table.size(); j++)
+            {
+                if (global_u_ench_table.at(j).name == name)
+                {
+                    n = j;
+                    break;
+                }
+            }
+            if (n >= 0)
+            {
+                _table[i].conflictions.insert(n);
+            }
         }
-        pool.append(n);
     }
-
-    QString msg;
-    msg += "{";
-    for(int i = 0; i < pool.count(); i++)
-    {
-        if(pool.at(i) == 1)
-            msg += "[" + QString::number(pool.at(i)) + "]";
-        else
-            msg += QString::number(pool.at(i));
-        if(i < pool.count()-1)
-            msg += ", ";
-    }
-    msg += "}";
-    mdb.msg(msg);
-
-
-    // 计算测试
-    summary.input_item = {"剑", QIcon(), ItemType::weapon, QVector<Ench>({}), 100, 0};
-    summary.output_item = {"剑", QIcon(), ItemType::weapon, QVector<Ench>({{"锋利", 5}, {"抢夺", 3}, {"耐久", 3}, {"经验修补", 1}, {"横扫之刃", 3}, {"火焰附加", 2}, {"击退", 2}}), 100, 0};
-
-    Calculator *calc = new Calculator(this);
-    calc->initialize();
-    calc->setInputItem(summary.input_item);
-    calc->setOutputItem(summary.output_item);
-
-//    calc->appendInPool({ID_ECB, QIcon(), ItemType::enchanted_book, QVector<Ench>({{"锋利", 2}}), 0, 0});
-//    calc->appendInPool({ID_ECB, QIcon(), ItemType::enchanted_book, QVector<Ench>({{"锋利", 2}}), 0, 0});
-//    calc->appendInPool({ID_ECB, QIcon(), ItemType::enchanted_book, QVector<Ench>({{"锋利", 3}}), 0, 1});
-//    calc->appendInPool({ID_ECB, QIcon(), ItemType::enchanted_book, QVector<Ench>({{"锋利", 3}}), 0, 1});
-//    calc->appendInPool({ID_ECB, QIcon(), ItemType::enchanted_book, QVector<Ench>({{"抢夺", 3}, {"击退", 1}}), 0, 0});
-//    calc->appendInPool({ID_ECB, QIcon(), ItemType::enchanted_book, QVector<Ench>({{"耐久", 3}}), 0, 1});
-//    calc->appendInPool({ID_ECB, QIcon(), ItemType::enchanted_book, QVector<Ench>({{"经验修补", 1}}), 0, 0});
-//    calc->appendInPool({ID_ECB, QIcon(), ItemType::enchanted_book, QVector<Ench>({{"横扫之刃", 2}}), 0, 0});
-//    calc->appendInPool({ID_ECB, QIcon(), ItemType::enchanted_book, QVector<Ench>({{"火焰附加", 2}, {"横扫之刃", 2}, {"锋利", 3}}), 0, 2});
-//    calc->appendInPool({ID_ECB, QIcon(), ItemType::enchanted_book, QVector<Ench>({{"击退", 1}}), 0, 0});
-
-    calc->appendInPool({ID_ECB, QIcon(), ItemType::enchanted_book, QVector<Ench>({{"击退", 2}}), 0, 0});
-    calc->appendInPool({ID_ECB, QIcon(), ItemType::enchanted_book, QVector<Ench>({{"锋利", 5}}), 0, 0});
-    calc->appendInPool({ID_ECB, QIcon(), ItemType::enchanted_book, QVector<Ench>({{"抢夺", 3}}), 0, 0});
-    calc->appendInPool({ID_ECB, QIcon(), ItemType::enchanted_book, QVector<Ench>({{"耐久", 3}}), 0, 0});
-    calc->appendInPool({ID_ECB, QIcon(), ItemType::enchanted_book, QVector<Ench>({{"横扫之刃", 3}}), 0, 0});
-    calc->appendInPool({ID_ECB, QIcon(), ItemType::enchanted_book, QVector<Ench>({{"火焰附加", 2}}), 0, 0});
-    calc->appendInPool({ID_ECB, QIcon(), ItemType::enchanted_book, QVector<Ench>({{"经验修补", 1}}), 0, 0});
-
-    connect(calc, &QThread::finished, this, &Core::_methodTest_2);
-    connect(calc, &QThread::finished, calc, &QThread::deleteLater);
-    calc->start();
-
-
+    return _table;
 }
 
-void Core::_methodTest_2()
+bool operator==(const Group &g1, const Group &g2)
 {
-    mdb.msg(QString("Summary\n") + "Step:"+QString::number(summary.step_count) + ", Time:"+QString::number(summary.time_cost) + "ms, Cost:"+QString::number(summary.level_cost)+ "L ("+QString::number(summary.point_cost)+")");
-    mdb.msg("计算完成！");
+    if (g1.name == g2.name)
+        return true;
+    else
+        return false;
+}
+uint qHash(const Group &key, uint seed)
+{
+    return qHash(key.name, seed);
 }
 
+void registerSettings()
+{
+    global_settings.clear();
+    global_settings["version/file_version"] = FILEVERSION;
+    global_settings["version/app_version"] = VERSION_ID;
+    global_settings["default/edition"] = 1;
+    global_settings["default/item_config"] = 0;
+    global_settings["default/algorithm"] = 0;
+    global_settings["default/export_path"] = "./exports";
+    global_settings["default/language"] = "zh_cn";
+    global_settings["lever/auto_save"] = 0;
+    global_settings["lever/auto_check_update"] = 1;
+    global_settings["lever/enable_widely_reszie_window"] = 0;
+    global_settings["lever/deverloper_mode"] = 0;
+    global_settings["log/last_used_table"] = "";
+    global_settings["log/last_edit"] = QDateTime::currentDateTime();
+}
+
+void initializeGlobalTable()
+{
+    global_u_ench_table.clear();
+    global_p_ench_table.clear();
+    global_groups.clear();
+    table_list.clear();
+    current_table = DataTableInfo();
+}

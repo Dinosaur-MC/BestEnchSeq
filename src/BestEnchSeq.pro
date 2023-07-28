@@ -22,6 +22,7 @@ SOURCES += \
 
 HEADERS += \
     checkupdate.h \
+    core/built-in_data.h \
     core/calculator.h \
     core/core.h \
     core/fileoperator.h \
@@ -32,22 +33,32 @@ HEADERS += \
 FORMS += \
     mainwindow.ui
 
+TRANSLATIONS += \
+    lang/zh_cn.ts \
+    lang/zh_tw.ts \
+    lang/lzh.ts \
+    lang/en_us.ts
+
+CONFIG += lrelease
+CONFIG += embed_translations
+
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 RESOURCES += \
-    res/img.qrc \
+    res/res.qrc \
     lib/lib.qrc
 
 DISTFILES += \
     README.md \
+    lang/Chinese.ts \
     res/tables/EnchantmentTable.csv \
     res/tables/WeaponTable.csv \
     update.json \
     logo.rc
 
-VERSION = 4.1
-TARGET = "BestEnchSeq_V4.1"
+VERSION = "4.2.0"
+TARGET = "BestEnchSeq"
 RC_FILE += logo.rc

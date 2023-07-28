@@ -1,211 +1,207 @@
 #ifndef CORE_H
 #define CORE_H
 
-#define PROGRAM_NAME_CN "最佳附魔顺序计算器"
-#define PROGRAM_NAME_EN "The Best Enchanting Sequence"
-#define PROGRAM_NAME_ABBR "BESQ"
-#define VERSION "4.1_Beta"
-#define VERSION_ID 12301000 //NyymmXXx; N:number of century, yy:the two last number of recent year, mm:recent month, XX:version number, x:small number
-#define FILEVERSION 4   // 文件版本
+/* ------------------------------------------------------------
+ *
+ *                       BestEnchSeq Core
+ *
+ * ------------------------------------------------------------ */
 
-
-#define AUTHOR "Dinosaur_MC(Dinosaur-MC)"
-#define WEBSITE "https://github.com/Dinosaur-MC/BestEnchSeq"
-#define UPDATE_SITE "https://raw.githubusercontent.com/Dinosaur-MC/BestEnchSeq/master/update.json"
-#define HELP_PAGE "https://www.bilibili.com/video/BV11T4y1D7c2"
-#define STATEMENT "本程序为Github开源项目，完全永久免费使用！只推荐通过官方渠道获取本程序。\n任何对原程序进行收费售卖行为均为诈骗，谨防上当受骗！谨慎使用来路不明的非官方发布版本，谨防病毒入侵！"
-
-
-#define FILEHEAD_CSV "\xef\xbb\xbf\x0d\x0a"
-#define TEXT_NOTE_SYMBOL '#'
-#define ID_ECB "$附魔书"
-#define ICON_ECB QIcon(":/icon/enchanted_book.png")
-
-#define DIR_EXPORT "./exports/"
-#define FILE_CONFIG "config.ini"
-#define FILE_WEAPONTABLE "WeaponTable.csv"
-#define FILE_ENCHTABLE "EnchantmentTable.csv"
-
-#define CONFIG_NUM 11 // 配置项数量
-
-#define RESTART_CODE 19491001   // 重启代码
-
-
+#include "built-in_data.h"
 #include <QObject>
-#include <QIcon>
 #include <QVector>
-#include <QDebug>
+#include <QSet>
+#include <QMap>
+#include <QIcon>
+#include <QVariant>
 #include <QDateTime>
 
+#define DEBUG(Class, Msg, Status) qDebug() << QString(QString("<") + Class + ">[" + Status + "]").toUtf8().data() << QString(Msg).toUtf8().data()
 
-enum MCE {All=0, Java, Bedrock};  // 枚举变量，MC编译版本
-enum ICM {AllLevelEBook=0, BasicEBook, AdvanceMode};    // 枚举变量，物品配置模式
-enum ALGM {AlgM_0=0, AlgM_1, AlgM_2, AlgM_3};   // 枚举变量，算法名
-enum PFADDN {Normal=0, NoRepair, NoRepulsion, NoPenalty};  // preforge 附加条件
-enum ItemType {enchanted_book=0, weapon, consumable};   // 枚举变量，物品类型
+QString intToRoman(int num);
 
-// 配置信息
-struct Config {
-    int config_version;   // 配置文件版本，用于检查软件是否已更新
-    MCE default_edition;  // 默认MC编译版本
-    ICM default_itemconfig;   // 默认物品配置模式
-    ALGM default_algorithm;    // 默认算法
-    QString export_path;  // 默认流程导出路径
-    bool auto_save;    // 是否自动保持结果
+/* ----------------------------------------
+ *          Enchantment Container
+ * ---------------------------------------- */
 
-    bool enable_custom_en;  // 是否启用自定义魔咒
-    bool enable_custom_we;  // 是否启用自定义武器
-    bool auto_check_update; // 是否自动检查更新
-    bool enable_reszie_window;  // 是否启用自由缩放
+enum class MCE
+{
+    Null,
+    Java,
+    Bedrock
+}; // Minecraft Edition
+QString MCEToString(MCE mce);
+MCE StringToMCE(QString str);
+struct _Ench;
+struct Ench // User data
+{
+    QString name;
+    QSet<MCE> mce;
+    int lvl;
 
-    bool deverloper_mode;  // 开发者模式
+    Ench() = default;
+    Ench(const _Ench &e);
+    bool isValid();
+};
+bool operator==(const Ench &e1, const Ench &e2);
+bool operator<(const Ench &e1, const Ench &e2);
+uint qHash(const Ench &key, uint seed = 0);
+
+struct _Ench // Program data
+{
+    int id;
+    int lvl;
+
+    _Ench() = default;
+    _Ench(const Ench &e);
+    bool isValid();
+};
+bool operator==(const _Ench &e1, const _Ench &e2);
+bool operator<(const _Ench &e1, const _Ench &e2);
+uint qHash(const _Ench &key, uint seed = 0);
+
+struct EnchData // User data
+{
+    QString name;
+    int max_lvl;
+    int poor_max_lvl;
+    int book_multiplier;
+    int item_multiplier;
+    QSet<MCE> editions;
+    QSet<QString> conflictions;
+    QSet<QString> groups;
+
+    bool isValid();
+};
+bool operator==(const EnchData &e1, const EnchData &e2);
+uint qHash(const EnchData &key, uint seed = 0);
+extern QVector<EnchData> global_u_ench_table;
+
+struct _EnchData // Program data
+{
+    int max_lvl;
+    int poor_max_lvl;
+    int book_multiplier;
+    int item_multiplier;
+    QSet<MCE> editions;
+    QSet<int> conflictions;
+
+    bool isValid();
+};
+extern QVector<_EnchData> global_p_ench_table;
+QVector<_EnchData> convertEnchTable(QVector<EnchData> &table);
+
+/* ----------------------------------------
+ *             Group Container
+ * ---------------------------------------- */
+
+struct Group
+{
+    QString name;
+    QString icon_path;
+    QSet<EnchData> enchantments;
+};
+bool operator==(const Group &g1, const Group &g2);
+uint qHash(const Group &key, uint seed = 0);
+extern QSet<Group> global_groups;
+
+/* ----------------------------------------
+ *              Item Container
+ * ---------------------------------------- */
+
+enum class ItemType
+{
+    Book,
+    Weapon,
+    Stuff
 };
 
-// 魔咒 {物品, 池}
-struct Ench {
-    QString name;   // 魔咒名称
-    int lvl;    // 魔咒等级
+struct Item // User data
+{
+    ItemType type;
+    QIcon icon;
+    QSet<Ench> enchs;
+    int penalty_lvl;
+    int durability;
 };
 
-struct EnchPlus {
-    QString name;   // 魔咒名称
-    MCE edition;    // 魔咒适用版本
-    int max_level;  // 魔咒最高等级
-    int poor_max_level; // 30级附魔台附魔一般最高可获得等级及宝藏魔咒（实际上用于BasicEBook物品配置中，是魔咒的最大可直接获得的魔咒等级，可自定义）
-    int multiplier[2];  // 魔咒乘数，[0]为物品乘数，[1]为附魔书乘数
-    QStringList repulsion; // 冲突的魔咒
+struct _Item // Program data
+{
+    ItemType type;
+    QSet<_Ench> enchs;
+    int penalty_lvl;
+    int durability;
 };
 
-// 武器 池
-struct WeaponPlus {
-    QString name;   // 武器名
-    QIcon icon; // 武器图标
-    QVector<EnchPlus> suitableE;    // 适配的魔咒
+/* ----------------------------------------
+ *            FlowStep Container
+ * ---------------------------------------- */
+
+struct FlowStep // User data
+{
+    Item a;
+    Item b;
+    int level_cost;
+    int point_cost;
+    bool name_changing;
 };
 
-// 物品
-struct Item {
-    QString name;   // 物品名
-    QIcon icon; // 物品图标
-    ItemType type;   // 物品类型
-    QVector<Ench> ench; // 物品魔咒
-    int durability;   // 物品耐久
-    int penalty;    // 惩罚数
+struct _FlowStep // Program data
+{
+    _Item a;
+    _Item b;
+    int level_cost;
+    int point_cost;
 };
 
-// 流程
-struct FlowStep {
-    Item a; // 目标物品
-    Item b; // 牺牲物品
-    int levelCost;   // 等级花费
-    int pointCost;   // 经验值花费
-};
+/* ----------------------------------------
+ *         Configuration Container
+ * ---------------------------------------- */
 
-// 统计信息
-struct Summary {
+extern QMap<QString, QVariant> global_settings;
+void registerSettings();
+
+/* ----------------------------------------
+ *             Other Container
+ * ---------------------------------------- */
+
+enum class ICM
+{
+    Normal,
+    Poor,
+    Advanced
+}; // Item Configurating Mode
+enum class ALG
+{
+    Intelligent,
+    Enumerating,
+    Manual
+}; // Algorithm
+struct Summary
+{
     MCE edition;
-    ALGM algorithm;
-    PFADDN pfaddn;
-    Item input_item;
-    Item output_item;
+    ICM item_config;
+    ALG algorithm;
+    int step_count;
     int level_cost;
     long point_cost;
-    int step_count;
     qint64 time_cost;
+    QVector<Item> input_items;
+    QVector<Item> unused_items;
+    Item output_item;
+    QVector<int> calculate_times;
     bool processable;
 };
 
-// 加载内置数据
-void loadInternalData(Config *config);
-void loadInternalData(QVector<WeaponPlus> *wps);
-void loadInternalData(QVector<EnchPlus> *eps);
-
-// 等级转换
-QString numToRoman(int);
-long levelToPoint(int);
-
-
-// 自定义Debug函数
-enum MsgType {info=0, warning, wrong, error};
-class MDebug : public QObject
+struct DataTableInfo
 {
-    Q_OBJECT
-public:
-    explicit MDebug(QString name, QObject *parent = nullptr);
-    QString name();
-    void setName(QString name);
-
-    void msg(MsgType type, QString str, bool l = false, int i = -1);
-    void msg(QString str, bool l = false, int i = -1);
-    void msg(MsgType type, QStringList strs, bool l = false, int i = -1);
-    void msg(QStringList strs, bool l = false, int i = -1);
-
-private:
-    QString method_name;
+    QString name;
+    QString description;
+    QString table_version;
 };
+extern QVector<DataTableInfo> table_list;
+extern DataTableInfo current_table;
 
-
-// 数据分割
-class StringKnife
-{
-public:
-    explicit StringKnife();
-    static QStringList lineSlice(QString str, char c);
-    static QList<QStringList> crossSlice(QString str, char lc, char cc, int n = 2);
-    static QList<QStringList> multicrossSlice(QString str,  char lc, char cc);
-
-private:
-    static MDebug mdb;
-};
-
-
-// 核心数据结构存储
-#define CORE Core::getInstance()
-class Core : public QObject
-{
-    Q_OBJECT
-public:
-    explicit Core(QObject *parent = nullptr);
-    static Core *getInstance();
-
-    // 测试函数
-    void _methodTest();
-    void _methodTest_2();
-
-    // Config
-    Config config;
-    MCE edition;
-    ICM iten_config;
-    ALGM algorithm;
-
-    // Tables
-    QVector<WeaponPlus> weapon_table;
-    QVector<EnchPlus> ench_table;
-
-    // Inputs
-    Item origin;
-    QVector<Ench> original_enchantments;
-    QVector<Ench> needed_enchantments;
-    QVector<Item> available_items;
-
-    // Outputs
-    Item product;
-    Summary summary;
-    QVector<FlowStep> flow;
-    QVector<FlowStep> external_flow;
-
-    // Other
-    bool is_on_update;
-    int enchantment_table_file_version;
-    int weapon_table_file_version;
-    QDateTime startDT;  // 程序启动时刻，用于程序日志等
-
-private:
-    MDebug mdb;
-
-signals:
-
-};
-
+void initializeGlobalTable();
 
 #endif // CORE_H
