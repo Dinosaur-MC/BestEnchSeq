@@ -3,5 +3,4 @@
 interactor::interactor(QObject *parent)
     : QObject{parent}
 {
-
 }

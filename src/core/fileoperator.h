@@ -28,7 +28,7 @@ public:
     static bool loadArchivePoint(QString file_name);
     static bool saveArchivePoint(QString file_name);
 
-    static bool saveResult(Summary summary, QVector<FlowStep> flow, QString file_name, int mode = 0);
+    static bool saveResult(Summary summary, QList<FlowStep> flow, QString file_name, int mode = 0);
 };
 
 #endif // FILEOPERATOR_H

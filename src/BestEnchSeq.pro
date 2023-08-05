@@ -12,21 +12,24 @@ CONFIG += c++17
 
 SOURCES += \
     checkupdate.cpp \
+    core/algorithm.cpp \
     core/calculator.cpp \
     core/core.cpp \
     core/fileoperator.cpp \
     core/interactor.cpp \
+    core/tablemanager.cpp \
     launcher.cpp \
     main.cpp \
     mainwindow.cpp
 
 HEADERS += \
     checkupdate.h \
-    core/built-in_data.h \
+    core/algorithm.h \
     core/calculator.h \
     core/core.h \
     core/fileoperator.h \
     core/interactor.h \
+    core/tablemanager.h \
     launcher.h \
     mainwindow.h
 

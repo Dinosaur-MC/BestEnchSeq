@@ -39,7 +39,6 @@ int main(int argc, char *argv[])
             if (!FileOperator::loadTableData("default_table.csv"))
                 return 5;
         }
-        global_p_ench_table = convertEnchTable(global_u_ench_table);
 
         // 启动 Console 程序
 
@@ -96,7 +95,6 @@ int main(int argc, char *argv[])
             if (!FileOperator::loadTableData("default_table.csv"))
                 return 5;
         }
-        global_p_ench_table = convertEnchTable(global_u_ench_table);
 
         // 创建应用GUI窗口 #6
         qDebug() << "Starting UI window...";

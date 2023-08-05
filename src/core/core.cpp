@@ -1,26 +1,50 @@
 #include "core.h"
 
-QVector<EnchData> global_u_ench_table;
-QVector<_EnchData> global_p_ench_table;
-QSet<Group> global_groups;
+QList<EnchData> global_u_ench_table;
+QList<_EnchData> global_p_ench_table;
+QList<Group> global_groups;
 QMap<QString, QVariant> global_settings;
-QVector<DataTableInfo> table_list;
+QList<DataTableInfo> table_list;
 DataTableInfo current_table;
 
-QString intToRoman(int num)
+QString intToLevelText(int num)
 {
-    int values[] = {1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1};
-    QString reps[] = {"M", "CM", "D", "CD", "C", "XC", "L", "XL", "X", "IX", "V", "IV", "I"};
-    QString res;
-    for (int i = 0; i < 13; i++)
+    switch (num)
     {
-        while (num >= values[i])
-        {
-            num -= values[i];
-            res += reps[i];
-        }
+    case 1:
+        return QObject::tr("I");
+        break;
+    case 2:
+        return QObject::tr("I");
+        break;
+    case 3:
+        return QObject::tr("I");
+        break;
+    case 4:
+        return QObject::tr("I");
+        break;
+    case 5:
+        return QObject::tr("I");
+        break;
+    case 6:
+        return QObject::tr("I");
+        break;
+    case 7:
+        return QObject::tr("I");
+        break;
+    case 8:
+        return QObject::tr("I");
+        break;
+    case 9:
+        return QObject::tr("I");
+        break;
+    case 10:
+        return QObject::tr("I");
+        break;
+    default:
+        return QObject::tr("level.") + QString::number(num);
+        break;
     }
-    return res;
 }
 
 QString MCEToString(MCE mce)
@@ -42,6 +66,32 @@ MCE StringToMCE(QString str)
         return MCE::Null;
 }
 
+QString SpecialMethodToString(SpecialMethod spm)
+{
+    switch (spm)
+    {
+    case SpecialMethod::OnceEffect:
+        return "OnceEffect";
+    case SpecialMethod::PenalyErase:
+        return "PenalyErase";
+    case SpecialMethod::Repairing:
+        return "Repairing";
+    default:
+        return "Null";
+    }
+}
+SpecialMethod StringToSpecialMethod(QString str)
+{
+    if (str == "OnceEffect")
+        return SpecialMethod::OnceEffect;
+    else if (str == "PenalyErase")
+        return SpecialMethod::PenalyErase;
+    else if (str == "Repairing")
+        return SpecialMethod::Repairing;
+    else
+        return SpecialMethod::Null;
+}
+
 Ench::Ench(const _Ench &e)
 {
     if (e.id < global_u_ench_table.size() && e.id >= 0)
@@ -49,6 +99,7 @@ Ench::Ench(const _Ench &e)
         this->name = global_u_ench_table.at(e.id).name;
         this->mce = global_u_ench_table.at(e.id).editions;
         this->lvl = e.lvl;
+        this->specials = e.specials;
     }
     else
     {
@@ -87,6 +138,7 @@ _Ench::_Ench(const Ench &e)
 {
     this->id = -1;
     this->lvl = 0;
+    this->specials = e.specials;
 
     for (int i = 0; i < global_u_ench_table.size(); i++)
     {
@@ -161,10 +213,11 @@ uint qHash(const EnchData &key, uint seed) // EnchData 仅以名称和版本(edi
     return hash;
 }
 
-QVector<_EnchData> convertEnchTable(QVector<EnchData> &table) // 数据容器转换
+QList<_EnchData> convertEnchTable(QList<EnchData> &table) // 数据容器转换
 {
-    QVector<_EnchData> _table;
-    for (int i = 0; i < table.size(); i++)
+    QList<_EnchData> _table;
+
+    for (int i = 0; i < table.size(); i++) // Basis
     {
         _EnchData ed;
         ed.max_lvl = table.at(i).max_lvl;
@@ -174,9 +227,10 @@ QVector<_EnchData> convertEnchTable(QVector<EnchData> &table) // 数据容器转
         ed.editions = table.at(i).editions;
         _table.append(ed);
     }
+
     for (int i = 0; i < table.size(); i++)
     {
-        for (auto &conf : table.at(i).conflictions)
+        for (auto &conf : table.at(i).conflictions) // Conflictions
         {
             int n = -1;
             QString name = conf;
@@ -193,7 +247,14 @@ QVector<_EnchData> convertEnchTable(QVector<EnchData> &table) // 数据容器转
                 _table[i].conflictions.insert(n);
             }
         }
+
+        for (int j = 0; j < global_groups.size(); j++) // Group ID
+        {
+            if (global_groups.at(j).name == table.at(i).name)
+                _table[i].group_id = j;
+        }
     }
+
     return _table;
 }
 
@@ -207,6 +268,40 @@ bool operator==(const Group &g1, const Group &g2)
 uint qHash(const Group &key, uint seed)
 {
     return qHash(key.name, seed);
+}
+
+Item::Item(const _Item &it)
+{
+    this->type = it.type;
+    this->penalty = it.penalty;
+    this->durability = it.durability;
+    foreach (auto &e, it.enchs)
+        this->enchs.append(e);
+}
+_Item::_Item(const Item &it)
+{
+    this->type = it.type;
+    this->penalty = it.penalty;
+    this->durability = it.durability;
+    foreach (auto &e, it.enchs)
+        this->enchs.append(e);
+}
+
+FlowStep::FlowStep(const _FlowStep &f)
+{
+    this->a = f.a;
+    this->b = f.b;
+    this->level_cost = f.level_cost;
+    this->point_cost = f.point_cost;
+    this->name_changing = f.name_changing;
+}
+_FlowStep::_FlowStep(const FlowStep &f)
+{
+    this->a = f.a;
+    this->b = f.b;
+    this->level_cost = f.level_cost;
+    this->point_cost = f.point_cost;
+    this->name_changing = f.name_changing;
 }
 
 void registerSettings()

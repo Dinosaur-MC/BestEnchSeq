@@ -9,7 +9,7 @@ bool FileOperator::loadConfig(QString file_name)
 
     if (f.open(QIODevice::ReadOnly))
     {
-//        DEBUG("FileOperator", file_name + " found", "info");
+        //        DEBUG("FileOperator", file_name + " found", "info");
         if (!settings.contains("version/file_version"))
             return false;
         if (!settings.contains("version/app_version"))
@@ -47,7 +47,7 @@ bool FileOperator::saveConfig(QString file_name)
 
     if (f.open(QIODevice::WriteOnly))
     {
-//        DEBUG("FileOperator", file_name + " found.", "info");
+        //        DEBUG("FileOperator", file_name + " found.", "info");
         settings.clear();
         settings.setValue("version/file_version", FILEVERSION);
         settings.setValue("version/app_version", VERSION_ID);
@@ -85,7 +85,7 @@ bool FileOperator::loadTableData(QString file_name, bool m)
         // 区分文件格式
         if (f_info.suffix().toLower() == "json") // JSON Format
         {
-//            DEBUG("FileOperator", "JSON Table", "info");
+            //            DEBUG("FileOperator", "JSON Table", "info");
             QJsonParseError json_err;
             QJsonDocument json_doc = QJsonDocument::fromJson(f.readAll(), &json_err); // 读取文件全部数据并写入 JsonDocument 对象
             f.close();                                                                // 关闭文件
@@ -95,7 +95,7 @@ bool FileOperator::loadTableData(QString file_name, bool m)
                 QJsonObject json_obj = json_doc.object();
 
                 DataTableInfo info;
-                QVector<EnchData> enchs;
+                QList<EnchData> enchs;
                 QSet<Group> groups;
 
                 if (json_obj.contains("type")) // 包含 type 键
@@ -155,7 +155,7 @@ bool FileOperator::loadTableData(QString file_name, bool m)
                         for (int i = 0; i < obj_enchantments.size(); i++) // 遍历 enchantments 容器
                         {
                             QJsonObject obj = obj_enchantments.at(i).toObject();
-                            if ((obj.contains("name") && obj.contains("max_level") && obj.contains("poor_max_level") && obj.contains("book_multiplier") && obj.contains("item_multiplier") && obj.contains("editions") && obj.contains("conflictions"))) // 检查有效性
+                            if ((obj.contains("name") && obj.contains("max_level") && obj.contains("poor_max_level") && obj.contains("book_multiplier") && obj.contains("item_multiplier") && obj.contains("editions") && obj.contains("specials") && obj.contains("conflictions"))) // 检查有效性
                             {
                                 EnchData ench;
 
@@ -167,9 +167,11 @@ bool FileOperator::loadTableData(QString file_name, bool m)
 
                                 QJsonArray editions = obj.value("editions").toArray();
                                 for (int j = 0; j < editions.size(); j++)
-                                {
                                     ench.editions.insert(StringToMCE(editions.at(j).toString()));
-                                }
+
+                                QJsonArray specials = obj.value("specials").toArray();
+                                for (int j = 0; j < specials.size(); j++)
+                                    ench.specials.insert(StringToSpecialMethod(specials.at(j).toString()));
 
                                 QJsonArray conflictions = obj.value("conflictions").toArray();
                                 for (int j = 0; j < conflictions.size(); j++)
@@ -206,20 +208,24 @@ bool FileOperator::loadTableData(QString file_name, bool m)
                             {
                                 Group group;
                                 group.name = obj.value("name").toString();
+                                if (obj.contains("max_durability"))
+                                    group.max_durability = obj.value("max_durability").toInt();
                                 if (obj.contains("icon"))
                                     group.icon_path = obj.value("icon").toString();
                                 groups.insert(group);
                             }
+                            else
+                                continue;
                         }
 
-                        for (auto &e : enchs) // 整理组魔咒列表
+                        foreach (auto &e, enchs) // 整理组魔咒列表
                         {
-                            for (auto &g : e.groups)
+                            foreach (auto &g, e.groups)
                             {
-                                for (auto it = groups.begin(); it != groups.end(); it++)
+                                foreach (auto &it, groups)
                                 {
-                                    if (it->name == g)
-                                        const_cast<Group &>(*it).enchantments.insert(e);
+                                    if (it.name == g)
+                                        const_cast<Group &>(it).enchantments.insert(e);
                                 }
                             }
                         }
@@ -233,7 +239,7 @@ bool FileOperator::loadTableData(QString file_name, bool m)
 
                 current_table = info;
                 global_u_ench_table = enchs;
-                global_groups = groups;
+                global_groups = QList<Group>(groups.begin(), groups.end());
             }
             else
             {
@@ -243,7 +249,7 @@ bool FileOperator::loadTableData(QString file_name, bool m)
         }
         else if (f_info.suffix().toLower() == "csv") // CSV Fromat
         {
-//            DEBUG("FileOperator", "CSV Table", "info");
+            //            DEBUG("FileOperator", "CSV Table", "info");
             QStringList raw = QString(f.readAll()).trimmed().split('\n', Qt::SkipEmptyParts); // 读取文件全部数据并按行切分
             f.close();                                                                        // 关闭文件
 
@@ -254,7 +260,7 @@ bool FileOperator::loadTableData(QString file_name, bool m)
             }
 
             DataTableInfo info;
-            QVector<EnchData> enchs;
+            QList<EnchData> enchs;
             QSet<Group> groups;
 
             QString fver_key = "file_version=";
@@ -281,7 +287,7 @@ bool FileOperator::loadTableData(QString file_name, bool m)
                 return true;
             }
 
-            for (auto &tm : raw)
+            foreach (auto tm, raw)
             {
                 QStringList data;
 
@@ -309,18 +315,23 @@ bool FileOperator::loadTableData(QString file_name, bool m)
                     {
                         QStringList editions = data.at(6).split(';', Qt::SkipEmptyParts);
                         for (int i = 0; i < editions.size(); i++)
-                        {
                             ench.editions.insert(StringToMCE(editions.at(i)));
-                        }
                     }
                     if (7 < data.size())
                     {
-                        QStringList conflictions = data.at(7).split(';', Qt::SkipEmptyParts);
-                        ench.conflictions = QSet<QString>(conflictions.begin(), conflictions.end());
+                        QStringList specials = data.at(7).split(';', Qt::SkipEmptyParts);
+                        for (int i = 0; i < specials.size(); i++)
+                            ench.specials.insert(StringToSpecialMethod(specials.at(i)));
                     }
+
                     if (8 < data.size())
                     {
-                        QStringList groups = data.at(8).split(';', Qt::SkipEmptyParts);
+                        QStringList conflictions = data.at(8).split(';', Qt::SkipEmptyParts);
+                        ench.conflictions = QSet<QString>(conflictions.begin(), conflictions.end());
+                    }
+                    if (9 < data.size())
+                    {
+                        QStringList groups = data.at(9).split(';', Qt::SkipEmptyParts);
                         ench.groups = QSet<QString>(groups.begin(), groups.end());
                     }
 
@@ -335,29 +346,32 @@ bool FileOperator::loadTableData(QString file_name, bool m)
                     Group group;
                     group.name = data.at(1);
                     if (2 < data.size())
-                        group.icon_path = data.at(2);
+                        group.max_durability = data.at(2).toInt();
+                    if (3 < data.size())
+                        group.icon_path = data.at(3);
 
                     groups.insert(group);
                 }
             }
 
-            for (auto &e : enchs)
+            foreach (auto &e, enchs)
             {
-                for (auto &g : e.groups)
+                foreach (auto &g, e.groups)
                 {
-                    for (auto it = groups.begin(); it != groups.end(); it++)
+                    foreach (auto &it, groups)
                     {
-                        if (it->name == g)
-                            const_cast<Group &>(*it).enchantments.insert(e);
+                        if (it.name == g)
+                            const_cast<Group &>(it).enchantments.insert(e);
                     }
                 }
             }
 
             current_table = info;
             global_u_ench_table = enchs;
-            global_groups = groups;
+            global_groups = QList<Group>(groups.begin(), groups.end());
         }
 
+        global_p_ench_table = convertEnchTable(global_u_ench_table);
         DEBUG("FileOperator", "Table data loaded", "info");
         return true;
     }
@@ -386,7 +400,7 @@ bool FileOperator::saveTableData(QString file_name)
             QJsonObject content;
 
             QJsonArray enchantments;
-            for (auto &ench : global_u_ench_table)
+            foreach (auto &ench, global_u_ench_table)
             {
                 QJsonObject e;
                 e.insert("name", ench.name);
@@ -399,6 +413,11 @@ bool FileOperator::saveTableData(QString file_name)
                 for (const auto &arr : ench.editions)
                     editions.append(MCEToString(arr));
                 e.insert("editions", editions);
+
+                QJsonArray specials;
+                for (const auto &arr : ench.specials)
+                    specials.append(SpecialMethodToString(arr));
+                e.insert("specials", specials);
 
                 QJsonArray conflictions;
                 for (const auto &arr : ench.conflictions)
@@ -414,7 +433,7 @@ bool FileOperator::saveTableData(QString file_name)
             }
 
             QJsonArray groups;
-            for (auto &group : global_groups)
+            foreach (auto &group, global_groups)
             {
                 QJsonObject g;
                 g.insert("name", group.name);
@@ -435,17 +454,20 @@ bool FileOperator::saveTableData(QString file_name)
             data += QString("#?file_version=") + QString::number(FILEVERSION) + '\n';
 
             data += QString("# ") + tr("<数据类型>,<组名>,[组图标]") + '\n';
-            for (const auto &g : global_groups)
+            foreach (auto &g, global_groups)
             {
                 data += QString("Group,") + g.name + ',' + g.icon_path + '\n';
             }
 
-            data += QString("# ") + tr("<数据类型>,<魔咒名称>,<最大等级>,<Poor最大等级>,<附魔书乘数>,<物品乘数>,<MC编译版本>,[冲突的魔咒],[分组]") + '\n';
-            for (const auto &e : global_u_ench_table)
+            data += QString("# ") + tr("<数据类型>,<魔咒名称>,<最大等级>,<Poor最大等级>,<附魔书乘数>,<物品乘数>,<MC编译版本>,[特殊功能],[冲突的魔咒],[分组]") + '\n';
+            foreach (auto &e, global_u_ench_table)
             {
                 data += QString("Enchantment,") + e.name + ',' + QString::number(e.max_lvl) + ',' + QString::number(e.poor_max_lvl) + ',' + QString::number(e.book_multiplier) + ',' + QString::number(e.item_multiplier) + ',';
                 for (const auto &arr : e.editions)
                     data += MCEToString(arr) + ';';
+                data += ',';
+                for (const auto &arr : e.specials)
+                    data += SpecialMethodToString(arr) + ';';
                 data += ',';
                 for (const auto &arr : e.conflictions)
                     data += arr + ';';
@@ -489,7 +511,7 @@ bool FileOperator::saveArchivePoint(QString file_name)
     return true;
 }
 
-bool FileOperator::saveResult(Summary summary, QVector<FlowStep> flow, QString file_name, int mode)
+bool FileOperator::saveResult(Summary summary, QList<FlowStep> flow, QString file_name, int mode)
 {
     DEBUG("FileOperator", "Saving result...", "info");
     QFile f(file_name);
@@ -507,9 +529,10 @@ bool FileOperator::saveResult(Summary summary, QVector<FlowStep> flow, QString f
         data = tr("[BESQ Flow Output] ") + QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss\n");
         data += tr("[BESQ Version] ") + VERSION_NAME + " (" + QString::number(VERSION_ID) + ")\n";
         data += tr("[Configuration] ") + MCEToString(summary.edition) + tr(" Edition, ") + "Normal mode, " + "Algorithm 1" + "\n";
-        data += tr("[Brief] ") + QString::number(summary.step_count) + tr(" step(s), ") + QString::number(summary.level_cost) + tr("level(s) cost, ") + QString::number(summary.point_cost) + tr("points cost") + "\n\n";
+        data += tr("[Brief]") + '\n' + tr("Step(s): ") + QString::number(summary.step_count) + '\n' + tr("Max Level cost: ") + QString::number(summary.max_level_cost) + '\n' + tr("Total level cost: ") + QString::number(summary.total_level_cost) + '\n' + tr("Total point cost: ") + QString::number(summary.total_point_cost) + '\n';
+        data += tr("[Flow]") + '\n';
 
-        for (auto &step : flow)
+        foreach (auto &step, flow)
         {
             int n = 1;
 
@@ -531,11 +554,11 @@ bool FileOperator::saveResult(Summary summary, QVector<FlowStep> flow, QString f
 
             data += "[Step Start] - " + QString::number(n) + "\n";
             data += QString("[Item A] ") + name_a + "\n";
-            for (auto &e : step.a.enchs)
-                data += QString("       - ") + e.name + " " + intToRoman(e.lvl) + "\n";
+            foreach (auto &e, step.a.enchs)
+                data += QString("       - ") + e.name + " " + intToLevelText(e.lvl) + "\n";
             data += QString("[Item B] ") + name_b + "\n";
-            for (auto &e : step.b.enchs)
-                data += QString("       - ") + e.name + " " + intToRoman(e.lvl) + "\n";
+            foreach (auto &e, step.b.enchs)
+                data += QString("       - ") + e.name + " " + intToLevelText(e.lvl) + "\n";
             data += QString("[L Cost] ") + QString::number(step.level_cost) + "\n";
             data += QString("[P Cost] ") + QString::number(step.point_cost) + "\n";
             if (step.name_changing)

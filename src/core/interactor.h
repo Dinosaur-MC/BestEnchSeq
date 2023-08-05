@@ -10,7 +10,6 @@ public:
     explicit interactor(QObject *parent = nullptr);
 
 signals:
-
 };
 
 #endif // INTERACTOR_H
