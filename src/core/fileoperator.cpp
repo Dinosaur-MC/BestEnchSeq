@@ -1,7 +1,7 @@
 #include "fileoperator.h"
 #include <QDebug>
 
-bool FileOperator::loadConfig(QString file_name)
+bool FileOperator::loadConfig(QString file_name) // 加载配置
 {
     DEBUG("FileOperator", "Loading configuration...", "info");
     QFile f(file_name);
@@ -15,18 +15,20 @@ bool FileOperator::loadConfig(QString file_name)
         if (!settings.contains("version/app_version"))
             return false;
 
-        global_settings["version/file_version"] = settings.value("version/file_version", 0);
-        global_settings["version/app_version"] = settings.value("version/app_version", 0);
-        global_settings["default/edition"] = settings.value("default/edition", 1);
-        global_settings["default/item_config"] = settings.value("default/item_config", 0);
-        global_settings["default/algorithm"] = settings.value("default/algorithm", 0);
-        global_settings["default/export_path"] = settings.value("default/export_path", "./exports");
-        global_settings["default/language"] = settings.value("default/language", "zh_cn");
-        global_settings["lever/auto_save"] = settings.value("lever/auto_save", 0);
-        global_settings["lever/auto_check_update"] = settings.value("lever/auto_check_update", 1);
-        global_settings["lever/enable_widely_reszie_window"] = settings.value("lever/enable_widely_reszie_window", 0);
-        global_settings["log/last_used_table"] = settings.value("log/last_used_table", "");
-        global_settings["log/last_edit"] = QDateTime::fromString(settings.value("log/last_edit", "").toString(), "yyyyMMdd_hhmmss");
+        SettingsMap settings_map;
+        settings_map["version/file_version"] = settings.value("version/file_version", 0);
+        settings_map["version/app_version"] = settings.value("version/app_version", 0);
+        settings_map["default/edition"] = settings.value("default/edition", 1);
+        settings_map["default/item_config"] = settings.value("default/item_config", 0);
+        settings_map["default/algorithm"] = settings.value("default/algorithm", "None");
+        settings_map["default/export_path"] = settings.value("default/export_path", "./exports");
+        settings_map["default/language"] = settings.value("default/language", "zh_CN");
+        settings_map["lever/auto_save"] = settings.value("lever/auto_save", 0);
+        settings_map["lever/auto_check_update"] = settings.value("lever/auto_check_update", 1);
+        settings_map["lever/enable_widely_reszie_window"] = settings.value("lever/enable_widely_reszie_window", 0);
+        settings_map["log/last_used_table"] = settings.value("log/last_used_table", "");
+        settings_map["log/last_edit"] = QDateTime::fromString(settings.value("log/last_edit", "").toString(), "yyyyMMdd_hhmmss");
+        global_settings.fromSettingsMap(settings_map);
 
         DEBUG("FileOperator", tr("Configuration loaded"), "info");
         f.close();
@@ -39,7 +41,7 @@ bool FileOperator::loadConfig(QString file_name)
     }
 }
 
-bool FileOperator::saveConfig(QString file_name)
+bool FileOperator::saveConfig(QString file_name) // 保持配置
 {
     DEBUG("FileOperator", "Saving configuration...", "info");
     QFile f(file_name);
@@ -48,18 +50,19 @@ bool FileOperator::saveConfig(QString file_name)
     if (f.open(QIODevice::WriteOnly))
     {
         //        DEBUG("FileOperator", file_name + " found.", "info");
+        SettingsMap settings_map = global_settings.toSettingsMap();
         settings.clear();
         settings.setValue("version/file_version", FILEVERSION);
         settings.setValue("version/app_version", VERSION_ID);
-        settings.setValue("default/edition", global_settings["default/edition"]);
-        settings.setValue("default/item_config", global_settings["default/item_config"]);
-        settings.setValue("default/algorithm", global_settings["default/algorithm"]);
-        settings.setValue("default/export_path", global_settings["default/export_path"]);
-        settings.setValue("default/language", global_settings["default/language"]);
-        settings.setValue("lever/auto_save", global_settings["lever/auto_save"]);
-        settings.setValue("lever/auto_check_update", global_settings["lever/auto_check_update"]);
-        settings.setValue("lever/enable_widely_reszie_window", global_settings["lever/enable_widely_reszie_window"]);
-        settings.setValue("log/last_used_table", global_settings["log/last_used_table"]);
+        settings.setValue("default/edition", settings_map["default/edition"]);
+        settings.setValue("default/item_config", settings_map["default/item_config"]);
+        settings.setValue("default/algorithm", settings_map["default/algorithm"]);
+        settings.setValue("default/export_path", settings_map["default/export_path"]);
+        settings.setValue("default/language", settings_map["default/language"]);
+        settings.setValue("lever/auto_save", settings_map["lever/auto_save"]);
+        settings.setValue("lever/auto_check_update", settings_map["lever/auto_check_update"]);
+        settings.setValue("lever/enable_widely_reszie_window", settings_map["lever/enable_widely_reszie_window"]);
+        settings.setValue("log/last_used_table", settings_map["log/last_used_table"]);
         settings.setValue("log/last_edit", QDateTime::currentDateTime().toString("yyyyMMdd_hhmmss"));
         DEBUG("FileOperator", "Configuration saved", "info");
 
@@ -95,7 +98,7 @@ bool FileOperator::loadTableData(QString file_name, bool m)
                 QJsonObject json_obj = json_doc.object();
 
                 DataTableInfo info;
-                QList<EnchData> enchs;
+                EnchDataList enchs;
                 QSet<Group> groups;
 
                 if (json_obj.contains("type")) // 包含 type 键
@@ -260,7 +263,7 @@ bool FileOperator::loadTableData(QString file_name, bool m)
             }
 
             DataTableInfo info;
-            QList<EnchData> enchs;
+            EnchDataList enchs;
             QSet<Group> groups;
 
             QString fver_key = "file_version=";

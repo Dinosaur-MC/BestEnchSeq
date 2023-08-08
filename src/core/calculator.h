@@ -1,6 +1,8 @@
 #ifndef CALCULATOR_H
 #define CALCULATOR_H
 
+#include <QObject>
+#include <QThread>
 #include "core.h"
 #include "algorithm.h"
 
@@ -15,19 +17,27 @@ public:
     explicit Calculator(QObject *parent = nullptr);
     ~Calculator();
 
-    void startCalc(QSet<EnchData> ench_set, Item target, MCE mce, ALG alg_index, ALGCFG cfg, ICM icm, ItemPool *ip = nullptr);
+    bool setConfig(MCE mce, Item target, ItemPool ip, QSet<EnchData> ench_g, ICM icm, QString alg, ALGCFG algcfg);
+    bool startCalc();
     void getResult(Summary &s, FlowStack &fs);
 
 private:
+    bool generateItemPool(ICM icm, _Item target, _ItemPool &ip);
+    bool initializeAlgorithm();
     void receiveResult(Summary s, _FlowStack fs);
 
+    MCE edition;
     _Item target_item;
     _ItemPool item_pool;
+    QSet<int> ench_group;
+    QString algorithm_name;
+    ALGCFG alg_config;
+
     _FlowStack flows;
     Summary summary;
 
     QThread *thread;
-    Algorithm *alg;
+    Algorithm *algorithm;
 
     uint current_step;
     uint step_count;

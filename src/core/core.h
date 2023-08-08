@@ -93,7 +93,7 @@ struct _Ench;
 struct Ench // User data
 {
     QString name;
-    QSet<MCE> mce;
+    MCE mce;
     int lvl;
     QSet<SpecialMethod> specials;
 
@@ -102,6 +102,7 @@ struct Ench // User data
     Ench(const _Ench &e);
     bool isValid();
 };
+typedef QList<Ench> EnchList;
 bool operator==(const Ench &e1, const Ench &e2);
 bool operator<(const Ench &e1, const Ench &e2);
 uint qHash(const Ench &key, uint seed = 0);
@@ -117,6 +118,7 @@ struct _Ench // Program data
     _Ench(const Ench &e);
     bool isValid();
 };
+typedef QList<_Ench> _EnchList;
 bool operator==(const _Ench &e1, const _Ench &e2);
 bool operator<(const _Ench &e1, const _Ench &e2);
 uint qHash(const _Ench &key, uint seed = 0);
@@ -135,9 +137,10 @@ struct EnchData // User data
 
     bool isValid();
 };
+typedef QList<EnchData> EnchDataList;
 bool operator==(const EnchData &e1, const EnchData &e2);
 uint qHash(const EnchData &key, uint seed = 0);
-extern QList<EnchData> global_u_ench_table;
+extern EnchDataList global_u_ench_table;
 
 struct _EnchData // Program data
 {
@@ -152,8 +155,10 @@ struct _EnchData // Program data
 
     bool isValid();
 };
-extern QList<_EnchData> global_p_ench_table;
-QList<_EnchData> convertEnchTable(QList<EnchData> &table);
+typedef QList<_EnchData> _EnchDataList;
+extern _EnchDataList global_p_ench_table;
+
+_EnchDataList convertEnchTable(EnchDataList &table);
 
 /* ----------------------------------------
  *             Group Container
@@ -166,9 +171,10 @@ struct Group
     QString icon_path;
     QSet<EnchData> enchantments;
 };
+typedef QList<Group> GroupList;
 bool operator==(const Group &g1, const Group &g2);
 uint qHash(const Group &key, uint seed = 0);
-extern QList<Group> global_groups;
+extern GroupList global_groups;
 
 /* ----------------------------------------
  *              Item Container
@@ -198,11 +204,12 @@ typedef QList<Item> ItemPool;
 struct _Item // Program data
 {
     ItemType type;
-    QList<_Ench> enchs;
+    _EnchList enchs;
     int penalty;
     int durability;
 
     _Item() = default;
+    _Item(ItemType type, _EnchList enchs, int penalty, int durability);
     _Item(const Item &it);
 };
 typedef QList<_Item> _ItemPool;
@@ -223,7 +230,8 @@ struct FlowStep // User data
     FlowStep() = default;
     FlowStep(const _FlowStep &f);
 };
-typedef QList<QList<FlowStep>> FlowStack;
+typedef QList<FlowStep> FlowList;
+typedef QList<FlowList> FlowStack;
 
 struct _FlowStep // Program data
 {
@@ -242,25 +250,52 @@ typedef QList<QList<_FlowStep>> _FlowStack;
  *         Configuration Container
  * ---------------------------------------- */
 
-extern QMap<QString, QVariant> global_settings;
-void registerSettings();
+enum class ICM
+{
+    Null,
+    Normal,
+    Poor,
+    Advanced
+}; // Item Configurating Mode
+QString ICMToString(ICM icm);
+ICM StringToICM(QString str);
+
+typedef QMap<QString, QVariant> SettingsMap;
+struct SettingsRuntime
+{
+    // [version]
+    int file_version;
+    int app_version;
+
+    // [default]
+    MCE edition;
+    ICM item_config;
+    QString algorithm;
+    QString export_path;
+    QString language;
+
+    // [lever]
+    bool auto_save;
+    bool auto_check_update;
+    bool enable_widely_reszie_window;
+    bool deverloper_mode;
+
+    // [log]
+    QString last_used_table;
+    QDateTime last_edit;
+
+    // Convert functions
+    SettingsMap toSettingsMap();
+    void fromSettingsMap(SettingsMap smap);
+};
+extern SettingsRuntime global_settings;
+
+// void registerSettings();
 
 /* ----------------------------------------
  *             Other Container
  * ---------------------------------------- */
 
-enum class ICM
-{
-    Normal,
-    Poor,
-    Advanced
-}; // Item Configurating Mode
-enum class ALG
-{
-    Intelligent,
-    Enumerating,
-    External
-}; // Algorithm
 enum class ALGCFG
 {
     Normal = 0x01,
@@ -274,7 +309,8 @@ struct Summary
 {
     MCE edition;
     ICM item_config;
-    ALG algorithm;
+    //    ALG algorithm;
+    QString algorithm;
     ALGCFG alg_config;
 
     QList<Item> input_items;

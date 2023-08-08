@@ -33,34 +33,39 @@ inline int Algorithm::mergeLevel(int ench_id, int l1, int l2)
 
 int Algorithm::findEnch(const _Item &item, const _Ench &ench, bool strict)
 {
+    return findEnch(item.enchs, ench, strict);
+}
+int Algorithm::findEnch(const _EnchList &enchs, const _Ench &ench, bool strict)
+{
     if (strict)
     {
-        for (int i = 0; i < item.enchs.size(); i++)
+        for (int i = 0; i < enchs.size(); i++)
         {
-            if (item.enchs.at(i) == ench)
+            if (enchs.at(i) == ench)
                 return i;
         }
     }
     else
     {
-        for (int i = 0; i < item.enchs.size(); i++)
+        for (int i = 0; i < enchs.size(); i++)
         {
-            if (item.enchs.at(i).id == ench.id)
+            if (enchs.at(i).id == ench.id)
                 return i;
         }
     }
 
     return -1;
 }
-QList<QPoint> Algorithm::findItemWith(int ench_id)
+
+QList<QPoint> Algorithm::findItemWith(int ench_id, const _ItemPool &ip)
 {
     QList<QPoint> item_pos;
 
-    for (int i = 0; i < item_pool.size(); i++)
+    for (int i = 0; i < ip.size(); i++)
     {
-        for (int j = 0; j < item_pool.at(i).enchs.size(); j++)
+        for (int j = 0; j < ip.at(i).enchs.size(); j++)
         {
-            if (item_pool.at(i).enchs.at(j).id == ench_id)
+            if (ip.at(i).enchs.at(j).id == ench_id)
                 item_pos.append({i, j});
         }
     }
@@ -68,29 +73,13 @@ QList<QPoint> Algorithm::findItemWith(int ench_id)
     return item_pos;
 }
 
-uint8_t Algorithm::checkProcessable(const _Item &item, const _Ench &ench)
+bool Algorithm::checkConfig(const _Item &item, const _ItemPool &ip, QList<int> *missing)
 {
-    if (!ench_set.contains(ench.id))
-        return 0x1; // 魔咒不合适
-
-    foreach (auto &e, global_p_ench_table.at(ench.id).conflictions)
-    {
-        foreach (auto &ie, item.enchs)
-        {
-            if (ie.id == e)
-                return 0x2; // 魔咒冲突
-        }
-    }
-
-    return 0x0; // 检查通过
-}
-bool Algorithm::checkConfig(const _ItemPool &ip, QList<int> *missing)
-{
-    QList<_Ench> ench_l1;               // 完全匹配的魔咒的列表
+    _EnchList ench_l1;               // 完全匹配的魔咒的列表
     QMap<_Ench, QList<QPoint>> ench_l2; // ID匹配的魔咒的列表
 
     // Step 1: 查找并分别记录完全匹配和ID匹配的魔咒，如一个魔咒找不到则失败
-    foreach (_Ench ench, target_item.enchs) // 遍历目标魔咒列表
+    foreach (_Ench ench, item.enchs) // 遍历目标魔咒列表
     {
         int i, p = -1;
         for (i = 0; i < ip.size(); i++) // 遍历物品池
@@ -109,7 +98,7 @@ bool Algorithm::checkConfig(const _ItemPool &ip, QList<int> *missing)
                 if (p != -1)                         // 找到魔咒
                 {
                     n++;
-                    ench_l2.insert(ench, findItemWith(ench.id));
+                    ench_l2.insert(ench, findItemWith(ench.id, ip));
                 }
             }
             if (n < 1) // 魔咒找不到
@@ -136,7 +125,7 @@ bool Algorithm::checkConfig(const _ItemPool &ip, QList<int> *missing)
     {
         QList<int> lvls;
         foreach (auto &p, map.value()) // 汇总等级数据
-            lvls.append(item_pool[p.x()].enchs[p.y()].lvl);
+            lvls.append(ip[p.x()].enchs[p.y()].lvl);
 
         std::sort(lvls.begin(), lvls.end());  // 递增排序
         for (int i = 0; i + 1 < lvls.size();) // 等级连续合并
@@ -155,6 +144,23 @@ bool Algorithm::checkConfig(const _ItemPool &ip, QList<int> *missing)
     }
 
     return true;
+}
+
+uint8_t Algorithm::checkProcessable(const _Item &item, const _Ench &ench)
+{
+    if (!ench_set.contains(ench.id))
+        return 0x1; // 魔咒不合适
+
+    foreach (auto &e, global_p_ench_table.at(ench.id).conflictions)
+    {
+        foreach (auto &ie, item.enchs)
+        {
+            if (ie.id == e)
+                return 0x2; // 魔咒冲突
+        }
+    }
+
+    return 0x0; // 检查通过
 }
 
 int Algorithm::expCost(const _Item &a, const _Item &b, MCE mce, uint8_t mode)
@@ -224,36 +230,4 @@ _Item Algorithm::forge(const _Item &a, const _Item &b)
     }
 
     return it;
-}
-
-void FinTriangle::update(int n)
-{
-    data.clear();
-    for (int i = 0; i < n; i++)
-    {
-        int n = 0;
-        for (int j = i; j > 0; j /= 2)
-        {
-            if (j % 2 == 1)
-                n++;
-        }
-        data.append(n);
-    }
-}
-int FinTriangle::vaule(int x)
-{
-    if (x < data.size())
-        return data.at(x);
-    else
-        return -1;
-}
-QList<int> FinTriangle::arcValues(int x)
-{
-    QList<int> values;
-    for (int i = 0; i < data.size(); i++)
-    {
-        if (data.at(i) == x)
-            values.append(i);
-    }
-    return values;
 }

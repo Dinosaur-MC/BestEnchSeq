@@ -1,9 +1,9 @@
 #include "core.h"
 
-QList<EnchData> global_u_ench_table;
-QList<_EnchData> global_p_ench_table;
-QList<Group> global_groups;
-QMap<QString, QVariant> global_settings;
+EnchDataList global_u_ench_table;
+_EnchDataList global_p_ench_table;
+GroupList global_groups;
+SettingsRuntime global_settings;
 QList<DataTableInfo> table_list;
 DataTableInfo current_table;
 
@@ -15,31 +15,31 @@ QString intToLevelText(int num)
         return QObject::tr("I");
         break;
     case 2:
-        return QObject::tr("I");
+        return QObject::tr("II");
         break;
     case 3:
-        return QObject::tr("I");
+        return QObject::tr("III");
         break;
     case 4:
-        return QObject::tr("I");
+        return QObject::tr("IV");
         break;
     case 5:
-        return QObject::tr("I");
+        return QObject::tr("V");
         break;
     case 6:
-        return QObject::tr("I");
+        return QObject::tr("VI");
         break;
     case 7:
-        return QObject::tr("I");
+        return QObject::tr("VII");
         break;
     case 8:
-        return QObject::tr("I");
+        return QObject::tr("VIII");
         break;
     case 9:
-        return QObject::tr("I");
+        return QObject::tr("IX");
         break;
     case 10:
-        return QObject::tr("I");
+        return QObject::tr("X");
         break;
     default:
         return QObject::tr("level.") + QString::number(num);
@@ -91,26 +91,51 @@ SpecialMethod StringToSpecialMethod(QString str)
     else
         return SpecialMethod::Null;
 }
+QString ICMToString(ICM icm)
+{
+    switch (icm)
+    {
+    case ICM::Normal:
+        return "Normal";
+    case ICM::Poor:
+        return "Poor";
+    case ICM::Advanced:
+        return "Advanced";
+    default:
+        return "Null";
+    }
+}
+ICM StringToICM(QString str)
+{
+    if (str == "Normal")
+        return ICM::Normal;
+    else if (str == "Poor")
+        return ICM::Poor;
+    else if (str == "Advanced")
+        return ICM::Advanced;
+    else
+        return ICM::Null;
+}
 
 Ench::Ench(const _Ench &e)
 {
     if (e.id < global_u_ench_table.size() && e.id >= 0)
     {
         this->name = global_u_ench_table.at(e.id).name;
-        this->mce = global_u_ench_table.at(e.id).editions;
+        this->mce = global_settings.edition;
         this->lvl = e.lvl;
         this->specials = e.specials;
     }
     else
     {
         this->name = "@Unknown";
-        this->mce.insert(MCE::Null);
+        this->mce = MCE::Null;
         this->lvl = 0;
     }
 }
 bool Ench::isValid()
 {
-    if (this->name != "@Unknown" && this->lvl > 0 && !this->mce.contains(MCE::Null))
+    if (this->name != "@Unknown" && this->lvl > 0 && this->mce != MCE::Null)
         return true;
     else
         return false;
@@ -142,7 +167,7 @@ _Ench::_Ench(const Ench &e)
 
     for (int i = 0; i < global_u_ench_table.size(); i++)
     {
-        if (global_u_ench_table.at(i).name == e.name && global_u_ench_table.at(i).editions == e.mce)
+        if (global_u_ench_table.at(i).name == e.name && global_u_ench_table.at(i).editions.contains(e.mce))
         {
             this->id = i;
             this->lvl = e.lvl;
@@ -195,7 +220,17 @@ bool _EnchData::isValid()
 
 bool operator==(const EnchData &e1, const EnchData &e2)
 {
-    if (e1.name == e2.name && e1.editions == e2.editions)
+    bool var = false;
+    foreach (auto &e, e1.editions)
+    {
+        if (e2.editions.contains(e))
+        {
+            var = true;
+            break;
+        }
+    }
+
+    if (e1.name == e2.name && var)
         return true;
     else
         return false;
@@ -206,16 +241,14 @@ uint qHash(const EnchData &key, uint seed) // EnchData 仅以名称和版本(edi
 
     hash ^= qHash(key.name) + 0x9e3779b9 + (hash << 6) + (hash >> 2);
     for (const auto &edition : key.editions)
-    {
         hash ^= qHash(static_cast<int>(edition)) + 0x9e3779b9 + (hash << 6) + (hash >> 2);
-    }
 
     return hash;
 }
 
-QList<_EnchData> convertEnchTable(QList<EnchData> &table) // 数据容器转换
+_EnchDataList convertEnchTable(EnchDataList &table) // 数据容器转换
 {
-    QList<_EnchData> _table;
+    _EnchDataList _table;
 
     for (int i = 0; i < table.size(); i++) // Basis
     {
@@ -287,6 +320,14 @@ _Item::_Item(const Item &it)
         this->enchs.append(e);
 }
 
+_Item::_Item(ItemType type, _EnchList enchs, int penalty, int durability)
+{
+    this->type = type;
+    this->enchs = enchs;
+    this->penalty = penalty;
+    this->durability = durability;
+}
+
 FlowStep::FlowStep(const _FlowStep &f)
 {
     this->a = f.a;
@@ -304,22 +345,37 @@ _FlowStep::_FlowStep(const FlowStep &f)
     this->name_changing = f.name_changing;
 }
 
-void registerSettings()
+SettingsMap SettingsRuntime::toSettingsMap()
 {
-    global_settings.clear();
-    global_settings["version/file_version"] = FILEVERSION;
-    global_settings["version/app_version"] = VERSION_ID;
-    global_settings["default/edition"] = 1;
-    global_settings["default/item_config"] = 0;
-    global_settings["default/algorithm"] = 0;
-    global_settings["default/export_path"] = "./exports";
-    global_settings["default/language"] = "zh_cn";
-    global_settings["lever/auto_save"] = 0;
-    global_settings["lever/auto_check_update"] = 1;
-    global_settings["lever/enable_widely_reszie_window"] = 0;
-    global_settings["lever/deverloper_mode"] = 0;
-    global_settings["log/last_used_table"] = "";
-    global_settings["log/last_edit"] = QDateTime::currentDateTime();
+    SettingsMap smap;
+    smap["version/file_version"] = file_version;
+    smap["version/app_version"] = app_version;
+    smap["default/edition"] = MCEToString(edition);
+    smap["default/item_config"] = ICMToString(item_config);
+    smap["default/algorithm"] = algorithm;
+    smap["default/export_path"] = export_path;
+    smap["default/language"] = language;
+    smap["lever/auto_save"] = auto_save;
+    smap["lever/auto_check_update"] = auto_check_update;
+    smap["lever/enable_widely_reszie_window"] = enable_widely_reszie_window;
+    smap["log/last_used_table"] = last_used_table;
+    smap["log/last_edit"] = last_edit;
+    return smap;
+}
+void SettingsRuntime::fromSettingsMap(SettingsMap smap)
+{
+    file_version = smap["version/file_version"].toInt();
+    app_version = smap["version/app_version"].toInt();
+    edition = StringToMCE(smap["default/edition"].toString());
+    item_config = StringToICM(smap["default/item_config"].toString());
+    algorithm = smap["default/algorithm"].toString();
+    export_path = smap["default/export_path"].toString();
+    language = smap["default/language"].toString();
+    auto_save = smap["lever/auto_save"].toInt();
+    auto_check_update = smap["lever/auto_check_update"].toInt();
+    enable_widely_reszie_window = smap["lever/enable_widely_reszie_window"].toInt();
+    last_used_table = smap["log/last_used_table"].toString();
+    last_edit = smap["log/last_edit"].toDateTime();
 }
 
 void initializeGlobalTable()

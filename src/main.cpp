@@ -60,24 +60,23 @@ int main(int argc, char *argv[])
     {
         // 创建应用 #1
         QApplication app(argc, argv);
-        QCoreApplication::setOrganizationName("DMC Studio");
-        QCoreApplication::setOrganizationDomain(LINK_HOME_PAGE);
-        QCoreApplication::setApplicationName(TEXT_PROGRAM_NAME_CN);
+        QApplication::setOrganizationName("DMC Studio");
+        QApplication::setOrganizationDomain(LINK_HOME_PAGE);
+        QApplication::setApplicationName(TEXT_PROGRAM_NAME_CN);
 
         // 安装翻译器 #2
         QTranslator translator;
-        if (translator.load(":/i18n/lang/zh_cn.ts"))
+        if (translator.load("./lang/zh_cn.ts"))
         {
             app.installTranslator(&translator);
         }
 
         // 加载应用配置 #3
-        registerSettings();
         if (!QFile::exists(FILE_CONFIG))
         {
             // + First-launch Notice
         }
-        if (!FileOperator::loadConfig(FILE_CONFIG) || global_settings["version/file_version"].toInt() < FILEVERSION)
+        if (!FileOperator::loadConfig(FILE_CONFIG) || global_settings.file_version < FILEVERSION)
         {
             if (!FileOperator::saveConfig(FILE_CONFIG))
             {
@@ -97,7 +96,7 @@ int main(int argc, char *argv[])
         }
 
         // 创建应用GUI窗口 #6
-        qDebug() << "Starting UI window...";
+        qDebug() << "Starting GUI...";
         MainWindow w;
         w.show();
 
