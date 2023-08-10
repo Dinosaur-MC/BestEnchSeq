@@ -17,24 +17,23 @@ public:
     explicit Calculator(QObject *parent = nullptr);
     ~Calculator();
 
-    bool setConfig(MCE mce, Item target, ItemPool ip, QSet<EnchData> ench_g, ICM icm, QString alg, ALGCFG algcfg);
+    bool setConfig(ICM icm, MCE mce, Group g, Item target, ItemPool ip, QString alg, ALGCFG algcfg);
     bool startCalc();
-    void getResult(Summary &s, FlowStack &fs);
+    void getResult(FlowStack &fs);
 
 private:
     bool generateItemPool(ICM icm, _Item target, _ItemPool &ip);
     bool initializeAlgorithm();
-    void receiveResult(Summary s, _FlowStack fs);
+    void receiveResult(_FlowStack fs);
 
     MCE edition;
     _Item target_item;
     _ItemPool item_pool;
-    QSet<int> ench_group;
+    _Group group;
     QString algorithm_name;
     ALGCFG alg_config;
 
     _FlowStack flows;
-    Summary summary;
 
     QThread *thread;
     Algorithm *algorithm;
@@ -43,7 +42,7 @@ private:
     uint step_count;
 
 signals:
-    void start(QSet<int> es, _Item tar, _ItemPool ip, MCE mce, ALGCFG cfg);
+    void start(_Group g, _Item tar, _ItemPool ip, MCE mce, ALGCFG cfg);
     void stepForwarded(uint current, uint total);
     void finished();
 };

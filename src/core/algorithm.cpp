@@ -5,15 +5,15 @@ Algorithm::Algorithm(QObject *parent)
 {
 }
 
-void Algorithm::start(QSet<int> es, _Item tar, _ItemPool ip, MCE mce, ALGCFG cfg)
+void Algorithm::start(_Group g, _Item tar, _ItemPool ip, MCE mce, ALGCFG cfg)
 {
-    ench_set = es;
+    group = g;
     target_item = tar;
     item_pool = ip;
     edition = mce;
     alg_config = cfg;
 
-    if (!ench_set.isEmpty() && !item_pool.isEmpty() && edition != MCE::Null)
+    if (!group.enchantments.isEmpty() && !item_pool.isEmpty() && edition != MCE::Null)
         run();
 }
 
@@ -28,7 +28,7 @@ inline ulong Algorithm::levelToPoint(int lvl)
 }
 inline int Algorithm::mergeLevel(int ench_id, int l1, int l2)
 {
-    return l1 == l2 ? std::min(l1 + 1, global_p_ench_table.at(ench_id).max_lvl) : std::max(l1, l2);
+    return l1 == l2 ? std::min(l1 + 1, CTEp.at(ench_id).max_lvl) : std::max(l1, l2);
 }
 
 int Algorithm::findEnch(const _Item &item, const _Ench &ench, bool strict)
@@ -75,7 +75,7 @@ QList<QPoint> Algorithm::findItemWith(int ench_id, const _ItemPool &ip)
 
 bool Algorithm::checkConfig(const _Item &item, const _ItemPool &ip, QList<int> *missing)
 {
-    _EnchList ench_l1;               // 完全匹配的魔咒的列表
+    _EnchList ench_l1;                  // 完全匹配的魔咒的列表
     QMap<_Ench, QList<QPoint>> ench_l2; // ID匹配的魔咒的列表
 
     // Step 1: 查找并分别记录完全匹配和ID匹配的魔咒，如一个魔咒找不到则失败
@@ -148,10 +148,10 @@ bool Algorithm::checkConfig(const _Item &item, const _ItemPool &ip, QList<int> *
 
 uint8_t Algorithm::checkProcessable(const _Item &item, const _Ench &ench)
 {
-    if (!ench_set.contains(ench.id))
+    if (!group.enchantments.contains(ench.id))
         return 0x1; // 魔咒不合适
 
-    foreach (auto &e, global_p_ench_table.at(ench.id).conflictions)
+    foreach (auto &e, CTEp.at(ench.id).conflictions)
     {
         foreach (auto &ie, item.enchs)
         {
@@ -173,7 +173,7 @@ int Algorithm::expCost(const _Item &a, const _Item &b, MCE mce, uint8_t mode)
         int i = checkProcessable(a, b_ench);
         if (i == 0x0) // 魔咒 合并/添加 花费
         {
-            int multiplier = b.type == ItemType::Book ? global_u_ench_table.at(b_ench.id).book_multiplier : global_u_ench_table.at(b_ench.id).item_multiplier;
+            int multiplier = b.type == ItemType::Book ? CTEp.at(b_ench.id).book_multiplier : CTEp.at(b_ench.id).item_multiplier;
             int p = findEnch(a, b_ench);
             if (p > -1)
                 cost += multiplier * (mce == MCE::Java ? mergeLevel(b_ench.id, a.enchs.at(p).lvl, b_ench.lvl) : mergeLevel(b_ench.id, a.enchs.at(p).lvl, b_ench.lvl) - a.enchs.at(p).lvl);
@@ -224,9 +224,9 @@ _Item Algorithm::forge(const _Item &a, const _Item &b)
     if (it.type == ItemType::Weapon)
     {
         if (b.type == ItemType::Stuff)
-            it.durability = std::min(it.durability + 25 * b.durability, 100); // 此时 b.durability 表示材料数量
+            it.durability = std::min((int)(it.durability + 0.25 * group.max_durability * b.durability), 100); // 此时 b.durability 表示材料数量
         else if (it.durability < 100)
-            it.durability = std::min(it.durability + b.durability + 12, 100);
+            it.durability = std::min((int)(it.durability + b.durability + 0.12 * (it.durability + b.durability)), 100);
     }
 
     return it;

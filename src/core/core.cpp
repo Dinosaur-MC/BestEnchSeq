@@ -1,11 +1,8 @@
 #include "core.h"
+#include <QHash>
 
-EnchDataList global_u_ench_table;
-_EnchDataList global_p_ench_table;
-GroupList global_groups;
+DataTable current_table;
 SettingsRuntime global_settings;
-QList<DataTableInfo> table_list;
-DataTableInfo current_table;
 
 QString intToLevelText(int num)
 {
@@ -66,31 +63,6 @@ MCE StringToMCE(QString str)
         return MCE::Null;
 }
 
-QString SpecialMethodToString(SpecialMethod spm)
-{
-    switch (spm)
-    {
-    case SpecialMethod::OnceEffect:
-        return "OnceEffect";
-    case SpecialMethod::PenalyErase:
-        return "PenalyErase";
-    case SpecialMethod::Repairing:
-        return "Repairing";
-    default:
-        return "Null";
-    }
-}
-SpecialMethod StringToSpecialMethod(QString str)
-{
-    if (str == "OnceEffect")
-        return SpecialMethod::OnceEffect;
-    else if (str == "PenalyErase")
-        return SpecialMethod::PenalyErase;
-    else if (str == "Repairing")
-        return SpecialMethod::Repairing;
-    else
-        return SpecialMethod::Null;
-}
 QString ICMToString(ICM icm)
 {
     switch (icm)
@@ -119,30 +91,30 @@ ICM StringToICM(QString str)
 
 Ench::Ench(const _Ench &e)
 {
-    if (e.id < global_u_ench_table.size() && e.id >= 0)
+    if (e.id < CTE.size() && e.id >= 0)
     {
-        this->name = global_u_ench_table.at(e.id).name;
+        this->name = CTE.at(e.id).name;
         this->mce = global_settings.edition;
         this->lvl = e.lvl;
         this->specials = e.specials;
     }
     else
     {
-        this->name = "@Unknown";
+        this->name = "$Unknown";
         this->mce = MCE::Null;
         this->lvl = 0;
     }
 }
 bool Ench::isValid()
 {
-    if (this->name != "@Unknown" && this->lvl > 0 && this->mce != MCE::Null)
+    if (this->name != "$Unknown" && this->lvl > 0 && this->mce != MCE::Null)
         return true;
     else
         return false;
 }
 bool operator==(const Ench &e1, const Ench &e2)
 {
-    if (e1.name == e2.name && e1.lvl == e2.lvl)
+    if (e1.name == e2.name && e1.mce == e2.mce && e1.lvl == e2.lvl)
         return true;
     else
         return false;
@@ -154,9 +126,9 @@ bool operator<(const Ench &e1, const Ench &e2)
     else
         return false;
 }
-uint qHash(const Ench &key, uint seed)
+size_t qHash(const Ench &key, size_t seed)
 {
-    return qHash(key.name, seed) ^ key.lvl;
+    return qHash(key.name + QString::number((int)key.mce) + QString::number(key.lvl), seed);
 }
 
 _Ench::_Ench(const Ench &e)
@@ -165,9 +137,9 @@ _Ench::_Ench(const Ench &e)
     this->lvl = 0;
     this->specials = e.specials;
 
-    for (int i = 0; i < global_u_ench_table.size(); i++)
+    for (int i = 0; i < CTE.size(); i++)
     {
-        if (global_u_ench_table.at(i).name == e.name && global_u_ench_table.at(i).editions.contains(e.mce))
+        if (CTE.at(i).name == e.name && CTE.at(i).editions.contains(e.mce))
         {
             this->id = i;
             this->lvl = e.lvl;
@@ -195,7 +167,7 @@ bool operator<(const _Ench &e1, const _Ench &e2)
     else
         return false;
 }
-uint qHash(const _Ench &key, uint seed)
+size_t qHash(const _Ench &key, size_t seed)
 {
     return qHash(key.id, seed) ^ key.lvl;
 }
@@ -235,60 +207,9 @@ bool operator==(const EnchData &e1, const EnchData &e2)
     else
         return false;
 }
-uint qHash(const EnchData &key, uint seed) // EnchData 仅以名称和版本(editions)区分
+size_t qHash(const EnchData &key, size_t seed) // EnchData 仅以名称和版本(editions)区分
 {
-    uint hash = seed;
-
-    hash ^= qHash(key.name) + 0x9e3779b9 + (hash << 6) + (hash >> 2);
-    for (const auto &edition : key.editions)
-        hash ^= qHash(static_cast<int>(edition)) + 0x9e3779b9 + (hash << 6) + (hash >> 2);
-
-    return hash;
-}
-
-_EnchDataList convertEnchTable(EnchDataList &table) // 数据容器转换
-{
-    _EnchDataList _table;
-
-    for (int i = 0; i < table.size(); i++) // Basis
-    {
-        _EnchData ed;
-        ed.max_lvl = table.at(i).max_lvl;
-        ed.poor_max_lvl = table.at(i).poor_max_lvl;
-        ed.book_multiplier = table.at(i).book_multiplier;
-        ed.item_multiplier = table.at(i).item_multiplier;
-        ed.editions = table.at(i).editions;
-        _table.append(ed);
-    }
-
-    for (int i = 0; i < table.size(); i++)
-    {
-        for (auto &conf : table.at(i).conflictions) // Conflictions
-        {
-            int n = -1;
-            QString name = conf;
-            for (int j = 0; j < global_u_ench_table.size(); j++)
-            {
-                if (global_u_ench_table.at(j).name == name)
-                {
-                    n = j;
-                    break;
-                }
-            }
-            if (n >= 0)
-            {
-                _table[i].conflictions.insert(n);
-            }
-        }
-
-        for (int j = 0; j < global_groups.size(); j++) // Group ID
-        {
-            if (global_groups.at(j).name == table.at(i).name)
-                _table[i].group_id = j;
-        }
-    }
-
-    return _table;
+    return qHash(key.name, seed) ^ qHash(key.editions, seed << 2);
 }
 
 bool operator==(const Group &g1, const Group &g2)
@@ -298,9 +219,53 @@ bool operator==(const Group &g1, const Group &g2)
     else
         return false;
 }
-uint qHash(const Group &key, uint seed)
+size_t qHash(const Group &key, size_t seed)
 {
     return qHash(key.name, seed);
+}
+
+void DataTable::convertEnchTable() // 数据容器转换
+{
+    _enchs.clear();
+
+    for (int i = 0; i < enchs.size(); i++) // Basis
+    {
+        _EnchData ed;
+        ed.max_lvl = enchs.at(i).max_lvl;
+        ed.poor_max_lvl = enchs.at(i).poor_max_lvl;
+        ed.book_multiplier = enchs.at(i).book_multiplier;
+        ed.item_multiplier = enchs.at(i).item_multiplier;
+        ed.editions = enchs.at(i).editions;
+        ed.specials = enchs.at(i).specials;
+        _enchs.append(ed);
+    }
+
+    for (int i = 0; i < enchs.size(); i++)
+    {
+        for (auto &conf : enchs.at(i).conflictions) // Conflictions
+        {
+            int n = -1;
+            QString name = conf;
+            for (int j = 0; j < enchs.size(); j++)
+            {
+                if (enchs.at(j).name == name)
+                {
+                    n = j;
+                    break;
+                }
+            }
+            if (n >= 0)
+            {
+                _enchs[i].conflictions.insert(n);
+            }
+        }
+
+        for (int j = 0; j < groups.size(); j++) // Group ID
+        {
+            if (groups.at(j).name == enchs.at(i).name)
+                _enchs[i].group_id = j;
+        }
+    }
 }
 
 Item::Item(const _Item &it)
@@ -328,7 +293,7 @@ _Item::_Item(ItemType type, _EnchList enchs, int penalty, int durability)
     this->durability = durability;
 }
 
-FlowStep::FlowStep(const _FlowStep &f)
+Step::Step(const _Step &f)
 {
     this->a = f.a;
     this->b = f.b;
@@ -336,7 +301,7 @@ FlowStep::FlowStep(const _FlowStep &f)
     this->point_cost = f.point_cost;
     this->name_changing = f.name_changing;
 }
-_FlowStep::_FlowStep(const FlowStep &f)
+_Step::_Step(const Step &f)
 {
     this->a = f.a;
     this->b = f.b;
@@ -376,13 +341,4 @@ void SettingsRuntime::fromSettingsMap(SettingsMap smap)
     enable_widely_reszie_window = smap["lever/enable_widely_reszie_window"].toInt();
     last_used_table = smap["log/last_used_table"].toString();
     last_edit = smap["log/last_edit"].toDateTime();
-}
-
-void initializeGlobalTable()
-{
-    global_u_ench_table.clear();
-    global_p_ench_table.clear();
-    global_groups.clear();
-    table_list.clear();
-    current_table = DataTableInfo();
 }

@@ -22,13 +22,13 @@ public:
     static bool loadConfig(QString file_name);
     static bool saveConfig(QString file_name);
 
-    static bool loadTableData(QString file_name, bool m = true);
-    static bool saveTableData(QString file_name);
+    static bool loadTableData(QString file_name, DataTable &table);
+    static bool saveTableData(const DataTable &table, QString path = "./tables/");
 
     static bool loadArchivePoint(QString file_name);
     static bool saveArchivePoint(QString file_name);
 
-    static bool saveResult(Summary summary, QList<FlowStep> flow, QString file_name, int mode = 0);
+    static bool saveResult(Flow flow, QString file_name, int mode = 0);
 };
 
 #endif // FILEOPERATOR_H

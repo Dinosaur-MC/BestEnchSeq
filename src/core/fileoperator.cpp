@@ -4,7 +4,7 @@
 bool FileOperator::loadConfig(QString file_name) // 加载配置
 {
     DEBUG("FileOperator", "Loading configuration...", "info");
-    QFile f(file_name);
+    QFile f("./" + file_name);
     QSettings settings(file_name, QSettings::IniFormat);
 
     if (f.open(QIODevice::ReadOnly))
@@ -44,7 +44,7 @@ bool FileOperator::loadConfig(QString file_name) // 加载配置
 bool FileOperator::saveConfig(QString file_name) // 保持配置
 {
     DEBUG("FileOperator", "Saving configuration...", "info");
-    QFile f(file_name);
+    QFile f("./" + file_name);
     QSettings settings(file_name, QSettings::IniFormat);
 
     if (f.open(QIODevice::WriteOnly))
@@ -76,7 +76,7 @@ bool FileOperator::saveConfig(QString file_name) // 保持配置
     }
 }
 
-bool FileOperator::loadTableData(QString file_name, bool m)
+bool FileOperator::loadTableData(QString file_name, DataTable &table)
 {
     DEBUG("FileOperator", "Loading table data...", "info");
     QFile f(file_name);
@@ -142,18 +142,11 @@ bool FileOperator::loadTableData(QString file_name, bool m)
                         }
 
                         // 载入 table 的名片信息
-                        info.name = f_info.filePath();
+                        info.file_name = f_info.completeBaseName() + '.' + f_info.suffix();
                         if (json_obj.contains("description"))
                             info.description = json_obj.value("description").toString();
                         if (json_obj.contains("table_version"))
                             info.table_version = json_obj.value("table_version").toString();
-
-                        if (!m) // 扫描模式下停止读取，直接返回
-                        {
-                            table_list.append(info);
-                            DEBUG("FileOperator", file_name + " checked in successfully", "info");
-                            return true;
-                        }
 
                         for (int i = 0; i < obj_enchantments.size(); i++) // 遍历 enchantments 容器
                         {
@@ -174,7 +167,7 @@ bool FileOperator::loadTableData(QString file_name, bool m)
 
                                 QJsonArray specials = obj.value("specials").toArray();
                                 for (int j = 0; j < specials.size(); j++)
-                                    ench.specials.insert(StringToSpecialMethod(specials.at(j).toString()));
+                                    ench.specials.insert(specials.at(i).toString());
 
                                 QJsonArray conflictions = obj.value("conflictions").toArray();
                                 for (int j = 0; j < conflictions.size(); j++)
@@ -240,9 +233,9 @@ bool FileOperator::loadTableData(QString file_name, bool m)
                     return false;
                 }
 
-                current_table = info;
-                global_u_ench_table = enchs;
-                global_groups = QList<Group>(groups.begin(), groups.end());
+                table.info = info;
+                table.enchs = enchs;
+                table.groups = QList<Group>(groups.begin(), groups.end());
             }
             else
             {
@@ -282,13 +275,7 @@ bool FileOperator::loadTableData(QString file_name, bool m)
                 return false;
             }
 
-            info.name = f_info.filePath();
-            if (!m)
-            {
-                table_list.append(info);
-                DEBUG("FileOperator", file_name + " checked in successfully", "info");
-                return true;
-            }
+            info.file_name = f_info.completeBaseName() + '.' + f_info.suffix();
 
             foreach (auto tm, raw)
             {
@@ -323,8 +310,7 @@ bool FileOperator::loadTableData(QString file_name, bool m)
                     if (7 < data.size())
                     {
                         QStringList specials = data.at(7).split(';', Qt::SkipEmptyParts);
-                        for (int i = 0; i < specials.size(); i++)
-                            ench.specials.insert(StringToSpecialMethod(specials.at(i)));
+                        ench.specials = SpecialMethod(specials.begin(), specials.end());
                     }
 
                     if (8 < data.size())
@@ -369,12 +355,12 @@ bool FileOperator::loadTableData(QString file_name, bool m)
                 }
             }
 
-            current_table = info;
-            global_u_ench_table = enchs;
-            global_groups = QList<Group>(groups.begin(), groups.end());
+            table.info = info;
+            table.enchs = enchs;
+            table.groups = QList<Group>(groups.begin(), groups.end());
         }
 
-        global_p_ench_table = convertEnchTable(global_u_ench_table);
+        table.convertEnchTable();
         DEBUG("FileOperator", "Table data loaded", "info");
         return true;
     }
@@ -385,10 +371,10 @@ bool FileOperator::loadTableData(QString file_name, bool m)
     }
 }
 
-bool FileOperator::saveTableData(QString file_name)
+bool FileOperator::saveTableData(const DataTable &table, QString path)
 {
     DEBUG("FileOperator", "Saving table data...", "info");
-    QFile f(file_name);
+    QFile f(path + table.info.file_name);
 
     if (f.open(QIODeviceBase::WriteOnly))
     {
@@ -396,14 +382,14 @@ bool FileOperator::saveTableData(QString file_name)
         if (f_info.suffix().toLower() == "json")
         {
             QJsonObject root;
-            root.insert("description", current_table.description);
-            root.insert("table_version", current_table.table_version);
+            root.insert("description", table.info.description);
+            root.insert("table_version", table.info.table_version);
             root.insert("type", "custom_table");
             root.insert("format_version", 5);
             QJsonObject content;
 
             QJsonArray enchantments;
-            foreach (auto &ench, global_u_ench_table)
+            foreach (auto &ench, table.enchs)
             {
                 QJsonObject e;
                 e.insert("name", ench.name);
@@ -419,7 +405,7 @@ bool FileOperator::saveTableData(QString file_name)
 
                 QJsonArray specials;
                 for (const auto &arr : ench.specials)
-                    specials.append(SpecialMethodToString(arr));
+                    specials.append(arr);
                 e.insert("specials", specials);
 
                 QJsonArray conflictions;
@@ -436,10 +422,11 @@ bool FileOperator::saveTableData(QString file_name)
             }
 
             QJsonArray groups;
-            foreach (auto &group, global_groups)
+            foreach (auto &group, table.groups)
             {
                 QJsonObject g;
                 g.insert("name", group.name);
+                g.insert("max_durability", group.max_durability);
                 g.insert("icon", group.icon_path);
                 groups.append(g);
             }
@@ -457,20 +444,20 @@ bool FileOperator::saveTableData(QString file_name)
             data += QString("#?file_version=") + QString::number(FILEVERSION) + '\n';
 
             data += QString("# ") + tr("<数据类型>,<组名>,[组图标]") + '\n';
-            foreach (auto &g, global_groups)
+            foreach (auto &g, table.groups)
             {
                 data += QString("Group,") + g.name + ',' + g.icon_path + '\n';
             }
 
             data += QString("# ") + tr("<数据类型>,<魔咒名称>,<最大等级>,<Poor最大等级>,<附魔书乘数>,<物品乘数>,<MC编译版本>,[特殊功能],[冲突的魔咒],[分组]") + '\n';
-            foreach (auto &e, global_u_ench_table)
+            foreach (auto &e, table.enchs)
             {
                 data += QString("Enchantment,") + e.name + ',' + QString::number(e.max_lvl) + ',' + QString::number(e.poor_max_lvl) + ',' + QString::number(e.book_multiplier) + ',' + QString::number(e.item_multiplier) + ',';
                 for (const auto &arr : e.editions)
                     data += MCEToString(arr) + ';';
                 data += ',';
                 for (const auto &arr : e.specials)
-                    data += SpecialMethodToString(arr) + ';';
+                    data += arr + ';';
                 data += ',';
                 for (const auto &arr : e.conflictions)
                     data += arr + ';';
@@ -490,7 +477,7 @@ bool FileOperator::saveTableData(QString file_name)
     }
     else
     {
-        DEBUG("FileOperator", "Unable to open " + file_name, "error");
+        DEBUG("FileOperator", "Unable to open " + table.info.file_name, "error");
         return false;
     }
 }
@@ -514,7 +501,7 @@ bool FileOperator::saveArchivePoint(QString file_name)
     return true;
 }
 
-bool FileOperator::saveResult(Summary summary, QList<FlowStep> flow, QString file_name, int mode)
+bool FileOperator::saveResult(Flow flow, QString file_name, int mode)
 {
     DEBUG("FileOperator", "Saving result...", "info");
     QFile f(file_name);
@@ -530,12 +517,17 @@ bool FileOperator::saveResult(Summary summary, QList<FlowStep> flow, QString fil
     {
     case 0: // 纯文本文件 格式一
         data = tr("[BESQ Flow Output] ") + QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss\n");
-        data += tr("[BESQ Version] ") + VERSION_NAME + " (" + QString::number(VERSION_ID) + ")\n";
-        data += tr("[Configuration] ") + MCEToString(summary.edition) + tr(" Edition, ") + "Normal mode, " + "Algorithm 1" + "\n";
-        data += tr("[Brief]") + '\n' + tr("Step(s): ") + QString::number(summary.step_count) + '\n' + tr("Max Level cost: ") + QString::number(summary.max_level_cost) + '\n' + tr("Total level cost: ") + QString::number(summary.total_level_cost) + '\n' + tr("Total point cost: ") + QString::number(summary.total_point_cost) + '\n';
-        data += tr("[Flow]") + '\n';
 
-        foreach (auto &step, flow)
+        data += tr("[BESQ Version] ") + VERSION_NAME + " (" + QString::number(VERSION_ID) + ")\n" +
+                tr("[Configuration] ") + MCEToString(flow.summary.edition) +
+                tr(" Edition, ") + "Normal mode, " + "Algorithm 1" + "\n" +
+                tr("[Brief]") + '\n' + tr("Step(s): ") + QString::number(flow.summary.step_count) + '\n' +
+                tr("Max Level cost: ") + QString::number(flow.summary.max_level_cost) + '\n' +
+                tr("Total level cost: ") + QString::number(flow.summary.total_level_cost) + '\n' +
+                tr("Total point cost: ") + QString::number(flow.summary.total_point_cost) + '\n';
+
+        data += tr("[Flow]") + '\n';
+        foreach (auto &step, flow.steps)
         {
             int n = 1;
 

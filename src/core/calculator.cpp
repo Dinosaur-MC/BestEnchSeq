@@ -14,21 +14,20 @@ Calculator::~Calculator()
         delete thread;
 }
 
-bool Calculator::setConfig(MCE mce, Item target, ItemPool ip, QSet<EnchData> ench_g, ICM icm, QString alg, ALGCFG algcfg)
+bool Calculator::setConfig(ICM icm, MCE mce, Group g, Item target, ItemPool ip, QString alg, ALGCFG algcfg)
 {
+    edition = mce;
 
     item_pool.clear();
     foreach (auto &i, ip)
         item_pool.append(i);
 
+    group.name = g.name;
+    group.max_durability = g.max_durability;
+    foreach (auto &e, g.enchantments)
+        group.enchantments.append(_Ench({e.name, mce, 0}).id);
+
     target_item = target;
-    foreach (auto &ed, ench_g)
-    {
-        Ench e;
-        e.name = ed.name;
-        e.mce = mce;
-        ench_group.insert(((_Ench)e).id);
-    }
 
     if (!generateItemPool(icm, target_item, item_pool))
         return false;
@@ -45,21 +44,19 @@ bool Calculator::startCalc()
 
     thread = new QThread;
     algorithm->moveToThread(thread);
-    emit start(ench_group, target_item, item_pool, edition, alg_config);
+    emit start(group, target_item, item_pool, edition, alg_config);
     return true;
 }
 
-void Calculator::getResult(Summary &s, FlowStack &fs)
+void Calculator::getResult(FlowStack &fs)
 {
-    s = summary;
-
     fs.clear();
-    foreach (QVector<_FlowStep> _flow, flows)
+    foreach (auto &_flow, flows)
     {
-        QVector<FlowStep> flow;
-        foreach (_FlowStep _f, _flow)
-            flow.append(_f);
-        fs.append(flow);
+        StepList steps;
+        foreach (auto &_step, _flow.steps)
+            steps.append(_step);
+        fs.append({_flow.summary, steps});
     }
 }
 
@@ -94,7 +91,7 @@ bool Calculator::generateItemPool(ICM icm, _Item target, _ItemPool &ip)
 
             int O = 0;
             int N = need.lvl;
-            int em = global_p_ench_table.at(need.id).poor_max_lvl;
+            int em = CTEp.at(need.id).poor_max_lvl;
 
             int p = Algorithm::findEnch(origin, need, false);
             if (p != -1)
@@ -169,11 +166,9 @@ bool Calculator::initializeAlgorithm()
     return true;
 }
 
-void Calculator::receiveResult(Summary s, _FlowStack fs)
+void Calculator::receiveResult(_FlowStack fs)
 {
     disconnect(algorithm);
-
-    summary = s;
     flows = fs;
 
     algorithm->deleteLater();
