@@ -149,47 +149,50 @@ bool Algorithm::checkConfig(const _Item &item, const _ItemPool &ip, QList<int> *
 uint8_t Algorithm::checkProcessable(const _Item &item, const _Ench &ench)
 {
     if (!group.enchantments.contains(ench.id))
-        return 0x1; // 魔咒不合适
+        return 0x01; // 魔咒不合适
 
     foreach (auto &e, CTEp.at(ench.id).conflictions)
     {
         foreach (auto &ie, item.enchs)
         {
             if (ie.id == e)
-                return 0x2; // 魔咒冲突
+                return 0x02; // 魔咒冲突
         }
     }
 
-    return 0x0; // 检查通过
+    return 0x00; // 检查通过
 }
 
-int Algorithm::expCost(const _Item &a, const _Item &b, MCE mce, uint8_t mode)
+int Algorithm::expCost(const _Item &a, const _Item &b, uint8_t mode)
 {
     int cost = 0;
 
     // 计算魔咒花费
-    foreach (auto &b_ench, b.enchs)
+    if (mode & 0x01)
     {
-        int i = checkProcessable(a, b_ench);
-        if (i == 0x0) // 魔咒 合并/添加 花费
+        foreach (auto &b_ench, b.enchs)
         {
-            int multiplier = b.type == ItemType::Book ? CTEp.at(b_ench.id).book_multiplier : CTEp.at(b_ench.id).item_multiplier;
-            int p = findEnch(a, b_ench);
-            if (p > -1)
-                cost += multiplier * (mce == MCE::Java ? mergeLevel(b_ench.id, a.enchs.at(p).lvl, b_ench.lvl) : mergeLevel(b_ench.id, a.enchs.at(p).lvl, b_ench.lvl) - a.enchs.at(p).lvl);
-            else
-                cost += multiplier * b_ench.lvl;
+            int i = checkProcessable(a, b_ench);
+            if (i == 0x00) // 魔咒 合并/添加 花费
+            {
+                int multiplier = b.type == ItemType::Book ? CTEp.at(b_ench.id).book_multiplier : CTEp.at(b_ench.id).item_multiplier;
+                int p = findEnch(a, b_ench);
+                if (p > -1)
+                    cost += multiplier * (edition == MCE::Java ? mergeLevel(b_ench.id, a.enchs.at(p).lvl, b_ench.lvl) : mergeLevel(b_ench.id, a.enchs.at(p).lvl, b_ench.lvl) - a.enchs.at(p).lvl);
+                else
+                    cost += multiplier * b_ench.lvl;
+            }
+            else if (i == 0x02 && (mode & 0x04)) // 魔咒冲突花费
+                cost += 2;
         }
-        else if (i == 0x2) // 魔咒冲突花费
-            cost += 2;
     }
 
     // 计算惩罚花费
-    if (mode > 0x0)
+    if (mode & 0x02)
         cost += pow(2, a.penalty) + pow(2, b.penalty) - 2;
 
     // 计算修复花费
-    if (mode > 0x1)
+    if (mode & 0x08)
     {
         if (b.type == ItemType::Stuff)
             cost += b.durability; // 此时 durability 表示材料数量
@@ -198,6 +201,26 @@ int Algorithm::expCost(const _Item &a, const _Item &b, MCE mce, uint8_t mode)
     }
 
     return cost;
+}
+
+int Algorithm::expCost(const _Item &it, bool mode)
+{
+    int cost = 0;
+
+    // 魔咒花费
+    foreach (auto &e, it.enchs)
+        cost += (it.type == ItemType::Book ? CTEp.at(e.id).book_multiplier : CTEp.at(e.id).item_multiplier) * e.lvl;
+
+    // 惩罚花费
+    if(mode)
+        cost += pow(2, it.penalty) - 1;
+
+    return cost;
+}
+
+inline int Algorithm::penaltyCost(int n)
+{
+    return pow(2, n) - 1;
 }
 
 _Item Algorithm::forge(const _Item &a, const _Item &b)
@@ -220,7 +243,7 @@ _Item Algorithm::forge(const _Item &a, const _Item &b)
     // 计算惩罚
     it.penalty = it.penalty == b.penalty ? it.penalty + 1 : std::max(it.penalty, b.penalty) + 1;
 
-    // 计算耐久度（%）
+    // 计算耐久度
     if (it.type == ItemType::Weapon)
     {
         if (b.type == ItemType::Stuff)

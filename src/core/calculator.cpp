@@ -166,10 +166,11 @@ bool Calculator::initializeAlgorithm()
     return true;
 }
 
-void Calculator::receiveResult(_FlowStack fs)
+void Calculator::receiveResult(_FlowStack fs, _ItemPool unused)
 {
     disconnect(algorithm);
     flows = fs;
+    unused_item = unused;
 
     algorithm->deleteLater();
     algorithm = nullptr;

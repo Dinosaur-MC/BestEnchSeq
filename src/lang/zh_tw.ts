@@ -9,62 +9,62 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/fileoperator.cpp" line="459"/>
+        <location filename="../core/fileoperator.cpp" line="446"/>
         <source>&lt;数据类型&gt;,&lt;组名&gt;,[组图标]</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/fileoperator.cpp" line="465"/>
+        <location filename="../core/fileoperator.cpp" line="452"/>
         <source>&lt;数据类型&gt;,&lt;魔咒名称&gt;,&lt;最大等级&gt;,&lt;Poor最大等级&gt;,&lt;附魔书乘数&gt;,&lt;物品乘数&gt;,&lt;MC编译版本&gt;,[特殊功能],[冲突的魔咒],[分组]</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/fileoperator.cpp" line="532"/>
+        <location filename="../core/fileoperator.cpp" line="519"/>
         <source>[BESQ Flow Output] </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/fileoperator.cpp" line="533"/>
+        <location filename="../core/fileoperator.cpp" line="521"/>
         <source>[BESQ Version] </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/fileoperator.cpp" line="534"/>
+        <location filename="../core/fileoperator.cpp" line="522"/>
         <source>[Configuration] </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/fileoperator.cpp" line="534"/>
+        <location filename="../core/fileoperator.cpp" line="523"/>
         <source> Edition, </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/fileoperator.cpp" line="535"/>
+        <location filename="../core/fileoperator.cpp" line="524"/>
         <source>[Brief]</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/fileoperator.cpp" line="535"/>
+        <location filename="../core/fileoperator.cpp" line="524"/>
         <source>Step(s): </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/fileoperator.cpp" line="535"/>
+        <location filename="../core/fileoperator.cpp" line="525"/>
         <source>Max Level cost: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/fileoperator.cpp" line="535"/>
+        <location filename="../core/fileoperator.cpp" line="526"/>
         <source>Total level cost: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/fileoperator.cpp" line="535"/>
+        <location filename="../core/fileoperator.cpp" line="527"/>
         <source>Total point cost: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/fileoperator.cpp" line="536"/>
+        <location filename="../core/fileoperator.cpp" line="529"/>
         <source>[Flow]</source>
         <translation type="unfinished"></translation>
     </message>
@@ -137,57 +137,57 @@
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../core/core.cpp" line="15"/>
+        <location filename="../core/core.cpp" line="12"/>
         <source>I</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/core.cpp" line="18"/>
+        <location filename="../core/core.cpp" line="15"/>
         <source>II</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/core.cpp" line="21"/>
+        <location filename="../core/core.cpp" line="18"/>
         <source>III</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/core.cpp" line="24"/>
+        <location filename="../core/core.cpp" line="21"/>
         <source>IV</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/core.cpp" line="27"/>
+        <location filename="../core/core.cpp" line="24"/>
         <source>V</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/core.cpp" line="30"/>
+        <location filename="../core/core.cpp" line="27"/>
         <source>VI</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/core.cpp" line="33"/>
+        <location filename="../core/core.cpp" line="30"/>
         <source>VII</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/core.cpp" line="36"/>
+        <location filename="../core/core.cpp" line="33"/>
         <source>VIII</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/core.cpp" line="39"/>
+        <location filename="../core/core.cpp" line="36"/>
         <source>IX</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/core.cpp" line="42"/>
+        <location filename="../core/core.cpp" line="39"/>
         <source>X</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/core.cpp" line="45"/>
+        <location filename="../core/core.cpp" line="42"/>
         <source>level.</source>
         <translation type="unfinished"></translation>
     </message>

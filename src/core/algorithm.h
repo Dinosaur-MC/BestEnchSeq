@@ -30,19 +30,21 @@ protected:
     void setVersion(QString version) { algorithm_version = version; }
     void setAuthor(QString author) { algorithm_author = author; }
 
-    virtual void run() = 0; // 算法
+    virtual void run() = 0; // 运行算法
 
-    uint8_t checkProcessable(const _Item &item, const _Ench &ench);           // 检查魔咒是否可以合并到物品中（0x0: Pass; 0x1: Failed; 0x2: Pass but has confl.）
-    int expCost(const _Item &a, const _Item &b, MCE mce, uint8_t mode = 0x2); // 计算物品合并花费
-    _Item forge(const _Item &a, const _Item &b);                              // 合并物品
+    uint8_t checkProcessable(const _Item &item, const _Ench &ench);     // 检查魔咒是否可以合并到物品中（0x00: Pass; 0x01: Failed; 0x02: Pass but has confl.）
+    int expCost(const _Item &a, const _Item &b, uint8_t mode = 0x0F);   // 计算物品的合并花费
+    int expCost(const _Item &it, bool mode = true);                     // 预算物品的合并花费
+    int penaltyCost(int n);                                             // 计算惩罚花费
+    _Item forge(const _Item &a, const _Item &b);                        // 合并物品
 
-    _Group group;        // 物品所在分组所包括的魔咒的列表
-    _Item target_item;   // 目标物品
-    _ItemPool item_pool; // 物品池
-    MCE edition;         // MC编译版本
-    ALGCFG alg_config;   // 算法配置
+    MCE edition;                // MC编译版本
+    _Group group;               // 物品所在分组所包括的魔咒的列表
+    _Item target_item;          // 目标物品
+    _ItemPool item_pool;        // 物品池
 
-    _FlowStack flow_stack;
+    ALGCFG alg_config;      // 算法配置
+    _FlowStack flow_stack;  // 流程集
 
     QString algorithm_name;
     QString algorithm_version;
@@ -50,7 +52,7 @@ protected:
 
 signals:
     void stepForwarded(uint current, uint total); // 计算进度报告
-    void finished(_FlowStack fs);                 // 计算完成信号
+    void finished(_FlowStack fs, _ItemPool unused);                 // 计算完成信号
 };
 
 QT_BEGIN_NAMESPACE
