@@ -1,5 +1,5 @@
 <RCC>
-    <qresource prefix="/lang">
+    <qresource prefix="/icon">
         <file>bow.png</file>
         <file>crossbow_standby.png</file>
         <file>enchanted_book.png</file>

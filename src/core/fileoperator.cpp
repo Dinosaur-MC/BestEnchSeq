@@ -9,7 +9,6 @@ bool FileOperator::loadConfig(QString file_name) // 加载配置
 
     if (f.open(QIODevice::ReadOnly))
     {
-        //        DEBUG("FileOperator", file_name + " found", "info");
         if (!settings.contains("version/file_version"))
             return false;
         if (!settings.contains("version/app_version"))
@@ -18,19 +17,19 @@ bool FileOperator::loadConfig(QString file_name) // 加载配置
         SettingsMap settings_map;
         settings_map["version/file_version"] = settings.value("version/file_version", 0);
         settings_map["version/app_version"] = settings.value("version/app_version", 0);
-        settings_map["default/edition"] = settings.value("default/edition", 1);
-        settings_map["default/item_config"] = settings.value("default/item_config", 0);
-        settings_map["default/algorithm"] = settings.value("default/algorithm", "None");
-        settings_map["default/export_path"] = settings.value("default/export_path", "./exports");
-        settings_map["default/language"] = settings.value("default/language", "zh_CN");
-        settings_map["lever/auto_save"] = settings.value("lever/auto_save", 0);
-        settings_map["lever/auto_check_update"] = settings.value("lever/auto_check_update", 1);
-        settings_map["lever/enable_widely_reszie_window"] = settings.value("lever/enable_widely_reszie_window", 0);
-        settings_map["log/last_used_table"] = settings.value("log/last_used_table", "");
+        settings_map["default/edition"] = settings.value("default/edition", MCEToString(global_settings.edition));
+        settings_map["default/item_config"] = settings.value("default/item_config", ICMToString(global_settings.item_config));
+        settings_map["default/algorithm"] = settings.value("default/algorithm", global_settings.algorithm);
+        settings_map["default/export_path"] = settings.value("default/export_path", global_settings.export_path);
+        settings_map["default/language"] = settings.value("default/language", global_settings.language);
+        settings_map["lever/auto_save"] = settings.value("lever/auto_save", 0).toBool();
+        settings_map["lever/auto_check_update"] = settings.value("lever/auto_check_update", global_settings.auto_check_update).toBool();
+        settings_map["lever/enable_widely_reszie_window"] = settings.value("lever/enable_widely_reszie_window", global_settings.enable_widely_reszie_window).toBool();
+        settings_map["log/last_used_table"] = settings.value("log/last_used_table", global_settings.last_used_table);
         settings_map["log/last_edit"] = QDateTime::fromString(settings.value("log/last_edit", "").toString(), "yyyyMMdd_hhmmss");
-        global_settings.fromSettingsMap(settings_map);
+        global_settings = SettingsRuntime::fromSettingsMap(settings_map);
 
-        DEBUG("FileOperator", tr("Configuration loaded"), "info");
+        DEBUG("FileOperator", "Configuration loaded", "info");
         f.close();
         return true;
     }
@@ -49,7 +48,6 @@ bool FileOperator::saveConfig(QString file_name) // 保持配置
 
     if (f.open(QIODevice::WriteOnly))
     {
-        //        DEBUG("FileOperator", file_name + " found.", "info");
         SettingsMap settings_map = global_settings.toSettingsMap();
         settings.clear();
         settings.setValue("version/file_version", FILEVERSION);

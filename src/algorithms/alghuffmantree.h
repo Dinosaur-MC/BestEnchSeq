@@ -4,6 +4,7 @@
 #include <QObject>
 #include "core/algorithm.h"
 
+// 算法类
 class AlgHuffmanTree : public Algorithm
 {
     Q_OBJECT
@@ -13,10 +14,13 @@ public:
 private:
     virtual void run() override;
 
+    QList<QPoint> cost_list;  // 物品花费表
+
 signals:
 };
 
-class FinTriangle // 重复频次数列模型
+// 重复频次数列模型
+class FinTriangle
 {
 public:
     void update(int n);          // 更新列表

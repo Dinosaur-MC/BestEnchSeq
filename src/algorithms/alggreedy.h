@@ -13,6 +13,8 @@ public:
 private:
     virtual void run() override;
 
+    QList<QPoint> cost_list;  // 物品花费表
+
 signals:
 
 };

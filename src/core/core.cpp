@@ -327,18 +327,38 @@ SettingsMap SettingsRuntime::toSettingsMap()
     smap["log/last_edit"] = last_edit;
     return smap;
 }
-void SettingsRuntime::fromSettingsMap(SettingsMap smap)
+SettingsRuntime SettingsRuntime::fromSettingsMap(SettingsMap smap)
 {
-    file_version = smap["version/file_version"].toInt();
-    app_version = smap["version/app_version"].toInt();
-    edition = StringToMCE(smap["default/edition"].toString());
-    item_config = StringToICM(smap["default/item_config"].toString());
-    algorithm = smap["default/algorithm"].toString();
-    export_path = smap["default/export_path"].toString();
-    language = smap["default/language"].toString();
-    auto_save = smap["lever/auto_save"].toInt();
-    auto_check_update = smap["lever/auto_check_update"].toInt();
-    enable_widely_reszie_window = smap["lever/enable_widely_reszie_window"].toInt();
-    last_used_table = smap["log/last_used_table"].toString();
-    last_edit = smap["log/last_edit"].toDateTime();
+    SettingsRuntime settings;
+    settings.file_version = smap["version/file_version"].toInt();
+    settings.app_version = smap["version/app_version"].toInt();
+    settings.edition = StringToMCE(smap["default/edition"].toString());
+    settings.item_config = StringToICM(smap["default/item_config"].toString());
+    settings.algorithm = smap["default/algorithm"].toString();
+    settings.export_path = smap["default/export_path"].toString();
+    settings.language = smap["default/language"].toString();
+    settings.auto_save = smap["lever/auto_save"].toInt();
+    settings.auto_check_update = smap["lever/auto_check_update"].toInt();
+    settings.enable_widely_reszie_window = smap["lever/enable_widely_reszie_window"].toInt();
+    settings.last_used_table = smap["log/last_used_table"].toString();
+    settings.last_edit = smap["log/last_edit"].toDateTime();
+    return settings;
+}
+
+SettingsRuntime defaultSettings()
+{
+    SettingsRuntime settings;
+    settings.file_version = FILEVERSION;
+    settings.app_version = VERSION_ID;
+    settings.edition = MCE::Java;
+    settings.item_config = ICM::Normal;
+    settings.algorithm = "";
+    settings.export_path = "./exports/";
+    settings.language = "zh_cn";
+    settings.auto_save = false;
+    settings.auto_check_update = true;
+    settings.enable_widely_reszie_window = false;
+    settings.last_used_table = "";
+    settings.last_edit = QDateTime();
+    return settings;
 }

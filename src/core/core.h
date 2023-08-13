@@ -14,7 +14,7 @@
 // Application Infomation
 
 #define TEXT_PROJECT_NAME "BestEnchSeq"
-#define TEXT_PROGRAM_NAME_CN "最佳附魔顺序计算器"
+#define TEXT_PROGRAM_NAME "最佳附魔顺序计算器"
 #define TEXT_PROGRAM_NAME_EN "The Best Enchanting Sequence"
 #define TEXT_PROGRAM_NAME_ABBR "BESQ"
 #define VERSION_NAME "v4.2.0"
@@ -27,7 +27,7 @@
 // License & Announcement
 
 #define LICENSE "GPL-v3.0"
-#define STATEMENT "本程序为Github开源项目，完全永久免费使用！只推荐通过官方渠道获取本程序。\n任何对原程序进行收费售卖行为均为诈骗，谨防上当受骗！谨慎使用来路不明的非官方发布版本，谨防病毒入侵！"
+#define STATEMENT "遵循 GPL-v3.0 协议，永久开源免费使用，不得商用！\n任何对原程序进行收费售卖行为均为诈骗，谨防上当受骗！\n谨慎使用来路不明的非官方发布版本，谨防病毒入侵！\n建议通过官方渠道获取本程序: \nhttps://github.com/Dinosaur-MC/BestEnchSeq"
 
 // File Data
 
@@ -44,7 +44,7 @@
 
 // Resources Links
 
-#define LINK_UPDATE_DATA "https://raw.githubusercontent.com/Dinosaur-MC/BestEnchSeq/master/update_data.json"
+#define LINK_UPDATE_DATA "https://raw.githubusercontent.com/Dinosaur-MC/BestEnchSeq/dev/update_data.json"
 
 // Other
 
@@ -363,8 +363,9 @@ struct SettingsRuntime
 
     // Convert functions
     SettingsMap toSettingsMap();
-    void fromSettingsMap(SettingsMap smap);
+    static SettingsRuntime fromSettingsMap(SettingsMap smap);
 };
 extern SettingsRuntime global_settings;
+SettingsRuntime defaultSettings();
 
 #endif // CORE_H

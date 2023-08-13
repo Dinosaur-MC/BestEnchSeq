@@ -14,7 +14,6 @@ SOURCES += \
     algorithms/algenumerate.cpp \
     algorithms/alggreedy.cpp \
     algorithms/alghuffmantree.cpp \
-    checkupdate.cpp \
     core/algmanager.cpp \
     core/algorithm.cpp \
     core/calculator.cpp \
@@ -24,13 +23,15 @@ SOURCES += \
     core/tablemanager.cpp \
     launcher.cpp \
     main.cpp \
-    mainwindow.cpp
+    mainwindow.cpp \
+    ui/console.cpp \
+    ui/graphics.cpp \
+    updatechecker.cpp
 
 HEADERS += \
     algorithms/algenumerate.h \
     algorithms/alggreedy.h \
     algorithms/alghuffmantree.h \
-    checkupdate.h \
     core/algmanager.h \
     core/algorithm.h \
     core/calculator.h \
@@ -39,16 +40,19 @@ HEADERS += \
     core/interactor.h \
     core/tablemanager.h \
     launcher.h \
-    mainwindow.h
+    mainwindow.h \
+    ui/console.h \
+    ui/graphics.h \
+    updatechecker.h
 
 FORMS += \
     mainwindow.ui
 
 TRANSLATIONS += \
-    lang/zh_cn.ts \
-    lang/zh_tw.ts \
-    lang/lzh.ts \
-    lang/en_us.ts
+    langs/zh_cn.ts \
+    langs/zh_tw.ts \
+    langs/lzh_cn.ts \
+    langs/en_us.ts
 
 CONFIG += lrelease
 CONFIG += embed_translations
@@ -59,6 +63,7 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 RESOURCES += \
+    langs/langs.qrc \
     res/res.qrc \
     lib/lib.qrc
 
