@@ -1,7 +1,7 @@
 {
     "0": {
         "BestEnchSeq": {
-            "LatestVerison": "v2.0.1_Beta",
+            "LatestVersion": "v2.0.1_Beta",
             "VerisonID": 12203013,
             "Url": "https://github.com/Dinosaur-MC/BestEnchSeq/releases/download/2.0_Beta/BestEnchSeq_V2.0.1Beta.exe",
             "UpdateTime": "2022-07-13",
@@ -9,7 +9,7 @@
         }
     },
     "1": {
-        "LatestVerison": {
+        "LatestVersion": {
             "Verison": "v0.0.0",
             "VerisonID": 0,
             "Url": "None",
