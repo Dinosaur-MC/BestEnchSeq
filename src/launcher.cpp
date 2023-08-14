@@ -7,7 +7,6 @@
 
 Launcher::~Launcher()
 {
-
 }
 
 int Launcher::launch(int mode)
@@ -18,10 +17,10 @@ int Launcher::launch(int mode)
     {
         qDebug() << "[Warning] Cannot found file 'config.ini', creating by the default.";
         QMessageBox notice(QMessageBox::Icon::Warning, tr("【使用说明】必读"), tr(STATEMENT), QMessageBox::Yes | QMessageBox::Cancel);
-        if(notice.exec() == QMessageBox::Cancel)
+        if (notice.exec() == QMessageBox::Cancel)
             return 0;
 
-        if(!FileOperator::saveConfig(FILE_CONFIG))
+        if (!FileOperator::saveConfig(FILE_CONFIG))
         {
             qDebug() << "[Error] Cannot write the configuration file.";
             return 1;
@@ -29,18 +28,28 @@ int Launcher::launch(int mode)
     }
     else
     {
-        if(!FileOperator::loadConfig(FILE_CONFIG))
+        if (!FileOperator::loadConfig(FILE_CONFIG))
         {
             qDebug() << "[Error] Cannot load the configuration file.";
             return 1;
         }
     }
 
+    // 切换语言
+    if(!global_settings.language.isEmpty())
+    {
+        if (translator.load(":/lang/" + global_settings.language + ".qm"))
+        {
+            QApplication::installTranslator(&translator);
+            qDebug() << "Translator installed.";
+        }
+    }
+
     // 版本检测
-    if(global_settings.app_version < VERSION_ID || global_settings.file_version < FILEVERSION)
+    if (global_settings.app_version < VERSION_ID || global_settings.file_version < FILEVERSION)
     {
         FileOperator::saveConfig(FILE_CONFIG);
-        QMessageBox notice(QMessageBox::Icon::Information, tr("【更新完成】") + VERSION_NAME + " - " + QString::number(VERSION_ID), tr(""), QMessageBox::Ok);
+        QMessageBox notice(QMessageBox::Icon::Information, tr("【更新完成】") + VERSION_NAME + " - " + QString::number(VERSION_ID), tr("【更新日志】\n"), QMessageBox::Ok);
         notice.exec();
         global_settings.app_version = VERSION_ID;
         global_settings.file_version = FILEVERSION;
@@ -51,7 +60,7 @@ int Launcher::launch(int mode)
     {
         qDebug() << "[Launcher] Checking update";
         update = new UpdateChecker(this);
-        update->check(QUrl(LINK_UPDATE_DATA), true);
+        update->check(QUrl(LINK_UPDATE_DATA), false);
     }
 
     // 启动计算器实例
@@ -66,9 +75,9 @@ int Launcher::launch(int mode)
         graphics = new Graphics(this);
         return graphics->run();
     }
-    else if(mode == 2)
+    else if (mode == 2)
     {
-        if(AllocConsole()) // 启动控制台
+        if (AllocConsole()) // 启动控制台
         {
             // 重定向输出流至控制台
             freopen("CONOUT$", "w", stdout);
@@ -96,13 +105,13 @@ int Launcher::launch(int mode)
 
 void Launcher::stop()
 {
-    if(console)
+    if (console)
     {
         console->exit(0);
         delete console;
         console = nullptr;
     }
-    if(graphics)
+    if (graphics)
     {
         graphics->exit(0);
         delete graphics;

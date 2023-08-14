@@ -16,7 +16,8 @@ UpdateChecker::UpdateChecker(QObject *parent)
     connect(manager, &QNetworkAccessManager::finished, this, &UpdateChecker::readData);
     connect(manager, &QNetworkAccessManager::sslErrors, this, &UpdateChecker::failed);
 
-    connect(this, &UpdateChecker::finished, this, [=](UpdateData data){
+    connect(this, &UpdateChecker::finished, this, [=](UpdateData data)
+            {
         qDebug() << "Read finished";
         if(data.available && data.version_id > VERSION_ID)
         {
@@ -28,9 +29,7 @@ UpdateChecker::UpdateChecker(QObject *parent)
             notice.exec();
             if (notice.clickedButton() == getnow)
             {
-                if(url.isValid())
-                    QDesktopServices::openUrl(data.url);
-                else
+                if (!QDesktopServices::openUrl(data.url))
                     QDesktopServices::openUrl(QUrl("https://github.com/Dinosaur-MC/BestEnchSeq/releases"));
             }
         }
@@ -40,10 +39,10 @@ UpdateChecker::UpdateChecker(QObject *parent)
             notice.exec();
         }
 
-        this->deleteLater();
-    });
+        this->deleteLater(); });
 
-    connect(this, &UpdateChecker::failed, this, [=](){
+    connect(this, &UpdateChecker::failed, this, [=]()
+            {
         qDebug() << "Quest/Read failed";
         if(!show_notice)
         {
@@ -70,8 +69,7 @@ UpdateChecker::UpdateChecker(QObject *parent)
         else
         {
             this->deleteLater();
-        }
-    });
+        } });
 }
 
 UpdateChecker::~UpdateChecker()
@@ -102,21 +100,20 @@ void UpdateChecker::readData(QNetworkReply *reply)
 
     QJsonParseError err;
     QJsonDocument doc = QJsonDocument::fromJson(data, &err);
-    if(err.error != QJsonParseError::NoError)
+    if (err.error != QJsonParseError::NoError)
     {
         emit failed();
         return;
     }
 
     QJsonObject obj(doc.object());
-    qDebug() << obj.keys().size() << obj.keys();
-    if(obj.contains("1"))
+    if (obj.contains("1"))
     {
         QJsonObject ver = obj.value("1").toObject();
-        if(ver.contains("LatestVersion"))
+        if (ver.contains("LatestVersion"))
         {
             QJsonObject latest = ver.value("LatestVersion").toObject();
-            if((latest.contains("Version") && latest.contains("VersionID")))
+            if ((latest.contains("Version") && latest.contains("VersionID")))
             {
                 UpdateData data;
                 data.version_name = latest.value("Version").toString();
@@ -124,7 +121,7 @@ void UpdateChecker::readData(QNetworkReply *reply)
                 data.url = latest.value("Url").toString();
                 data.update_time = QDateTime::fromString(latest.value("UpdateTime").toString(), "yyyy-MM-dd");
                 data.release_note = latest.value("ReleaseNote").toString();
-                data.available = latest.value("IsAvailable").toInt();
+                data.available = latest.value("IsAvailable").toBool();
                 emit finished(data);
                 qDebug() << "JSON analysing done";
             }

@@ -8,7 +8,8 @@
 #include "ui/console.h"
 #include "ui/graphics.h"
 
-class Launcher : public QObject {
+class Launcher : public QObject
+{
     Q_OBJECT
 public:
     Launcher() = default;

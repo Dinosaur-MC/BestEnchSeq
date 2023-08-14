@@ -212,7 +212,7 @@ int Algorithm::expCost(const _Item &it, bool mode)
         cost += (it.type == ItemType::Book ? CTEp.at(e.id).book_multiplier : CTEp.at(e.id).item_multiplier) * e.lvl;
 
     // 惩罚花费
-    if(mode)
+    if (mode)
         cost += pow(2, it.penalty) - 1;
 
     return cost;

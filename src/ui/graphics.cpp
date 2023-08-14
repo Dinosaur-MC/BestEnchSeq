@@ -24,4 +24,3 @@ int Graphics::exit(int code)
 {
     return code;
 }
-

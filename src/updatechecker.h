@@ -38,7 +38,6 @@ signals:
     void dataRecieved();
     void finished(UpdateData data);
     void failed();
-
 };
 
 #endif // UPDATECHECKER_H
