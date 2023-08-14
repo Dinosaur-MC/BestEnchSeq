@@ -18,7 +18,7 @@
 #define TEXT_PROGRAM_NAME_EN "The Best Enchanting Sequence"
 #define TEXT_PROGRAM_NAME_ABBR "BESQ"
 #define VERSION_NAME "v4.2.0"
-#define VERSION_ID 12307020 // NyymmXXx; N:number of century, yy:the two last number of recent year, mm:recent month, XX:capital number, x:sub number
+#define VERSION_ID 12308180 // NyymmXXx; N:number of century, yy:the two last number of recent year, mm:recent month, XX:capital number, x:sub number
 
 #define TEXT_AUTHOR "Dinosaur_MC(Dinosaur-MC)"
 #define LINK_HOME_PAGE "https://github.com/Dinosaur-MC/BestEnchSeq"

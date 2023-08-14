@@ -28,7 +28,10 @@ UpdateChecker::UpdateChecker(QObject *parent)
             notice.exec();
             if (notice.clickedButton() == getnow)
             {
-                QDesktopServices::openUrl(data.url);
+                if(url.isValid())
+                    QDesktopServices::openUrl(data.url);
+                else
+                    QDesktopServices::openUrl(QUrl("https://github.com/Dinosaur-MC/BestEnchSeq/releases"));
             }
         }
         else if(show_notice)
@@ -110,7 +113,7 @@ void UpdateChecker::readData(QNetworkReply *reply)
     if(obj.contains("1"))
     {
         QJsonObject ver = obj.value("1").toObject();
-        if(ver.contains("LateseVersion"))
+        if(ver.contains("LatestVersion"))
         {
             QJsonObject latest = ver.value("LatestVersion").toObject();
             if((latest.contains("Version") && latest.contains("VersionID")))

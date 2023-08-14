@@ -10,10 +10,10 @@
     },
     "1": {
         "LatestVersion": {
-            "Version": "v0.0.0",
-            "VersionID": 0,
+            "Version": "v4.2.0",
+            "VersionID": 12308180,
             "Url": "None",
-            "UpdateTime": "None",
+            "UpdateTime": "2023-08-18",
             "ReleaseNote": "【重大更新】",
             "IsAvailable": true
         },
