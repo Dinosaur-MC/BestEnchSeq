@@ -94,6 +94,7 @@ void UpdateChecker::readData(QNetworkReply *reply)
 {
     qDebug() << "Reading quest reply...";
     QByteArray data = reply->readAll().trimmed();
+    qDebug() << data.data();
     reply->deleteLater();
 
     QJsonDocument doc;
@@ -105,8 +106,9 @@ void UpdateChecker::readData(QNetworkReply *reply)
         return;
     }
 
-    QJsonObject obj = doc.object();
-    if(obj.contains("1"))
+    QJsonObject obj(doc.object());
+    qDebug() << obj.keys().size() << obj.keys();
+    if(obj.contains("aab"))
     {
         QJsonObject ver = obj.value("1").toObject();
         if(ver.contains("LateseVersion"))
