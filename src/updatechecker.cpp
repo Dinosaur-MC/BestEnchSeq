@@ -94,18 +94,19 @@ void UpdateChecker::readData(QNetworkReply *reply)
 {
     qDebug() << "Reading quest reply...";
     QByteArray data = reply->readAll().trimmed();
+    qDebug() << data.data();
     reply->deleteLater();
 
-    QJsonDocument doc;
     QJsonParseError err;
-    doc.fromJson(data, &err);
+    QJsonDocument doc = QJsonDocument::fromJson(data, &err);
     if(err.error != QJsonParseError::NoError)
     {
         emit failed();
         return;
     }
 
-    QJsonObject obj = doc.object();
+    QJsonObject obj(doc.object());
+    qDebug() << obj.keys().size() << obj.keys();
     if(obj.contains("1"))
     {
         QJsonObject ver = obj.value("1").toObject();
