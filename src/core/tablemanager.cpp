@@ -1,6 +1,8 @@
 #include "tablemanager.h"
 #include "core/fileoperator.h"
 
+TableManager global_table_mgr;
+
 TableManager::TableManager(QObject *parent)
     : QObject{parent}
 {

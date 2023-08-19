@@ -1,8 +1,13 @@
 #include "fileoperator.h"
 #include <QDebug>
 
+int FileOperator::mode = 0x3;
+
 bool FileOperator::loadConfig(QString file_name) // 加载配置
 {
+    if (!(mode & 0x1))
+        return false;
+
     DEBUG("FileOperator", "Loading configuration...", "info");
     QFile f("./" + file_name);
     QSettings settings(file_name, QSettings::IniFormat);
@@ -21,7 +26,7 @@ bool FileOperator::loadConfig(QString file_name) // 加载配置
         settings_map["default/item_config"] = settings.value("default/item_config", ICMToString(global_settings.item_config));
         settings_map["default/algorithm"] = settings.value("default/algorithm", global_settings.algorithm);
         settings_map["default/export_path"] = settings.value("default/export_path", global_settings.export_path);
-        settings_map["default/language"] = settings.value("default/language", global_settings.language);
+        settings_map["default/language"] = settings.value("default/language", "");
         settings_map["lever/auto_save"] = settings.value("lever/auto_save", 0).toBool();
         settings_map["lever/auto_check_update"] = settings.value("lever/auto_check_update", global_settings.auto_check_update).toBool();
         settings_map["lever/enable_widely_reszie_window"] = settings.value("lever/enable_widely_reszie_window", global_settings.enable_widely_reszie_window).toBool();
@@ -42,6 +47,9 @@ bool FileOperator::loadConfig(QString file_name) // 加载配置
 
 bool FileOperator::saveConfig(QString file_name) // 保持配置
 {
+    if (!(mode & 0x2))
+        return false;
+
     DEBUG("FileOperator", "Saving configuration...", "info");
     QFile f("./" + file_name);
     QSettings settings(file_name, QSettings::IniFormat);
@@ -76,6 +84,9 @@ bool FileOperator::saveConfig(QString file_name) // 保持配置
 
 bool FileOperator::loadTableData(QString file_name, DataTable &table)
 {
+    if (!(mode & 0x1))
+        return false;
+
     DEBUG("FileOperator", "Loading table data...", "info");
     QFile f(file_name);
 
@@ -371,6 +382,9 @@ bool FileOperator::loadTableData(QString file_name, DataTable &table)
 
 bool FileOperator::saveTableData(const DataTable &table, QString path)
 {
+    if (!(mode & 0x2))
+        return false;
+
     DEBUG("FileOperator", "Saving table data...", "info");
     QFile f(path + table.info.file_name);
 
@@ -482,6 +496,9 @@ bool FileOperator::saveTableData(const DataTable &table, QString path)
 
 bool FileOperator::loadArchivePoint(QString file_name)
 {
+    if (!(mode & 0x1))
+        return false;
+
     QFile f(file_name);
     QSettings settings(file_name, QSettings::IniFormat);
     if (f.open(QIODevice::ReadOnly))
@@ -494,6 +511,9 @@ bool FileOperator::loadArchivePoint(QString file_name)
 
 bool FileOperator::saveArchivePoint(QString file_name)
 {
+    if (!(mode & 0x2))
+        return false;
+
     QFile f(file_name);
 
     return true;
@@ -501,6 +521,9 @@ bool FileOperator::saveArchivePoint(QString file_name)
 
 bool FileOperator::saveResult(Flow flow, QString file_name, int mode)
 {
+    if (!(mode & 0x2))
+        return false;
+
     DEBUG("FileOperator", "Saving result...", "info");
     QFile f(file_name);
     if (!f.open(QIODevice::WriteOnly))

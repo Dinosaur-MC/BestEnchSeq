@@ -20,11 +20,11 @@ SOURCES += \
     core/core.cpp \
     core/fileoperator.cpp \
     core/tablemanager.cpp \
+    langs/languagemgr.cpp \
     launcher.cpp \
     main.cpp \
     ui/console.cpp \
     ui/graphics.cpp \
-    ui/mainwindow.cpp \
     updatechecker.cpp
 
 HEADERS += \
@@ -37,14 +37,14 @@ HEADERS += \
     core/core.h \
     core/fileoperator.h \
     core/tablemanager.h \
+    langs/languagemgr.h \
     launcher.h \
     ui/console.h \
     ui/graphics.h \
-    ui/mainwindow.h \
     updatechecker.h
 
 FORMS += \
-    ui/mainwindow.ui
+    ui/graphics.ui
 
 TRANSLATIONS += \
     langs/zh_cn.ts \

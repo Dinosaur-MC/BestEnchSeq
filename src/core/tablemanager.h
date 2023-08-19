@@ -43,4 +43,6 @@ private:
 signals:
 };
 
+extern TableManager global_table_mgr;
+
 #endif // TABLEMANAGER_H

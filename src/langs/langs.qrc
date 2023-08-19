@@ -1,5 +1,5 @@
 <RCC>
-    <qresource prefix="/lang">
+    <qresource prefix="/langs">
         <file>en_us.qm</file>
         <file>zh_cn.qm</file>
         <file>zh_tw.qm</file>

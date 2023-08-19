@@ -1,26 +1,26 @@
 #include "graphics.h"
-#include "mainwindow.h"
+#include "ui_graphics.h"
 #include <QApplication>
 
-Graphics::Graphics(QObject *parent)
-    : QObject{parent}
+Graphics::Graphics(QWidget *parent) :
+    QWidget(parent),
+    ui(new Ui::Graphics)
 {
+    ui->setupUi(this);
+}
 
+Graphics::~Graphics()
+{
+    delete ui;
 }
 
 int Graphics::run()
 {
     qDebug() << "Graphics running";
 
-    MainWindow w;
-    w.show();
+    this->show();
     int ret = QApplication::exec();
 
-    qDebug() << "Graphics exited";
+    qDebug() << "Graphics exiting";
     return ret;
-}
-
-int Graphics::exit(int code)
-{
-    return code;
 }

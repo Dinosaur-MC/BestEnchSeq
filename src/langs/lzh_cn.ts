@@ -28,173 +28,183 @@
 <context>
     <name>FileOperator</name>
     <message>
-        <location filename="../core/fileoperator.cpp" line="444"/>
+        <location filename="../core/fileoperator.cpp" line="458"/>
         <source>&lt;数据类型&gt;,&lt;组名&gt;,[组图标]</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/fileoperator.cpp" line="450"/>
+        <location filename="../core/fileoperator.cpp" line="464"/>
         <source>&lt;数据类型&gt;,&lt;魔咒名称&gt;,&lt;最大等级&gt;,&lt;Poor最大等级&gt;,&lt;附魔书乘数&gt;,&lt;物品乘数&gt;,&lt;MC编译版本&gt;,[特殊功能],[冲突的魔咒],[分组]</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/fileoperator.cpp" line="517"/>
+        <location filename="../core/fileoperator.cpp" line="540"/>
         <source>[BESQ Flow Output] </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/fileoperator.cpp" line="519"/>
+        <location filename="../core/fileoperator.cpp" line="542"/>
         <source>[BESQ Version] </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/fileoperator.cpp" line="520"/>
+        <location filename="../core/fileoperator.cpp" line="543"/>
         <source>[Configuration] </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/fileoperator.cpp" line="521"/>
+        <location filename="../core/fileoperator.cpp" line="544"/>
         <source> Edition, </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/fileoperator.cpp" line="522"/>
+        <location filename="../core/fileoperator.cpp" line="545"/>
         <source>[Brief]</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/fileoperator.cpp" line="522"/>
+        <location filename="../core/fileoperator.cpp" line="545"/>
         <source>Step(s): </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/fileoperator.cpp" line="523"/>
+        <location filename="../core/fileoperator.cpp" line="546"/>
         <source>Max Level cost: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/fileoperator.cpp" line="524"/>
+        <location filename="../core/fileoperator.cpp" line="547"/>
         <source>Total level cost: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/fileoperator.cpp" line="525"/>
+        <location filename="../core/fileoperator.cpp" line="548"/>
         <source>Total point cost: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../core/fileoperator.cpp" line="527"/>
+        <location filename="../core/fileoperator.cpp" line="550"/>
         <source>[Flow]</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>Graphics</name>
+    <message>
+        <location filename="../ui/graphics.ui" line="14"/>
+        <source>Form</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/graphics.ui" line="77"/>
+        <source>ICO</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/graphics.ui" line="87"/>
+        <source>BESQ V4.2.0</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/graphics.ui" line="140"/>
+        <source>CALC.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/graphics.ui" line="156"/>
+        <source>TABLE</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/graphics.ui" line="172"/>
+        <source>TOOL</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/graphics.ui" line="188"/>
+        <source>CONF.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/graphics.ui" line="269"/>
+        <source>说明</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/graphics.ui" line="287"/>
+        <source>Option Descriptions
+</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/graphics.ui" line="295"/>
+        <source>示例</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/graphics.ui" line="302"/>
+        <source>反馈</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/graphics.ui" line="309"/>
+        <source>详情</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>Launcher</name>
     <message>
-        <location filename="../launcher.cpp" line="20"/>
+        <location filename="../launcher.cpp" line="24"/>
         <source>【使用说明】必读</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../launcher.cpp" line="43"/>
+        <location filename="../launcher.cpp" line="62"/>
         <source>【更新完成】</source>
         <translation type="unfinished"></translation>
     </message>
-</context>
-<context>
-    <name>MainWindow</name>
     <message>
-        <location filename="../mainwindow.ui" line="14"/>
-        <source>Form</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.ui" line="81"/>
-        <source>最佳附魔计算器
- BESQ IV</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.ui" line="108"/>
-        <location filename="../mainwindow.ui" line="337"/>
-        <source>计算</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.ui" line="134"/>
-        <source>池</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.ui" line="160"/>
-        <source>工具</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.ui" line="186"/>
-        <source>设置</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.ui" line="219"/>
-        <source>↺</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.ui" line="239"/>
-        <source>×</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.ui" line="285"/>
-        <source>基础配置</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.ui" line="298"/>
-        <source>配置武器</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.ui" line="311"/>
-        <source>选择魔咒</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.ui" line="324"/>
-        <source>配置物品池</source>
+        <location filename="../launcher.cpp" line="62"/>
+        <source>【更新日志】
+</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>QApplication</name>
     <message>
-        <location filename="../main.cpp" line="62"/>
+        <location filename="../main.cpp" line="14"/>
         <source>The Best Enchanting Sequence</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../main.cpp" line="82"/>
-        <source>Run as command mode (not available yet).</source>
+        <location filename="../main.cpp" line="40"/>
+        <source>Show the license of the application.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../main.cpp" line="83"/>
+        <location filename="../main.cpp" line="41"/>
         <source>Launch as console mode.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../main.cpp" line="84"/>
+        <location filename="../main.cpp" line="42"/>
         <source>Launch as graphics mode (default).</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../main.cpp" line="85"/>
-        <source>Show the license of the program.</source>
+        <location filename="../main.cpp" line="44"/>
+        <source>Read only mode.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../main.cpp" line="86"/>
+        <location filename="../main.cpp" line="45"/>
+        <source>Run as safe mode. It will disable all file operation from the appliction.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../main.cpp" line="43"/>
         <source>Developer mode.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -286,38 +296,38 @@
     </message>
     <message>
         <location filename="../updatechecker.cpp" line="27"/>
-        <location filename="../updatechecker.cpp" line="56"/>
+        <location filename="../updatechecker.cpp" line="55"/>
         <source>下次一定</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../updatechecker.cpp" line="36"/>
+        <location filename="../updatechecker.cpp" line="37"/>
         <source>【无更新】 </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../updatechecker.cpp" line="36"/>
+        <location filename="../updatechecker.cpp" line="37"/>
         <source>当前版本已是最新版本！</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../updatechecker.cpp" line="51"/>
+        <location filename="../updatechecker.cpp" line="50"/>
         <source>【检测更新失败】JSON 解析失败</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../updatechecker.cpp" line="52"/>
+        <location filename="../updatechecker.cpp" line="51"/>
         <source>更新服务器访问失败或JSON数据有误。
 请排查问题后重试或联系开发者修复错误。</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../updatechecker.cpp" line="54"/>
+        <location filename="../updatechecker.cpp" line="53"/>
         <source>重试</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../updatechecker.cpp" line="55"/>
+        <location filename="../updatechecker.cpp" line="54"/>
         <source>去拔开发者的头发</source>
         <translation type="unfinished"></translation>
     </message>

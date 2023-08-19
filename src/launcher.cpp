@@ -1,15 +1,20 @@
 #include "launcher.h"
+#include <windows.h>
 #include <QApplication>
 #include <QMessageBox>
 #include <QDesktopServices>
 #include "core/fileoperator.h"
-#include "windows.h"
+#include "langs/languagemgr.h"
+#include "updatechecker.h"
+#include "ui/console.h"
+#include "ui/graphics.h"
 
 Launcher::~Launcher()
 {
+    FileOperator::saveConfig(FILE_CONFIG);
 }
 
-int Launcher::launch(int mode)
+int Launcher::launch(LaunchMode mode)
 {
     // 加载配置
     global_settings = defaultSettings();
@@ -36,12 +41,17 @@ int Launcher::launch(int mode)
     }
 
     // 切换语言
-    if(!global_settings.language.isEmpty())
+    if (global_settings.language.isEmpty())
     {
-        if (translator.load(":/lang/" + global_settings.language + ".qm"))
+        if (global_lang_mgr.adaptLangauge())
+            global_settings.language = global_lang_mgr.currentLanguage();
+    }
+    else
+    {
+        if (!global_lang_mgr.setLanguage(global_settings.language))
         {
-            QApplication::installTranslator(&translator);
-            qDebug() << "Translator installed.";
+            if (global_lang_mgr.adaptLangauge())
+                global_settings.language = global_lang_mgr.currentLanguage();
         }
     }
 
@@ -58,71 +68,47 @@ int Launcher::launch(int mode)
     // 检查更新
     if (global_settings.auto_check_update)
     {
-        qDebug() << "[Launcher] Checking update";
-        update = new UpdateChecker(this);
+        qDebug() << "[Info] Checking update";
+        UpdateChecker *update = new UpdateChecker(true);
         update->check(QUrl(LINK_UPDATE_DATA), false);
     }
 
-    // 启动计算器实例
-    qDebug() << "[Launcher] Start program";
-    if (mode == 0)
+    // 按指定模式创建并启动主实例
+    qDebug() << "[Info] Start main program";
+    int main_mode = (int)mode & 0x0F;
+    int addtion = (int)mode & 0xF0;
+
+    if (addtion & (int)LaunchMode::DebugMode)
     {
-        console = new Console(this);
-        return console->run();
-    }
-    else if (mode == 1)
-    {
-        graphics = new Graphics(this);
-        return graphics->run();
-    }
-    else if (mode == 2)
-    {
-        if (AllocConsole()) // 启动控制台
+        if (AttachConsole(ATTACH_PARENT_PROCESS)) // 捕获控制台
         {
             // 重定向输出流至控制台
             freopen("CONOUT$", "w", stdout);
             freopen("CONOUT$", "w", stderr);
             printf("--- Debug Console Started ---\n");
-
-            // 启动 GUI 实例
-            graphics = new Graphics();
-            int ret = graphics->run();
-
-            // 结束并释放控制台
-            printf("--- Debug Console Exited ---\n");
-            fclose(stdout);
-            fclose(stderr);
-            FreeConsole();
-
-            return ret;
         }
+    }
+    if (addtion & (int)LaunchMode::ReadOnlyMode)
+    {
+        FileOperator::mode = 0x1;
+    }
+    if (addtion & (int)LaunchMode::SafeMode)
+    {
+        FileOperator::mode = 0x0;
+    }
+
+    if ((main_mode & (int)LaunchMode::ConsoleMode) > 0 && (main_mode & !(int)LaunchMode::ConsoleMode) == 0)
+    {
+        Console console;
+        return console.run();
+    }
+    else if ((main_mode & (int)LaunchMode::GraphicsMode) > 0 && (main_mode & !(int)LaunchMode::GraphicsMode) == 0)
+    {
+        Graphics graphics;
+        return graphics.run();
     }
     else
         return 2;
 
-    return 0;
-}
-
-void Launcher::stop()
-{
-    if (console)
-    {
-        console->exit(0);
-        delete console;
-        console = nullptr;
-    }
-    if (graphics)
-    {
-        graphics->exit(0);
-        delete graphics;
-        graphics = nullptr;
-    }
-
-    table_mgr.empty();
-    global_settings = defaultSettings();
-}
-
-int Launcher::restart()
-{
     return 0;
 }

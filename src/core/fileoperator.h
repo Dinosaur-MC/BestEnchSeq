@@ -29,6 +29,8 @@ public:
     static bool saveArchivePoint(QString file_name);
 
     static bool saveResult(Flow flow, QString file_name, int mode = 0);
+
+    static int mode;    // 0x0: Disabled; 0x1: ReadOnly; 0x2: WriteOnly.
 };
 
 #endif // FILEOPERATOR_H

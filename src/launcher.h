@@ -3,30 +3,27 @@
 
 #include <QObject>
 #include <QTranslator>
-#include "core/tablemanager.h"
-#include "updatechecker.h"
-#include "ui/console.h"
-#include "ui/graphics.h"
+
+enum class LaunchMode {
+    None = 0x00,
+    ConsoleMode = 0x01,
+    GraphicsMode = 0x02,
+    DebugMode = 0x10,
+    ReadOnlyMode = 0x20,
+    SafeMode = 0x40
+};
 
 class Launcher : public QObject
 {
     Q_OBJECT
 public:
     Launcher() = default;
-    Launcher(const Launcher &) = delete;
     ~Launcher();
+    Launcher(const Launcher &) = delete;
 
-    int launch(int mode);
-    void stop();
-    int restart();
+    int launch(LaunchMode mode);
 
 private:
-    QTranslator translator;
-    UpdateChecker *update;
-    TableManager table_mgr;
-
-    Console *console;
-    Graphics *graphics;
 
 signals:
     void launched();

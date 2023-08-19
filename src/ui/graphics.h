@@ -1,18 +1,23 @@
 #ifndef GRAPHICS_H
 #define GRAPHICS_H
 
-#include <QObject>
+#include <QWidget>
 
-class Graphics : public QObject
+namespace Ui {
+class Graphics;
+}
+
+class Graphics : public QWidget
 {
     Q_OBJECT
 public:
-    explicit Graphics(QObject *parent = nullptr);
+    explicit Graphics(QWidget *parent = nullptr);
+    ~Graphics();
 
     int run();
-    int exit(int code);
 
 private:
+    Ui::Graphics *ui;
 
 signals:
 

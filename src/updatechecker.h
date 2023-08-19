@@ -21,7 +21,7 @@ class UpdateChecker : public QObject
 {
     Q_OBJECT
 public:
-    explicit UpdateChecker(QObject *parent = nullptr);
+    explicit UpdateChecker(bool auto_delete);
     ~UpdateChecker();
 
     void check(QUrl link, bool m = true);
@@ -30,9 +30,10 @@ private:
     void quest();
     void readData(QNetworkReply *reply);
 
-    QNetworkAccessManager *manager;
+    QNetworkAccessManager manager;
     QUrl url;
     bool show_notice;
+    bool auto_del;
 
 signals:
     void dataRecieved();
