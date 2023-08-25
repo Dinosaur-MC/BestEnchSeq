@@ -108,7 +108,7 @@ bool FileOperator::loadTableData(QString file_name, DataTable &table)
 
                 DataTableInfo info;
                 EnchDataList enchs;
-                QSet<Group> groups;
+                GroupList groups;
 
                 if (json_obj.contains("type")) // 包含 type 键
                 {
@@ -160,7 +160,7 @@ bool FileOperator::loadTableData(QString file_name, DataTable &table)
                         for (int i = 0; i < obj_enchantments.size(); i++) // 遍历 enchantments 容器
                         {
                             QJsonObject obj = obj_enchantments.at(i).toObject();
-                            if ((obj.contains("name") && obj.contains("max_level") && obj.contains("poor_max_level") && obj.contains("book_multiplier") && obj.contains("item_multiplier") && obj.contains("editions") && obj.contains("specials") && obj.contains("conflictions"))) // 检查有效性
+                            if ((obj.contains("name") && obj.contains("max_level") && obj.contains("poor_max_level") && obj.contains("book_multiplier") && obj.contains("item_multiplier") && obj.contains("editions") && obj.contains("conflictions"))) // 检查有效性
                             {
                                 EnchData ench;
 
@@ -217,20 +217,40 @@ bool FileOperator::loadTableData(QString file_name, DataTable &table)
                                     group.max_durability = obj.value("max_durability").toInt();
                                 if (obj.contains("icon"))
                                     group.icon_path = obj.value("icon").toString();
-                                groups.insert(group);
+                                groups.append(group);
                             }
                             else
                                 continue;
                         }
 
-                        foreach (auto &e, enchs) // 整理组魔咒列表
+                        for (int i = 0; i < groups.size(); i++) // 去重
+                        {
+                            for (int j = i+1; j < groups.size(); j++)
+                            {
+                                if(groups[i].name == groups[j].name)
+                                    groups.removeAt(j);
+                            }
+                        }
+
+                        foreach (auto &e, enchs) // 整理分组中的魔咒列表
                         {
                             foreach (auto &g, e.groups)
                             {
+                                bool successful = false;
                                 foreach (auto &it, groups)
                                 {
                                     if (it.name == g)
+                                    {
                                         const_cast<Group &>(it).enchantments.insert(e);
+                                        successful = true;
+                                    }
+                                }
+                                if(!successful) // 如果分组不存在则以默认值创建新分组并将魔咒添加到新分组中
+                                {
+                                    Group new_g;
+                                    new_g.name = e.name;
+                                    new_g.enchantments.insert(e);
+                                    groups.append(new_g);
                                 }
                             }
                         }
@@ -244,7 +264,7 @@ bool FileOperator::loadTableData(QString file_name, DataTable &table)
 
                 table.info = info;
                 table.enchs = enchs;
-                table.groups = QList<Group>(groups.begin(), groups.end());
+                table.groups = groups;
             }
             else
             {
@@ -266,7 +286,7 @@ bool FileOperator::loadTableData(QString file_name, DataTable &table)
 
             DataTableInfo info;
             EnchDataList enchs;
-            QSet<Group> groups;
+            GroupList groups;
 
             QString fver_key = "file_version=";
             QString head = raw.at(0);
@@ -292,7 +312,7 @@ bool FileOperator::loadTableData(QString file_name, DataTable &table)
 
                 tm = tm.trimmed();
                 if (tm.at(0) != TEXT_NOTE_SYMBOL && tm.at(0) != ',')
-                    data = tm.split(',', Qt::SkipEmptyParts);
+                    data = tm.split(',');
                 for (int i = 0; i < data.size(); i++)
                     data[i] = data.at(i).trimmed();
                 if (data.isEmpty())
@@ -348,25 +368,45 @@ bool FileOperator::loadTableData(QString file_name, DataTable &table)
                     if (3 < data.size())
                         group.icon_path = data.at(3);
 
-                    groups.insert(group);
+                    groups.append(group);
                 }
             }
 
-            foreach (auto &e, enchs)
+            for (int i = 0; i < groups.size(); i++) // 去重
+            {
+                for (int j = i+1; j < groups.size(); j++)
+                {
+                    if(groups[i].name == groups[j].name)
+                        groups.removeAt(j);
+                }
+            }
+
+            foreach (auto &e, enchs)    // 整理分组中的魔咒列表
             {
                 foreach (auto &g, e.groups)
                 {
+                    bool successful = false;
                     foreach (auto &it, groups)
                     {
                         if (it.name == g)
+                        {
                             const_cast<Group &>(it).enchantments.insert(e);
+                            successful = true;
+                        }
+                    }
+                    if(!successful) // 如果分组不存在则以默认值创建新分组并将魔咒添加到新分组中
+                    {
+                        Group new_g;
+                        new_g.name = e.name;
+                        new_g.enchantments.insert(e);
+                        groups.append(new_g);
                     }
                 }
             }
 
             table.info = info;
             table.enchs = enchs;
-            table.groups = QList<Group>(groups.begin(), groups.end());
+            table.groups = groups;
         }
 
         table.convertEnchTable();

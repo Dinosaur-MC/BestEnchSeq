@@ -5,7 +5,7 @@ AlgEnumerate::AlgEnumerate(QObject *parent)
 {
     algorithm_name = tr("Enumerate");
     algorithm_version = "1.0";
-    algorithm_author = "Dinosaur_MC";
+    algorithm_author = "Dinosaur-MC";
 }
 
 void AlgEnumerate::run()

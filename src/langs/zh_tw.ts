@@ -28,62 +28,62 @@
 <context>
     <name>FileOperator</name>
     <message>
-        <location filename="../core/fileoperator.cpp" line="458"/>
+        <location filename="../core/fileoperator.cpp" line="498"/>
         <source>&lt;数据类型&gt;,&lt;组名&gt;,[组图标]</source>
         <translation>&lt;資料類型&gt;,&lt;組名&gt;,[組圖示]</translation>
     </message>
     <message>
-        <location filename="../core/fileoperator.cpp" line="464"/>
+        <location filename="../core/fileoperator.cpp" line="504"/>
         <source>&lt;数据类型&gt;,&lt;魔咒名称&gt;,&lt;最大等级&gt;,&lt;Poor最大等级&gt;,&lt;附魔书乘数&gt;,&lt;物品乘数&gt;,&lt;MC编译版本&gt;,[特殊功能],[冲突的魔咒],[分组]</source>
         <translation>&lt;資料類型&gt;,&lt;咒語名稱&gt;,&lt;最大等級&gt;,&lt;Poor最大等級&gt;,&lt;附魔書乘數&gt;,&lt;物品乘數&gt;,&lt;MC編譯版本&gt;,[特殊功能],[衝突的咒語],[分組]</translation>
     </message>
     <message>
-        <location filename="../core/fileoperator.cpp" line="540"/>
+        <location filename="../core/fileoperator.cpp" line="580"/>
         <source>[BESQ Flow Output] </source>
         <translation>[BESQ 流程輸出] </translation>
     </message>
     <message>
-        <location filename="../core/fileoperator.cpp" line="542"/>
+        <location filename="../core/fileoperator.cpp" line="582"/>
         <source>[BESQ Version] </source>
         <translation>[BESQ 版本] </translation>
     </message>
     <message>
-        <location filename="../core/fileoperator.cpp" line="543"/>
+        <location filename="../core/fileoperator.cpp" line="583"/>
         <source>[Configuration] </source>
         <translation>[配置] </translation>
     </message>
     <message>
-        <location filename="../core/fileoperator.cpp" line="544"/>
+        <location filename="../core/fileoperator.cpp" line="584"/>
         <source> Edition, </source>
         <translation> Edition, </translation>
     </message>
     <message>
-        <location filename="../core/fileoperator.cpp" line="545"/>
+        <location filename="../core/fileoperator.cpp" line="585"/>
         <source>[Brief]</source>
         <translation>[概要]</translation>
     </message>
     <message>
-        <location filename="../core/fileoperator.cpp" line="545"/>
+        <location filename="../core/fileoperator.cpp" line="585"/>
         <source>Step(s): </source>
         <translation>步驟數: </translation>
     </message>
     <message>
-        <location filename="../core/fileoperator.cpp" line="546"/>
+        <location filename="../core/fileoperator.cpp" line="586"/>
         <source>Max Level cost: </source>
         <translation>最大等級花費: </translation>
     </message>
     <message>
-        <location filename="../core/fileoperator.cpp" line="547"/>
+        <location filename="../core/fileoperator.cpp" line="587"/>
         <source>Total level cost: </source>
         <translation>總等級花費: </translation>
     </message>
     <message>
-        <location filename="../core/fileoperator.cpp" line="548"/>
+        <location filename="../core/fileoperator.cpp" line="588"/>
         <source>Total point cost: </source>
         <translation>總經驗值花費: </translation>
     </message>
     <message>
-        <location filename="../core/fileoperator.cpp" line="550"/>
+        <location filename="../core/fileoperator.cpp" line="590"/>
         <source>[Flow]</source>
         <translation>[流程]</translation>
     </message>
@@ -91,64 +91,294 @@
 <context>
     <name>Graphics</name>
     <message>
-        <location filename="../ui/graphics.ui" line="14"/>
+        <location filename="../ui/graphics.ui" line="20"/>
         <source>Form</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/graphics.ui" line="77"/>
+        <location filename="../ui/graphics.ui" line="83"/>
         <source>ICO</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/graphics.ui" line="87"/>
+        <location filename="../ui/graphics.ui" line="93"/>
         <source>BESQ V4.2.0</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/graphics.ui" line="140"/>
+        <location filename="../ui/graphics.ui" line="146"/>
+        <location filename="../ui/graphics.cpp" line="503"/>
         <source>CALC.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/graphics.ui" line="156"/>
+        <location filename="../ui/graphics.ui" line="162"/>
+        <location filename="../ui/graphics.cpp" line="512"/>
         <source>TABLE</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/graphics.ui" line="172"/>
+        <location filename="../ui/graphics.ui" line="178"/>
+        <location filename="../ui/graphics.cpp" line="520"/>
         <source>TOOL</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/graphics.ui" line="188"/>
+        <location filename="../ui/graphics.ui" line="194"/>
+        <location filename="../ui/graphics.cpp" line="528"/>
         <source>CONF.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/graphics.ui" line="269"/>
-        <source>说明</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ui/graphics.ui" line="287"/>
-        <source>Option Descriptions
-</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ui/graphics.ui" line="295"/>
-        <source>示例</source>
+        <location filename="../ui/graphics.ui" line="265"/>
+        <source>Simple Assistant</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../ui/graphics.ui" line="302"/>
-        <source>反馈</source>
+        <source>Option Descriptions</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/graphics.ui" line="309"/>
-        <source>详情</source>
+        <location filename="../ui/graphics.ui" line="327"/>
+        <source>Example</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/graphics.ui" line="334"/>
+        <source>Feedback</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/graphics.ui" line="341"/>
+        <source>Details</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/graphics.cpp" line="80"/>
+        <source>Opening URL</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/graphics.cpp" line="80"/>
+        <source>Are you sure to open this URL?
+</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/graphics.cpp" line="134"/>
+        <source>Select Edition</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/graphics.cpp" line="138"/>
+        <source>Java</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/graphics.cpp" line="140"/>
+        <source>Bedrock</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/graphics.cpp" line="148"/>
+        <source>Select Table</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/graphics.cpp" line="162"/>
+        <source>Select Group</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/graphics.cpp" line="176"/>
+        <source>Select Item Configuring Method</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/graphics.cpp" line="180"/>
+        <source>Normal</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/graphics.cpp" line="182"/>
+        <source>Poor</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/graphics.cpp" line="183"/>
+        <source>Advanced</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/graphics.cpp" line="205"/>
+        <source>Adjust Origin Enchantments</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/graphics.cpp" line="249"/>
+        <source>Choose Required Enchantments</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/graphics.cpp" line="304"/>
+        <source>Edit Item Pool</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/graphics.cpp" line="310"/>
+        <source>(Click To Add Item)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/graphics.cpp" line="329"/>
+        <source>Select Algorithm</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/graphics.cpp" line="355"/>
+        <source>Add ALG Option</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/graphics.cpp" line="359"/>
+        <source>NoPlenalty</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/graphics.cpp" line="360"/>
+        <source>NoRepairing</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/graphics.cpp" line="361"/>
+        <source>IgnoreConflicting</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/graphics.cpp" line="362"/>
+        <source>UnlimitedForgeCount</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/graphics.cpp" line="373"/>
+        <source>&gt;&gt;&gt; Start Calculate &lt;&lt;&lt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/graphics.cpp" line="384"/>
+        <source>START
+CALCULATE</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/graphics.cpp" line="416"/>
+        <source>Result &amp;&amp; Export</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/graphics.cpp" line="422"/>
+        <source>Export to file</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/graphics.cpp" line="445"/>
+        <source>[No Result]</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/graphics.cpp" line="496"/>
+        <source>[WELCOME]</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/graphics.cpp" line="497"/>
+        <source>Basic Section</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/graphics.cpp" line="498"/>
+        <source>Enchantment List</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/graphics.cpp" line="499"/>
+        <source>Item Pool (Advanced)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/graphics.cpp" line="500"/>
+        <source>Algorithm &amp; ALG Config</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/graphics.cpp" line="501"/>
+        <source>Result &amp; Export</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/graphics.cpp" line="506"/>
+        <source>Table Manager</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/graphics.cpp" line="507"/>
+        <source>Basic Infomation</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/graphics.cpp" line="508"/>
+        <source>Edit Table</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/graphics.cpp" line="509"/>
+        <source>Create Table</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/graphics.cpp" line="510"/>
+        <source>Combine Table</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/graphics.cpp" line="515"/>
+        <source>Test Cost</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/graphics.cpp" line="516"/>
+        <source>Test Penalty</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/graphics.cpp" line="517"/>
+        <source>Test Repairing</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/graphics.cpp" line="518"/>
+        <source>Test Multiplier</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/graphics.cpp" line="523"/>
+        <source>Default</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/graphics.cpp" line="524"/>
+        <source>Lever</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/graphics.cpp" line="525"/>
+        <source>Update</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/graphics.cpp" line="526"/>
+        <source>About</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

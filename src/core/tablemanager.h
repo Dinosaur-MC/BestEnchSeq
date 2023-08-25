@@ -19,6 +19,8 @@ public:
 
     void setCursor(int num);
 
+    QList<DataTableInfo> getAllTabeInfo();
+    DataTableInfo getTabeInfo();
     DataTable getTable();
     void optimize();
     void optimizeAll();

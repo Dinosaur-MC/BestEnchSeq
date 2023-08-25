@@ -61,6 +61,7 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 RESOURCES += \
+    doc/document.qrc \
     langs/langs.qrc \
     res/res.qrc \
     lib/lib.qrc
@@ -73,6 +74,6 @@ DISTFILES += \
     update.json \
     logo.rc
 
-VERSION = "4.2.0"
+VERSION = "V4.2.0"
 TARGET = "BestEnchSeq"
 RC_FILE += logo.rc

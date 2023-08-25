@@ -1,4 +1,7 @@
 #include "algmanager.h"
+#include "algorithms/algenumerate.h"
+#include "algorithms/alggreedy.h"
+#include "algorithms/alghuffmantree.h"
 #include <QDir>
 #include <QFile>
 
@@ -12,20 +15,33 @@ AlgManager::~AlgManager()
 {
 }
 
-void AlgManager::detectAlgorithm()
+QList<AlgorithmInfo> AlgManager::getInternalAlgorithm()
+{
+    QList<AlgorithmInfo> alg_list;
+    AlgHuffmanTree alg_1;
+    AlgGreedy alg_2;
+    AlgEnumerate alg_3;
+    alg_list.append({alg_1.name(), alg_1.version(), alg_1.supported_cfg(), alg_1.author(), alg_1.link()});
+    alg_list.append({alg_2.name(), alg_2.version(), alg_2.supported_cfg(), alg_2.author(), alg_2.link()});
+    alg_list.append({alg_3.name(), alg_3.version(), alg_3.supported_cfg(), alg_3.author(), alg_3.link()});
+    return alg_list;
+}
+
+QList<AlgorithmInfo> AlgManager::detectAlgorithm()
 {
     algorithms.clear();
 
-    QDir dir("./algorithms");
+    QDir dir(PATH_ALGORITHMS);
     if (!dir.exists())
     {
-        dir.mkdir("./algorithms");
-        return;
+        dir.mkdir(PATH_ALGORITHMS);
+        return QList<AlgorithmInfo>();
     }
 
     QStringList file_list = dir.entryList({"*.dll"}, QDir::Files);
     if (!file_list.isEmpty())
     {
+        QList<AlgorithmInfo> info_list;
         foreach (auto file, file_list)
         {
             loader.setFileName(file);
@@ -39,11 +55,15 @@ void AlgManager::detectAlgorithm()
                 info.name = ptr->name();
                 info.version = ptr->version();
                 info.author = ptr->author();
+                info_list.append(info);
                 algorithms.insert(file, info);
                 loader.unload();
             }
         }
+        return info_list;
     }
+
+    return QList<AlgorithmInfo>();
 }
 
 Algorithm *AlgManager::loadAlgorithm(QString alg_fname)
@@ -60,7 +80,7 @@ Algorithm *AlgManager::loadAlgorithm(QString alg_fname)
 
 void AlgManager::unloadAlgorithm()
 {
-    if (loader.isLoaded())
+    if (isLoaded())
         loader.unload();
 }
 

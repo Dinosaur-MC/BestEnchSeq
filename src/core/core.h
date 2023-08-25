@@ -17,8 +17,9 @@
 #define TEXT_PROGRAM_NAME "最佳附魔顺序计算器"
 #define TEXT_PROGRAM_NAME_EN "The Best Enchanting Sequence"
 #define TEXT_PROGRAM_NAME_ABBR "BESQ"
-#define VERSION_NAME "v4.2.0"
+#define VERSION_NAME "V4.2.0"
 #define VERSION_ID 12308180 // NyymmXXx; N:number of century, yy:the two last number of recent year, mm:recent month, XX:capital number, x:sub number
+#define FILEVERSION 5 // 文件版本
 
 #define TEXT_AUTHOR "Dinosaur_MC(Dinosaur-MC)"
 #define LINK_HOME_PAGE "https://github.com/Dinosaur-MC/BestEnchSeq"
@@ -32,11 +33,15 @@
 // File Data
 
 #define FILE_CONFIG "config.ini"
-#define FILE_DEFAULT_TABLE ":/default_table.json"
+#define FILE_DEFAULT_TABLE ":/table/default_table.json"
 #define FILE_WEAPONTABLE "WeaponTable.csv"
 #define FILE_ENCHTABLE "EnchantmentTable.csv"
 
-#define FILEVERSION 5 // 文件版本
+#define PATH_TABLES "./tables/"
+#define PATH_EXPORTS "./exports/"
+#define PATH_ALGORITHMS "./algorithms/"
+
+// Spceial Sign
 
 #define TEXT_SIGH_SYMBOL '$' // 特殊标识符
 #define TEXT_NOTE_SYMBOL '#' // 注释符
@@ -106,7 +111,7 @@ enum class ALGCFG
     Normal = 0x01,
     NoPlenalty = 0x02,
     NoRepairing = 0x04,
-    EnableConflicting = 0x08,
+    IgnoreConflicting = 0x08,
     UnlimitedForgeCount = 0x10
 }; // Algorithm configuration
 

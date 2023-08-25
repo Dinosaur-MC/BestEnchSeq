@@ -22,8 +22,16 @@ public:
     static bool checkConfig(const _Item &item, const _ItemPool &ip, QList<int> *missing = nullptr); // 检查物品配置是否符合基本要求
 
     QString name() { return algorithm_name; }
+    ALGCFG supported_cfg() { return supported_configuration; }
     QString version() { return algorithm_version; }
     QString author() { return algorithm_author; }
+    QString link()
+    {
+        if(algorithm_link.startsWith("http://") || algorithm_link.startsWith("https://"))
+            return algorithm_link;
+        else
+            return "https://github.com/404";
+    }
 
 protected:
     void setName(QString name) { algorithm_name = name; }
@@ -47,8 +55,10 @@ protected:
     _FlowStack flow_stack; // 流程集
 
     QString algorithm_name;
+    ALGCFG supported_configuration;
     QString algorithm_version;
     QString algorithm_author;
+    QString algorithm_link;
 
 signals:
     void stepForwarded(uint current, uint total);   // 计算进度报告

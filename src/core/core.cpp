@@ -353,12 +353,12 @@ SettingsRuntime defaultSettings()
     settings.edition = MCE::Java;
     settings.item_config = ICM::Normal;
     settings.algorithm = "";
-    settings.export_path = "./exports/";
+    settings.export_path = PATH_EXPORTS;
     settings.language = "zh_cn";
     settings.auto_save = false;
     settings.auto_check_update = true;
     settings.enable_widely_reszie_window = false;
     settings.last_used_table = "";
-    settings.last_edit = QDateTime();
+    settings.last_edit = QDateTime::currentDateTime();
     return settings;
 }

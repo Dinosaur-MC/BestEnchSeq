@@ -32,7 +32,7 @@ bool TableManager::loadDefaultTable()
 bool TableManager::loadTable(QString fname)
 {
     DataTable table;
-    if (findTable(fname) != -1 || !FileOperator::loadTableData("./tables/" + fname, table))
+    if (findTable(fname) != -1 || !FileOperator::loadTableData(fname, table))
         return false;
 
     table_list.append(table);
@@ -66,6 +66,19 @@ void TableManager::setCursor(int num)
     cursor = checkCursor(num) ? num : -1;
 }
 
+QList<DataTableInfo> TableManager::getAllTabeInfo()
+{
+    QList<DataTableInfo> info_list;
+    foreach (auto &table, table_list)
+        info_list.append(table.info);
+    return info_list;
+}
+DataTableInfo TableManager::getTabeInfo()
+{
+    if (!checkCursor())
+        return DataTableInfo();
+    return table_list.at(cursor).info;
+}
 DataTable TableManager::getTable()
 {
     if (!checkCursor())

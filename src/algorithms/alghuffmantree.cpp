@@ -5,7 +5,9 @@ AlgHuffmanTree::AlgHuffmanTree(QObject *parent)
 {
     algorithm_name = tr("Huffman Tree");
     algorithm_version = "1.0";
-    algorithm_author = "Dinosaur_MC";
+    supported_configuration = (ALGCFG)0x1F;
+    algorithm_author = "Dinosaur-MC";
+    algorithm_link = "https://github.com/Dinosaur-MC/BestEnchSeq/tree/dev/src/algorithms";
 }
 
 void FinTriangle::update(int n)
