@@ -18,6 +18,7 @@
 #include <QScrollBar>
 #include <QListWidget>
 #include <QListWidgetItem>
+#include <QTreeWidget>
 
 #include <QRadioButton>
 #include <QPushButton>
@@ -166,7 +167,7 @@ void Graphics::setupTabCalc()
     gb_1_2->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Maximum);
     gb_1_2->setLayout(gbL_1_2);
 
-    QComboBox *cb_1_1 = new QComboBox(gb_1_2);
+    QComboBox *cb_1_1 = new QComboBox;
     cb_1_1->setIconSize(QSize(48, 48));
     foreach (auto &info, table_info_list)
         cb_1_1->addItem(info.file_name.endsWith(".json") ? QIcon(":/icon/json.svg") : QIcon(":/icon/csv.svg"), info.file_name);
@@ -348,7 +349,7 @@ void Graphics::setupTabCalc()
 
     QToolButton *btn_4_1 = new QToolButton;
     btn_4_1->setToolTip(tr("Refresh"));
-    btn_4_1->setIconSize(QSize(32, 32));
+    btn_4_1->setIconSize(QSize(20, 20));
     btn_4_1->setIcon(QIcon(":/icon/shuaxin.svg"));
     QComboBox *cbb_4_1 = new QComboBox;
     foreach (auto &item, algorithm_list)
@@ -493,17 +494,325 @@ void Graphics::setupTabTable()
     w_table_1->setLayout(l_table_1);
     w_table_1->hide();
 
-    QHBoxLayout *gbL_1_1 = new QHBoxLayout;
-    QGroupBox *gb_1_1 = new QGroupBox(tr("Table List"));
+    // Manage table
+    QGridLayout *gbL_1_1 = new QGridLayout;
+    QGroupBox *gb_1_1 = new QGroupBox(tr("Manage Tables"));
     gb_1_1->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Maximum);
-    gb_1_1->setAlignment(Qt::AlignCenter);
     gb_1_1->setLayout(gbL_1_1);
 
+    QToolButton *btn_1_1 = new QToolButton;
+    btn_1_1->setText(tr("Scan"));
+    QToolButton *btn_1_2 = new QToolButton;
+    btn_1_2->setText(tr("Load"));
+    QToolButton *btn_1_3 = new QToolButton;
+    btn_1_3->setText(tr("Enable"));
+    QToolButton *btn_1_4 = new QToolButton;
+    btn_1_4->setText(tr("Disable"));
+    QToolButton *btn_1_5 = new QToolButton;
+    btn_1_5->setText(tr("Import"));
+    QToolButton *btn_1_6 = new QToolButton;
+    btn_1_6->setText(tr("Delete"));
+    QListWidget *lw_1_1 = new QListWidget;
+    lw_1_1->setMinimumHeight(200);
+    foreach (auto &info, table_info_list)
+    {
+        lw_1_1->addItem(info.file_name);
+        lw_1_1->item(lw_1_1->count()-1)->setIcon(info.file_name.endsWith(".json") ? QIcon(":/icon/json.svg") : QIcon(":/icon/csv.svg"));
+    }
+    QLabel *label_1_1 = new QLabel(tr("[Table Info]"));
+    label_1_1->setAlignment(Qt::AlignTop);
+
+    gbL_1_1->addWidget(btn_1_1, 0, 0, 1, 1);
+    gbL_1_1->addWidget(btn_1_2, 0, 1, 1, 1);
+    gbL_1_1->addWidget(btn_1_3, 0, 2, 1, 1);
+    gbL_1_1->addWidget(btn_1_4, 0, 3, 1, 1);
+    gbL_1_1->addWidget(btn_1_5, 0, 4, 1, 1);
+    gbL_1_1->addWidget(btn_1_6, 0, 5, 1, 1);
+    gbL_1_1->addWidget(lw_1_1, 1, 0, 10, 6);
+    gbL_1_1->addWidget(label_1_1, 0, 6, 11, 3);
     l_table_1->addWidget(gb_1_1);
+
+    // Current Table
+    QGridLayout *gbL_1_2 = new QGridLayout;
+    QGroupBox *gb_1_2 = new QGroupBox(tr("Current Table Data"));
+    gb_1_2->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Maximum);
+    gb_1_2->setLayout(gbL_1_2);
+
+    QToolButton *btn_1_7 = new QToolButton;
+    btn_1_7->setMinimumSize(QSize(40, 40));
+    btn_1_7->setToolTip(tr("Add enchantment"));
+    btn_1_7->setText("E+");
+    QToolButton *btn_1_8 = new QToolButton;
+    btn_1_8->setMinimumSize(QSize(40, 40));
+    btn_1_8->setToolTip(tr("Delete enchantment"));
+    btn_1_8->setText("E-");
+    QToolButton *btn_1_9 = new QToolButton;
+    btn_1_9->setMinimumSize(QSize(40, 40));
+    btn_1_9->setToolTip(tr("Add group"));
+    btn_1_9->setText("G+");
+    QToolButton *btn_1_10 = new QToolButton;
+    btn_1_10->setMinimumSize(QSize(40, 40));
+    btn_1_10->setToolTip(tr("Remove group"));
+    btn_1_10->setText("G-");
+    QToolButton *btn_1_11 = new QToolButton;
+    btn_1_11->setMinimumSize(QSize(40, 40));
+    btn_1_11->setToolTip(tr("Save change"));
+    btn_1_11->setText("✓");
+    QToolButton *btn_1_12 = new QToolButton;
+    btn_1_12->setMinimumSize(QSize(40, 40));
+    btn_1_12->setToolTip(tr("Cancel change"));
+    btn_1_12->setText("✕");
+    QTreeWidget *tw_1_1 = new QTreeWidget;
+    tw_1_1->setMinimumHeight(500);
+    tw_1_1->setHeaderLabels(QStringList() << tr("Name") << tr("Data"));
+    tw_1_1->setColumnWidth(0, 180);
+    tw_1_1->setColumnWidth(1, 420);
+    QTreeWidgetItem *twitem_ench_1_1 = new QTreeWidgetItem({tr("Enchantments")});
+    for (const auto &ench: current_table.enchs)
+    {
+        QTreeWidgetItem *e = new QTreeWidgetItem({ench.name});
+        twitem_ench_1_1->addChild(e);
+    }
+    tw_1_1->addTopLevelItem(twitem_ench_1_1);
+    QTreeWidgetItem *twitem_group_1_1 = new QTreeWidgetItem({tr("Groups")});
+    for (const auto &group: current_table.groups)
+    {
+        QTreeWidgetItem *g = new QTreeWidgetItem({group.name});
+        twitem_group_1_1->addChild(g);
+    }
+    tw_1_1->addTopLevelItem(twitem_group_1_1);
+
+    gbL_1_2->addWidget(btn_1_7, 0, 0, 1, 1);
+    gbL_1_2->addWidget(btn_1_8, 1, 0, 1, 1);
+    gbL_1_2->addWidget(btn_1_9, 2, 0, 1, 1);
+    gbL_1_2->addWidget(btn_1_10, 3, 0, 1, 1);
+    gbL_1_2->addWidget(btn_1_11, 4, 0, 1, 1);
+    gbL_1_2->addWidget(btn_1_12, 5, 0, 1, 1);
+    gbL_1_2->addWidget(tw_1_1, 0, 1, 20, 5);
+    l_table_1->addWidget(gb_1_2);
 
     // Apply Widget
     ui->scrollArea->widget()->layout()->addWidget(w_table_1);
     group_table.append(w_table_1);
+
+    // ********** Part 2 **********
+
+    // Build Widget
+    QGridLayout *l_table_2 = new QGridLayout;
+    QWidget *w_table_2 = new QWidget;
+    w_table_2->setLayout(l_table_2);
+    w_table_2->hide();
+
+    // New Table
+    QHBoxLayout *gbL_2_1 = new QHBoxLayout;
+    QGroupBox *gb_2_1 = new QGroupBox(tr("New Table"));
+    gb_2_1->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Maximum);
+    gb_2_1->setAlignment(Qt::AlignCenter);
+    gb_2_1->setLayout(gbL_2_1);
+
+    QToolButton *btn_2_1 = new QToolButton;
+    btn_2_1->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
+    btn_2_1->setText(tr("JSON Format"));
+    btn_2_1->setIconSize(QSize(48, 48));
+    btn_2_1->setIcon(QIcon(":/icon/json.svg"));
+    QToolButton *btn_2_2 = new QToolButton;
+    btn_2_2->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
+    btn_2_2->setText(tr("CSV Format"));
+    btn_2_2->setIconSize(QSize(48, 48));
+    btn_2_2->setIcon(QIcon(":/icon/csv.svg"));
+
+    gbL_2_1->addWidget(btn_2_1);
+    gbL_2_1->addWidget(btn_2_2);
+    l_table_2->addWidget(gb_2_1);
+
+    // Apply Widget
+    ui->scrollArea->widget()->layout()->addWidget(w_table_2);
+    group_table.append(w_table_2);
+
+    // Make Connections
+    connect(btn_2_1, &QToolButton::clicked, this, [=](){
+        QDialog dialog;
+        dialog.setWindowTitle(tr("Create table in JSON format"));
+        QVBoxLayout l0;
+        dialog.setLayout(&l0);
+
+        QLineEdit le;
+        le.setFont(QFont("微软雅黑", 16));
+        le.setPlaceholderText(tr("Table name"));
+
+        QWidget w1, w2;
+        QHBoxLayout l1, l2;
+        l1.setAlignment(Qt::AlignLeft);
+        l2.setAlignment(Qt::AlignRight);
+        w1.setLayout(&l1);
+        w2.setLayout(&l2);
+
+        QCheckBox chkb("Template from");
+        chkb.setFont(QFont("微软雅黑", 12));
+        QComboBox cbb;
+        cbb.setEnabled(false);
+        cbb.setIconSize(QSize(48, 48));
+        foreach (auto &info, table_info_list)
+            cbb.addItem(info.file_name.endsWith(".json") ? QIcon(":/icon/json.svg") : QIcon(":/icon/csv.svg"), info.file_name);
+        QPushButton btn1(tr("Confirm"));
+        QPushButton btn2(tr("Cancel"));
+
+        l0.addWidget(&le);
+        l0.addWidget(&w1);
+        l0.addWidget(&w2);
+        l1.addWidget(&chkb);
+        l1.addWidget(&cbb);
+        l2.addWidget(&btn1);
+        l2.addWidget(&btn2);
+
+        connect(&chkb, &QCheckBox::stateChanged, &cbb, [&cbb](){ cbb.setEnabled(!cbb.isEnabled()); });
+        connect(&btn1, &QPushButton::clicked, &dialog, &QDialog::accept);
+        connect(&btn2, &QPushButton::clicked, &dialog, &QDialog::reject);
+
+        qDebug() << "[QDialog] exec";
+        if (dialog.exec() == QDialog::Accepted)
+        {
+            qDebug() << "[QDialog] Accepted";
+            QString name = le.text();          // new table name
+            bool checked = chkb.isChecked();
+            QString temp = cbb.currentText();  // template table name
+
+            qDebug() << "[QDialog]" << name << checked << temp;
+            /* Read the template table & copy to new one then open it */
+        }
+        else
+            qDebug() << "[QDialog] Rejected";
+
+
+    });
+    connect(btn_2_2, &QToolButton::clicked, this, [=](){
+        QDialog dialog;
+        dialog.setWindowTitle(tr("Create table in CSV format"));
+        QVBoxLayout l0;
+        dialog.setLayout(&l0);
+
+        QLineEdit le;
+        le.setFont(QFont("微软雅黑", 16));
+        le.setPlaceholderText(tr("Table name"));
+
+        QWidget w1, w2;
+        QHBoxLayout l1, l2;
+        l1.setAlignment(Qt::AlignLeft);
+        l2.setAlignment(Qt::AlignRight);
+        w1.setLayout(&l1);
+        w2.setLayout(&l2);
+
+        QCheckBox chkb("Template from");
+        chkb.setFont(QFont("微软雅黑", 12));
+        QComboBox cbb;
+        cbb.setEnabled(false);
+        cbb.setIconSize(QSize(48, 48));
+        foreach (auto &info, table_info_list)
+            cbb.addItem(info.file_name.endsWith(".json") ? QIcon(":/icon/json.svg") : QIcon(":/icon/csv.svg"), info.file_name);
+        QPushButton btn1(tr("Confirm"));
+        QPushButton btn2(tr("Cancel"));
+
+        l0.addWidget(&le);
+        l0.addWidget(&w1);
+        l0.addWidget(&w2);
+        l1.addWidget(&chkb);
+        l1.addWidget(&cbb);
+        l2.addWidget(&btn1);
+        l2.addWidget(&btn2);
+
+        connect(&chkb, &QCheckBox::stateChanged, &cbb, [&cbb](){ cbb.setEnabled(!cbb.isEnabled()); });
+        connect(&btn1, &QPushButton::clicked, &dialog, &QDialog::accept);
+        connect(&btn2, &QPushButton::clicked, &dialog, &QDialog::reject);
+
+        qDebug() << "[QDialog] exec";
+        if (dialog.exec() == QDialog::Accepted)
+        {
+            qDebug() << "[QDialog] Accepted";
+            QString name = le.text();          // new table name
+            bool checked = chkb.isChecked();
+            QString temp = cbb.currentText();  // template table name
+
+            qDebug() << "[QDialog]" << name << checked << temp;
+            /* Read the template table & copy to new one then open it */
+        }
+        else
+            qDebug() << "[QDialog] Rejected";
+
+
+    });
+
+    // ********** Part 3 **********
+
+    // Build Widget
+    QGridLayout *l_table_3 = new QGridLayout;
+    QWidget *w_table_3 = new QWidget;
+    w_table_3->setLayout(l_table_3);
+    w_table_3->hide();
+
+    // Merge Tables
+    QGridLayout *gbL_3_1 = new QGridLayout;
+    QGroupBox *gb_3_1 = new QGroupBox(tr("Merge Tables"));
+    gb_3_1->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Maximum);
+    gb_3_1->setAlignment(Qt::AlignCenter);
+    gb_3_1->setLayout(gbL_3_1);
+
+    QComboBox *cbb_3_1 = new QComboBox;
+    cbb_3_1->setIconSize(QSize(32, 32));
+    foreach (auto &info, table_info_list)
+        cbb_3_1->addItem(info.file_name.endsWith(".json") ? QIcon(":/icon/json.svg") : QIcon(":/icon/csv.svg"), info.file_name);
+    QComboBox *cbb_3_2 = new QComboBox;
+    cbb_3_2->setIconSize(QSize(32, 32));
+    foreach (auto &info, table_info_list)
+        cbb_3_2->addItem(info.file_name.endsWith(".json") ? QIcon(":/icon/json.svg") : QIcon(":/icon/csv.svg"), info.file_name);
+
+    QTreeWidget *tw_3_1 = new QTreeWidget;
+    tw_3_1->setMinimumHeight(500);
+    tw_3_1->setHeaderLabels(QStringList() << tr("Name") << tr("Data"));
+    tw_3_1->setColumnWidth(0, 180);
+    tw_3_1->setColumnWidth(1, 420);
+    QTreeWidgetItem *twitem_ench_3_1 = new QTreeWidgetItem({tr("Enchantments")});
+    tw_3_1->addTopLevelItem(twitem_ench_3_1);
+    QTreeWidgetItem *twitem_group_3_1 = new QTreeWidgetItem({tr("Groups")});
+    tw_3_1->addTopLevelItem(twitem_group_3_1);
+    QToolButton *btn_3_1 = new QToolButton;
+    btn_3_1->setMinimumSize(QSize(40, 40));
+    btn_3_1->setToolTip(tr("Compare"));
+    btn_3_1->setText("C");
+    QToolButton *btn_3_2 = new QToolButton;
+    btn_3_2->setMinimumSize(QSize(40, 40));
+    btn_3_2->setToolTip(tr("Cover left"));
+    btn_3_2->setText("←");
+    QToolButton *btn_3_3 = new QToolButton;
+    btn_3_3->setMinimumSize(QSize(40, 40));
+    btn_3_3->setToolTip(tr("Cover right"));
+    btn_3_3->setText("→");
+    QToolButton *btn_3_4 = new QToolButton;
+    btn_3_4->setMinimumSize(QSize(40, 40));
+    btn_3_4->setToolTip(tr("Fill blank"));
+    btn_3_4->setText("A");
+    QTreeWidget *tw_3_2 = new QTreeWidget;
+    tw_3_2->setMinimumHeight(500);
+    tw_3_2->setHeaderLabels(QStringList() << tr("Name") << tr("Data"));
+    tw_3_2->setColumnWidth(0, 180);
+    tw_3_2->setColumnWidth(1, 420);
+    QTreeWidgetItem *twitem_ench_3_2 = new QTreeWidgetItem({tr("Enchantments")});
+    tw_3_2->addTopLevelItem(twitem_ench_3_2);
+    QTreeWidgetItem *twitem_group_3_2 = new QTreeWidgetItem({tr("Groups")});
+    tw_3_2->addTopLevelItem(twitem_group_3_2);
+
+    gbL_3_1->addWidget(cbb_3_1, 0, 0, 1, 3);
+    gbL_3_1->addWidget(cbb_3_2, 0, 4, 1, 3);
+    gbL_3_1->addWidget(tw_3_1, 1, 0, 20, 3);
+    gbL_3_1->addWidget(btn_3_1, 9, 3, 1, 1);
+    gbL_3_1->addWidget(btn_3_2, 10, 3, 1, 1);
+    gbL_3_1->addWidget(btn_3_3, 11, 3, 1, 1);
+    gbL_3_1->addWidget(btn_3_4, 12, 3, 1, 1);
+    gbL_3_1->addWidget(tw_3_2, 1, 4, 20, 3);
+    l_table_3->addWidget(gb_3_1);
+
+    // Apply Widget
+    ui->scrollArea->widget()->layout()->addWidget(w_table_3);
+    group_table.append(w_table_3);
 
     // ********** Apply Widget Group **********
     ui_item_set.append(group_table);
@@ -705,11 +1014,10 @@ bool Graphics::activate(int index)
             ui->label_text->setText(tr("CALC."));
             break;
         case 1:
-            ui->listWidget->addItem(tr("Table Manager"));
-            ui->listWidget->addItem(tr("Basic Infomation"));
-            ui->listWidget->addItem(tr("Edit Table"));
-            ui->listWidget->addItem(tr("Create Table"));
-            ui->listWidget->addItem(tr("Combine Table"));
+            ui->listWidget->addItem(tr("Manage Tables"));
+            ui->listWidget->addItem(tr("Current Table"));
+            ui->listWidget->addItem(tr("New Table"));
+            ui->listWidget->addItem(tr("Merge Tables"));
 
             ui->label_text->setText(tr("TABLE"));
             break;
@@ -752,7 +1060,6 @@ bool Graphics::inactivate(int index)
             for (int i = 0; i < ui_item_set[index].size(); i++)
                 ui_item_set[index][i]->hide();
         }
-
         return true;
     }
     return false;
