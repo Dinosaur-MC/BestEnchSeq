@@ -5,8 +5,9 @@
 #include "core/core.h"
 #include "core/algmanager.h"
 
-namespace Ui {
-class Graphics;
+namespace Ui
+{
+    class Graphics;
 }
 
 class Graphics : public QWidget
@@ -21,8 +22,10 @@ public:
 private:
     void setupPatterns();
 
-    void updateOELW(Group group);
-    void updateRELW(Group group, EnchList enchs);
+    void setupTabCalc();
+    void setupTabTable();
+    void setupTabTool();
+    void setupTabConf();
 
     bool activate(int index);
     bool inactivate(int index);
@@ -49,7 +52,6 @@ private:
 
 signals:
     void currentTabChanged();
-
 };
 
 #endif // GRAPHICS_H

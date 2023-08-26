@@ -322,7 +322,7 @@ SettingsMap SettingsRuntime::toSettingsMap()
     smap["default/language"] = language;
     smap["lever/auto_save"] = auto_save;
     smap["lever/auto_check_update"] = auto_check_update;
-    smap["lever/enable_widely_reszie_window"] = enable_widely_reszie_window;
+    smap["lever/enable_lax_window_resizing"] = enable_lax_window_resizing;
     smap["log/last_used_table"] = last_used_table;
     smap["log/last_edit"] = last_edit;
     return smap;
@@ -339,7 +339,7 @@ SettingsRuntime SettingsRuntime::fromSettingsMap(SettingsMap smap)
     settings.language = smap["default/language"].toString();
     settings.auto_save = smap["lever/auto_save"].toInt();
     settings.auto_check_update = smap["lever/auto_check_update"].toInt();
-    settings.enable_widely_reszie_window = smap["lever/enable_widely_reszie_window"].toInt();
+    settings.enable_lax_window_resizing = smap["lever/enable_lax_window_resizing"].toInt();
     settings.last_used_table = smap["log/last_used_table"].toString();
     settings.last_edit = smap["log/last_edit"].toDateTime();
     return settings;
@@ -357,7 +357,7 @@ SettingsRuntime defaultSettings()
     settings.language = "zh_cn";
     settings.auto_save = false;
     settings.auto_check_update = true;
-    settings.enable_widely_reszie_window = false;
+    settings.enable_lax_window_resizing = false;
     settings.last_used_table = "";
     settings.last_edit = QDateTime::currentDateTime();
     return settings;

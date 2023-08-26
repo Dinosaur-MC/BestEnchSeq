@@ -54,7 +54,9 @@ QList<AlgorithmInfo> AlgManager::detectAlgorithm()
                 AlgorithmInfo info;
                 info.name = ptr->name();
                 info.version = ptr->version();
+                info.supported_cfg = ptr->supported_cfg();
                 info.author = ptr->author();
+                info.link = ptr->link();
                 info_list.append(info);
                 algorithms.insert(file, info);
                 loader.unload();

@@ -23,14 +23,14 @@ public:
     static bool saveConfig(QString file_name);
 
     static bool loadTableData(QString file_name, DataTable &table);
-    static bool saveTableData(const DataTable &table, QString path = "./tables/");
+    static bool saveTableData(const DataTable &table, QString path = PATH_TABLES);
 
     static bool loadArchivePoint(QString file_name);
     static bool saveArchivePoint(QString file_name);
 
     static bool saveResult(Flow flow, QString file_name, int mode = 0);
 
-    static int mode;    // 0x0: Disabled; 0x1: ReadOnly; 0x2: WriteOnly.
+    static int mode; // 0x0: Disabled; 0x1: ReadOnly; 0x2: WriteOnly.
 };
 
 #endif // FILEOPERATOR_H

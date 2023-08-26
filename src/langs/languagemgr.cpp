@@ -9,6 +9,16 @@ LanguageMgr::LanguageMgr(QObject *parent)
 {
 }
 
+QStringList LanguageMgr::langaugeList()
+{
+    QStringList list;
+    list.append("简体中文");
+    list.append("繁體中文");
+    list.append("文言");
+    list.append("English");
+    return list;
+}
+
 bool LanguageMgr::adaptLangauge()
 {
     bool success = false;

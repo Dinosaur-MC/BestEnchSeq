@@ -23,6 +23,7 @@
         <file>json.svg</file>
         <file>shuaxin.svg</file>
         <file>zhinengsuanfa.svg</file>
+        <file>editor.svg</file>
     </qresource>
     <qresource prefix="/table">
         <file>default_table.json</file>

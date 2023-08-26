@@ -29,7 +29,7 @@ bool FileOperator::loadConfig(QString file_name) // 加载配置
         settings_map["default/language"] = settings.value("default/language", "");
         settings_map["lever/auto_save"] = settings.value("lever/auto_save", 0).toBool();
         settings_map["lever/auto_check_update"] = settings.value("lever/auto_check_update", global_settings.auto_check_update).toBool();
-        settings_map["lever/enable_widely_reszie_window"] = settings.value("lever/enable_widely_reszie_window", global_settings.enable_widely_reszie_window).toBool();
+        settings_map["lever/enable_lax_window_resizing"] = settings.value("lever/enable_lax_window_resizing", global_settings.enable_lax_window_resizing).toBool();
         settings_map["log/last_used_table"] = settings.value("log/last_used_table", global_settings.last_used_table);
         settings_map["log/last_edit"] = QDateTime::fromString(settings.value("log/last_edit", "").toString(), "yyyyMMdd_hhmmss");
         global_settings = SettingsRuntime::fromSettingsMap(settings_map);
@@ -225,9 +225,9 @@ bool FileOperator::loadTableData(QString file_name, DataTable &table)
 
                         for (int i = 0; i < groups.size(); i++) // 去重
                         {
-                            for (int j = i+1; j < groups.size(); j++)
+                            for (int j = i + 1; j < groups.size(); j++)
                             {
-                                if(groups[i].name == groups[j].name)
+                                if (groups[i].name == groups[j].name)
                                     groups.removeAt(j);
                             }
                         }
@@ -245,7 +245,7 @@ bool FileOperator::loadTableData(QString file_name, DataTable &table)
                                         successful = true;
                                     }
                                 }
-                                if(!successful) // 如果分组不存在则以默认值创建新分组并将魔咒添加到新分组中
+                                if (!successful) // 如果分组不存在则以默认值创建新分组并将魔咒添加到新分组中
                                 {
                                     Group new_g;
                                     new_g.name = e.name;
@@ -374,14 +374,14 @@ bool FileOperator::loadTableData(QString file_name, DataTable &table)
 
             for (int i = 0; i < groups.size(); i++) // 去重
             {
-                for (int j = i+1; j < groups.size(); j++)
+                for (int j = i + 1; j < groups.size(); j++)
                 {
-                    if(groups[i].name == groups[j].name)
+                    if (groups[i].name == groups[j].name)
                         groups.removeAt(j);
                 }
             }
 
-            foreach (auto &e, enchs)    // 整理分组中的魔咒列表
+            foreach (auto &e, enchs) // 整理分组中的魔咒列表
             {
                 foreach (auto &g, e.groups)
                 {
@@ -394,7 +394,7 @@ bool FileOperator::loadTableData(QString file_name, DataTable &table)
                             successful = true;
                         }
                     }
-                    if(!successful) // 如果分组不存在则以默认值创建新分组并将魔咒添加到新分组中
+                    if (!successful) // 如果分组不存在则以默认值创建新分组并将魔咒添加到新分组中
                     {
                         Group new_g;
                         new_g.name = e.name;
