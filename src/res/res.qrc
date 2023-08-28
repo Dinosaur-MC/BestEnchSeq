@@ -26,7 +26,7 @@
         <file>editor.svg</file>
     </qresource>
     <qresource prefix="/table">
-        <file>default_table.json</file>
+        <file>internal_table.json</file>
     </qresource>
     <qresource prefix="/qss"/>
 </RCC>

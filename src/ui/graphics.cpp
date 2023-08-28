@@ -20,31 +20,40 @@
 #include <QListWidgetItem>
 #include <QTreeWidget>
 
-#include <QRadioButton>
+#include <QLineEdit>
+#include <QTextEdit>
 #include <QPushButton>
 #include <QToolButton>
+#include <QRadioButton>
 #include <QCheckBox>
 #include <QComboBox>
+#include <QSpinBox>
 #include <QProgressBar>
-#include <QLineEdit>
 
 Graphics::Graphics(QWidget *parent)
   : QWidget(parent),
     ui(new Ui::Graphics)
 {
-    // Initialize Variable
-    global_table_mgr.loadDefaultTable();                 // 加载默认Table
-    table_info_list = global_table_mgr.getAllTabeInfo(); // 获取Table信息
-    current_table = global_table_mgr.getTable();         // 更新当前Table
+    // Load Table
+    global_table_mgr.scanTable();                                           // Scan tables
+    table_info_list = global_table_mgr.getAllTabeInfo();                    // Get table list
+    int p = global_table_mgr.findTable(global_settings.last_used_table);    // find last used table
+    if (p != -1)                                                            // Try to laod last used table, or load the internal table
+        global_table_mgr.setCursor(p);
+    else
+        global_table_mgr.setCursor(0);
+    global_table_mgr.apply();   // Apply table
 
-    if (!current_table.groups.isEmpty()) // 更新Group选项
-        selected_group_name = current_table.groups.at(0).name;
-
+    // Load Algorithm
     algorithm_list = alg_manager.getInternalAlgorithm();  // 载入内置算法
     algorithm_list.append(alg_manager.detectAlgorithm()); // 探测外部算法
 
+    // Initialize Variable
     current_widget = -1;
     memset(stored_pos, 0, 4 * sizeof(int));
+
+    if (!current_table.groups.isEmpty()) // 更新 Group 选项
+        selected_group_name = current_table.groups.at(0).name;
 
     // Setup UI
     ui->setupUi(this);
@@ -167,12 +176,12 @@ void Graphics::setupTabCalc()
     gb_1_2->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Maximum);
     gb_1_2->setLayout(gbL_1_2);
 
-    QComboBox *cb_1_1 = new QComboBox;
-    cb_1_1->setIconSize(QSize(48, 48));
-    foreach (auto &info, table_info_list)
-        cb_1_1->addItem(info.file_name.endsWith(".json") ? QIcon(":/icon/json.svg") : QIcon(":/icon/csv.svg"), info.file_name);
+    QComboBox *cbb_1_1 = new QComboBox;
+    cbb_1_1->setIconSize(QSize(48, 48));
+    for (const auto &info: table_info_list)
+        cbb_1_1->addItem(info.file_name.endsWith(".json") ? QIcon(":/icon/json.svg") : QIcon(":/icon/csv.svg"), info.file_name);
 
-    gbL_1_2->addWidget(cb_1_1);
+    gbL_1_2->addWidget(cbb_1_1);
     l_calc_1->addWidget(gb_1_2, 1, 0, 1, 2);
 
     // Group Selector
@@ -181,12 +190,12 @@ void Graphics::setupTabCalc()
     gb_1_3->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Maximum);
     gb_1_3->setLayout(gbL_1_3);
 
-    QComboBox *cb_1_2 = new QComboBox(gb_1_3);
-    cb_1_2->setIconSize(QSize(48, 48));
-    foreach (auto &group, current_table.groups)
-        cb_1_2->addItem(QIcon(group.icon_path), group.name);
+    QComboBox *cbb_1_2 = new QComboBox;
+    cbb_1_2->setIconSize(QSize(48, 48));
+    for (const auto &group: current_table.groups)
+        cbb_1_2->addItem(QIcon(group.icon_path), group.name);
 
-    gbL_1_3->addWidget(cb_1_2);
+    gbL_1_3->addWidget(cbb_1_2);
     l_calc_1->addWidget(gb_1_3, 1, 2, 1, 2);
 
     // ICM Selector
@@ -225,11 +234,11 @@ void Graphics::setupTabCalc()
 
     QListWidget *origin_ench_list_widget = new QListWidget;
     origin_ench_list_widget->setMinimumHeight(500);
-    foreach (auto &group, current_table.groups)
+    for (const auto &group: current_table.groups)
     {
         if (group.name == selected_group_name)
         {
-            foreach (auto &ench, group.enchantments)
+            for (const auto &ench: group.enchantments)
             {
                 QHBoxLayout *layout = new QHBoxLayout;
                 QWidget *item_widget = new QWidget;
@@ -269,11 +278,11 @@ void Graphics::setupTabCalc()
 
     QListWidget *required_ench_list_widget = new QListWidget;
     required_ench_list_widget->setMinimumHeight(500);
-    foreach (auto &group, current_table.groups)
+    for (const auto &group: current_table.groups)
     {
         if (group.name == selected_group_name)
         {
-            foreach (auto &ench, group.enchantments)
+            for (const auto &ench: group.enchantments)
             {
                 QHBoxLayout *layout = new QHBoxLayout;
                 QWidget *item_widget = new QWidget;
@@ -352,12 +361,12 @@ void Graphics::setupTabCalc()
     btn_4_1->setIconSize(QSize(20, 20));
     btn_4_1->setIcon(QIcon(":/icon/shuaxin.svg"));
     QComboBox *cbb_4_1 = new QComboBox;
-    foreach (auto &item, algorithm_list)
+    for (const auto &item: algorithm_list)
         cbb_4_1->addItem(item.name);
     selected_algorithm = algorithm_list.at(0).name;
     QLabel *label_4_1 = new QLabel;
     label_4_1->setOpenExternalLinks(true);
-    foreach (auto &item, algorithm_list)
+    for (const auto &item: algorithm_list)
     {
         if (selected_algorithm == item.name)
             label_4_1->setText("V" + item.version + " <a href=\"" + item.link + "\">@" + item.author);
@@ -514,7 +523,7 @@ void Graphics::setupTabTable()
     btn_1_6->setText(tr("Delete"));
     QListWidget *lw_1_1 = new QListWidget;
     lw_1_1->setMinimumHeight(200);
-    foreach (auto &info, table_info_list)
+    for (const auto &info: table_info_list)
     {
         lw_1_1->addItem(info.file_name);
         lw_1_1->item(lw_1_1->count()-1)->setIcon(info.file_name.endsWith(".json") ? QIcon(":/icon/json.svg") : QIcon(":/icon/csv.svg"));
@@ -538,6 +547,12 @@ void Graphics::setupTabTable()
     gb_1_2->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Maximum);
     gb_1_2->setLayout(gbL_1_2);
 
+    QLabel *label_1_2 = new QLabel(tr("Version:"));
+    QLineEdit *le_1_1 = new QLineEdit;
+    QLabel *label_1_3 = new QLabel(tr("Description:"));
+    label_1_3->setAlignment(Qt::AlignTop);
+    QTextEdit *te_1_1 = new QTextEdit;
+
     QToolButton *btn_1_7 = new QToolButton;
     btn_1_7->setMinimumSize(QSize(40, 40));
     btn_1_7->setToolTip(tr("Add enchantment"));
@@ -557,14 +572,14 @@ void Graphics::setupTabTable()
     QToolButton *btn_1_11 = new QToolButton;
     btn_1_11->setMinimumSize(QSize(40, 40));
     btn_1_11->setToolTip(tr("Save change"));
-    btn_1_11->setText("✓");
+    btn_1_11->setText("√");
     QToolButton *btn_1_12 = new QToolButton;
     btn_1_12->setMinimumSize(QSize(40, 40));
     btn_1_12->setToolTip(tr("Cancel change"));
-    btn_1_12->setText("✕");
+    btn_1_12->setText("×");
     QTreeWidget *tw_1_1 = new QTreeWidget;
-    tw_1_1->setMinimumHeight(500);
     tw_1_1->setHeaderLabels(QStringList() << tr("Name") << tr("Data"));
+    tw_1_1->setMinimumHeight(500);
     tw_1_1->setColumnWidth(0, 180);
     tw_1_1->setColumnWidth(1, 420);
     QTreeWidgetItem *twitem_ench_1_1 = new QTreeWidgetItem({tr("Enchantments")});
@@ -582,13 +597,17 @@ void Graphics::setupTabTable()
     }
     tw_1_1->addTopLevelItem(twitem_group_1_1);
 
-    gbL_1_2->addWidget(btn_1_7, 0, 0, 1, 1);
-    gbL_1_2->addWidget(btn_1_8, 1, 0, 1, 1);
-    gbL_1_2->addWidget(btn_1_9, 2, 0, 1, 1);
-    gbL_1_2->addWidget(btn_1_10, 3, 0, 1, 1);
-    gbL_1_2->addWidget(btn_1_11, 4, 0, 1, 1);
-    gbL_1_2->addWidget(btn_1_12, 5, 0, 1, 1);
-    gbL_1_2->addWidget(tw_1_1, 0, 1, 20, 5);
+    gbL_1_2->addWidget(label_1_2, 0, 1, 1, 2);
+    gbL_1_2->addWidget(le_1_1, 0, 2, 1, 4);
+    gbL_1_2->addWidget(label_1_3, 1, 1, 1, 2);
+    gbL_1_2->addWidget(te_1_1, 1, 2, 1, 4);
+    gbL_1_2->addWidget(btn_1_7, 3, 0, 1, 1);
+    gbL_1_2->addWidget(btn_1_8, 4, 0, 1, 1);
+    gbL_1_2->addWidget(btn_1_9, 5, 0, 1, 1);
+    gbL_1_2->addWidget(btn_1_10, 6, 0, 1, 1);
+    gbL_1_2->addWidget(btn_1_11, 7, 0, 1, 1);
+    gbL_1_2->addWidget(btn_1_12, 8, 0, 1, 1);
+    gbL_1_2->addWidget(tw_1_1, 3, 1, 20, 5);
     l_table_1->addWidget(gb_1_2);
 
     // Apply Widget
@@ -652,7 +671,7 @@ void Graphics::setupTabTable()
         QComboBox cbb;
         cbb.setEnabled(false);
         cbb.setIconSize(QSize(48, 48));
-        foreach (auto &info, table_info_list)
+        for (const auto &info: table_info_list)
             cbb.addItem(info.file_name.endsWith(".json") ? QIcon(":/icon/json.svg") : QIcon(":/icon/csv.svg"), info.file_name);
         QPushButton btn1(tr("Confirm"));
         QPushButton btn2(tr("Cancel"));
@@ -682,8 +701,6 @@ void Graphics::setupTabTable()
         }
         else
             qDebug() << "[QDialog] Rejected";
-
-
     });
     connect(btn_2_2, &QToolButton::clicked, this, [=](){
         QDialog dialog;
@@ -707,7 +724,7 @@ void Graphics::setupTabTable()
         QComboBox cbb;
         cbb.setEnabled(false);
         cbb.setIconSize(QSize(48, 48));
-        foreach (auto &info, table_info_list)
+        for (const auto &info: table_info_list)
             cbb.addItem(info.file_name.endsWith(".json") ? QIcon(":/icon/json.svg") : QIcon(":/icon/csv.svg"), info.file_name);
         QPushButton btn1(tr("Confirm"));
         QPushButton btn2(tr("Cancel"));
@@ -737,8 +754,6 @@ void Graphics::setupTabTable()
         }
         else
             qDebug() << "[QDialog] Rejected";
-
-
     });
 
     // ********** Part 3 **********
@@ -758,11 +773,11 @@ void Graphics::setupTabTable()
 
     QComboBox *cbb_3_1 = new QComboBox;
     cbb_3_1->setIconSize(QSize(32, 32));
-    foreach (auto &info, table_info_list)
+    for (const auto &info: table_info_list)
         cbb_3_1->addItem(info.file_name.endsWith(".json") ? QIcon(":/icon/json.svg") : QIcon(":/icon/csv.svg"), info.file_name);
     QComboBox *cbb_3_2 = new QComboBox;
     cbb_3_2->setIconSize(QSize(32, 32));
-    foreach (auto &info, table_info_list)
+    for (const auto &info: table_info_list)
         cbb_3_2->addItem(info.file_name.endsWith(".json") ? QIcon(":/icon/json.svg") : QIcon(":/icon/csv.svg"), info.file_name);
 
     QTreeWidget *tw_3_1 = new QTreeWidget;
@@ -790,6 +805,10 @@ void Graphics::setupTabTable()
     btn_3_4->setMinimumSize(QSize(40, 40));
     btn_3_4->setToolTip(tr("Fill blank"));
     btn_3_4->setText("A");
+    QToolButton *btn_3_5 = new QToolButton;
+    btn_3_5->setMinimumSize(QSize(40, 40));
+    btn_3_5->setToolTip(tr("Save"));
+    btn_3_5->setText("S");
     QTreeWidget *tw_3_2 = new QTreeWidget;
     tw_3_2->setMinimumHeight(500);
     tw_3_2->setHeaderLabels(QStringList() << tr("Name") << tr("Data"));
@@ -807,6 +826,7 @@ void Graphics::setupTabTable()
     gbL_3_1->addWidget(btn_3_2, 10, 3, 1, 1);
     gbL_3_1->addWidget(btn_3_3, 11, 3, 1, 1);
     gbL_3_1->addWidget(btn_3_4, 12, 3, 1, 1);
+    gbL_3_1->addWidget(btn_3_5, 1, 3, 1, 1);
     gbL_3_1->addWidget(tw_3_2, 1, 4, 20, 3);
     l_table_3->addWidget(gb_3_1);
 
@@ -831,12 +851,89 @@ void Graphics::setupTabTool()
     w_tool_1->setLayout(l_tool_1);
     w_tool_1->hide();
 
-    QHBoxLayout *gbL_1_1 = new QHBoxLayout;
-    QGroupBox *gb_1_1 = new QGroupBox(tr("Test Cost"));
+    // Test Forge
+    QVBoxLayout *gbL_1_1 = new QVBoxLayout;
+    QGroupBox *gb_1_1 = new QGroupBox(tr("Test Forge"));
     gb_1_1->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Maximum);
     gb_1_1->setAlignment(Qt::AlignCenter);
     gb_1_1->setLayout(gbL_1_1);
+
+    QHBoxLayout *layout_1_1 = new QHBoxLayout;
+    layout_1_1->setAlignment(Qt::AlignLeft);
+    QComboBox *cbb_1_1 = new QComboBox;
+    cbb_1_1->addItems(QStringList() << tr("Java") << tr("Bedrock"));
+    QToolButton *btn_1_1 = new QToolButton;
+    btn_1_1->setIconSize(QSize(48, 48));
+    QLabel *label_1_1 = new QLabel("+");
+    QToolButton *btn_1_2 = new QToolButton;
+    btn_1_2->setIconSize(QSize(48, 48));
+    QLabel *label_1_2 = new QLabel("=");
+    QToolButton *btn_1_3 = new QToolButton;
+    btn_1_3->setIconSize(QSize(48, 48));
+    QLabel *label_1_3 = new QLabel("[COST]");
+    QTreeWidget *tw_1_1 = new QTreeWidget;
+    tw_1_1->setMinimumHeight(240);
+    tw_1_1->setHeaderLabels(QStringList() << tr("Label") << tr("Item A") << tr("Item B") << tr("Output"));
+    QComboBox *cbb_1_2 = new QComboBox;
+    cbb_1_2->setIconSize(QSize(48, 48));
+    for (const auto &info: table_info_list)
+        cbb_1_2->addItem(info.file_name.endsWith(".json") ? QIcon(":/icon/json.svg") : QIcon(":/icon/csv.svg"), info.file_name);
+
+    layout_1_1->addWidget(cbb_1_1);
+    layout_1_1->addWidget(btn_1_1);
+    layout_1_1->addWidget(label_1_1);
+    layout_1_1->addWidget(btn_1_2);
+    layout_1_1->addWidget(label_1_2);
+    layout_1_1->addWidget(btn_1_3);
+    layout_1_1->addWidget(label_1_3);
+    layout_1_1->addStretch(1);
+    layout_1_1->addWidget(cbb_1_2);
+    gbL_1_1->addLayout(layout_1_1);
+    gbL_1_1->addWidget(tw_1_1);
     l_tool_1->addWidget(gb_1_1);
+
+    // Test Penalty
+    QGridLayout *gbL_1_2 = new QGridLayout;
+    QGroupBox *gb_1_2 = new QGroupBox(tr("Test Penalty"));
+    gb_1_2->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Maximum);
+    gb_1_2->setAlignment(Qt::AlignCenter);
+    gb_1_2->setLayout(gbL_1_2);
+
+    QLabel *label_1_4 = new QLabel(tr("[Equation]\nCost: f(n) = 2^(n) - 1\n[Shorthand List]\n1 Penalty L =   1 EXP L\n2 Penalty L =   3 EXP L\n3 Penalty L =   7 EXP L\n4 Penalty L = 15 EXP L\n5 Penalty L = 31 EXP L\n6 Penalty L = 63 EXP L"));
+    label_1_4->setAlignment(Qt::AlignCenter);
+    QLabel *label_1_5 = new QLabel(tr("Penalty L to EXP L:"));
+    QSpinBox *spb_1_1 = new QSpinBox;
+    QLabel *label_1_6 = new QLabel("→");
+    label_1_6->setAlignment(Qt::AlignCenter);
+    QSpinBox *spb_1_2 = new QSpinBox;
+    QLabel *label_1_7 = new QLabel(tr("EXP L to Penalty L:"));
+    QSpinBox *spb_1_3 = new QSpinBox;
+    QLabel *label_1_8 = new QLabel("→");
+    label_1_8->setAlignment(Qt::AlignCenter);
+    QSpinBox *spb_1_4 = new QSpinBox;
+
+    gbL_1_2->addWidget(label_1_4, 0, 8, 9, 10);
+    gbL_1_2->addWidget(label_1_5, 0, 0, 1, 3);
+    gbL_1_2->addWidget(spb_1_1, 0, 3, 1, 1);
+    gbL_1_2->addWidget(label_1_6, 0, 4, 1, 1);
+    gbL_1_2->addWidget(spb_1_2, 0, 5, 1, 1);
+    gbL_1_2->addWidget(label_1_7, 1, 0, 1, 3);
+    gbL_1_2->addWidget(spb_1_3, 1, 3, 1, 1);
+    gbL_1_2->addWidget(label_1_8, 1, 4, 1, 1);
+    gbL_1_2->addWidget(spb_1_4, 1, 5, 1, 1);
+    l_tool_1->addWidget(gb_1_2);
+
+    // Test Multiplier
+    QHBoxLayout *gbL_1_3 = new QHBoxLayout;
+    QGroupBox *gb_1_3 = new QGroupBox(tr("Test Multiplier"));
+    gb_1_3->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Maximum);
+    gb_1_3->setAlignment(Qt::AlignCenter);
+    gb_1_3->setLayout(gbL_1_3);
+
+    QLabel *label_1_9 = new QLabel(tr("\n"));
+
+    gbL_1_3->addWidget(label_1_9);
+    l_tool_1->addWidget(gb_1_3);
 
     // Apply Widget
     ui->scrollArea->widget()->layout()->addWidget(w_tool_1);
@@ -880,7 +977,7 @@ void Graphics::setupTabConf()
     QLabel *label_1_3 = new QLabel(tr("Algorithm:"));
     label_1_3->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum);
     QComboBox *cbb_1_3 = new QComboBox;
-    foreach (auto &item, algorithm_list)
+    for (const auto &item: algorithm_list)
         cbb_1_3->addItem(item.name);
     QLabel *label_1_4 = new QLabel(tr("Language:"));
     label_1_4->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum);
@@ -1022,9 +1119,8 @@ bool Graphics::activate(int index)
             ui->label_text->setText(tr("TABLE"));
             break;
         case 2:
-            ui->listWidget->addItem(tr("Test Cost"));
+            ui->listWidget->addItem(tr("Test Forge"));
             ui->listWidget->addItem(tr("Test Penalty"));
-            ui->listWidget->addItem(tr("Test Repairing"));
             ui->listWidget->addItem(tr("Test Multiplier"));
 
             ui->label_text->setText(tr("TOOL"));

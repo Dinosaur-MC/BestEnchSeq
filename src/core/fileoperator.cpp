@@ -67,7 +67,7 @@ bool FileOperator::saveConfig(QString file_name) // 保持配置
         settings.setValue("default/language", settings_map["default/language"]);
         settings.setValue("lever/auto_save", settings_map["lever/auto_save"]);
         settings.setValue("lever/auto_check_update", settings_map["lever/auto_check_update"]);
-        settings.setValue("lever/enable_widely_reszie_window", settings_map["lever/enable_widely_reszie_window"]);
+        settings.setValue("lever/enable_lax_window_resizing", settings_map["lever/enable_lax_window_resizing"]);
         settings.setValue("log/last_used_table", settings_map["log/last_used_table"]);
         settings.setValue("log/last_edit", QDateTime::currentDateTime().toString("yyyyMMdd_hhmmss"));
         DEBUG("FileOperator", "Configuration saved", "info");
@@ -94,10 +94,21 @@ bool FileOperator::loadTableData(QString file_name, DataTable &table)
     {
         QFileInfo f_info(f); // 获取文件信息
 
+        DataTable t;
+        t.info.file_name = f_info.baseName() + '.' + f_info.completeSuffix();
+        if(file_name.endsWith(".disabled")) // 判断是否启用
+        {
+            file_name.remove(file_name.indexOf(".disabled"), QString(".disabled").size());
+            t.info.enabled = false;
+            table = t;
+            return false;
+        }
+        else
+            t.info.enabled = true;
+
         // 区分文件格式
         if (f_info.suffix().toLower() == "json") // JSON Format
         {
-            //            DEBUG("FileOperator", "JSON Table", "info");
             QJsonParseError json_err;
             QJsonDocument json_doc = QJsonDocument::fromJson(f.readAll(), &json_err); // 读取文件全部数据并写入 JsonDocument 对象
             f.close();                                                                // 关闭文件
@@ -105,10 +116,6 @@ bool FileOperator::loadTableData(QString file_name, DataTable &table)
             if (!json_doc.isNull() && json_err.error == QJsonParseError::NoError) // 检查数据结构
             {
                 QJsonObject json_obj = json_doc.object();
-
-                DataTableInfo info;
-                EnchDataList enchs;
-                GroupList groups;
 
                 if (json_obj.contains("type")) // 包含 type 键
                 {
@@ -150,12 +157,11 @@ bool FileOperator::loadTableData(QString file_name, DataTable &table)
                             return false;
                         }
 
-                        // 载入 table 的名片信息
-                        info.file_name = f_info.completeBaseName() + '.' + f_info.suffix();
+                        // 载入 table 的描述信息
                         if (json_obj.contains("description"))
-                            info.description = json_obj.value("description").toString();
+                            t.info.description = json_obj.value("description").toString();
                         if (json_obj.contains("table_version"))
-                            info.table_version = json_obj.value("table_version").toString();
+                            t.info.table_version = json_obj.value("table_version").toString();
 
                         for (int i = 0; i < obj_enchantments.size(); i++) // 遍历 enchantments 容器
                         {
@@ -189,8 +195,8 @@ bool FileOperator::loadTableData(QString file_name, DataTable &table)
                                         ench.groups.insert(groups.at(j).toString());
                                 }
 
-                                if (ench.isValid() && !enchs.contains(ench)) // 检查数据
-                                    enchs.append(ench);
+                                if (ench.isValid() && !t.enchs.contains(ench)) // 检查数据，防止重复
+                                    t.enchs.append(ench);
                             }
                         }
                     }
@@ -217,27 +223,20 @@ bool FileOperator::loadTableData(QString file_name, DataTable &table)
                                     group.max_durability = obj.value("max_durability").toInt();
                                 if (obj.contains("icon"))
                                     group.icon_path = obj.value("icon").toString();
-                                groups.append(group);
+
+                                if (!t.groups.contains(group))  // 检查数据，防止重复
+                                    t.groups.append(group);
                             }
                             else
                                 continue;
                         }
 
-                        for (int i = 0; i < groups.size(); i++) // 去重
-                        {
-                            for (int j = i + 1; j < groups.size(); j++)
-                            {
-                                if (groups[i].name == groups[j].name)
-                                    groups.removeAt(j);
-                            }
-                        }
-
-                        foreach (auto &e, enchs) // 整理分组中的魔咒列表
+                        foreach (auto &e, t.enchs) // 整理分组中的魔咒列表
                         {
                             foreach (auto &g, e.groups)
                             {
                                 bool successful = false;
-                                foreach (auto &it, groups)
+                                foreach (auto &it, t.groups)
                                 {
                                     if (it.name == g)
                                     {
@@ -250,7 +249,7 @@ bool FileOperator::loadTableData(QString file_name, DataTable &table)
                                     Group new_g;
                                     new_g.name = e.name;
                                     new_g.enchantments.insert(e);
-                                    groups.append(new_g);
+                                    t.groups.append(new_g);
                                 }
                             }
                         }
@@ -262,9 +261,7 @@ bool FileOperator::loadTableData(QString file_name, DataTable &table)
                     return false;
                 }
 
-                table.info = info;
-                table.enchs = enchs;
-                table.groups = groups;
+                table = t;
             }
             else
             {
@@ -274,7 +271,6 @@ bool FileOperator::loadTableData(QString file_name, DataTable &table)
         }
         else if (f_info.suffix().toLower() == "csv") // CSV Fromat
         {
-            //            DEBUG("FileOperator", "CSV Table", "info");
             QStringList raw = QString(f.readAll()).trimmed().split('\n', Qt::SkipEmptyParts); // 读取文件全部数据并按行切分
             f.close();                                                                        // 关闭文件
 
@@ -283,10 +279,6 @@ bool FileOperator::loadTableData(QString file_name, DataTable &table)
                 DEBUG("FileOperator", "Occurred an empty file", "warning");
                 return false;
             }
-
-            DataTableInfo info;
-            EnchDataList enchs;
-            GroupList groups;
 
             QString fver_key = "file_version=";
             QString head = raw.at(0);
@@ -304,7 +296,8 @@ bool FileOperator::loadTableData(QString file_name, DataTable &table)
                 return false;
             }
 
-            info.file_name = f_info.completeBaseName() + '.' + f_info.suffix();
+            t.info.table_version = "*TF" + QString::number(FILEVERSION);
+            t.info.description = "(CSV Format Table)";
 
             foreach (auto tm, raw)
             {
@@ -353,8 +346,8 @@ bool FileOperator::loadTableData(QString file_name, DataTable &table)
                         ench.groups = QSet<QString>(groups.begin(), groups.end());
                     }
 
-                    if (ench.isValid() && !enchs.contains(ench))
-                        enchs.append(ench);
+                    if (ench.isValid() && !t.enchs.contains(ench))
+                        t.enchs.append(ench);
                 }
                 else if (data.at(0) == "Group")
                 {
@@ -368,25 +361,17 @@ bool FileOperator::loadTableData(QString file_name, DataTable &table)
                     if (3 < data.size())
                         group.icon_path = data.at(3);
 
-                    groups.append(group);
+                    if (!t.groups.contains(group))  // 检查数据，防止重复
+                        t.groups.append(group);
                 }
             }
 
-            for (int i = 0; i < groups.size(); i++) // 去重
-            {
-                for (int j = i + 1; j < groups.size(); j++)
-                {
-                    if (groups[i].name == groups[j].name)
-                        groups.removeAt(j);
-                }
-            }
-
-            foreach (auto &e, enchs) // 整理分组中的魔咒列表
+            foreach (auto &e, t.enchs) // 整理分组中的魔咒列表
             {
                 foreach (auto &g, e.groups)
                 {
                     bool successful = false;
-                    foreach (auto &it, groups)
+                    foreach (auto &it, t.groups)
                     {
                         if (it.name == g)
                         {
@@ -399,14 +384,12 @@ bool FileOperator::loadTableData(QString file_name, DataTable &table)
                         Group new_g;
                         new_g.name = e.name;
                         new_g.enchantments.insert(e);
-                        groups.append(new_g);
+                        t.groups.append(new_g);
                     }
                 }
             }
 
-            table.info = info;
-            table.enchs = enchs;
-            table.groups = groups;
+            table = t;
         }
 
         table.convertEnchTable();

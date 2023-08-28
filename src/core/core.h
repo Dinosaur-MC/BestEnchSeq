@@ -33,7 +33,7 @@
 // File Data
 
 #define FILE_CONFIG "config.ini"
-#define FILE_DEFAULT_TABLE ":/table/default_table.json"
+#define FILE_DEFAULT_TABLE ":/table/internal_table.json"
 #define FILE_WEAPONTABLE "WeaponTable.csv"
 #define FILE_ENCHTABLE "EnchantmentTable.csv"
 
@@ -223,6 +223,7 @@ struct DataTableInfo
     QString file_name;
     QString description;
     QString table_version;
+    bool enabled;
 };
 
 struct DataTable
