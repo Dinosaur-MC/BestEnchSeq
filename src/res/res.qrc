@@ -24,6 +24,8 @@
         <file>shuaxin.svg</file>
         <file>zhinengsuanfa.svg</file>
         <file>editor.svg</file>
+        <file>bookshelf.webp</file>
+        <file>weapon.png</file>
     </qresource>
     <qresource prefix="/table">
         <file>internal_table.json</file>

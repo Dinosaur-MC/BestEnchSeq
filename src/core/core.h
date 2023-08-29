@@ -53,7 +53,7 @@
 
 // Other
 
-#define ICON_ECB QIcon(":/icon/enchanted_book.png")
+#define ICONPATH_ECB ":/icon/enchanted_book.png"
 #define RESTART_CODE 19491001 // 重启代码
 
 /* ----------------------------------------
@@ -127,7 +127,6 @@ struct Ench // User data
     QString name;
     MCE mce;
     int lvl;
-    SpecialMethod specials;
 
     Ench() = default;
     Ench(QString name, MCE edition, int lvl) : name(name), mce(edition), lvl(lvl) {}
@@ -143,7 +142,6 @@ struct _Ench // Program data
 {
     int id;
     int lvl;
-    SpecialMethod specials;
 
     _Ench() = default;
     _Ench(int id, int lvl) : id(id), lvl(lvl) {}
@@ -197,7 +195,7 @@ struct Group
     QString name;
     int max_durability;
     QString icon_path;
-    QSet<EnchData> enchantments;
+    EnchDataList enchantments;
 
     Group() = default;
     Group(QString group_name) { name = group_name; }

@@ -96,7 +96,6 @@ Ench::Ench(const _Ench &e)
         this->name = CTE.at(e.id).name;
         this->mce = global_settings.edition;
         this->lvl = e.lvl;
-        this->specials = e.specials;
     }
     else
     {
@@ -135,7 +134,6 @@ _Ench::_Ench(const Ench &e)
 {
     this->id = -1;
     this->lvl = 0;
-    this->specials = e.specials;
 
     for (int i = 0; i < CTE.size(); i++)
     {
@@ -192,18 +190,19 @@ bool _EnchData::isValid()
 
 bool operator==(const EnchData &e1, const EnchData &e2)
 {
-    bool var = false;
-    foreach (auto &e, e1.editions)
+    if (e1.name == e2.name)
     {
-        if (e2.editions.contains(e))
+        bool var = false;
+        foreach (auto &e, e1.editions)
         {
-            var = true;
-            break;
+            if (e2.editions.contains(e))
+            {
+                var = true;
+                break;
+            }
         }
+        return var;
     }
-
-    if (e1.name == e2.name && var)
-        return true;
     else
         return false;
 }

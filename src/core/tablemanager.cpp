@@ -180,36 +180,20 @@ void TableManager::optimize()
     if (!checkCursor())
         optimizeAll();
 
-    foreach (auto &e, table_list.at(cursor).enchs)
-    {
-        foreach (auto &g, e.groups)
-        {
-            if (!table_list.at(cursor).groups.contains(Group(g)))
-                table_list[cursor].groups.append(g);
-        }
-    }
-
-    foreach (auto &g, table_list.at(cursor).groups)
-    {
-        const_cast<Group &>(g).enchantments.clear();
-        foreach (auto &e, table_list.at(cursor).enchs)
-        {
-            if (e.groups.contains(g.name))
-                const_cast<Group &>(g).enchantments.insert(e);
-        }
-    }
-
     for (int i = 0; i < table_list.at(cursor).groups.size(); i++)
     {
+        // 清理空组
         if (table_list[cursor].groups[i].enchantments.isEmpty())
         {
             table_list[cursor].groups.removeAt(i);
             i--;
+            continue;
         }
 
+        // 为无图标的组添加默认图标
         QIcon icon(table_list[cursor].groups[i].icon_path);
-        if (icon.isNull())
-            table_list[cursor].groups[i].icon_path = "";
+        if (icon.isNull() || icon.pixmap(QSize(48, 48)).isNull())
+            table_list[cursor].groups[i].icon_path = ":/icon/weapon.png";
     }
 
     table_list[cursor].convertEnchTable();
@@ -303,7 +287,7 @@ bool TableManager::apply()
         return false;
 
     optimize();
-    current_table = table_list.at(cursor);
+    CT = table_list.at(cursor);
     return true;
 }
 

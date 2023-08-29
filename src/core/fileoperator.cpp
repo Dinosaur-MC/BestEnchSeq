@@ -238,17 +238,17 @@ bool FileOperator::loadTableData(QString file_name, DataTable &table)
                                 bool successful = false;
                                 foreach (auto &it, t.groups)
                                 {
-                                    if (it.name == g)
+                                    if (it.name == g && !(it).enchantments.contains(e))
                                     {
-                                        const_cast<Group &>(it).enchantments.insert(e);
+                                        const_cast<Group &>(it).enchantments.append(e);
                                         successful = true;
                                     }
                                 }
                                 if (!successful) // 如果分组不存在则以默认值创建新分组并将魔咒添加到新分组中
                                 {
                                     Group new_g;
-                                    new_g.name = e.name;
-                                    new_g.enchantments.insert(e);
+                                    new_g.name = g;
+                                    new_g.enchantments.append(e);
                                     t.groups.append(new_g);
                                 }
                             }
@@ -373,17 +373,17 @@ bool FileOperator::loadTableData(QString file_name, DataTable &table)
                     bool successful = false;
                     foreach (auto &it, t.groups)
                     {
-                        if (it.name == g)
+                        if (it.name == g && !(it).enchantments.contains(e))
                         {
-                            const_cast<Group &>(it).enchantments.insert(e);
+                            const_cast<Group &>(it).enchantments.append(e);
                             successful = true;
                         }
                     }
                     if (!successful) // 如果分组不存在则以默认值创建新分组并将魔咒添加到新分组中
                     {
                         Group new_g;
-                        new_g.name = e.name;
-                        new_g.enchantments.insert(e);
+                        new_g.name = g;
+                        new_g.enchantments.append(e);
                         t.groups.append(new_g);
                     }
                 }
@@ -478,10 +478,10 @@ bool FileOperator::saveTableData(const DataTable &table, QString path)
             QString data;
             data += QString("#?file_version=") + QString::number(FILEVERSION) + '\n';
 
-            data += QString("# ") + tr("<数据类型>,<组名>,[组图标]") + '\n';
+            data += QString("# ") + tr("<数据类型>,<组名>,[最大耐久度],[组图标]") + '\n';
             foreach (auto &g, table.groups)
             {
-                data += QString("Group,") + g.name + ',' + g.icon_path + '\n';
+                data += QString("Group,") + g.name + ',' + QString::number(g.max_durability) + ',' + g.icon_path + '\n';
             }
 
             data += QString("# ") + tr("<数据类型>,<魔咒名称>,<最大等级>,<Poor最大等级>,<附魔书乘数>,<物品乘数>,<MC编译版本>,[特殊功能],[冲突的魔咒],[分组]") + '\n';
