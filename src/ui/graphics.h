@@ -2,6 +2,7 @@
 #define GRAPHICS_H
 
 #include <QWidget>
+#include <QDialog>
 #include <QBoxLayout>
 #include <QGridLayout>
 #include <QSpacerItem>
@@ -123,7 +124,6 @@ public:
             emit valueChanged(num.toInt());
         });
     }
-    ~EnchListItemWidget() {}
 
     void setEnch(QString name, int min_lvl, int max_lvl)
     {
@@ -180,7 +180,6 @@ public:
         connect(this, &EnchListWidget::itemValueChanged, this, &EnchListWidget::listDataChanged);
         connect(this, &EnchListWidget::itemChanged, this, &EnchListWidget::listDataChanged);
     }
-    ~EnchListWidget() {}
 
     void setEnchData(const EnchDataList &enchs, const QList<int> &min_lvls = QList<int>())
     {

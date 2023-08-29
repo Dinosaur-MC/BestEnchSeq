@@ -158,13 +158,14 @@ void Graphics::setupTabCalc()
             if (info.enabled)
                 cbb_1_1->addItem(info.file_name.endsWith(".json") ? QIcon(":/icon/json.svg") : QIcon(":/icon/csv.svg"), info.file_name);
         }
-        int p = cbb_1_1->findText(global_settings.last_used_table);
+        selected_table = CTI;
+        int p = cbb_1_1->findText(selected_table.file_name);
         if (p != -1)
             cbb_1_1->setCurrentIndex(p);
         else
         {
             cbb_1_1->setCurrentIndex(0);
-            global_settings.last_used_table = cbb_1_1->currentText();
+            selected_table = table_info_list.at(0);
         }
 
         gbL_1_2->addWidget(cbb_1_1);
