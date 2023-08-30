@@ -2,14 +2,13 @@
 #define GRAPHICS_H
 
 #include <QWidget>
-#include <QDialog>
-#include <QBoxLayout>
-#include <QGridLayout>
-#include <QSpacerItem>
-
 #include <QGroupBox>
 #include <QScrollArea>
-#include <QScrollBar>
+#include <QDialog>
+#include <QFileDialog>
+#include <QBoxLayout>
+#include <QGridLayout>
+
 #include <QListWidget>
 #include <QListWidgetItem>
 #include <QTreeWidget>
@@ -23,6 +22,8 @@
 #include <QCheckBox>
 #include <QComboBox>
 #include <QSpinBox>
+#include <QScrollBar>
+#include <QSpacerItem>
 #include <QProgressBar>
 
 #include "core/core.h"
@@ -279,6 +280,47 @@ signals:
     void itemStateChanged(int index, bool checked);
     void itemValueChanged(int index, int lvl);
     void listDataChanged();
+};
+
+// ItemListItemWidget & ItemListWidget
+
+class ItemListItemWidget : public QWidget
+{
+    Q_OBJECT
+public:
+    explicit ItemListItemWidget(QWidget *parent = nullptr, Qt::WindowFlags f = Qt::WindowFlags())
+        : QWidget{parent, f}
+    {
+
+    }
+private:
+signals:
+};
+
+class ItemListWidget : public QListWidget
+{
+    Q_OBJECT
+public:
+    explicit ItemListWidget(QWidget *parent = nullptr)
+        : QListWidget{parent}
+    {
+
+    }
+private:
+signals:
+};
+
+class ItemEditor : public QDialog
+{
+    Q_OBJECT
+public:
+    explicit ItemEditor(QWidget *parent = nullptr)
+        : QDialog{parent}
+    {
+
+    }
+private:
+signals:
 };
 
 #endif // GRAPHICS_H

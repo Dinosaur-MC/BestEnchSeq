@@ -9,7 +9,8 @@ class LanguageMgr : public QObject
 public:
     explicit LanguageMgr(QObject *parent = nullptr);
 
-    QStringList langaugeList();
+    QStringList langaugeNameList();
+    QStringList langaugeShortNameList();
     bool adaptLangauge();
     bool setLanguage(QString short_name);
     QString currentLanguage() const;

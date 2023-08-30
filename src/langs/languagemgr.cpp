@@ -9,13 +9,23 @@ LanguageMgr::LanguageMgr(QObject *parent)
 {
 }
 
-QStringList LanguageMgr::langaugeList()
+QStringList LanguageMgr::langaugeNameList()
 {
     QStringList list;
     list.append("简体中文");
     list.append("繁體中文");
     list.append("文言");
     list.append("English");
+    return list;
+}
+
+QStringList LanguageMgr::langaugeShortNameList()
+{
+    QStringList list;
+    list.append("zh_cn");
+    list.append("zh_tw");
+    list.append("lzh_cn");
+    list.append("en_us");
     return list;
 }
 

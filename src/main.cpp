@@ -11,7 +11,7 @@ int main(int argc, char *argv[])
 
     // 创建应用实例并添加基本信息
     QApplication app(argc, argv);
-    QApplication::setApplicationName(QApplication::tr("The Best Enchanting Sequence"));
+    QApplication::setApplicationName(TEXT_PROGRAM_NAME);
     QApplication::setApplicationVersion(VERSION_NAME);
     QApplication::setOrganizationName("DMC Studio");
     QApplication::setOrganizationDomain(LINK_HOME_PAGE);

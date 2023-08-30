@@ -11,7 +11,6 @@
 
 Launcher::~Launcher()
 {
-    FileOperator::saveConfig(FILE_CONFIG);
 }
 
 int Launcher::launch(LaunchMode mode)
@@ -97,18 +96,20 @@ int Launcher::launch(LaunchMode mode)
         FileOperator::mode = 0x0;
     }
 
+    int code;
     if ((main_mode & (int)LaunchMode::ConsoleMode) > 0 && (main_mode & !(int)LaunchMode::ConsoleMode) == 0)
     {
         Console console;
-        return console.run();
+        code = console.run();
     }
     else if ((main_mode & (int)LaunchMode::GraphicsMode) > 0 && (main_mode & !(int)LaunchMode::GraphicsMode) == 0)
     {
         Graphics graphics;
-        return graphics.run();
+        code = graphics.run();
     }
     else
         return 2;
 
-    return 0;
+    FileOperator::saveConfig(FILE_CONFIG);
+    return code;
 }

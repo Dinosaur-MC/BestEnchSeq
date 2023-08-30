@@ -37,7 +37,7 @@ Graphics::Graphics(QWidget *parent)
 
     // Setup UI
     ui->setupUi(this);
-    this->setWindowTitle(tr(TEXT_PROGRAM_NAME));
+    this->setWindowTitle(TEXT_PROGRAM_NAME);
 
     setupPatterns();
 
@@ -321,7 +321,7 @@ void Graphics::setupTabCalc()
         gb_2_1->setLayout(gbL_2_1);
 
         EnchListWidget *original_ench_list_widget = new EnchListWidget;
-        original_ench_list_widget->setMinimumHeight(500);
+        original_ench_list_widget->setMinimumHeight(360);
         original_ench_list_widget->setEnchData(current_group.enchantments);
         original_enchantments = original_ench_list_widget->getEnchList();
 
@@ -361,7 +361,7 @@ void Graphics::setupTabCalc()
             }
         }
         required_ench_list_widget->setEnchData(tm_ench_data_list, min_lvls);
-        required_ench_list_widget->setMinimumHeight(500);
+        required_ench_list_widget->setMinimumHeight(360);
 
         gbL_2_2->addWidget(required_ench_list_widget);
         l_calc_2->addWidget(gb_2_2);
@@ -374,7 +374,22 @@ void Graphics::setupTabCalc()
 
         // Origin Enchantment List
         connect(this, &Graphics::currentGroupChanged, original_ench_list_widget, [=](){
-            original_ench_list_widget->setEnchData(current_group.enchantments);
+            if (selected_itemconfig != ICM::Advanced)
+                original_ench_list_widget->setEnchData(current_group.enchantments);
+        });
+        connect(this, &Graphics::currentItemConfgChanged, original_ench_list_widget, [=](ICM icm){
+            if (icm == ICM::Advanced)
+            {
+                gb_2_1->hide();
+                original_ench_list_widget->clear();
+                gb_2_1->setEnabled(false);
+            }
+            else
+            {
+                gb_2_1->setEnabled(true);
+                original_ench_list_widget->setEnchData(current_group.enchantments);
+                gb_2_1->show();
+            }
         });
         connect(original_ench_list_widget, &EnchListWidget::listDataChanged, this, [=](){
             original_enchantments = original_ench_list_widget->getEnchList();
@@ -387,33 +402,40 @@ void Graphics::setupTabCalc()
         });
 
         // Required Enchantment List
+        connect(this, &Graphics::currentGroupChanged, required_ench_list_widget, [=](){
+            if (selected_itemconfig == ICM::Advanced)
+                required_ench_list_widget->setEnchData(current_group.enchantments);
+        });
         connect(original_ench_list_widget, &EnchListWidget::listDataChanged, required_ench_list_widget, [=](){
-            EnchDataList tm_ench_data_list = current_group.enchantments;
-            QList<int> min_lvls(tm_ench_data_list.size());
-            for (const Ench &e: original_enchantments)
+            if (selected_itemconfig != ICM::Advanced)
             {
-                for (int i = 0; i < tm_ench_data_list.size(); i++)
+                EnchDataList tm_ench_data_list = current_group.enchantments;
+                QList<int> min_lvls(tm_ench_data_list.size());
+                for (const Ench &e: original_enchantments)
                 {
-                    if (tm_ench_data_list.at(i).name == e.name)
+                    for (int i = 0; i < tm_ench_data_list.size(); i++)
                     {
-                        if (e.lvl < tm_ench_data_list.at(i).max_lvl)
-                            min_lvls[i] = e.lvl + 1;
-                        else
+                        if (tm_ench_data_list.at(i).name == e.name)
+                        {
+                            if (e.lvl < tm_ench_data_list.at(i).max_lvl)
+                                min_lvls[i] = e.lvl + 1;
+                            else
+                            {
+                                tm_ench_data_list.removeAt(i);
+                                min_lvls.removeAt(i);
+                                i--;
+                            }
+                        }
+                        else if (tm_ench_data_list.at(i).conflictions.contains(e.name))
                         {
                             tm_ench_data_list.removeAt(i);
                             min_lvls.removeAt(i);
                             i--;
                         }
                     }
-                    else if (tm_ench_data_list.at(i).conflictions.contains(e.name))
-                    {
-                        tm_ench_data_list.removeAt(i);
-                        min_lvls.removeAt(i);
-                        i--;
-                    }
                 }
+                required_ench_list_widget->setEnchData(tm_ench_data_list, min_lvls);
             }
-            required_ench_list_widget->setEnchData(tm_ench_data_list, min_lvls);
         });
         connect(required_ench_list_widget, &EnchListWidget::listDataChanged, this, [=](){
             required_enchantments = required_ench_list_widget->getEnchList();
@@ -442,7 +464,7 @@ void Graphics::setupTabCalc()
         gb_3_1->setLayout(gbL_3_1);
 
         QListWidget *item_pool_list_widget = new QListWidget;
-        item_pool_list_widget->setMinimumHeight(500);
+        item_pool_list_widget->setMinimumHeight(360);
         item_pool_list_widget->addItem(tr("(Click To Add Item)"));
 
         gbL_3_1->addWidget(item_pool_list_widget);
@@ -706,7 +728,7 @@ void Graphics::setupTabTable()
         btn_1_12->setText("×");
         QTreeWidget *tw_1_1 = new QTreeWidget;
         tw_1_1->setHeaderLabels(QStringList() << tr("Name") << tr("Data"));
-        tw_1_1->setMinimumHeight(500);
+        tw_1_1->setMinimumHeight(480);
         tw_1_1->setColumnWidth(0, 180);
         tw_1_1->setColumnWidth(1, 420);
         QTreeWidgetItem *twitem_ench_1_1 = new QTreeWidgetItem({tr("Enchantments")});
@@ -734,7 +756,7 @@ void Graphics::setupTabTable()
         gbL_1_2->addWidget(btn_1_10, 6, 0, 1, 1);
         gbL_1_2->addWidget(btn_1_11, 7, 0, 1, 1);
         gbL_1_2->addWidget(btn_1_12, 8, 0, 1, 1);
-        gbL_1_2->addWidget(tw_1_1, 3, 1, 20, 5);
+        gbL_1_2->addWidget(tw_1_1, 3, 1, 19, 5);
         l_table_1->addWidget(gb_1_2);
 
         // Apply Widget
@@ -910,7 +932,7 @@ void Graphics::setupTabTable()
             cbb_3_2->addItem(info.file_name.endsWith(".json") ? QIcon(":/icon/json.svg") : QIcon(":/icon/csv.svg"), info.file_name);
 
         QTreeWidget *tw_3_1 = new QTreeWidget;
-        tw_3_1->setMinimumHeight(500);
+        tw_3_1->setMinimumHeight(480);
         tw_3_1->setHeaderLabels(QStringList() << tr("Name") << tr("Data"));
         tw_3_1->setColumnWidth(0, 180);
         tw_3_1->setColumnWidth(1, 420);
@@ -939,7 +961,7 @@ void Graphics::setupTabTable()
         btn_3_5->setToolTip(tr("Save"));
         btn_3_5->setText("S");
         QTreeWidget *tw_3_2 = new QTreeWidget;
-        tw_3_2->setMinimumHeight(500);
+        tw_3_2->setMinimumHeight(480);
         tw_3_2->setHeaderLabels(QStringList() << tr("Name") << tr("Data"));
         tw_3_2->setColumnWidth(0, 180);
         tw_3_2->setColumnWidth(1, 420);
@@ -950,13 +972,13 @@ void Graphics::setupTabTable()
 
         gbL_3_1->addWidget(cbb_3_1, 0, 0, 1, 3);
         gbL_3_1->addWidget(cbb_3_2, 0, 4, 1, 3);
-        gbL_3_1->addWidget(tw_3_1, 1, 0, 20, 3);
+        gbL_3_1->addWidget(tw_3_1, 1, 0, 19, 3);
         gbL_3_1->addWidget(btn_3_1, 9, 3, 1, 1);
         gbL_3_1->addWidget(btn_3_2, 10, 3, 1, 1);
         gbL_3_1->addWidget(btn_3_3, 11, 3, 1, 1);
         gbL_3_1->addWidget(btn_3_4, 12, 3, 1, 1);
         gbL_3_1->addWidget(btn_3_5, 1, 3, 1, 1);
-        gbL_3_1->addWidget(tw_3_2, 1, 4, 20, 3);
+        gbL_3_1->addWidget(tw_3_2, 1, 4, 19, 3);
         l_table_3->addWidget(gb_3_1);
 
         // Apply Widget
@@ -1099,23 +1121,55 @@ void Graphics::setupTabConf()
         QComboBox *cbb_1_1 = new QComboBox;
         cbb_1_1->addItem(tr("Java"));
         cbb_1_1->addItem(tr("Bedrock"));
+        int p_cbb_1_1 = cbb_1_1->findText(MCEToString(global_settings.edition));
+        if (p_cbb_1_1 != -1)
+            cbb_1_1->setCurrentIndex(p_cbb_1_1);
+        else
+        {
+            cbb_1_1->setCurrentIndex(0);
+            global_settings.edition = StringToMCE(cbb_1_1->currentText());
+        }
         QLabel *label_1_2 = new QLabel(tr("Item Config:"));
         label_1_2->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum);
         QComboBox *cbb_1_2 = new QComboBox;
         cbb_1_2->addItem(tr("Normal"));
         cbb_1_2->addItem(tr("Poor"));
         cbb_1_2->addItem(tr("Advanced"));
+        int p_cbb_1_2 = cbb_1_2->findText(tr(ICMToString(global_settings.item_config).toUtf8().data()));
+        if (p_cbb_1_2 != -1)
+            cbb_1_2->setCurrentIndex(p_cbb_1_2);
+        else
+        {
+            cbb_1_2->setCurrentIndex(0);
+            global_settings.item_config = ICM::Normal;
+        }
         QLabel *label_1_3 = new QLabel(tr("Algorithm:"));
         label_1_3->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum);
         QComboBox *cbb_1_3 = new QComboBox;
         for (const auto &item: algorithm_list)
             cbb_1_3->addItem(item.name);
+        int p_cbb_1_3 = cbb_1_3->findText(global_settings.algorithm);
+        if (p_cbb_1_3 != -1)
+            cbb_1_3->setCurrentIndex(p_cbb_1_3);
+        else
+        {
+            cbb_1_3->setCurrentIndex(0);
+            global_settings.algorithm = cbb_1_3->currentText();
+        }
         QLabel *label_1_4 = new QLabel(tr("Language:"));
         label_1_4->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum);
         QComboBox *cbb_1_4 = new QComboBox;
-        const QStringList list = global_lang_mgr.langaugeList();
+        const QStringList list = global_lang_mgr.langaugeNameList();
         for (const auto &name : list)
             cbb_1_4->addItem(name);
+        int p_cbb_1_4 = global_lang_mgr.langaugeShortNameList().indexOf(global_settings.language);
+        if (p_cbb_1_4 != -1)
+            cbb_1_4->setCurrentIndex(p_cbb_1_4);
+        else
+        {
+            cbb_1_4->setCurrentIndex(0);
+            global_settings.language = global_lang_mgr.langaugeShortNameList().at(cbb_1_4->currentIndex());
+        }
         QLabel *label_1_5 = new QLabel(tr("Export Path:"));
         label_1_5->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum);
         QLineEdit *le_1_1 = new QLineEdit;
@@ -1146,15 +1200,18 @@ void Graphics::setupTabConf()
         gb_1_2->setLayout(gbL_1_2);
 
         QCheckBox *chkb_1_1 = new QCheckBox(tr("Auto Save"));
+        chkb_1_1->setChecked(global_settings.auto_save);
         QCheckBox *chkb_1_2 = new QCheckBox(tr("Auto Check Update"));
+        chkb_1_2->setChecked(global_settings.auto_check_update);
         QCheckBox *chkb_1_3 = new QCheckBox(tr("Enable Lax Window Resizing"));
+        chkb_1_3->setChecked(global_settings.enable_lax_window_resizing);
 
         gbL_1_2->addWidget(chkb_1_1);
         gbL_1_2->addWidget(chkb_1_2);
         gbL_1_2->addWidget(chkb_1_3);
         l_confg_1->addWidget(gb_1_2);
 
-        // Operation
+        // Operations
         QHBoxLayout *wL_1_1 = new QHBoxLayout;
         QWidget *w_1_1 = new QWidget;
         wL_1_1->setAlignment(Qt::AlignRight);
@@ -1172,6 +1229,69 @@ void Graphics::setupTabConf()
         // Apply Widget
         ui->scrollArea->widget()->layout()->addWidget(w_confg_1);
         group_confg.append(w_confg_1);
+
+        // Make Connections
+        connect(le_1_1, &QLineEdit::textChanged, this, [=](){
+            QPalette palette;
+            palette.setColor(QPalette::Text, QColor("black"));
+            le_1_1->setPalette(palette);
+        });
+        connect(btn_1_1, &QToolButton::clicked, this, [=](){
+            QFileDialog file_dialog;
+            file_dialog.setAcceptMode(QFileDialog::AcceptOpen);
+            file_dialog.setFileMode(QFileDialog::Directory);
+            file_dialog.setOption(QFileDialog::ShowDirsOnly);
+            file_dialog.setDirectory(QDir(global_settings.export_path));
+            file_dialog.exec();
+            QString dir = file_dialog.selectedFiles().at(0);
+            if (!dir.isEmpty())
+            {
+                le_1_1->blockSignals(true);
+                le_1_1->setText(dir);
+                le_1_1->blockSignals(false);
+            }
+        });
+        connect(btn_1_2, &QPushButton::clicked, this, [=](){
+            QMessageBox msgb(QMessageBox::Icon::Warning, tr("Reset Settings"), tr(""));
+            global_settings = defaultSettings();
+            QApplication::exit(RESTART_CODE);
+        });
+        connect(btn_1_3, &QPushButton::clicked, this, [=](){
+            cbb_1_1->setCurrentText(MCEToString(global_settings.edition));
+            cbb_1_2->setCurrentText(tr(ICMToString(global_settings.item_config).toUtf8().data()));
+            cbb_1_3->setCurrentText(global_settings.algorithm);
+            cbb_1_4->setCurrentText(global_lang_mgr.langaugeNameList().at(global_lang_mgr.langaugeShortNameList().indexOf(global_settings.language)));
+            le_1_1->setText(QDir(global_settings.export_path).absolutePath());
+            chkb_1_1->setChecked(global_settings.auto_save);
+            chkb_1_2->setChecked(global_settings.auto_check_update);
+            chkb_1_3->setChecked(global_settings.enable_lax_window_resizing);
+        });
+        connect(btn_1_4, &QPushButton::clicked, this, [=](){
+            bool pass = true;
+
+            QDir dir(le_1_1->text());
+            if (!dir.exists())
+            {
+                QPalette palette;
+                palette.setColor(QPalette::Text, QColor("red"));
+                le_1_1->setPalette(palette);
+                pass = false;
+            }
+
+            if (pass)
+            {
+                global_settings.edition = StringToMCE(cbb_1_1->currentText());
+                global_settings.item_config = QList<ICM>({ICM::Normal, ICM::Poor, ICM::Advanced}).at(cbb_1_2->currentIndex());
+                global_settings.algorithm = cbb_1_3->currentText();
+                global_settings.language = global_lang_mgr.langaugeShortNameList().at(cbb_1_4->currentIndex());
+                global_settings.export_path = le_1_1->text().replace('\\', '/');
+                global_settings.auto_save = chkb_1_1->isChecked();
+                global_settings.auto_check_update = chkb_1_2->isChecked();
+                global_settings.enable_lax_window_resizing = chkb_1_3->isChecked();
+                QApplication::exit(RESTART_CODE);
+            }
+        });
+
     }
 
     // ********** Part 2 **********
@@ -1219,6 +1339,9 @@ void Graphics::setupTabConf()
         // Apply Widget
         ui->scrollArea->widget()->layout()->addWidget(w_confg_2);
         group_confg.append(w_confg_2);
+
+        // Make Connections
+
     }
 
     // ********** Apply Widget Group **********

@@ -14,7 +14,7 @@
 // Application Infomation
 
 #define TEXT_PROJECT_NAME "BestEnchSeq"
-#define TEXT_PROGRAM_NAME "最佳附魔顺序计算器"
+#define TEXT_PROGRAM_NAME QApplication::tr("最佳附魔顺序计算器")
 #define TEXT_PROGRAM_NAME_EN "The Best Enchanting Sequence"
 #define TEXT_PROGRAM_NAME_ABBR "BESQ"
 #define VERSION_NAME "V4.2.0"
@@ -27,7 +27,7 @@
 
 // License & Announcement
 
-#define LICENSE "GPL-v3.0"
+#define LICENSE "GPL-3.0 License"
 #define STATEMENT "本程序遵循 GPL-v3.0 协议，永久开源免费使用，不得商用！\n任何对原程序进行收费售卖行为均为诈骗，谨防上当受骗！\n谨慎使用来路不明的非官方发布版本，谨防病毒入侵！\n建议通过官方渠道获取本程序: \nhttps://github.com/Dinosaur-MC/BestEnchSeq"
 
 // File Data
