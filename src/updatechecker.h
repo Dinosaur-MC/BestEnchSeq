@@ -21,7 +21,7 @@ class UpdateChecker : public QObject
 {
     Q_OBJECT
 public:
-    explicit UpdateChecker(bool auto_delete);
+    explicit UpdateChecker(bool auto_delete = true);
     ~UpdateChecker();
 
     void check(QUrl link, bool m = true);
@@ -37,8 +37,9 @@ private:
 
 signals:
     void dataRecieved();
-    void finished(UpdateData data);
+    void succeeded(UpdateData data);
     void failed();
+    void finished();
 };
 
 #endif // UPDATECHECKER_H

@@ -15,7 +15,7 @@ UpdateChecker::UpdateChecker(bool auto_delete)
     connect(&manager, &QNetworkAccessManager::finished, this, &UpdateChecker::readData);
     connect(&manager, &QNetworkAccessManager::sslErrors, this, &UpdateChecker::failed);
 
-    connect(this, &UpdateChecker::finished, this, [=](UpdateData data)
+    connect(this, &UpdateChecker::succeeded, this, [=](UpdateData data)
         {
             qDebug() << "[UpdateChecker] Finished.";
             if(data.available && data.version_id > VERSION_ID)
@@ -34,7 +34,7 @@ UpdateChecker::UpdateChecker(bool auto_delete)
             }
             else if(show_notice)
             {
-                QMessageBox notice(QMessageBox::Icon::Information, tr("【无更新】 ") + VERSION_NAME, tr("当前版本已是最新版本！"), QMessageBox::Ok);
+                QMessageBox notice(QMessageBox::Icon::Information, tr("【无更新】") + QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm"), tr("当前版本已是最新版本！\n"), QMessageBox::Ok);
                 notice.exec();
             }
 
@@ -67,6 +67,9 @@ UpdateChecker::UpdateChecker(bool auto_delete)
             if (auto_del)
                 this->deleteLater();
         });
+
+    connect(this, &UpdateChecker::succeeded, this, &UpdateChecker::finished);
+    connect(this, &UpdateChecker::failed, this, &UpdateChecker::finished);
 }
 
 UpdateChecker::~UpdateChecker()
@@ -118,7 +121,7 @@ void UpdateChecker::readData(QNetworkReply *reply)
                 data.update_time = QDateTime::fromString(latest.value("UpdateTime").toString(), "yyyy-MM-dd");
                 data.release_note = latest.value("ReleaseNote").toString();
                 data.available = latest.value("IsAvailable").toBool();
-                emit finished(data);
+                emit succeeded(data);
                 qDebug() << "JSON analysing done";
             }
             else

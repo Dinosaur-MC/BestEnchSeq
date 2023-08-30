@@ -68,7 +68,7 @@ int Launcher::launch(LaunchMode mode)
     if (global_settings.auto_check_update)
     {
         qDebug() << "[Info] Checking update";
-        UpdateChecker *update = new UpdateChecker(true);
+        UpdateChecker *update = new UpdateChecker;
         update->check(QUrl(LINK_UPDATE_DATA), false);
     }
 
@@ -109,6 +109,9 @@ int Launcher::launch(LaunchMode mode)
     }
     else
         return 2;
+
+    if (code == CODE_RESTART_WITHOUT_SAVING)
+        return CODE_RESTART;
 
     FileOperator::saveConfig(FILE_CONFIG);
     return code;

@@ -2,6 +2,7 @@
 #include "ui_graphics.h"
 #include "core/tablemanager.h"
 #include "langs/languagemgr.h"
+#include "updatechecker.h"
 
 #include <QApplication>
 #include <QDesktopServices>
@@ -1252,9 +1253,18 @@ void Graphics::setupTabConf()
             }
         });
         connect(btn_1_2, &QPushButton::clicked, this, [=](){
-            QMessageBox msgb(QMessageBox::Icon::Warning, tr("Reset Settings"), tr(""));
-            global_settings = defaultSettings();
-            QApplication::exit(RESTART_CODE);
+            QMessageBox msgb(QMessageBox::Icon::Warning, tr("Reset Settings"), tr("Are you sure to reset the application settings?\nAll the configuration will set to default."));
+            msgb.addButton(QMessageBox::Reset);
+            msgb.addButton(QMessageBox::Cancel);
+            if(msgb.exec() == QMessageBox::Reset)
+            {
+                global_settings = defaultSettings();
+                QFile file(FILE_CONFIG);
+                if (file.remove())
+                    QApplication::exit(CODE_RESTART_WITHOUT_SAVING);
+                else
+                    QApplication::exit(0);
+            }
         });
         connect(btn_1_3, &QPushButton::clicked, this, [=](){
             cbb_1_1->setCurrentText(MCEToString(global_settings.edition));
@@ -1288,7 +1298,7 @@ void Graphics::setupTabConf()
                 global_settings.auto_save = chkb_1_1->isChecked();
                 global_settings.auto_check_update = chkb_1_2->isChecked();
                 global_settings.enable_lax_window_resizing = chkb_1_3->isChecked();
-                QApplication::exit(RESTART_CODE);
+                QApplication::exit(CODE_RESTART);
             }
         });
 
@@ -1341,7 +1351,28 @@ void Graphics::setupTabConf()
         group_confg.append(w_confg_2);
 
         // Make Connections
-
+        connect(btn_2_1, &QPushButton::clicked, this, [=](){
+            QMessageBox notice(QMessageBox::Icon::Information, tr("Opening URL"), tr("Are you sure to open this URL?\n") + LINK_HOME_PAGE);
+            notice.addButton(QMessageBox::Open);
+            notice.addButton(QMessageBox::Cancel);
+            if(notice.exec() == QMessageBox::Open)
+                QDesktopServices::openUrl(QUrl(LINK_HOME_PAGE));
+        });
+        connect(btn_2_2, &QPushButton::clicked, this, [=](){
+            QMessageBox notice(QMessageBox::Icon::Information, tr("Opening URL"), tr("Are you sure to open this URL?\n") + LINK_FEEDBACK_PAGE);
+            notice.addButton(QMessageBox::Open);
+            notice.addButton(QMessageBox::Cancel);
+            if(notice.exec() == QMessageBox::Open)
+                QDesktopServices::openUrl(QUrl(LINK_FEEDBACK_PAGE));
+        });
+        connect(btn_2_3, &QPushButton::clicked, this, [=](){
+            btn_2_3->setEnabled(false);
+            UpdateChecker *update = new UpdateChecker;
+            connect(update, &UpdateChecker::finished, this, [=](){
+                btn_2_3->setEnabled(true);
+            });
+            update->check(QUrl(LINK_UPDATE_DATA), true);
+        });
     }
 
     // ********** Apply Widget Group **********

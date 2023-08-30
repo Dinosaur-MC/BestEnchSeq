@@ -68,13 +68,13 @@ int main(int argc, char *argv[])
         if (cmd.isSet("graphics"))
             mode = (LaunchMode)((int)mode | (int)LaunchMode::GraphicsMode);
 
-        while (launcher.launch(mode) == RESTART_CODE)
+        while (launcher.launch(mode) == CODE_RESTART)
             ;
     }
     else
     {
         Launcher launcher;
-        while (launcher.launch(LaunchMode::GraphicsMode) == RESTART_CODE)
+        while (launcher.launch(LaunchMode::GraphicsMode) == CODE_RESTART)
             ;
     }
 

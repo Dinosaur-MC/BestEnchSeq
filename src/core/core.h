@@ -23,6 +23,7 @@
 
 #define TEXT_AUTHOR "[Github] Dinosaur-MC"
 #define LINK_HOME_PAGE "https://github.com/Dinosaur-MC/BestEnchSeq"
+#define LINK_FEEDBACK_PAGE "https://github.com/Dinosaur-MC/BestEnchSeq/issues"
 #define LINK_HELP_PAGE "https://www.bilibili.com/video/BV11T4y1D7c2"
 
 // License & Announcement
@@ -54,7 +55,8 @@
 // Other
 
 #define ICONPATH_ECB ":/icon/enchanted_book.png"
-#define RESTART_CODE 19491001 // 重启代码
+#define CODE_RESTART 19491001 // 重启代码
+#define CODE_RESTART_WITHOUT_SAVING 20230824 // 重启代码
 
 /* ----------------------------------------
  *       Headers & Global Functions
