@@ -4,8 +4,8 @@ AlgHuffmanTree::AlgHuffmanTree(QObject *parent)
     : Algorithm{parent}
 {
     algorithm_name = tr("Huffman Tree");
-    algorithm_version = "1.0";
-    supported_configuration = (ALGCFG)0x1F;
+    algorithm_version = "2.0";
+    supported_configuration = (ALGCFG)0x1B;
     algorithm_author = "Dinosaur-MC";
     algorithm_link = "https://github.com/Dinosaur-MC/BestEnchSeq/tree/dev/src/algorithms";
 }

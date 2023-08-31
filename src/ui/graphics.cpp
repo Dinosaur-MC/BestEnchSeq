@@ -524,11 +524,6 @@ void Graphics::setupTabCalc()
         selected_algorithm = algorithm_list.at(0).name;
         QLabel *label_4_1 = new QLabel;
         label_4_1->setOpenExternalLinks(true);
-        for (const auto &item: algorithm_list)
-        {
-            if (selected_algorithm == item.name)
-                label_4_1->setText("V" + item.version + " <a href=\"" + item.link + "\">@" + item.author);
-        }
 
         gbL_4_1->addWidget(btn_4_1);
         gbL_4_1->addWidget(cbb_4_1);
@@ -584,7 +579,51 @@ void Graphics::setupTabCalc()
         group_calc.append(w_calc_4);
 
         // Make Connections
+        connect(cbb_4_1, &QComboBox::currentTextChanged, this, [=](QString name){
+            selected_algorithm = name;
 
+            ALGCFG algcfg = ALGCFG::Normal;
+            for (const auto &item: algorithm_list)
+            {
+                if (selected_algorithm == item.name)
+                {
+                    label_4_1->setText("V" + item.version + " <a href=\"" + item.link + "\">@" + item.author);
+                    algcfg = item.supported_cfg;
+                }
+            }
+
+            if ((int)algcfg & (int)ALGCFG::NoPlenalty)
+                chkb_4_1->setEnabled(true);
+            else
+            {
+                chkb_4_1->setEnabled(false);
+                chkb_4_1->setChecked(false);
+            }
+            if ((int)algcfg & (int)ALGCFG::NoRepairing)
+                chkb_4_2->setEnabled(true);
+            else
+            {
+                chkb_4_2->setEnabled(false);
+                chkb_4_2->setChecked(false);
+            }
+            if ((int)algcfg & (int)ALGCFG::IgnoreConflicting)
+                chkb_4_3->setEnabled(true);
+            else
+            {
+                chkb_4_3->setEnabled(false);
+                chkb_4_3->setChecked(false);
+            }
+            if ((int)algcfg & (int)ALGCFG::UnlimitedForgeCount)
+                chkb_4_4->setEnabled(true);
+            else
+            {
+                chkb_4_4->setEnabled(false);
+                chkb_4_4->setChecked(false);
+            }
+        });
+
+        // Initially Emit Signal
+        emit cbb_4_1->currentTextChanged(cbb_4_1->currentText());
     }
 
     // ********** Part 5 **********
