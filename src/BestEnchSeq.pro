@@ -24,7 +24,10 @@ SOURCES += \
     launcher.cpp \
     main.cpp \
     ui/console.cpp \
+    ui/enchlistwidget.cpp \
     ui/graphics.cpp \
+    ui/itemeditor.cpp \
+    ui/itemlistwidget.cpp \
     updatechecker.cpp
 
 HEADERS += \
@@ -40,11 +43,15 @@ HEADERS += \
     langs/languagemgr.h \
     launcher.h \
     ui/console.h \
+    ui/enchlistwidget.h \
     ui/graphics.h \
+    ui/itemeditor.h \
+    ui/itemlistwidget.h \
     updatechecker.h
 
 FORMS += \
-    ui/graphics.ui
+    ui/graphics.ui \
+    ui/itemeditor.ui
 
 TRANSLATIONS += \
     langs/zh_cn.ts \

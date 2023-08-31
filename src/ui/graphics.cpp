@@ -3,6 +3,8 @@
 #include "core/tablemanager.h"
 #include "langs/languagemgr.h"
 #include "updatechecker.h"
+#include "enchlistwidget.h"
+#include "itemlistwidget.h"
 
 #include <QApplication>
 #include <QDesktopServices>
@@ -33,6 +35,7 @@ Graphics::Graphics(QWidget *parent)
     memset(stored_pos, 0, 4 * sizeof(int));
 
     all_enchantments.name = tr("All Enchantments");
+    all_enchantments.max_durability = 0;
     all_enchantments.icon_path = ":/icon/bookshelf.webp";
     selected_algorithm = global_settings.algorithm;
 
@@ -183,7 +186,7 @@ void Graphics::setupTabCalc()
         all_enchantments.enchantments = CT.enchs;
         cbb_1_2->addItem(QIcon(all_enchantments.icon_path), all_enchantments.name);
         for (const auto &group: CTG)
-            cbb_1_2->addItem(QIcon(group.icon_path), group.name);
+            cbb_1_2->addItem(QIcon(QFileInfo(group.icon_path).absoluteFilePath()), group.name);
         cbb_1_2->setCurrentIndex(0);
         updateCurrentGroup(cbb_1_2->currentText());
 
@@ -464,9 +467,9 @@ void Graphics::setupTabCalc()
         gb_3_1->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Maximum);
         gb_3_1->setLayout(gbL_3_1);
 
-        QListWidget *item_pool_list_widget = new QListWidget;
+        ItemEditor *item_editor = new ItemEditor(current_group, this);
+        ItemListWidget *item_pool_list_widget = new ItemListWidget(selected_edition, item_editor);
         item_pool_list_widget->setMinimumHeight(360);
-        item_pool_list_widget->addItem(tr("(Click To Add Item)"));
 
         gbL_3_1->addWidget(item_pool_list_widget);
         l_calc_3->addWidget(gb_3_1);
@@ -476,6 +479,13 @@ void Graphics::setupTabCalc()
         group_calc.append(w_calc_3);
 
         // Make Connections
+        connect(this, &Graphics::currentGroupChanged, item_pool_list_widget, [=](){
+            if (selected_itemconfig == ICM::Advanced)
+            {
+                item_pool_list_widget->clear();
+                item_editor->setGroup(current_group);
+            }
+        });
         connect(this, &Graphics::currentItemConfgChanged, item_pool_list_widget, [=](ICM icm){
             if (icm == ICM::Advanced && w_calc_3->isHidden())
             {
@@ -588,7 +598,7 @@ void Graphics::setupTabCalc()
         // Result & Export
         QGridLayout *gbL_5_1 = new QGridLayout;
         QGroupBox *gb_5_1 = new QGroupBox(tr("Result && Export"));
-        gb_5_1->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Maximum);
+        gb_5_1->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Maximum);
         gb_5_1->setLayout(gbL_5_1);
 
         QComboBox *cbb_5_1 = new QComboBox;
@@ -618,14 +628,11 @@ void Graphics::setupTabCalc()
         {
             cbb_5_1->addItem(tr("[No Result]"));
         }
-        QToolButton *btn_5_2 = new QToolButton;
-        btn_5_2->setText(tr("Back To The Top"));
 
         gbL_5_1->addWidget(cbb_5_1, 0, 0, 1, 2);
         gbL_5_1->addWidget(btn_5_1, 0, 2, 1, 1);
         gbL_5_1->addWidget(label_5_1, 1, 0, 1, 3);
-        gbL_5_1->addWidget(result_list_widget, 2, 0, 1, 3);
-        gbL_5_1->addWidget(btn_5_2, 3, 2);
+        gbL_5_1->addWidget(result_list_widget, 2, 0, 25, 3);
         l_calc_5->addWidget(gb_5_1);
 
         // Apply Widget
@@ -633,7 +640,29 @@ void Graphics::setupTabCalc()
         group_calc.append(w_calc_5);
 
         // Make Connections
-        connect(btn_5_2, &QToolButton::clicked, this, [=](){ ui->scrollArea->verticalScrollBar()->setValue(0); });
+
+    }
+
+    // ********** Part 6 **********
+    {
+        // Build Widget
+        QHBoxLayout *l_calc_6 = new QHBoxLayout;
+        l_calc_6->setAlignment(Qt::AlignRight);
+        QWidget *w_calc_6 = new QWidget;
+        w_calc_6->setLayout(l_calc_6);
+        w_calc_6->hide();
+
+        QToolButton *btn_6_1 = new QToolButton;
+        btn_6_1->setText(tr("Back To The Top"));
+
+        l_calc_6->addWidget(btn_6_1);
+
+        // Apply Widget
+        ui->scrollArea->widget()->layout()->addWidget(w_calc_6);
+        group_calc.append(w_calc_6);
+
+        // Make Connections
+        connect(btn_6_1, &QToolButton::clicked, this, [=](){ ui->scrollArea->verticalScrollBar()->setValue(0); });
     }
 
     // ********** Apply Widget Group **********

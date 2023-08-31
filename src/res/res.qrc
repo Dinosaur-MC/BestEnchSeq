@@ -26,6 +26,8 @@
         <file>editor.svg</file>
         <file>bookshelf.webp</file>
         <file>weapon.png</file>
+        <file>copy.svg</file>
+        <file>delete.svg</file>
     </qresource>
     <qresource prefix="/table">
         <file>internal_table.json</file>
