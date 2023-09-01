@@ -1196,7 +1196,7 @@ void Graphics::setupTabConf()
         else
         {
             cbb_1_1->setCurrentIndex(0);
-            global_settings.edition = StringToMCE(cbb_1_1->currentText());
+            global_settings.edition = MCE::Java;
         }
         QLabel *label_1_2 = new QLabel(tr("Item Config:"));
         label_1_2->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum);
@@ -1358,7 +1358,7 @@ void Graphics::setupTabConf()
 
             if (pass)
             {
-                global_settings.edition = StringToMCE(cbb_1_1->currentText());
+                global_settings.edition = QList<MCE>({MCE::Java, MCE::Bedrock}).at(cbb_1_1->currentIndex());
                 global_settings.item_config = QList<ICM>({ICM::Normal, ICM::Poor, ICM::Advanced}).at(cbb_1_2->currentIndex());
                 global_settings.algorithm = cbb_1_3->currentText();
                 global_settings.language = global_lang_mgr.langaugeShortNameList().at(cbb_1_4->currentIndex());

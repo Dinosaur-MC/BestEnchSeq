@@ -34,7 +34,7 @@
     <message>
         <location filename="../core/fileoperator.cpp" line="481"/>
         <source>&lt;数据类型&gt;,&lt;组名&gt;,[最大耐久度],[组图标]</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;Data Type&gt;,&lt;Group Name&gt;,[Max  Durability],[Group Icon]</translation>
     </message>
     <message>
         <location filename="../core/fileoperator.cpp" line="487"/>
@@ -97,384 +97,386 @@
     <message>
         <location filename="../ui/graphics.ui" line="20"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>BestEnchSeq</translation>
     </message>
     <message>
         <location filename="../ui/graphics.ui" line="83"/>
         <source>ICO</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/graphics.ui" line="93"/>
         <source>BESQ V4.2.0</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/graphics.ui" line="146"/>
-        <location filename="../ui/graphics.cpp" line="1461"/>
+        <location filename="../ui/graphics.cpp" line="1500"/>
         <source>CALC.</source>
-        <translation type="unfinished"></translation>
+        <translation>CALC.</translation>
     </message>
     <message>
         <location filename="../ui/graphics.ui" line="162"/>
-        <location filename="../ui/graphics.cpp" line="1469"/>
+        <location filename="../ui/graphics.cpp" line="1508"/>
         <source>TABLE</source>
-        <translation type="unfinished"></translation>
+        <translation>TABLE</translation>
     </message>
     <message>
         <location filename="../ui/graphics.ui" line="178"/>
-        <location filename="../ui/graphics.cpp" line="1476"/>
+        <location filename="../ui/graphics.cpp" line="1515"/>
         <source>TOOL</source>
-        <translation type="unfinished"></translation>
+        <translation>TOOL</translation>
     </message>
     <message>
         <location filename="../ui/graphics.ui" line="194"/>
-        <location filename="../ui/graphics.cpp" line="1484"/>
+        <location filename="../ui/graphics.cpp" line="1523"/>
         <source>CONF.</source>
-        <translation type="unfinished"></translation>
+        <translation>CONF.</translation>
     </message>
     <message>
         <location filename="../ui/graphics.ui" line="265"/>
         <source>Simple Assistant</source>
-        <translation type="unfinished"></translation>
+        <translation>Simple Assistant</translation>
     </message>
     <message>
         <location filename="../ui/graphics.ui" line="302"/>
         <source>Option Descriptions</source>
-        <translation type="unfinished"></translation>
+        <translation>Option Descriptions</translation>
     </message>
     <message>
         <location filename="../ui/graphics.ui" line="327"/>
         <source>Example</source>
-        <translation type="unfinished"></translation>
+        <translation>Example</translation>
     </message>
     <message>
         <location filename="../ui/graphics.ui" line="334"/>
-        <location filename="../ui/graphics.cpp" line="1361"/>
+        <location filename="../ui/graphics.cpp" line="1400"/>
         <source>Feedback</source>
-        <translation type="unfinished"></translation>
+        <translation>Feedback</translation>
     </message>
     <message>
         <location filename="../ui/graphics.ui" line="341"/>
         <source>Details</source>
-        <translation type="unfinished"></translation>
+        <translation>Details</translation>
     </message>
     <message>
         <location filename="../ui/graphics.cpp" line="79"/>
-        <location filename="../ui/graphics.cpp" line="1384"/>
-        <location filename="../ui/graphics.cpp" line="1391"/>
+        <location filename="../ui/graphics.cpp" line="1423"/>
+        <location filename="../ui/graphics.cpp" line="1430"/>
         <source>Opening URL</source>
-        <translation type="unfinished"></translation>
+        <translation>Opening URL</translation>
     </message>
     <message>
         <location filename="../ui/graphics.cpp" line="79"/>
-        <location filename="../ui/graphics.cpp" line="1384"/>
-        <location filename="../ui/graphics.cpp" line="1391"/>
+        <location filename="../ui/graphics.cpp" line="1423"/>
+        <location filename="../ui/graphics.cpp" line="1430"/>
         <source>Are you sure to open this URL?
 </source>
-        <translation type="unfinished"></translation>
+        <translation>Are you sure to open this URL?
+</translation>
     </message>
     <message>
         <location filename="../ui/graphics.cpp" line="136"/>
         <source>Select Edition</source>
-        <translation type="unfinished"></translation>
+        <translation>Select Edition</translation>
     </message>
     <message>
         <location filename="../ui/graphics.cpp" line="140"/>
-        <location filename="../ui/graphics.cpp" line="1046"/>
-        <location filename="../ui/graphics.cpp" line="1152"/>
+        <location filename="../ui/graphics.cpp" line="1085"/>
+        <location filename="../ui/graphics.cpp" line="1191"/>
         <source>Java</source>
-        <translation type="unfinished"></translation>
+        <translation>Java</translation>
     </message>
     <message>
         <location filename="../ui/graphics.cpp" line="141"/>
-        <location filename="../ui/graphics.cpp" line="1046"/>
-        <location filename="../ui/graphics.cpp" line="1153"/>
+        <location filename="../ui/graphics.cpp" line="1085"/>
+        <location filename="../ui/graphics.cpp" line="1192"/>
         <source>Bedrock</source>
-        <translation type="unfinished"></translation>
+        <translation>Bedrock</translation>
     </message>
     <message>
         <location filename="../ui/graphics.cpp" line="154"/>
         <source>Select Table</source>
-        <translation type="unfinished"></translation>
+        <translation>Select Table</translation>
     </message>
     <message>
         <location filename="../ui/graphics.cpp" line="180"/>
         <source>Select Group</source>
-        <translation type="unfinished"></translation>
+        <translation>Select Group</translation>
     </message>
     <message>
         <location filename="../ui/graphics.cpp" line="198"/>
         <source>Select Item Configuring Method</source>
-        <translation type="unfinished"></translation>
+        <translation>Select Item Configuring Method</translation>
     </message>
     <message>
         <location filename="../ui/graphics.cpp" line="202"/>
-        <location filename="../ui/graphics.cpp" line="1165"/>
+        <location filename="../ui/graphics.cpp" line="1204"/>
         <source>Normal</source>
-        <translation type="unfinished"></translation>
+        <translation>Normal</translation>
     </message>
     <message>
         <location filename="../ui/graphics.cpp" line="203"/>
-        <location filename="../ui/graphics.cpp" line="1166"/>
+        <location filename="../ui/graphics.cpp" line="1205"/>
         <source>Poor</source>
-        <translation type="unfinished"></translation>
+        <translation>Poor</translation>
     </message>
     <message>
         <location filename="../ui/graphics.cpp" line="204"/>
-        <location filename="../ui/graphics.cpp" line="1167"/>
+        <location filename="../ui/graphics.cpp" line="1206"/>
         <source>Advanced</source>
-        <translation type="unfinished"></translation>
+        <translation>Advanced</translation>
     </message>
     <message>
         <location filename="../ui/graphics.cpp" line="323"/>
         <source>Adjust Origin Enchantments</source>
-        <translation type="unfinished"></translation>
+        <translation>Adjust Origin Enchantments</translation>
     </message>
     <message>
         <location filename="../ui/graphics.cpp" line="337"/>
         <source>Choose Required Enchantments</source>
-        <translation type="unfinished"></translation>
+        <translation>Choose Required Enchantments</translation>
     </message>
     <message>
         <location filename="../ui/graphics.cpp" line="466"/>
         <source>Edit Item Pool</source>
-        <translation type="unfinished"></translation>
+        <translation>Edit Item Pool</translation>
     </message>
     <message>
         <location filename="../ui/graphics.cpp" line="513"/>
         <source>Select Algorithm</source>
-        <translation type="unfinished"></translation>
+        <translation>Select Algorithm</translation>
     </message>
     <message>
         <location filename="../ui/graphics.cpp" line="518"/>
         <source>Refresh</source>
-        <translation type="unfinished"></translation>
+        <translation>Refresh</translation>
+    </message>
+    <message>
+        <location filename="../ui/graphics.cpp" line="535"/>
+        <source>Add ALG Option</source>
+        <translation>Add ALG Option</translation>
+    </message>
+    <message>
+        <location filename="../ui/graphics.cpp" line="539"/>
+        <source>NoPlenalty</source>
+        <translation>No Plenalty</translation>
     </message>
     <message>
         <location filename="../ui/graphics.cpp" line="540"/>
-        <source>Add ALG Option</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ui/graphics.cpp" line="544"/>
-        <source>NoPlenalty</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ui/graphics.cpp" line="545"/>
         <source>NoRepairing</source>
-        <translation type="unfinished"></translation>
+        <translation>No Repairing</translation>
     </message>
     <message>
-        <location filename="../ui/graphics.cpp" line="546"/>
+        <location filename="../ui/graphics.cpp" line="541"/>
         <source>IgnoreConflicting</source>
-        <translation type="unfinished"></translation>
+        <translation>Ignore Conflicting</translation>
     </message>
     <message>
-        <location filename="../ui/graphics.cpp" line="547"/>
+        <location filename="../ui/graphics.cpp" line="542"/>
         <source>UnlimitedForgeCount</source>
-        <translation type="unfinished"></translation>
+        <translation>Unlimited Forge Count</translation>
     </message>
     <message>
-        <location filename="../ui/graphics.cpp" line="558"/>
+        <location filename="../ui/graphics.cpp" line="553"/>
         <source>&gt;&gt;&gt; Start Calculate &lt;&lt;&lt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&gt;&gt;&gt; Start Calculate &lt;&lt;&lt;</translation>
     </message>
     <message>
-        <location filename="../ui/graphics.cpp" line="600"/>
+        <location filename="../ui/graphics.cpp" line="639"/>
         <source>Result &amp;&amp; Export</source>
-        <translation type="unfinished"></translation>
+        <translation>Result And Export</translation>
     </message>
     <message>
-        <location filename="../ui/graphics.cpp" line="606"/>
+        <location filename="../ui/graphics.cpp" line="645"/>
         <source>Export to file</source>
-        <translation type="unfinished"></translation>
+        <translation>Export to file</translation>
     </message>
     <message>
-        <location filename="../ui/graphics.cpp" line="629"/>
+        <location filename="../ui/graphics.cpp" line="668"/>
         <source>[No Result]</source>
-        <translation type="unfinished"></translation>
+        <translation>[No Result]</translation>
     </message>
     <message>
-        <location filename="../ui/graphics.cpp" line="687"/>
-        <location filename="../ui/graphics.cpp" line="1464"/>
+        <location filename="../ui/graphics.cpp" line="726"/>
+        <location filename="../ui/graphics.cpp" line="1503"/>
         <source>Manage Tables</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ui/graphics.cpp" line="692"/>
-        <source>Scan</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ui/graphics.cpp" line="694"/>
-        <source>Load</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ui/graphics.cpp" line="696"/>
-        <source>Enable</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ui/graphics.cpp" line="698"/>
-        <source>Disable</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ui/graphics.cpp" line="700"/>
-        <source>Import</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ui/graphics.cpp" line="702"/>
-        <source>Delete</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ui/graphics.cpp" line="710"/>
-        <source>[Table Info]</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ui/graphics.cpp" line="725"/>
-        <source>Current Table Data</source>
-        <translation type="unfinished"></translation>
+        <translation>Manage Tables</translation>
     </message>
     <message>
         <location filename="../ui/graphics.cpp" line="731"/>
-        <source>Description:</source>
-        <translation type="unfinished"></translation>
+        <source>Scan</source>
+        <translation>Scan</translation>
     </message>
     <message>
-        <location filename="../ui/graphics.cpp" line="745"/>
-        <source>Add group</source>
-        <translation type="unfinished"></translation>
+        <location filename="../ui/graphics.cpp" line="733"/>
+        <source>Load</source>
+        <translation>Load</translation>
     </message>
     <message>
-        <location filename="../ui/graphics.cpp" line="749"/>
-        <source>Remove group</source>
-        <translation type="unfinished"></translation>
+        <location filename="../ui/graphics.cpp" line="735"/>
+        <source>Enable</source>
+        <translation>Enable</translation>
     </message>
     <message>
         <location filename="../ui/graphics.cpp" line="737"/>
-        <source>Add enchantment</source>
-        <translation type="unfinished"></translation>
+        <source>Disable</source>
+        <translation>Disable</translation>
     </message>
     <message>
-        <location filename="../ui/graphics.cpp" line="37"/>
-        <location filename="../ui/graphics.cpp" line="1413"/>
-        <source>All Enchantments</source>
-        <translation type="unfinished"></translation>
+        <location filename="../ui/graphics.cpp" line="739"/>
+        <source>Import</source>
+        <translation>Import</translation>
     </message>
     <message>
         <location filename="../ui/graphics.cpp" line="741"/>
+        <source>Delete</source>
+        <translation>Delete</translation>
+    </message>
+    <message>
+        <location filename="../ui/graphics.cpp" line="749"/>
+        <source>[Table Info]</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../ui/graphics.cpp" line="764"/>
+        <source>Current Table Data</source>
+        <translation>Current Table Data</translation>
+    </message>
+    <message>
+        <location filename="../ui/graphics.cpp" line="770"/>
+        <source>Description:</source>
+        <translatorcomment>描述：</translatorcomment>
+        <translation>Description:</translation>
+    </message>
+    <message>
+        <location filename="../ui/graphics.cpp" line="784"/>
+        <source>Add group</source>
+        <translation>Add group</translation>
+    </message>
+    <message>
+        <location filename="../ui/graphics.cpp" line="788"/>
+        <source>Remove group</source>
+        <translation>Remove group</translation>
+    </message>
+    <message>
+        <location filename="../ui/graphics.cpp" line="776"/>
+        <source>Add enchantment</source>
+        <translation>Add enchantment</translation>
+    </message>
+    <message>
+        <location filename="../ui/graphics.cpp" line="37"/>
+        <location filename="../ui/graphics.cpp" line="1452"/>
+        <source>All Enchantments</source>
+        <translation>All Enchantments</translation>
+    </message>
+    <message>
+        <location filename="../ui/graphics.cpp" line="780"/>
         <source>Delete enchantment</source>
-        <translation type="unfinished"></translation>
+        <translation>Delete enchantment</translation>
     </message>
     <message>
-        <location filename="../ui/graphics.cpp" line="753"/>
+        <location filename="../ui/graphics.cpp" line="792"/>
         <source>Save change</source>
-        <translation type="unfinished"></translation>
+        <translation>Save change</translation>
     </message>
     <message>
-        <location filename="../ui/graphics.cpp" line="757"/>
+        <location filename="../ui/graphics.cpp" line="796"/>
         <source>Cancel change</source>
-        <translation type="unfinished"></translation>
+        <translation>Cancel change</translation>
     </message>
     <message>
-        <location filename="../ui/graphics.cpp" line="807"/>
-        <location filename="../ui/graphics.cpp" line="1466"/>
+        <location filename="../ui/graphics.cpp" line="846"/>
+        <location filename="../ui/graphics.cpp" line="1505"/>
         <source>New Table</source>
-        <translation type="unfinished"></translation>
+        <translation>New Table</translation>
     </message>
     <message>
-        <location filename="../ui/graphics.cpp" line="814"/>
+        <location filename="../ui/graphics.cpp" line="853"/>
         <source>JSON Format</source>
-        <translation type="unfinished"></translation>
+        <translation>JSON Format</translation>
     </message>
     <message>
-        <location filename="../ui/graphics.cpp" line="819"/>
+        <location filename="../ui/graphics.cpp" line="858"/>
         <source>CSV Format</source>
-        <translation type="unfinished"></translation>
+        <translation>CSV Format</translation>
     </message>
     <message>
-        <location filename="../ui/graphics.cpp" line="834"/>
+        <location filename="../ui/graphics.cpp" line="873"/>
         <source>Create table in JSON format</source>
-        <translation type="unfinished"></translation>
+        <translation>Create table in JSON format</translation>
     </message>
     <message>
-        <location filename="../ui/graphics.cpp" line="840"/>
-        <location filename="../ui/graphics.cpp" line="893"/>
+        <location filename="../ui/graphics.cpp" line="879"/>
+        <location filename="../ui/graphics.cpp" line="932"/>
         <source>Table name</source>
-        <translation type="unfinished"></translation>
+        <translation>Table name</translation>
     </message>
     <message>
-        <location filename="../ui/graphics.cpp" line="856"/>
-        <location filename="../ui/graphics.cpp" line="909"/>
+        <location filename="../ui/graphics.cpp" line="895"/>
+        <location filename="../ui/graphics.cpp" line="948"/>
         <source>Confirm</source>
-        <translation type="unfinished"></translation>
+        <translation>Confirm</translation>
     </message>
     <message>
-        <location filename="../ui/graphics.cpp" line="887"/>
+        <location filename="../ui/graphics.cpp" line="926"/>
         <source>Create table in CSV format</source>
-        <translation type="unfinished"></translation>
+        <translation>Create table in CSV format</translation>
     </message>
     <message>
-        <location filename="../ui/graphics.cpp" line="950"/>
-        <location filename="../ui/graphics.cpp" line="1467"/>
+        <location filename="../ui/graphics.cpp" line="989"/>
+        <location filename="../ui/graphics.cpp" line="1506"/>
         <source>Merge Tables</source>
-        <translation type="unfinished"></translation>
+        <translation>Merge Tables</translation>
     </message>
     <message>
-        <location filename="../ui/graphics.cpp" line="975"/>
+        <location filename="../ui/graphics.cpp" line="1014"/>
         <source>Compare</source>
-        <translation type="unfinished"></translation>
+        <translation>Compare</translation>
     </message>
     <message>
-        <location filename="../ui/graphics.cpp" line="979"/>
+        <location filename="../ui/graphics.cpp" line="1018"/>
         <source>Cover left</source>
-        <translation type="unfinished"></translation>
+        <translation>Cover left</translation>
     </message>
     <message>
-        <location filename="../ui/graphics.cpp" line="983"/>
+        <location filename="../ui/graphics.cpp" line="1022"/>
         <source>Cover right</source>
-        <translation type="unfinished"></translation>
+        <translation>Cover right</translation>
     </message>
     <message>
-        <location filename="../ui/graphics.cpp" line="987"/>
+        <location filename="../ui/graphics.cpp" line="1026"/>
         <source>Fill blank</source>
-        <translation type="unfinished"></translation>
+        <translation>Fill blank</translation>
     </message>
     <message>
-        <location filename="../ui/graphics.cpp" line="1038"/>
-        <location filename="../ui/graphics.cpp" line="1472"/>
+        <location filename="../ui/graphics.cpp" line="1077"/>
+        <location filename="../ui/graphics.cpp" line="1511"/>
         <source>Test Forge</source>
-        <translation type="unfinished"></translation>
+        <translation>Test Forge</translation>
     </message>
     <message>
-        <location filename="../ui/graphics.cpp" line="1058"/>
+        <location filename="../ui/graphics.cpp" line="1097"/>
         <source>Label</source>
-        <translation type="unfinished"></translation>
+        <translation>Label</translation>
     </message>
     <message>
-        <location filename="../ui/graphics.cpp" line="1058"/>
+        <location filename="../ui/graphics.cpp" line="1097"/>
         <source>Item A</source>
-        <translation type="unfinished"></translation>
+        <translation>Item A</translation>
     </message>
     <message>
-        <location filename="../ui/graphics.cpp" line="1058"/>
+        <location filename="../ui/graphics.cpp" line="1097"/>
         <source>Item B</source>
-        <translation type="unfinished"></translation>
+        <translation>Item B</translation>
     </message>
     <message>
-        <location filename="../ui/graphics.cpp" line="1058"/>
+        <location filename="../ui/graphics.cpp" line="1097"/>
         <source>Output</source>
-        <translation type="unfinished"></translation>
+        <translation>Output</translation>
     </message>
     <message>
-        <location filename="../ui/graphics.cpp" line="1084"/>
+        <location filename="../ui/graphics.cpp" line="1123"/>
         <source>[Equation]
 Cost: f(n) = 2^(n) - 1
 [Shorthand List]
@@ -487,242 +489,243 @@ Cost: f(n) = 2^(n) - 1
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/graphics.cpp" line="1086"/>
+        <location filename="../ui/graphics.cpp" line="1125"/>
         <source>Penalty L to EXP L:</source>
-        <translation type="unfinished"></translation>
+        <translation>Penalty L to EXP L:</translation>
     </message>
     <message>
-        <location filename="../ui/graphics.cpp" line="1091"/>
+        <location filename="../ui/graphics.cpp" line="1130"/>
         <source>EXP L to Penalty L:</source>
-        <translation type="unfinished"></translation>
+        <translation>EXP L to Penalty L:</translation>
     </message>
     <message>
-        <location filename="../ui/graphics.cpp" line="1115"/>
+        <location filename="../ui/graphics.cpp" line="1154"/>
         <source>
 </source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
-        <location filename="../ui/graphics.cpp" line="1250"/>
+        <location filename="../ui/graphics.cpp" line="1289"/>
         <source>Reset</source>
-        <translation type="unfinished"></translation>
+        <translation>Reset</translation>
     </message>
     <message>
-        <location filename="../ui/graphics.cpp" line="857"/>
-        <location filename="../ui/graphics.cpp" line="910"/>
-        <location filename="../ui/graphics.cpp" line="1251"/>
+        <location filename="../ui/graphics.cpp" line="896"/>
+        <location filename="../ui/graphics.cpp" line="949"/>
+        <location filename="../ui/graphics.cpp" line="1290"/>
         <source>Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation>Cancel</translation>
     </message>
     <message>
-        <location filename="../ui/graphics.cpp" line="991"/>
-        <location filename="../ui/graphics.cpp" line="1252"/>
+        <location filename="../ui/graphics.cpp" line="1030"/>
+        <location filename="../ui/graphics.cpp" line="1291"/>
         <source>Save</source>
-        <translation type="unfinished"></translation>
+        <translation>Save</translation>
     </message>
     <message>
-        <location filename="../ui/graphics.cpp" line="1453"/>
+        <location filename="../ui/graphics.cpp" line="1492"/>
         <source>Basic Section</source>
-        <translation type="unfinished"></translation>
+        <translation>Basic Section</translation>
     </message>
     <message>
-        <location filename="../ui/graphics.cpp" line="1456"/>
+        <location filename="../ui/graphics.cpp" line="1495"/>
         <source>Item Pool (Advanced)</source>
-        <translation type="unfinished"></translation>
+        <translation>tem Pool (Advanced)</translation>
     </message>
     <message>
-        <location filename="../ui/graphics.cpp" line="1457"/>
+        <location filename="../ui/graphics.cpp" line="1496"/>
         <source>Algorithm &amp; ALG Config</source>
-        <translation type="unfinished"></translation>
+        <translation>Algorithm &amp; ALG Config</translation>
     </message>
     <message>
-        <location filename="../ui/graphics.cpp" line="1459"/>
+        <location filename="../ui/graphics.cpp" line="1498"/>
         <source>Result &amp; Export</source>
-        <translation type="unfinished"></translation>
+        <translation>Result &amp; Export</translation>
     </message>
     <message>
-        <location filename="../ui/graphics.cpp" line="567"/>
-        <location filename="../ui/graphics.cpp" line="1458"/>
+        <location filename="../ui/graphics.cpp" line="562"/>
+        <location filename="../ui/graphics.cpp" line="1497"/>
         <source>Start Calculate</source>
-        <translation type="unfinished"></translation>
+        <translation>Start Calculate</translation>
     </message>
     <message>
-        <location filename="../ui/graphics.cpp" line="656"/>
+        <location filename="../ui/graphics.cpp" line="695"/>
         <source>Back To The Top</source>
-        <translation type="unfinished"></translation>
+        <translation>Back To The Top</translation>
     </message>
     <message>
-        <location filename="../ui/graphics.cpp" line="760"/>
-        <location filename="../ui/graphics.cpp" line="966"/>
-        <location filename="../ui/graphics.cpp" line="995"/>
+        <location filename="../ui/graphics.cpp" line="799"/>
+        <location filename="../ui/graphics.cpp" line="1005"/>
+        <location filename="../ui/graphics.cpp" line="1034"/>
         <source>Name</source>
-        <translation type="unfinished"></translation>
+        <translation>Name</translation>
     </message>
     <message>
-        <location filename="../ui/graphics.cpp" line="760"/>
-        <location filename="../ui/graphics.cpp" line="966"/>
-        <location filename="../ui/graphics.cpp" line="995"/>
+        <location filename="../ui/graphics.cpp" line="799"/>
+        <location filename="../ui/graphics.cpp" line="1005"/>
+        <location filename="../ui/graphics.cpp" line="1034"/>
         <source>Data</source>
-        <translation type="unfinished"></translation>
+        <translation>Data</translation>
     </message>
     <message>
-        <location filename="../ui/graphics.cpp" line="764"/>
-        <location filename="../ui/graphics.cpp" line="969"/>
-        <location filename="../ui/graphics.cpp" line="998"/>
+        <location filename="../ui/graphics.cpp" line="803"/>
+        <location filename="../ui/graphics.cpp" line="1008"/>
+        <location filename="../ui/graphics.cpp" line="1037"/>
         <source>Enchantments</source>
-        <translation type="unfinished"></translation>
+        <translation>Enchantments</translation>
     </message>
     <message>
-        <location filename="../ui/graphics.cpp" line="771"/>
-        <location filename="../ui/graphics.cpp" line="971"/>
-        <location filename="../ui/graphics.cpp" line="1000"/>
+        <location filename="../ui/graphics.cpp" line="810"/>
+        <location filename="../ui/graphics.cpp" line="1010"/>
+        <location filename="../ui/graphics.cpp" line="1039"/>
         <source>Groups</source>
-        <translation type="unfinished"></translation>
+        <translation>Groups</translation>
     </message>
     <message>
-        <location filename="../ui/graphics.cpp" line="1144"/>
+        <location filename="../ui/graphics.cpp" line="1183"/>
         <source>Defaults</source>
-        <translation type="unfinished"></translation>
+        <translation>Defaults</translation>
+    </message>
+    <message>
+        <location filename="../ui/graphics.cpp" line="1188"/>
+        <source>Edition:</source>
+        <translation>Edition:</translation>
+    </message>
+    <message>
+        <location filename="../ui/graphics.cpp" line="1201"/>
+        <source>Item Config:</source>
+        <translation>Item Config:</translation>
+    </message>
+    <message>
+        <location filename="../ui/graphics.cpp" line="1215"/>
+        <source>Algorithm:</source>
+        <translation>Algorithm:</translation>
+    </message>
+    <message>
+        <location filename="../ui/graphics.cpp" line="1228"/>
+        <source>Language:</source>
+        <translation>Language:</translation>
+    </message>
+    <message>
+        <location filename="../ui/graphics.cpp" line="1242"/>
+        <source>Export Path:</source>
+        <translation>Export Path:</translation>
+    </message>
+    <message>
+        <location filename="../ui/graphics.cpp" line="1247"/>
+        <source>Browse...</source>
+        <translation>Browse...</translation>
+    </message>
+    <message>
+        <location filename="../ui/graphics.cpp" line="1266"/>
+        <source>Levers</source>
+        <translation>Levers</translation>
+    </message>
+    <message>
+        <location filename="../ui/graphics.cpp" line="1271"/>
+        <source>Auto Save</source>
+        <translation>Auto Save</translation>
+    </message>
+    <message>
+        <location filename="../ui/graphics.cpp" line="1273"/>
+        <source>Auto Check Update</source>
+        <translation>Auto Check Update</translation>
+    </message>
+    <message>
+        <location filename="../ui/graphics.cpp" line="1275"/>
+        <source>Enable Lax Window Resizing</source>
+        <translation>Enable Lax Window Resizing</translation>
+    </message>
+    <message>
+        <location filename="../ui/graphics.cpp" line="768"/>
+        <location filename="../ui/graphics.cpp" line="1390"/>
+        <source>Version:</source>
+        <translation>Version:</translation>
+    </message>
+    <message>
+        <location filename="../ui/graphics.cpp" line="1324"/>
+        <source>Reset Settings</source>
+        <translation>Reset Settings</translation>
+    </message>
+    <message>
+        <location filename="../ui/graphics.cpp" line="1324"/>
+        <source>Are you sure to reset the application settings?
+All the configuration will set to default.</source>
+        <translation>Are you sure to reset the application settings?
+All the configuration will set to default.</translation>
+    </message>
+    <message>
+        <location filename="../ui/graphics.cpp" line="1393"/>
+        <source>Author:</source>
+        <translation>Author:</translation>
+    </message>
+    <message>
+        <location filename="../ui/graphics.cpp" line="1396"/>
+        <source>License:</source>
+        <translation>License:</translation>
+    </message>
+    <message>
+        <location filename="../ui/graphics.cpp" line="1399"/>
+        <source>Website</source>
+        <translation>Website</translation>
+    </message>
+    <message>
+        <location filename="../ui/graphics.cpp" line="1401"/>
+        <source>Check Update</source>
+        <translation>Check Update</translation>
+    </message>
+    <message>
+        <location filename="../ui/graphics.cpp" line="1491"/>
+        <source>[WELCOME PAGE]</source>
+        <translation>[WELCOME PAGE]</translation>
+    </message>
+    <message>
+        <location filename="../ui/graphics.cpp" line="1493"/>
+        <source>Origin Enchantment</source>
+        <translation>Origin Enchantment</translation>
+    </message>
+    <message>
+        <location filename="../ui/graphics.cpp" line="1494"/>
+        <source>Required Enchantment</source>
+        <translation>Required Enchantment</translation>
+    </message>
+    <message>
+        <location filename="../ui/graphics.cpp" line="1504"/>
+        <source>Current Table</source>
+        <translation>Current Table</translation>
+    </message>
+    <message>
+        <location filename="../ui/graphics.cpp" line="1118"/>
+        <location filename="../ui/graphics.cpp" line="1512"/>
+        <source>Test Penalty</source>
+        <translation>Test Penalty</translation>
     </message>
     <message>
         <location filename="../ui/graphics.cpp" line="1149"/>
-        <source>Edition:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ui/graphics.cpp" line="1162"/>
-        <source>Item Config:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ui/graphics.cpp" line="1176"/>
-        <source>Algorithm:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ui/graphics.cpp" line="1189"/>
-        <source>Language:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ui/graphics.cpp" line="1203"/>
-        <source>Export Path:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ui/graphics.cpp" line="1208"/>
-        <source>Browse...</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ui/graphics.cpp" line="1227"/>
-        <source>Levers</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ui/graphics.cpp" line="1232"/>
-        <source>Auto Save</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ui/graphics.cpp" line="1234"/>
-        <source>Auto Check Update</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ui/graphics.cpp" line="1236"/>
-        <source>Enable Lax Window Resizing</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ui/graphics.cpp" line="729"/>
-        <location filename="../ui/graphics.cpp" line="1351"/>
-        <source>Version:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ui/graphics.cpp" line="1285"/>
-        <source>Reset Settings</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ui/graphics.cpp" line="1285"/>
-        <source>Are you sure to reset the application settings?
-All the configuration will set to default.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ui/graphics.cpp" line="1354"/>
-        <source>Author:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ui/graphics.cpp" line="1357"/>
-        <source>License:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ui/graphics.cpp" line="1360"/>
-        <source>Website</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ui/graphics.cpp" line="1362"/>
-        <source>Check Update</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ui/graphics.cpp" line="1452"/>
-        <source>[WELCOME PAGE]</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ui/graphics.cpp" line="1454"/>
-        <source>Origin Enchantment</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ui/graphics.cpp" line="1455"/>
-        <source>Required Enchantment</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ui/graphics.cpp" line="1465"/>
-        <source>Current Table</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ui/graphics.cpp" line="1079"/>
-        <location filename="../ui/graphics.cpp" line="1473"/>
-        <source>Test Penalty</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ui/graphics.cpp" line="1110"/>
-        <location filename="../ui/graphics.cpp" line="1474"/>
+        <location filename="../ui/graphics.cpp" line="1513"/>
         <source>Test Multiplier</source>
-        <translation type="unfinished"></translation>
+        <translation>Test Multiplier</translation>
     </message>
     <message>
-        <location filename="../ui/graphics.cpp" line="1479"/>
+        <location filename="../ui/graphics.cpp" line="1518"/>
         <source>Default</source>
-        <translation type="unfinished"></translation>
+        <translation>Default</translation>
     </message>
     <message>
-        <location filename="../ui/graphics.cpp" line="1480"/>
+        <location filename="../ui/graphics.cpp" line="1519"/>
         <source>Lever</source>
-        <translation type="unfinished"></translation>
+        <translation>Lever</translation>
     </message>
     <message>
-        <location filename="../ui/graphics.cpp" line="1482"/>
+        <location filename="../ui/graphics.cpp" line="1521"/>
         <source>Update</source>
-        <translation type="unfinished"></translation>
+        <translation>Update</translation>
     </message>
     <message>
-        <location filename="../ui/graphics.cpp" line="1346"/>
-        <location filename="../ui/graphics.cpp" line="1481"/>
+        <location filename="../ui/graphics.cpp" line="1385"/>
+        <location filename="../ui/graphics.cpp" line="1520"/>
         <source>About</source>
-        <translation type="unfinished"></translation>
+        <translation>About</translation>
     </message>
 </context>
 <context>
@@ -730,62 +733,62 @@ All the configuration will set to default.</source>
     <message>
         <location filename="../ui/itemeditor.ui" line="14"/>
         <source>Dialog</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/itemeditor.ui" line="20"/>
         <source>Item Type</source>
-        <translation type="unfinished"></translation>
+        <translation>Item Type</translation>
     </message>
     <message>
         <location filename="../ui/itemeditor.ui" line="26"/>
         <source>Book</source>
-        <translation type="unfinished"></translation>
+        <translation>Book</translation>
     </message>
     <message>
         <location filename="../ui/itemeditor.ui" line="36"/>
         <source>Weapon</source>
-        <translation type="unfinished"></translation>
+        <translation>Weapon</translation>
     </message>
     <message>
         <location filename="../ui/itemeditor.ui" line="43"/>
         <source>Stuff</source>
-        <translation type="unfinished"></translation>
+        <translation>Stuff</translation>
     </message>
     <message>
         <location filename="../ui/itemeditor.ui" line="53"/>
         <source>Enchantments</source>
-        <translation type="unfinished"></translation>
+        <translation>Enchantments</translation>
     </message>
     <message>
         <location filename="../ui/itemeditor.ui" line="75"/>
         <source>Penalty:</source>
-        <translation type="unfinished"></translation>
+        <translation>Penalty:</translation>
     </message>
     <message>
         <location filename="../ui/itemeditor.ui" line="98"/>
         <source>Durability:</source>
-        <translation type="unfinished"></translation>
+        <translation>Durability:</translation>
     </message>
     <message>
         <location filename="../ui/itemeditor.ui" line="125"/>
         <source>Count:</source>
-        <translation type="unfinished"></translation>
+        <translation>Count:</translation>
     </message>
     <message>
         <location filename="../ui/itemeditor.ui" line="171"/>
         <source>OK</source>
-        <translation type="unfinished"></translation>
+        <translation>OK</translation>
     </message>
     <message>
         <location filename="../ui/itemeditor.ui" line="178"/>
         <source>Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation>Cancel</translation>
     </message>
     <message>
         <location filename="../ui/itemeditor.cpp" line="10"/>
         <source>Edit Item</source>
-        <translation type="unfinished"></translation>
+        <translation>Edit Item</translation>
     </message>
 </context>
 <context>
@@ -793,27 +796,27 @@ All the configuration will set to default.</source>
     <message>
         <location filename="../ui/itemlistwidget.h" line="74"/>
         <source>Stuff</source>
-        <translation type="unfinished"></translation>
+        <translation>Stuff</translation>
     </message>
     <message>
         <location filename="../ui/itemlistwidget.h" line="81"/>
         <source>Enchanted Book</source>
-        <translation type="unfinished"></translation>
+        <translation>Enchanted Book</translation>
     </message>
     <message>
         <location filename="../ui/itemlistwidget.h" line="83"/>
         <source>Weapon</source>
-        <translation type="unfinished"></translation>
+        <translation>Weapon</translation>
     </message>
     <message>
         <location filename="../ui/itemlistwidget.h" line="91"/>
         <source>Penalty</source>
-        <translation type="unfinished"></translation>
+        <translation>Penalty</translation>
     </message>
     <message>
         <location filename="../ui/itemlistwidget.h" line="91"/>
         <source>Durability</source>
-        <translation type="unfinished"></translation>
+        <translation>Durability</translation>
     </message>
 </context>
 <context>
@@ -822,13 +825,13 @@ All the configuration will set to default.</source>
         <location filename="../ui/itemlistwidget.cpp" line="7"/>
         <location filename="../ui/itemlistwidget.cpp" line="30"/>
         <source>(Read only item list)</source>
-        <translation type="unfinished"></translation>
+        <translation>(Read only item list)</translation>
     </message>
     <message>
         <location filename="../ui/itemlistwidget.cpp" line="9"/>
         <location filename="../ui/itemlistwidget.cpp" line="32"/>
         <source>(Click to add item)</source>
-        <translation type="unfinished"></translation>
+        <translation>(Click to add item)</translation>
     </message>
 </context>
 <context>
@@ -836,18 +839,19 @@ All the configuration will set to default.</source>
     <message>
         <location filename="../launcher.cpp" line="23"/>
         <source>【使用说明】必读</source>
-        <translation type="unfinished"></translation>
+        <translation>[USAGE] MSUT READ</translation>
     </message>
     <message>
         <location filename="../launcher.cpp" line="61"/>
         <source>【更新完成】</source>
-        <translation type="unfinished"></translation>
+        <translation>[Update Finished]</translation>
     </message>
     <message>
         <location filename="../launcher.cpp" line="61"/>
         <source>【更新日志】
 </source>
-        <translation type="unfinished"></translation>
+        <translation>[Update Log]
+</translation>
     </message>
 </context>
 <context>
@@ -855,7 +859,7 @@ All the configuration will set to default.</source>
     <message>
         <location filename="../main.cpp" line="40"/>
         <source>Show the license of the application.</source>
-        <translation type="unfinished"></translation>
+        <translation>Show the license of the application.</translation>
     </message>
     <message>
         <location filename="../main.cpp" line="41"/>
@@ -870,12 +874,12 @@ All the configuration will set to default.</source>
     <message>
         <location filename="../main.cpp" line="44"/>
         <source>Read only mode.</source>
-        <translation type="unfinished"></translation>
+        <translation>Read only mode.</translation>
     </message>
     <message>
         <location filename="../main.cpp" line="45"/>
         <source>Run as safe mode. It will disable all file operation from the appliction.</source>
-        <translation type="unfinished"></translation>
+        <translation>Run as safe mode. It will disable all file operation from the appliction.</translation>
     </message>
     <message>
         <location filename="../main.cpp" line="43"/>
@@ -885,7 +889,7 @@ All the configuration will set to default.</source>
     <message>
         <location filename="../core/core.h" line="17"/>
         <source>最佳附魔顺序计算器</source>
-        <translation type="unfinished"></translation>
+        <translation>The Best Enchanting Sequence</translation>
     </message>
 </context>
 <context>
@@ -951,65 +955,67 @@ All the configuration will set to default.</source>
     <message>
         <location filename="../updatechecker.cpp" line="23"/>
         <source>【发现更新】 更新日期：</source>
-        <translation type="unfinished"></translation>
+        <translation>[Update Found] Date:</translation>
     </message>
     <message>
         <location filename="../updatechecker.cpp" line="24"/>
         <source>新版本：</source>
-        <translation type="unfinished"></translation>
+        <translation>New version:</translation>
     </message>
     <message>
         <location filename="../updatechecker.cpp" line="24"/>
         <source>更新说明：</source>
-        <translation type="unfinished"></translation>
+        <translation>Update description:</translation>
     </message>
     <message>
         <location filename="../updatechecker.cpp" line="24"/>
         <source>下载地址：</source>
-        <translation type="unfinished"></translation>
+        <translation>Download:</translation>
     </message>
     <message>
         <location filename="../updatechecker.cpp" line="26"/>
         <source>立即获取</source>
-        <translation type="unfinished"></translation>
+        <translation>Get it now</translation>
     </message>
     <message>
         <location filename="../updatechecker.cpp" line="27"/>
         <location filename="../updatechecker.cpp" line="55"/>
         <source>下次一定</source>
-        <translation type="unfinished"></translation>
+        <translation>Skip</translation>
     </message>
     <message>
         <location filename="../updatechecker.cpp" line="37"/>
         <source>【无更新】</source>
-        <translation type="unfinished"></translation>
+        <translation>[No Update]</translation>
     </message>
     <message>
         <location filename="../updatechecker.cpp" line="37"/>
         <source>当前版本已是最新版本！
 </source>
-        <translation type="unfinished"></translation>
+        <translation>Already up to date!
+</translation>
     </message>
     <message>
         <location filename="../updatechecker.cpp" line="50"/>
         <source>【检测更新失败】JSON 解析失败</source>
-        <translation type="unfinished"></translation>
+        <translation>[Failed to check update] JSON analysing failed</translation>
     </message>
     <message>
         <location filename="../updatechecker.cpp" line="51"/>
         <source>更新服务器访问失败或JSON数据有误。
 请排查问题后重试或联系开发者修复错误。</source>
-        <translation type="unfinished"></translation>
+        <translation>The update server access failed or the JSON data is incorrect.
+Please troubleshoot the problem and try again or contact the developer to fix the error.</translation>
     </message>
     <message>
         <location filename="../updatechecker.cpp" line="53"/>
         <source>重试</source>
-        <translation type="unfinished"></translation>
+        <translation>Retry</translation>
     </message>
     <message>
         <location filename="../updatechecker.cpp" line="54"/>
         <source>去拔开发者的头发</source>
-        <translation type="unfinished"></translation>
+        <translation>Send feedback</translation>
     </message>
 </context>
 </TS>
