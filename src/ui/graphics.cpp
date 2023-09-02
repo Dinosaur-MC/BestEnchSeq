@@ -266,6 +266,10 @@ void Graphics::setupTabCalc()
         });
 
         // Group
+        connect(this, &Graphics::currentEditionChanged, cbb_1_2, [=](){
+            updateCurrentGroup(cbb_1_2->currentText());
+            emit currentGroupChanged(cbb_1_2->currentText());
+        });
         connect(this, &Graphics::currentTableChanged, cbb_1_2, [=](){
             all_enchantments.enchantments = CT.enchs;
 
@@ -494,6 +498,7 @@ void Graphics::setupTabCalc()
             }
             else
             {
+                item_pool_list_widget->clear();
                 w_calc_3->hide();
                 w_calc_3->setEnabled(false);
             }
@@ -547,14 +552,15 @@ void Graphics::setupTabCalc()
         gbL_4_2->addWidget(chkb_4_4);
         l_calc_4->addWidget(gb_4_2);
 
-        // Start Calculate Button
+        // Calculate
         QVBoxLayout *gbL_4_3 = new QVBoxLayout;
         gbL_4_3->setAlignment(Qt::AlignCenter);
         QGroupBox *gb_4_3 = new QGroupBox(tr(">>> Start Calculate <<<"));
         gb_4_3->setAlignment(Qt::AlignCenter);
-        gb_4_3->setMinimumHeight(360);
+        gb_4_3->setMinimumHeight(440);
         gb_4_3->setLayout(gbL_4_3);
 
+        // Start Calculate Button
         QHBoxLayout *btnL_4_2 = new QHBoxLayout;
         QToolButton *btn_4_2 = new QToolButton;
         btn_4_2->setStyleSheet("QToolButton {background-color:white;border-radius:96px;}");
@@ -562,9 +568,19 @@ void Graphics::setupTabCalc()
         btn_4_2->setToolTip(tr("Start Calculate"));
         btn_4_2->setIconSize(QSize(128, 128));
         btn_4_2->setIcon(QIcon(":/icon/logo.png"));
+
+        // Log & Progress Bar
         QLabel *label_4_2 = new QLabel("[Log]");
         QProgressBar *pgb_4_1 = new QProgressBar;
         pgb_4_1->setAlignment(Qt::AlignCenter);
+
+        // Stop, Archive & Pause Button
+        QHBoxLayout *layout_4_1 = new QHBoxLayout;
+        layout_4_1->setAlignment(Qt::AlignRight);
+        QPushButton *btn_4_3 = new QPushButton(tr("Load Archive"));
+        QPushButton *btn_4_4 = new QPushButton(tr("Save Archive"));
+        QPushButton *btn_4_5 = new QPushButton(tr("Stop"));
+        QPushButton *btn_4_6 = new QPushButton(tr("Pause"));
 
         gbL_4_3->addSpacerItem(new QSpacerItem(0, 0, QSizePolicy::Expanding, QSizePolicy::Expanding));
         btnL_4_2->addWidget(btn_4_2);
@@ -572,6 +588,11 @@ void Graphics::setupTabCalc()
         gbL_4_3->addWidget(label_4_2);
         gbL_4_3->addSpacerItem(new QSpacerItem(0, 0, QSizePolicy::Expanding, QSizePolicy::Expanding));
         gbL_4_3->addWidget(pgb_4_1);
+        layout_4_1->addWidget(btn_4_3);
+        layout_4_1->addWidget(btn_4_4);
+        layout_4_1->addWidget(btn_4_5);
+        layout_4_1->addWidget(btn_4_6);
+        gbL_4_3->addLayout(layout_4_1);
         l_calc_4->addWidget(gb_4_3);
 
         // Apply Widget
@@ -620,7 +641,13 @@ void Graphics::setupTabCalc()
                 chkb_4_4->setEnabled(false);
                 chkb_4_4->setChecked(false);
             }
+
+            emit currentAlgorithmChanged(selected_algorithm);
         });
+
+        connect(btn_4_2, &QToolButton::clicked, this, &Graphics::calculateStarted);
+        connect(btn_4_5, &QToolButton::clicked, this, &Graphics::calculateStopped);
+        connect(btn_4_6, &QToolButton::clicked, this, &Graphics::calculatePaused);
 
         // Initially Emit Signal
         emit cbb_4_1->currentTextChanged(cbb_4_1->currentText());
@@ -645,7 +672,7 @@ void Graphics::setupTabCalc()
         btn_5_1->setText(tr("Export to file"));
         QLabel *label_5_1 = new QLabel("[Summary]\n");
         QListWidget *result_list_widget = new QListWidget;
-        result_list_widget->setMinimumHeight(500);
+        result_list_widget->setMinimumHeight(480);
         if (output_flows.size() > 0)
         {
             for (int i = 1; i <= output_flows.size(); i++)
@@ -1447,40 +1474,6 @@ void Graphics::setupTabConf()
     ui_item_set.append(group_confg);
 }
 
-void Graphics::updateCurrentGroup(QString name)
-{
-    if (name == tr("All Enchantments"))
-    {
-        current_group = all_enchantments;
-        for (int i = 0; i < current_group.enchantments.size(); i++)
-        {
-            if (!current_group.enchantments[i].editions.contains(selected_edition))
-            {
-                current_group.enchantments.removeAt(i);
-                i--;
-            }
-        }
-    }
-    else
-    {
-        for (const auto &group: CTG)
-        {
-            if (group.name == name)
-            {
-                current_group = group;
-                for (int i = 0; i < current_group.enchantments.size(); i++)
-                {
-                    if (!current_group.enchantments[i].editions.contains(selected_edition))
-                    {
-                        current_group.enchantments.removeAt(i);
-                        i--;
-                    }
-                }
-            }
-        }
-    }
-}
-
 bool Graphics::activate(int index)
 {
     if (0 <= index && index <= 3)
@@ -1568,4 +1561,43 @@ void Graphics::switchTab(int n)
         current_widget = n;
         emit currentTabChanged();
     }
+}
+
+void Graphics::updateCurrentGroup(QString name)
+{
+    if (name == tr("All Enchantments"))
+    {
+        current_group = all_enchantments;
+        for (int i = 0; i < current_group.enchantments.size(); i++)
+        {
+            if (!current_group.enchantments[i].editions.contains(selected_edition))
+            {
+                current_group.enchantments.removeAt(i);
+                i--;
+            }
+        }
+    }
+    else
+    {
+        for (const auto &group: CTG)
+        {
+            if (group.name == name)
+            {
+                current_group = group;
+                for (int i = 0; i < current_group.enchantments.size(); i++)
+                {
+                    if (!current_group.enchantments[i].editions.contains(selected_edition))
+                    {
+                        current_group.enchantments.removeAt(i);
+                        i--;
+                    }
+                }
+            }
+        }
+    }
+}
+
+void Graphics::startCalculate()
+{
+
 }

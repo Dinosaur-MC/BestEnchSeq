@@ -111,25 +111,25 @@
     </message>
     <message>
         <location filename="../ui/graphics.ui" line="146"/>
-        <location filename="../ui/graphics.cpp" line="1500"/>
+        <location filename="../ui/graphics.cpp" line="1493"/>
         <source>CALC.</source>
         <translation>计算</translation>
     </message>
     <message>
         <location filename="../ui/graphics.ui" line="162"/>
-        <location filename="../ui/graphics.cpp" line="1508"/>
+        <location filename="../ui/graphics.cpp" line="1501"/>
         <source>TABLE</source>
         <translation>魔咒列表</translation>
     </message>
     <message>
         <location filename="../ui/graphics.ui" line="178"/>
-        <location filename="../ui/graphics.cpp" line="1515"/>
+        <location filename="../ui/graphics.cpp" line="1508"/>
         <source>TOOL</source>
         <translation>小工具</translation>
     </message>
     <message>
         <location filename="../ui/graphics.ui" line="194"/>
-        <location filename="../ui/graphics.cpp" line="1523"/>
+        <location filename="../ui/graphics.cpp" line="1516"/>
         <source>CONF.</source>
         <translation>设置</translation>
     </message>
@@ -150,7 +150,7 @@
     </message>
     <message>
         <location filename="../ui/graphics.ui" line="334"/>
-        <location filename="../ui/graphics.cpp" line="1400"/>
+        <location filename="../ui/graphics.cpp" line="1427"/>
         <source>Feedback</source>
         <translation>反馈</translation>
     </message>
@@ -161,15 +161,15 @@
     </message>
     <message>
         <location filename="../ui/graphics.cpp" line="79"/>
-        <location filename="../ui/graphics.cpp" line="1423"/>
-        <location filename="../ui/graphics.cpp" line="1430"/>
+        <location filename="../ui/graphics.cpp" line="1450"/>
+        <location filename="../ui/graphics.cpp" line="1457"/>
         <source>Opening URL</source>
         <translation>即将打开URL</translation>
     </message>
     <message>
         <location filename="../ui/graphics.cpp" line="79"/>
-        <location filename="../ui/graphics.cpp" line="1423"/>
-        <location filename="../ui/graphics.cpp" line="1430"/>
+        <location filename="../ui/graphics.cpp" line="1450"/>
+        <location filename="../ui/graphics.cpp" line="1457"/>
         <source>Are you sure to open this URL?
 </source>
         <translation>你确定要打开这个URL吗？
@@ -182,15 +182,15 @@
     </message>
     <message>
         <location filename="../ui/graphics.cpp" line="140"/>
-        <location filename="../ui/graphics.cpp" line="1085"/>
-        <location filename="../ui/graphics.cpp" line="1191"/>
+        <location filename="../ui/graphics.cpp" line="1112"/>
+        <location filename="../ui/graphics.cpp" line="1218"/>
         <source>Java</source>
         <translation>Java版</translation>
     </message>
     <message>
         <location filename="../ui/graphics.cpp" line="141"/>
-        <location filename="../ui/graphics.cpp" line="1085"/>
-        <location filename="../ui/graphics.cpp" line="1192"/>
+        <location filename="../ui/graphics.cpp" line="1112"/>
+        <location filename="../ui/graphics.cpp" line="1219"/>
         <source>Bedrock</source>
         <translation>基岩版</translation>
     </message>
@@ -211,271 +211,291 @@
     </message>
     <message>
         <location filename="../ui/graphics.cpp" line="202"/>
-        <location filename="../ui/graphics.cpp" line="1204"/>
+        <location filename="../ui/graphics.cpp" line="1231"/>
         <source>Normal</source>
         <translation>普通</translation>
     </message>
     <message>
         <location filename="../ui/graphics.cpp" line="203"/>
-        <location filename="../ui/graphics.cpp" line="1205"/>
+        <location filename="../ui/graphics.cpp" line="1232"/>
         <source>Poor</source>
         <translation>Poor</translation>
     </message>
     <message>
         <location filename="../ui/graphics.cpp" line="204"/>
-        <location filename="../ui/graphics.cpp" line="1206"/>
+        <location filename="../ui/graphics.cpp" line="1233"/>
         <source>Advanced</source>
         <translation>高级</translation>
     </message>
     <message>
-        <location filename="../ui/graphics.cpp" line="323"/>
+        <location filename="../ui/graphics.cpp" line="327"/>
         <source>Adjust Origin Enchantments</source>
         <translation>匹配初始魔咒</translation>
     </message>
     <message>
-        <location filename="../ui/graphics.cpp" line="337"/>
+        <location filename="../ui/graphics.cpp" line="341"/>
         <source>Choose Required Enchantments</source>
         <translation>选择所需魔咒</translation>
     </message>
     <message>
-        <location filename="../ui/graphics.cpp" line="466"/>
+        <location filename="../ui/graphics.cpp" line="470"/>
         <source>Edit Item Pool</source>
         <translation>编辑物品池</translation>
     </message>
     <message>
-        <location filename="../ui/graphics.cpp" line="513"/>
+        <location filename="../ui/graphics.cpp" line="518"/>
         <source>Select Algorithm</source>
         <translation>选择算法</translation>
     </message>
     <message>
-        <location filename="../ui/graphics.cpp" line="518"/>
+        <location filename="../ui/graphics.cpp" line="523"/>
         <source>Refresh</source>
         <translation>刷新</translation>
     </message>
     <message>
-        <location filename="../ui/graphics.cpp" line="535"/>
+        <location filename="../ui/graphics.cpp" line="540"/>
         <source>Add ALG Option</source>
         <translation>添加算法配置项</translation>
     </message>
     <message>
-        <location filename="../ui/graphics.cpp" line="539"/>
+        <location filename="../ui/graphics.cpp" line="544"/>
         <source>NoPlenalty</source>
         <translation>不计惩罚</translation>
     </message>
     <message>
-        <location filename="../ui/graphics.cpp" line="540"/>
+        <location filename="../ui/graphics.cpp" line="545"/>
         <source>NoRepairing</source>
         <translation>不计修复</translation>
     </message>
     <message>
-        <location filename="../ui/graphics.cpp" line="541"/>
+        <location filename="../ui/graphics.cpp" line="546"/>
         <source>IgnoreConflicting</source>
         <translation>忽略魔咒冲突</translation>
     </message>
     <message>
-        <location filename="../ui/graphics.cpp" line="542"/>
+        <location filename="../ui/graphics.cpp" line="547"/>
         <source>UnlimitedForgeCount</source>
         <translation>忽略锻造次数限制</translation>
     </message>
     <message>
-        <location filename="../ui/graphics.cpp" line="553"/>
+        <location filename="../ui/graphics.cpp" line="558"/>
         <source>&gt;&gt;&gt; Start Calculate &lt;&lt;&lt;</source>
         <translation>&gt;&gt;&gt; 开始计算 &lt;&lt;&lt;</translation>
     </message>
     <message>
-        <location filename="../ui/graphics.cpp" line="639"/>
+        <location filename="../ui/graphics.cpp" line="580"/>
+        <source>Load Archive</source>
+        <translation>加载存档</translation>
+    </message>
+    <message>
+        <location filename="../ui/graphics.cpp" line="581"/>
+        <source>Save Archive</source>
+        <translation>保存存档</translation>
+    </message>
+    <message>
+        <location filename="../ui/graphics.cpp" line="582"/>
+        <source>Stop</source>
+        <translation>停止</translation>
+    </message>
+    <message>
+        <location filename="../ui/graphics.cpp" line="583"/>
+        <source>Pause</source>
+        <translation>暂停</translation>
+    </message>
+    <message>
+        <location filename="../ui/graphics.cpp" line="666"/>
         <source>Result &amp;&amp; Export</source>
         <translation>计算结果和导出选项</translation>
     </message>
     <message>
-        <location filename="../ui/graphics.cpp" line="645"/>
+        <location filename="../ui/graphics.cpp" line="672"/>
         <source>Export to file</source>
         <translation>导出结果到文件</translation>
     </message>
     <message>
-        <location filename="../ui/graphics.cpp" line="668"/>
+        <location filename="../ui/graphics.cpp" line="695"/>
         <source>[No Result]</source>
         <translation>[无结果]</translation>
     </message>
     <message>
-        <location filename="../ui/graphics.cpp" line="726"/>
-        <location filename="../ui/graphics.cpp" line="1503"/>
+        <location filename="../ui/graphics.cpp" line="753"/>
+        <location filename="../ui/graphics.cpp" line="1496"/>
         <source>Manage Tables</source>
         <translation>管理魔咒列表</translation>
     </message>
     <message>
-        <location filename="../ui/graphics.cpp" line="731"/>
+        <location filename="../ui/graphics.cpp" line="758"/>
         <source>Scan</source>
         <translation>扫描</translation>
     </message>
     <message>
-        <location filename="../ui/graphics.cpp" line="733"/>
+        <location filename="../ui/graphics.cpp" line="760"/>
         <source>Load</source>
         <translation>加载</translation>
     </message>
     <message>
-        <location filename="../ui/graphics.cpp" line="735"/>
+        <location filename="../ui/graphics.cpp" line="762"/>
         <source>Enable</source>
         <translation>启用</translation>
     </message>
     <message>
-        <location filename="../ui/graphics.cpp" line="737"/>
+        <location filename="../ui/graphics.cpp" line="764"/>
         <source>Disable</source>
         <translation>禁用</translation>
     </message>
     <message>
-        <location filename="../ui/graphics.cpp" line="739"/>
+        <location filename="../ui/graphics.cpp" line="766"/>
         <source>Import</source>
         <translation>导入</translation>
     </message>
     <message>
-        <location filename="../ui/graphics.cpp" line="741"/>
+        <location filename="../ui/graphics.cpp" line="768"/>
         <source>Delete</source>
         <translation>删除</translation>
     </message>
     <message>
-        <location filename="../ui/graphics.cpp" line="749"/>
+        <location filename="../ui/graphics.cpp" line="776"/>
         <source>[Table Info]</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../ui/graphics.cpp" line="764"/>
+        <location filename="../ui/graphics.cpp" line="791"/>
         <source>Current Table Data</source>
         <translation>当前魔咒列表数据</translation>
     </message>
     <message>
-        <location filename="../ui/graphics.cpp" line="770"/>
+        <location filename="../ui/graphics.cpp" line="797"/>
         <source>Description:</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../ui/graphics.cpp" line="784"/>
+        <location filename="../ui/graphics.cpp" line="811"/>
         <source>Add group</source>
         <translation>添加分组</translation>
     </message>
     <message>
-        <location filename="../ui/graphics.cpp" line="788"/>
+        <location filename="../ui/graphics.cpp" line="815"/>
         <source>Remove group</source>
         <translation>移除分组</translation>
     </message>
     <message>
-        <location filename="../ui/graphics.cpp" line="776"/>
+        <location filename="../ui/graphics.cpp" line="803"/>
         <source>Add enchantment</source>
         <translation>添加魔咒</translation>
     </message>
     <message>
         <location filename="../ui/graphics.cpp" line="37"/>
-        <location filename="../ui/graphics.cpp" line="1452"/>
+        <location filename="../ui/graphics.cpp" line="1568"/>
         <source>All Enchantments</source>
         <translation>所有魔咒</translation>
     </message>
     <message>
-        <location filename="../ui/graphics.cpp" line="780"/>
+        <location filename="../ui/graphics.cpp" line="807"/>
         <source>Delete enchantment</source>
         <translation>删除魔咒</translation>
     </message>
     <message>
-        <location filename="../ui/graphics.cpp" line="792"/>
+        <location filename="../ui/graphics.cpp" line="819"/>
         <source>Save change</source>
         <translation>保存更改</translation>
     </message>
     <message>
-        <location filename="../ui/graphics.cpp" line="796"/>
+        <location filename="../ui/graphics.cpp" line="823"/>
         <source>Cancel change</source>
         <translation>取消更改</translation>
     </message>
     <message>
-        <location filename="../ui/graphics.cpp" line="846"/>
-        <location filename="../ui/graphics.cpp" line="1505"/>
+        <location filename="../ui/graphics.cpp" line="873"/>
+        <location filename="../ui/graphics.cpp" line="1498"/>
         <source>New Table</source>
         <translation>新建魔咒列表</translation>
     </message>
     <message>
-        <location filename="../ui/graphics.cpp" line="853"/>
+        <location filename="../ui/graphics.cpp" line="880"/>
         <source>JSON Format</source>
         <translation>JSON 格式</translation>
     </message>
     <message>
-        <location filename="../ui/graphics.cpp" line="858"/>
+        <location filename="../ui/graphics.cpp" line="885"/>
         <source>CSV Format</source>
         <translation>CSV 格式</translation>
     </message>
     <message>
-        <location filename="../ui/graphics.cpp" line="873"/>
+        <location filename="../ui/graphics.cpp" line="900"/>
         <source>Create table in JSON format</source>
         <translation>创建 JSON 格式魔咒列表</translation>
     </message>
     <message>
-        <location filename="../ui/graphics.cpp" line="879"/>
-        <location filename="../ui/graphics.cpp" line="932"/>
+        <location filename="../ui/graphics.cpp" line="906"/>
+        <location filename="../ui/graphics.cpp" line="959"/>
         <source>Table name</source>
         <translation>魔咒列表名称</translation>
     </message>
     <message>
-        <location filename="../ui/graphics.cpp" line="895"/>
-        <location filename="../ui/graphics.cpp" line="948"/>
+        <location filename="../ui/graphics.cpp" line="922"/>
+        <location filename="../ui/graphics.cpp" line="975"/>
         <source>Confirm</source>
         <translation>确认</translation>
     </message>
     <message>
-        <location filename="../ui/graphics.cpp" line="926"/>
+        <location filename="../ui/graphics.cpp" line="953"/>
         <source>Create table in CSV format</source>
         <translation>创建 CSV 格式魔咒列表</translation>
     </message>
     <message>
-        <location filename="../ui/graphics.cpp" line="989"/>
-        <location filename="../ui/graphics.cpp" line="1506"/>
+        <location filename="../ui/graphics.cpp" line="1016"/>
+        <location filename="../ui/graphics.cpp" line="1499"/>
         <source>Merge Tables</source>
         <translation>融合魔咒列表</translation>
     </message>
     <message>
-        <location filename="../ui/graphics.cpp" line="1014"/>
+        <location filename="../ui/graphics.cpp" line="1041"/>
         <source>Compare</source>
         <translation>比较</translation>
     </message>
     <message>
-        <location filename="../ui/graphics.cpp" line="1018"/>
+        <location filename="../ui/graphics.cpp" line="1045"/>
         <source>Cover left</source>
         <translation>覆盖左侧</translation>
     </message>
     <message>
-        <location filename="../ui/graphics.cpp" line="1022"/>
+        <location filename="../ui/graphics.cpp" line="1049"/>
         <source>Cover right</source>
         <translation>覆盖右侧</translation>
     </message>
     <message>
-        <location filename="../ui/graphics.cpp" line="1026"/>
+        <location filename="../ui/graphics.cpp" line="1053"/>
         <source>Fill blank</source>
         <translation>填充空白</translation>
     </message>
     <message>
-        <location filename="../ui/graphics.cpp" line="1077"/>
-        <location filename="../ui/graphics.cpp" line="1511"/>
+        <location filename="../ui/graphics.cpp" line="1104"/>
+        <location filename="../ui/graphics.cpp" line="1504"/>
         <source>Test Forge</source>
         <translation>锻造测试</translation>
     </message>
     <message>
-        <location filename="../ui/graphics.cpp" line="1097"/>
+        <location filename="../ui/graphics.cpp" line="1124"/>
         <source>Label</source>
         <translation>标签</translation>
     </message>
     <message>
-        <location filename="../ui/graphics.cpp" line="1097"/>
+        <location filename="../ui/graphics.cpp" line="1124"/>
         <source>Item A</source>
         <translation>物品 A</translation>
     </message>
     <message>
-        <location filename="../ui/graphics.cpp" line="1097"/>
+        <location filename="../ui/graphics.cpp" line="1124"/>
         <source>Item B</source>
         <translation>物品 B</translation>
     </message>
     <message>
-        <location filename="../ui/graphics.cpp" line="1097"/>
+        <location filename="../ui/graphics.cpp" line="1124"/>
         <source>Output</source>
         <translation>输出</translation>
     </message>
     <message>
-        <location filename="../ui/graphics.cpp" line="1123"/>
+        <location filename="../ui/graphics.cpp" line="1150"/>
         <source>[Equation]
 Cost: f(n) = 2^(n) - 1
 [Shorthand List]
@@ -485,244 +505,252 @@ Cost: f(n) = 2^(n) - 1
 4 Penalty L = 15 EXP L
 5 Penalty L = 31 EXP L
 6 Penalty L = 63 EXP L</source>
-        <translation type="unfinished"></translation>
+        <translation>[公式]
+花费: f(n) = 2^(n) - 1
+[速记表]
+1 惩罚等级 =   1 经验等级
+2 惩罚等级 =   3 经验等级
+3 惩罚等级 =   7 经验等级
+4 惩罚等级 = 15 经验等级
+5 惩罚等级 = 31 经验等级
+6 惩罚等级 = 63 经验等级</translation>
     </message>
     <message>
-        <location filename="../ui/graphics.cpp" line="1125"/>
+        <location filename="../ui/graphics.cpp" line="1152"/>
         <source>Penalty L to EXP L:</source>
         <translation>惩罚等级转为经验等级：</translation>
     </message>
     <message>
-        <location filename="../ui/graphics.cpp" line="1130"/>
+        <location filename="../ui/graphics.cpp" line="1157"/>
         <source>EXP L to Penalty L:</source>
         <translation>经验等级转为惩罚等级：</translation>
     </message>
     <message>
-        <location filename="../ui/graphics.cpp" line="1154"/>
+        <location filename="../ui/graphics.cpp" line="1181"/>
         <source>
 </source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../ui/graphics.cpp" line="1289"/>
+        <location filename="../ui/graphics.cpp" line="1316"/>
         <source>Reset</source>
         <translation>重置</translation>
     </message>
     <message>
-        <location filename="../ui/graphics.cpp" line="896"/>
-        <location filename="../ui/graphics.cpp" line="949"/>
-        <location filename="../ui/graphics.cpp" line="1290"/>
+        <location filename="../ui/graphics.cpp" line="923"/>
+        <location filename="../ui/graphics.cpp" line="976"/>
+        <location filename="../ui/graphics.cpp" line="1317"/>
         <source>Cancel</source>
         <translation>取消</translation>
     </message>
     <message>
-        <location filename="../ui/graphics.cpp" line="1030"/>
-        <location filename="../ui/graphics.cpp" line="1291"/>
+        <location filename="../ui/graphics.cpp" line="1057"/>
+        <location filename="../ui/graphics.cpp" line="1318"/>
         <source>Save</source>
         <translation>保存</translation>
     </message>
     <message>
-        <location filename="../ui/graphics.cpp" line="1492"/>
+        <location filename="../ui/graphics.cpp" line="1485"/>
         <source>Basic Section</source>
         <translation>基础</translation>
     </message>
     <message>
-        <location filename="../ui/graphics.cpp" line="1495"/>
+        <location filename="../ui/graphics.cpp" line="1488"/>
         <source>Item Pool (Advanced)</source>
         <translation>物品池（高级模式）</translation>
     </message>
     <message>
-        <location filename="../ui/graphics.cpp" line="1496"/>
+        <location filename="../ui/graphics.cpp" line="1489"/>
         <source>Algorithm &amp; ALG Config</source>
         <translation>算法和算法配置项</translation>
     </message>
     <message>
-        <location filename="../ui/graphics.cpp" line="1498"/>
+        <location filename="../ui/graphics.cpp" line="1491"/>
         <source>Result &amp; Export</source>
         <translation>计算结果和导出</translation>
     </message>
     <message>
-        <location filename="../ui/graphics.cpp" line="562"/>
-        <location filename="../ui/graphics.cpp" line="1497"/>
+        <location filename="../ui/graphics.cpp" line="568"/>
+        <location filename="../ui/graphics.cpp" line="1490"/>
         <source>Start Calculate</source>
         <translation>开始计算</translation>
     </message>
     <message>
-        <location filename="../ui/graphics.cpp" line="695"/>
+        <location filename="../ui/graphics.cpp" line="722"/>
         <source>Back To The Top</source>
         <translation>返回顶部</translation>
     </message>
     <message>
-        <location filename="../ui/graphics.cpp" line="799"/>
-        <location filename="../ui/graphics.cpp" line="1005"/>
-        <location filename="../ui/graphics.cpp" line="1034"/>
+        <location filename="../ui/graphics.cpp" line="826"/>
+        <location filename="../ui/graphics.cpp" line="1032"/>
+        <location filename="../ui/graphics.cpp" line="1061"/>
         <source>Name</source>
         <translation>名称</translation>
     </message>
     <message>
-        <location filename="../ui/graphics.cpp" line="799"/>
-        <location filename="../ui/graphics.cpp" line="1005"/>
-        <location filename="../ui/graphics.cpp" line="1034"/>
+        <location filename="../ui/graphics.cpp" line="826"/>
+        <location filename="../ui/graphics.cpp" line="1032"/>
+        <location filename="../ui/graphics.cpp" line="1061"/>
         <source>Data</source>
         <translation>数据</translation>
     </message>
     <message>
-        <location filename="../ui/graphics.cpp" line="803"/>
-        <location filename="../ui/graphics.cpp" line="1008"/>
-        <location filename="../ui/graphics.cpp" line="1037"/>
+        <location filename="../ui/graphics.cpp" line="830"/>
+        <location filename="../ui/graphics.cpp" line="1035"/>
+        <location filename="../ui/graphics.cpp" line="1064"/>
         <source>Enchantments</source>
         <translation>魔咒</translation>
     </message>
     <message>
-        <location filename="../ui/graphics.cpp" line="810"/>
-        <location filename="../ui/graphics.cpp" line="1010"/>
-        <location filename="../ui/graphics.cpp" line="1039"/>
+        <location filename="../ui/graphics.cpp" line="837"/>
+        <location filename="../ui/graphics.cpp" line="1037"/>
+        <location filename="../ui/graphics.cpp" line="1066"/>
         <source>Groups</source>
         <translation>分组</translation>
     </message>
     <message>
-        <location filename="../ui/graphics.cpp" line="1183"/>
+        <location filename="../ui/graphics.cpp" line="1210"/>
         <source>Defaults</source>
         <translation>默认值</translation>
     </message>
     <message>
-        <location filename="../ui/graphics.cpp" line="1188"/>
+        <location filename="../ui/graphics.cpp" line="1215"/>
         <source>Edition:</source>
         <translation>编译版本：</translation>
     </message>
     <message>
-        <location filename="../ui/graphics.cpp" line="1201"/>
+        <location filename="../ui/graphics.cpp" line="1228"/>
         <source>Item Config:</source>
         <translation>物品配置方式：</translation>
     </message>
     <message>
-        <location filename="../ui/graphics.cpp" line="1215"/>
+        <location filename="../ui/graphics.cpp" line="1242"/>
         <source>Algorithm:</source>
         <translation>算法：</translation>
     </message>
     <message>
-        <location filename="../ui/graphics.cpp" line="1228"/>
+        <location filename="../ui/graphics.cpp" line="1255"/>
         <source>Language:</source>
         <translation>语言：</translation>
     </message>
     <message>
-        <location filename="../ui/graphics.cpp" line="1242"/>
+        <location filename="../ui/graphics.cpp" line="1269"/>
         <source>Export Path:</source>
         <translation>导出路径：</translation>
     </message>
     <message>
-        <location filename="../ui/graphics.cpp" line="1247"/>
+        <location filename="../ui/graphics.cpp" line="1274"/>
         <source>Browse...</source>
         <translation>浏览...</translation>
     </message>
     <message>
-        <location filename="../ui/graphics.cpp" line="1266"/>
+        <location filename="../ui/graphics.cpp" line="1293"/>
         <source>Levers</source>
         <translation>开关</translation>
     </message>
     <message>
-        <location filename="../ui/graphics.cpp" line="1271"/>
+        <location filename="../ui/graphics.cpp" line="1298"/>
         <source>Auto Save</source>
         <translation>自动保存计算结果</translation>
     </message>
     <message>
-        <location filename="../ui/graphics.cpp" line="1273"/>
+        <location filename="../ui/graphics.cpp" line="1300"/>
         <source>Auto Check Update</source>
         <translation>自动检查更新</translation>
     </message>
     <message>
-        <location filename="../ui/graphics.cpp" line="1275"/>
+        <location filename="../ui/graphics.cpp" line="1302"/>
         <source>Enable Lax Window Resizing</source>
         <translation>启用宽松的窗口大小调整</translation>
     </message>
     <message>
-        <location filename="../ui/graphics.cpp" line="768"/>
-        <location filename="../ui/graphics.cpp" line="1390"/>
+        <location filename="../ui/graphics.cpp" line="795"/>
+        <location filename="../ui/graphics.cpp" line="1417"/>
         <source>Version:</source>
         <translation>版本：</translation>
     </message>
     <message>
-        <location filename="../ui/graphics.cpp" line="1324"/>
+        <location filename="../ui/graphics.cpp" line="1351"/>
         <source>Reset Settings</source>
         <translation>重置设置</translation>
     </message>
     <message>
-        <location filename="../ui/graphics.cpp" line="1324"/>
+        <location filename="../ui/graphics.cpp" line="1351"/>
         <source>Are you sure to reset the application settings?
 All the configuration will set to default.</source>
         <translation>你确定要重置应用设置吗？
 所有的配置将恢复到默认状态。</translation>
     </message>
     <message>
-        <location filename="../ui/graphics.cpp" line="1393"/>
+        <location filename="../ui/graphics.cpp" line="1420"/>
         <source>Author:</source>
         <translation>作者：</translation>
     </message>
     <message>
-        <location filename="../ui/graphics.cpp" line="1396"/>
+        <location filename="../ui/graphics.cpp" line="1423"/>
         <source>License:</source>
         <translation>许可证：</translation>
     </message>
     <message>
-        <location filename="../ui/graphics.cpp" line="1399"/>
+        <location filename="../ui/graphics.cpp" line="1426"/>
         <source>Website</source>
         <translation>官方网址</translation>
     </message>
     <message>
-        <location filename="../ui/graphics.cpp" line="1401"/>
+        <location filename="../ui/graphics.cpp" line="1428"/>
         <source>Check Update</source>
         <translation>检查更新</translation>
     </message>
     <message>
-        <location filename="../ui/graphics.cpp" line="1491"/>
+        <location filename="../ui/graphics.cpp" line="1484"/>
         <source>[WELCOME PAGE]</source>
         <translation>[欢迎使用]</translation>
     </message>
     <message>
-        <location filename="../ui/graphics.cpp" line="1493"/>
+        <location filename="../ui/graphics.cpp" line="1486"/>
         <source>Origin Enchantment</source>
         <translation>初始魔咒</translation>
     </message>
     <message>
-        <location filename="../ui/graphics.cpp" line="1494"/>
+        <location filename="../ui/graphics.cpp" line="1487"/>
         <source>Required Enchantment</source>
         <translation>所需魔咒</translation>
     </message>
     <message>
-        <location filename="../ui/graphics.cpp" line="1504"/>
+        <location filename="../ui/graphics.cpp" line="1497"/>
         <source>Current Table</source>
         <translation>当前魔咒列表</translation>
     </message>
     <message>
-        <location filename="../ui/graphics.cpp" line="1118"/>
-        <location filename="../ui/graphics.cpp" line="1512"/>
+        <location filename="../ui/graphics.cpp" line="1145"/>
+        <location filename="../ui/graphics.cpp" line="1505"/>
         <source>Test Penalty</source>
         <translation>测试惩罚</translation>
     </message>
     <message>
-        <location filename="../ui/graphics.cpp" line="1149"/>
-        <location filename="../ui/graphics.cpp" line="1513"/>
+        <location filename="../ui/graphics.cpp" line="1176"/>
+        <location filename="../ui/graphics.cpp" line="1506"/>
         <source>Test Multiplier</source>
         <translation>测试乘数</translation>
     </message>
     <message>
-        <location filename="../ui/graphics.cpp" line="1518"/>
+        <location filename="../ui/graphics.cpp" line="1511"/>
         <source>Default</source>
         <translation>默认值</translation>
     </message>
     <message>
-        <location filename="../ui/graphics.cpp" line="1519"/>
+        <location filename="../ui/graphics.cpp" line="1512"/>
         <source>Lever</source>
         <translation>开关</translation>
     </message>
     <message>
-        <location filename="../ui/graphics.cpp" line="1521"/>
+        <location filename="../ui/graphics.cpp" line="1514"/>
         <source>Update</source>
         <translation>更新</translation>
     </message>
     <message>
-        <location filename="../ui/graphics.cpp" line="1385"/>
-        <location filename="../ui/graphics.cpp" line="1520"/>
+        <location filename="../ui/graphics.cpp" line="1412"/>
+        <location filename="../ui/graphics.cpp" line="1513"/>
         <source>About</source>
         <translation>关于</translation>
     </message>

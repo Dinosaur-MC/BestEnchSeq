@@ -27,6 +27,7 @@
 
 #include "core/core.h"
 #include "core/algmanager.h"
+#include "core/calculator.h"
 
 namespace Ui
 {
@@ -50,11 +51,12 @@ private:
     void setupTabTool();
     void setupTabConf();
 
-    void updateCurrentGroup(QString name);
-
     bool activate(int index);
     bool inactivate(int index);
     void switchTab(int n);
+
+    void updateCurrentGroup(QString name);
+    void startCalculate();
 
     int current_widget;
     int stored_pos[4];
@@ -77,6 +79,8 @@ private:
     ALGCFG selected_algconfig;
     FlowStack output_flows;
 
+    Calculator calculator;
+
 signals:
     void currentTabChanged();
 
@@ -88,17 +92,18 @@ signals:
     void currentTableChanged(int n);
     void currentGroupChanged(QString group_name);
     void currentItemConfgChanged(ICM icm);
-
-    void claculateStarted();
-    void claculatePaused();
-    void claculateStopped();
-    void claculateFinished();
-
     void originalEnchListChanged(const EnchList &enchs);
     void requriedEnchListChanged(const EnchList &enchs);
     void itemPoolChanged(const ItemPool &ip);
     void currentAlgorithmChanged(QString alg_name);
     void algorithmConfigChanged(ALGCFG algcfg);
+
+    void calculateStarted();
+    void calculatePaused();
+    void calculateStopped();
+    void calculateFinished();
+
+    void currentFlowChanged(int index);
 };
 
 #endif // GRAPHICS_H

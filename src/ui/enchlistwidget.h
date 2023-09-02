@@ -52,6 +52,8 @@ public:
             emit stateChanged(state);
         });
         connect(&cbb, &QComboBox::currentTextChanged, this, [=](const QString &num){
+            if (!chkb.isChecked())
+                chkb.setChecked(true);
             emit valueChanged(num.toInt());
         });
     }
@@ -59,6 +61,8 @@ public:
     void setEnch(QString name, int min_lvl, int max_lvl)
     {
         label.setText(name);
+
+        cbb.blockSignals(true);
         for (int i = min_lvl <= 1 ? 1 : min_lvl; i <= max_lvl; i++)
             cbb.addItem(QString::number(i));
         if (cbb.count() > 0)
@@ -70,6 +74,9 @@ public:
         }
         else
             this->setEnabled(false);
+        cbb.blockSignals(false);
+
+        emit enchDataChanged();
     }
 
     Ench ench() const
@@ -107,6 +114,7 @@ private:
     QComboBox cbb;
 
 signals:
+    void enchDataChanged();
     void stateChanged(bool checked);
     void valueChanged(int value);
 };

@@ -25,6 +25,7 @@ SOURCES += \
     main.cpp \
     ui/console.cpp \
     ui/enchlistwidget.cpp \
+    ui/flowwidget.cpp \
     ui/graphics.cpp \
     ui/itemeditor.cpp \
     ui/itemlistwidget.cpp \
@@ -44,6 +45,7 @@ HEADERS += \
     launcher.h \
     ui/console.h \
     ui/enchlistwidget.h \
+    ui/flowwidget.h \
     ui/graphics.h \
     ui/itemeditor.h \
     ui/itemlistwidget.h \

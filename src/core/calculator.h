@@ -10,6 +10,8 @@ struct TraceLog
 {
 };
 
+enum class CalcState {Ready, Running, Paused, Stopped};
+
 class Calculator : public QObject
 {
     Q_OBJECT
@@ -40,6 +42,8 @@ private:
     uint current_step;
     uint step_count;
     _FlowStack flows;
+
+    CalcState state;
 
 signals:
     void start(_Group g, _Item tar, _ItemPool ip, MCE mce, ALGCFG cfg);

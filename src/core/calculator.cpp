@@ -6,6 +6,8 @@
 
 Calculator::Calculator(QObject *parent) : QObject{parent}
 {
+    thread = nullptr;
+    algorithm = nullptr;
 }
 
 Calculator::~Calculator()
