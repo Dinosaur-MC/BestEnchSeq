@@ -258,7 +258,7 @@ MainWindow::~MainWindow()
 void MainWindow::initialize()
 {
     qDebug() << "Initializing...";
-    Basic::weapon_l = 13;
+    Basic::weapon_l = 14;
     delete [] Basic::weapon;
     Basic::weapon = new Weapon[Basic::weapon_l];
 
@@ -275,53 +275,55 @@ void MainWindow::initialize()
     Basic::weapon[10] = {"弩\nCrossbow",QIcon(":/icon/res/crossbow_standby.png")};
     Basic::weapon[11] = {"三叉戟\nTrident",QIcon(":/icon/res/trident.png")};
     Basic::weapon[12] = {"钓鱼竿\nFishing Rod",QIcon(":/icon/res/fishing_rod.png")};
+    Basic::weapon[13] = {"重锤\nMace",QIcon(":/icon/res/mace.png")};
 
-
-    Basic::ench_table_l = 40;
+    Basic::ench_table_l = 43;
     delete [] Basic::ench_table;
     Basic::ench_table = new EnchTable[Basic::ench_table_l];
 
-    Basic::ench_table[0] = {"水下速掘-aqua_affinity",1,{4,2},2,{},{0,0,0,0,0,1,0,0,0,0,0,0,0}};
-    Basic::ench_table[1] = {"节肢杀手-bane_of_arthropods",5,{2,1},2,{"锋利-sharpness","亡灵杀手-smite"},{1,0,1,0,0,0,0,0,0,0,0,0,0}};
-    Basic::ench_table[2] = {"爆炸保护-blast_protection",4,{4,2},2,{"火焰保护-fire_protection","弹射物保护-projectile_protection","保护-protection"},{0,0,0,0,0,1,1,1,1,0,0,0,0}};
-    Basic::ench_table[3] = {"引雷-channeling",1,{8,4},2,{"激流-riptide"},{0,0,0,0,0,0,0,0,0,0,0,1,0}};
-    Basic::ench_table[4] = {"绑定诅咒-binding_curse",1,{8,4},2,{},{0,0,0,0,0,1,1,1,1,0,0,0,0}};
-    Basic::ench_table[5] = {"消失诅咒-vanishing_curse",1,{8,4},2,{},{1,1,1,1,1,1,1,1,1,1,1,1,1}};
-    Basic::ench_table[6] = {"深海探索者-depth_strider",3,{4,2},2,{"冰霜行者-frost_walker"},{0,0,0,0,0,0,0,0,1,0,0,0,0}};
-    Basic::ench_table[7] = {"效率-efficiency",5,{1,1},2,{},{0,1,1,1,1,0,0,0,0,0,0,0,0}};
-    Basic::ench_table[8] = {"摔落保护-feather_falling",4,{2,1},2,{},{0,0,0,0,0,0,0,0,1,0,0,0,0}};
-    Basic::ench_table[9] = {"火焰附加-fire_aspect",2,{4,2},2,{},{1,0,0,0,0,0,0,0,0,0,0,0,0}};
-    Basic::ench_table[10] = {"火焰保护-fire_protection",4,{2,1},2,{"爆炸保护-blast_protection","弹射物保护-projectile_protection","保护-protection"},{0,0,0,0,0,1,1,1,1,0,0,0,0}};
-    Basic::ench_table[11] = {"火矢-flame",1,{4,2},2,{},{0,0,0,0,0,0,0,0,0,1,0,0,0}};
-    Basic::ench_table[12] = {"时运-fortune",3,{4,2},2,{"精准采集-silk_touch"},{0,1,1,1,1,0,0,0,0,0,0,0,0}};
-    Basic::ench_table[13] = {"冰霜行者-frost_walker",2,{4,2},2,{"深海探索者-depth_strider"},{0,0,0,0,0,0,0,0,1,0,0,0,0}};
-    Basic::ench_table[14] = {"穿刺-impaling",5,{4,2},0,{},{0,0,0,0,0,0,0,0,0,0,0,1,0}};
-    Basic::ench_table[15] = {"无限-infinity",1,{8,4},2,{"经验修补-mending"},{0,0,0,0,0,0,0,0,0,1,0,0,0}};
-    Basic::ench_table[16] = {"击退-knockback",2,{2,1},2,{},{1,0,0,0,0,0,0,0,0,0,0,0,0}};
-    Basic::ench_table[17] = {"抢夺-looting",3,{4,2},2,{},{1,0,0,0,0,0,0,0,0,0,0,0,0}};
-    Basic::ench_table[18] = {"忠诚-loyalty",3,{1,1},2,{"激流-riptide"},{0,0,0,0,0,0,0,0,0,0,0,1,0}};
-    Basic::ench_table[19] = {"海之眷顾-luck_of_the_sea",3,{4,2},2,{},{0,0,0,0,0,0,0,0,0,0,0,0,1}};
-    Basic::ench_table[20] = {"饵钓-lure",3,{4,2},2,{},{0,0,0,0,0,0,0,0,0,0,0,0,1}};
-    Basic::ench_table[21] = {"经验修补-mending",1,{4,2},2,{"无限-infinity"},{1,1,1,1,1,1,1,1,1,1,1,1,1}};
-    Basic::ench_table[22] = {"多重射击-multishot",1,{4,2},2,{"穿透-piercing"},{0,0,0,0,0,0,0,0,0,0,1,0,0}};
-    Basic::ench_table[23] = {"穿透-piercing",4,{1,1},2,{"多重射击-multishot"},{0,0,0,0,0,0,0,0,0,0,1,0,0}};
-    Basic::ench_table[24] = {"力量-power",5,{1,1},2,{},{0,0,0,0,0,0,0,0,0,1,0,0,0}};
-    Basic::ench_table[25] = {"弹射物保护-projectile_protection",4,{2,1},2,{"爆炸保护-blast_protection","火焰保护-fire_protection","保护-protection"},{0,0,0,0,0,1,1,1,1,0,0,0,0}};
-    Basic::ench_table[26] = {"保护-protection",4,{1,1},2,{"爆炸保护-blast_protection","火焰保护-fire_protection","弹射物保护-projectile_protection"},{0,0,0,0,0,1,1,1,1,0,0,0,0}};
-    Basic::ench_table[27] = {"冲击-punch",2,{4,2},2,{},{0,0,0,0,0,0,0,0,0,1,0,0,0}};
-    Basic::ench_table[28] = {"快速装填-quick_charge",3,{2,1},2,{},{0,0,0,0,0,0,0,0,0,0,1,0,0}};
-    Basic::ench_table[29] = {"水下呼吸-respiration",3,{4,2},2,{},{0,0,0,0,0,1,0,0,0,0,0,0,0}};
-    Basic::ench_table[30] = {"激流-riptide",3,{4,2},2,{"引雷-channeling","忠诚-loyalty"},{0,0,0,0,0,0,0,0,0,0,0,1,0}};
-    Basic::ench_table[31] = {"锋利-sharpness",5,{1,1},2,{"节肢杀手-bane_of_arthropods","亡灵杀手-smite"},{1,0,1,0,0,0,0,0,0,0,0,0,0}};
-    Basic::ench_table[32] = {"精准采集-silk_touch",1,{8,4},2,{"时运-fortune"},{0,1,1,1,1,0,0,0,0,0,0,0,0}};
-    Basic::ench_table[33] = {"亡灵杀手-smite",5,{2,1},2,{"节肢杀手-bane_of_arthropods","锋利-sharpness"},{1,0,1,0,0,0,0,0,0,0,0,0,0}};
-    Basic::ench_table[34] = {"灵魂疾行-soul_speed",3,{8,4},2,{},{0,0,0,0,0,0,0,0,1,0,0,0,0}};
-    Basic::ench_table[35] = {"横扫之刃-sweeping",3,{4,2},0,{},{1,0,0,0,0,0,0,0,0,0,0,0,0}};
-    Basic::ench_table[36] = {"荆棘-thorns",3,{8,4},2,{},{0,0,0,0,0,1,1,1,1,0,0,0,0}};
-    Basic::ench_table[37] = {"耐久-unbreaking",3,{2,1},2,{},{1,1,1,1,1,1,1,1,1,1,1,1,1}};
-    Basic::ench_table[38] = {"迅捷潜行-swift_sneak",3,{8,4},2,{},{0,0,0,0,0,0,0,1,0,0,0,0,0}};
-    Basic::ench_table[39] = {"穿刺-impaling",5,{2,1},1,{},{0,0,0,0,0,0,0,0,0,0,0,1,0}};
-
+    Basic::ench_table[0] = {"水下速掘-aqua_affinity",1,{4,2},2,{},{0,0,0,0,0,1,0,0,0,0,0,0,0,0}};
+    Basic::ench_table[1] = {"节肢杀手-bane_of_arthropods",5,{2,1},2,{"锋利-sharpness","亡灵杀手-smite"},{1,0,1,0,0,0,0,0,0,0,0,0,0,1}};
+    Basic::ench_table[2] = {"爆炸保护-blast_protection",4,{4,2},2,{"火焰保护-fire_protection","弹射物保护-projectile_protection","保护-protection"},{0,0,0,0,0,1,1,1,1,0,0,0,0,0}};
+    Basic::ench_table[3] = {"引雷-channeling",1,{8,4},2,{"激流-riptide"},{0,0,0,0,0,0,0,0,0,0,0,1,0,0}};
+    Basic::ench_table[4] = {"绑定诅咒-binding_curse",1,{8,4},2,{},{0,0,0,0,0,1,1,1,1,0,0,0,0,0}};
+    Basic::ench_table[5] = {"消失诅咒-vanishing_curse",1,{8,4},2,{},{1,1,1,1,1,1,1,1,1,1,1,1,1,1}};
+    Basic::ench_table[6] = {"深海探索者-depth_strider",3,{4,2},2,{"冰霜行者-frost_walker"},{0,0,0,0,0,0,0,0,1,0,0,0,0,0}};
+    Basic::ench_table[7] = {"效率-efficiency",5,{1,1},2,{},{0,1,1,1,1,0,0,0,0,0,0,0,0,0}};
+    Basic::ench_table[8] = {"摔落保护-feather_falling",4,{2,1},2,{},{0,0,0,0,0,0,0,0,1,0,0,0,0,0}};
+    Basic::ench_table[9] = {"火焰附加-fire_aspect",2,{4,2},2,{},{1,0,0,0,0,0,0,0,0,0,0,0,0,1}};
+    Basic::ench_table[10] = {"火焰保护-fire_protection",4,{2,1},2,{"爆炸保护-blast_protection","弹射物保护-projectile_protection","保护-protection"},{0,0,0,0,0,1,1,1,1,0,0,0,0,0}};
+    Basic::ench_table[11] = {"火矢-flame",1,{4,2},2,{},{0,0,0,0,0,0,0,0,0,1,0,0,0,0}};
+    Basic::ench_table[12] = {"时运-fortune",3,{4,2},2,{"精准采集-silk_touch"},{0,1,1,1,1,0,0,0,0,0,0,0,0,0}};
+    Basic::ench_table[13] = {"冰霜行者-frost_walker",2,{4,2},2,{"深海探索者-depth_strider"},{0,0,0,0,0,0,0,0,1,0,0,0,0,0}};
+    Basic::ench_table[14] = {"穿刺-impaling",5,{4,2},0,{},{0,0,0,0,0,0,0,0,0,0,0,1,0,0}};
+    Basic::ench_table[15] = {"无限-infinity",1,{8,4},2,{"经验修补-mending"},{0,0,0,0,0,0,0,0,0,1,0,0,0,0}};
+    Basic::ench_table[16] = {"击退-knockback",2,{2,1},2,{},{1,0,0,0,0,0,0,0,0,0,0,0,0,0}};
+    Basic::ench_table[17] = {"抢夺-looting",3,{4,2},2,{},{1,0,0,0,0,0,0,0,0,0,0,0,0,0}};
+    Basic::ench_table[18] = {"忠诚-loyalty",3,{1,1},2,{"激流-riptide"},{0,0,0,0,0,0,0,0,0,0,0,1,0,0}};
+    Basic::ench_table[19] = {"海之眷顾-luck_of_the_sea",3,{4,2},2,{},{0,0,0,0,0,0,0,0,0,0,0,0,1,0}};
+    Basic::ench_table[20] = {"饵钓-lure",3,{4,2},2,{},{0,0,0,0,0,0,0,0,0,0,0,0,1,0}};
+    Basic::ench_table[21] = {"经验修补-mending",1,{4,2},2,{"无限-infinity"},{1,1,1,1,1,1,1,1,1,1,1,1,1,1}};
+    Basic::ench_table[22] = {"多重射击-multishot",1,{4,2},2,{"穿透-piercing"},{0,0,0,0,0,0,0,0,0,0,1,0,0,0}};
+    Basic::ench_table[23] = {"穿透-piercing",4,{1,1},2,{"多重射击-multishot"},{0,0,0,0,0,0,0,0,0,0,1,0,0,0}};
+    Basic::ench_table[24] = {"力量-power",5,{1,1},2,{},{0,0,0,0,0,0,0,0,0,1,0,0,0,0}};
+    Basic::ench_table[25] = {"弹射物保护-projectile_protection",4,{2,1},2,{"爆炸保护-blast_protection","火焰保护-fire_protection","保护-protection"},{0,0,0,0,0,1,1,1,1,0,0,0,0,0}};
+    Basic::ench_table[26] = {"保护-protection",4,{1,1},2,{"爆炸保护-blast_protection","火焰保护-fire_protection","弹射物保护-projectile_protection"},{0,0,0,0,0,1,1,1,1,0,0,0,0,0}};
+    Basic::ench_table[27] = {"冲击-punch",2,{4,2},2,{},{0,0,0,0,0,0,0,0,0,1,0,0,0,0}};
+    Basic::ench_table[28] = {"快速装填-quick_charge",3,{2,1},2,{},{0,0,0,0,0,0,0,0,0,0,1,0,0,0}};
+    Basic::ench_table[29] = {"水下呼吸-respiration",3,{4,2},2,{},{0,0,0,0,0,1,0,0,0,0,0,0,0,0}};
+    Basic::ench_table[30] = {"激流-riptide",3,{4,2},2,{"引雷-channeling","忠诚-loyalty"},{0,0,0,0,0,0,0,0,0,0,0,1,0,0}};
+    Basic::ench_table[31] = {"锋利-sharpness",5,{1,1},2,{"节肢杀手-bane_of_arthropods","亡灵杀手-smite"},{1,0,1,0,0,0,0,0,0,0,0,0,0,0}};
+    Basic::ench_table[32] = {"精准采集-silk_touch",1,{8,4},2,{"时运-fortune"},{0,1,1,1,1,0,0,0,0,0,0,0,0,0}};
+    Basic::ench_table[33] = {"亡灵杀手-smite",5,{2,1},2,{"节肢杀手-bane_of_arthropods","锋利-sharpness"},{1,0,1,0,0,0,0,0,0,0,0,0,0,1}};
+    Basic::ench_table[34] = {"灵魂疾行-soul_speed",3,{8,4},2,{},{0,0,0,0,0,0,0,0,1,0,0,0,0,0}};
+    Basic::ench_table[35] = {"横扫之刃-sweeping",3,{4,2},0,{},{1,0,0,0,0,0,0,0,0,0,0,0,0,0}};
+    Basic::ench_table[36] = {"荆棘-thorns",3,{8,4},2,{},{0,0,0,0,0,1,1,1,1,0,0,0,0,0}};
+    Basic::ench_table[37] = {"耐久-unbreaking",3,{2,1},2,{},{1,1,1,1,1,1,1,1,1,1,1,1,1,1}};
+    Basic::ench_table[38] = {"迅捷潜行-swift_sneak",3,{8,4},2,{},{0,0,0,0,0,0,0,1,0,0,0,0,0,0}};
+    Basic::ench_table[39] = {"穿刺-impaling",5,{2,1},1,{},{0,0,0,0,0,0,0,0,0,0,0,1,0,0}};
+    Basic::ench_table[40] = {"致密-density",5,{1,1},0,{},{0,0,0,0,0,0,0,0,0,0,0,0,0,1}};
+    Basic::ench_table[41] = {"破甲-breach",4,{4,2},0,{},{0,0,0,0,0,0,0,0,0,0,0,0,0,1}};
+    Basic::ench_table[42] = {"风爆-wind_burst",3,{4,2},0,{},{0,0,0,0,0,0,0,0,0,0,0,0,0,1}};
 
     Basic::OriginItem.name = Basic::weapon[0].name;
     Basic::OriginItem.duration = 100;
