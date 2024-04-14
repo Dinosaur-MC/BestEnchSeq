@@ -94,7 +94,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->radioGA, &QRadioButton::clicked, this, [=](){
         Basic::mode[0] = 0;
     });
-    connect(ui->radioG, &QRadioButton::clicked, this, [=](){
+    connect(ui->radioH, &QRadioButton::clicked, this, [=](){
         Basic::mode[0] = 1;
     });
     connect(ui->radioE, &QRadioButton::clicked, this, [=](){
@@ -216,10 +216,11 @@ MainWindow::MainWindow(QWidget *parent)
     else
         ui->radioBE->setChecked(true);
 
-    if(Basic::config.default_algorithm == 0)
+    Basic::mode[0] = Basic::config.default_algorithm;
+    if(Basic::mode[0] == 0)
         ui->radioGA->setChecked(true);
-    else if(Basic::config.default_algorithm == 1)
-        ui->radioG->setChecked(true);
+    else if(Basic::mode[0] == 1)
+        ui->radioH->setChecked(true);
     else
         ui->radioE->setChecked(true);
 
