@@ -190,7 +190,11 @@ void FileOperate::loadWeapon()
         if(data2.count() <= 1)
             Basic::weapon[i].icon = QIcon(":/icon/res/pack.png");
         else
-            Basic::weapon[i].icon = QIcon("./" + data2[1].trimmed());
+        {
+            Basic::weapon[i].icon = QIcon(data2[1].trimmed());
+            if (Basic::weapon[i].icon.pixmap(1).isNull())
+                Basic::weapon[i].icon = QIcon(":/icon/res/item_crafted.png");
+        }
     }
     qDebug() << "Weapons infomaton has been loaded!";
 }
