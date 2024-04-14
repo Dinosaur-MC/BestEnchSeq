@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>520</width>
-    <height>505</height>
+    <width>590</width>
+    <height>633</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -103,13 +103,13 @@ Difficulty First</string>
             </widget>
            </item>
            <item>
-            <widget class="QRadioButton" name="radAlgGr">
+            <widget class="QRadioButton" name="radAlgHm">
              <property name="enabled">
-              <bool>false</bool>
+              <bool>true</bool>
              </property>
              <property name="text">
-              <string>贪心
-Greedy</string>
+              <string>汉明
+Hamming</string>
              </property>
             </widget>
            </item>

@@ -21,7 +21,7 @@ Calculator::Calculator(QObject *parent)
             pool.append(tm);
         }
     }
-    else if(Basic::mode[1] == 1)
+    else
     {
         for(int i = 0; i < Basic::available_item_l; i++)
         {
@@ -51,7 +51,7 @@ Calculator::Calculator(QObject *parent)
     }
     else if(Basic::mode[0] == 1)
     {
-        Alg_Greedy();
+        Alg_Hamming();
     }
     else if(Basic::mode[0] == 2)
     {
@@ -143,9 +143,89 @@ void Calculator::Alg_DifficultyFirst()
     qDebug() << "- [Alg_DifficultyFirst]";
 }
 
-void Calculator::Alg_Greedy()
+void Calculator::Alg_Hamming()
 {
+    qDebug() << "+ [Alg_Hamming]" << pool.item(0).name << pool.item(0).ench[0].name << pool.item(0).penalty << pool.item(0).duration;
 
+    if (pool.count() > 1)
+    {
+        int mP = 0;
+        QVector<QVector<Item>> tm_item_triangle, item_triangle;
+
+        for(int i = 0; i < pool.count(); i++)
+            mP = std::max(mP, pool.item(i).penalty);
+
+        tm_item_triangle.fill(QVector<Item>({}), mP+1);
+
+        for(int i = 0; i < pool.count(); i++)
+            tm_item_triangle[pool.item(i).penalty].append(pool.item(i));
+
+        for(int i = 0; i < tm_item_triangle.count(); i++)
+        {
+            while(i > item_triangle.count()-1)
+                item_triangle.append(QVector<Item>({}));
+
+            int n = tm_item_triangle.at(i).count();
+            sortPool(&tm_item_triangle[i], 0, n-1);
+            item_triangle[i].fill(Item(), n);
+
+            for(int j = 0; j < n; j++)
+            {
+                if(tm_item_triangle.at(i).at(j).name != ID_ECB)
+                {
+                    item_triangle[i][0] = tm_item_triangle[i].takeAt(j);
+                    break;
+                }
+            }
+            for(int j = 1; j < n; j++)
+            {
+                QVector<int> tm = dupFloorMembers(j, n);
+                if(tm.isEmpty())
+                    break;
+
+                for(int k = 0; k < tm.count(); k++)
+                    item_triangle[i][tm.at(k)] = tm_item_triangle[i].takeFirst();
+            }
+            tm_item_triangle[i] = item_triangle.at(i);
+
+            if(tm_item_triangle.at(i).count() < 2)
+                continue;
+
+            while(tm_item_triangle.at(i).count() > 1)
+            {
+                Item a = tm_item_triangle[i].takeFirst();
+                Item b = tm_item_triangle[i].takeFirst();
+                Item tm = ItemPool::forge(a, b);
+
+                while(tm.penalty > tm_item_triangle.count()-1 || i+1 > tm_item_triangle.count()-1)
+                    tm_item_triangle.append(QVector<Item>({}));
+
+                if(tm.name != ID_ECB)
+                    tm_item_triangle[i+1].append(tm);
+                else
+                    tm_item_triangle[tm.penalty].append(tm);
+            }
+            if(tm_item_triangle.at(i).count() > 0)
+            {
+                while(i >= tm_item_triangle.count()-1)
+                    tm_item_triangle.append(QVector<Item>({}));
+
+                tm_item_triangle[i+1].append(tm_item_triangle[i].takeFirst());
+            }
+        }
+
+        for(int i = 0; i < item_triangle.count(); i++)
+        {
+            while(item_triangle.at(i).count() > 1)
+            {
+                Item tm = item_triangle[i].takeFirst();
+                flow[flow_step++] = ItemPool::preForge(tm, item_triangle[i].takeFirst(), additional_mode);
+            }
+        }
+        Step s = flow[flow_step - 1];
+        pool.replace(ItemPool::forge(s.a, s.b), 0);
+    }
+    qDebug() << "- [Alg_Hamming]";
 }
 
 void Calculator::Alg_Enumeration()
@@ -168,4 +248,3 @@ void Calculator::uploadData()
     }
     qDebug() << "The flow has been uploaded" << flow_step;
 }
-

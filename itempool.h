@@ -55,6 +55,7 @@ public:
 
     void setForgeMode(ForgeMode mode);
     static Step preForge(Item A, Item B, ForgeMode mode); //mode; 0:Normal, 1:Ignore pennalty, 2:Ignore duration, 3:Ignore both
+    static int preForge(Item it, ForgeMode mode);
     static Item forge(Item A, Item B);
 
 private:

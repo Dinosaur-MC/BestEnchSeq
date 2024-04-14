@@ -19,7 +19,7 @@ Settings::Settings(QWidget *parent) :
     if(Basic::config.default_algorithm == 0)
         ui->radAlgDF->setChecked(true);
     else if(Basic::config.default_algorithm == 1)
-        ui->radAlgGr->setChecked(true);
+        ui->radAlgHm->setChecked(true);
     else if(Basic::config.default_algorithm == 2)
         ui->radAlgEn->setChecked(true);
 
@@ -88,7 +88,7 @@ Settings::Settings(QWidget *parent) :
 
         if(ui->radAlgDF->isChecked())
             Basic::config.default_algorithm = 0;
-        else if(ui->radAlgGr->isChecked())
+        else if(ui->radAlgHm->isChecked())
             Basic::config.default_algorithm = 1;
         else if(ui->radAlgEn->isChecked())
             Basic::config.default_algorithm = 2;
