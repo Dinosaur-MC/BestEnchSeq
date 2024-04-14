@@ -7,11 +7,11 @@
 
 #define PROGRAM_NAME_CN "最佳附魔顺序计算器"
 #define PROGRAM_NAME_EN "The Best Enchanting Sequence"
-#define VERSION "2.0.2_Beta"
+#define VERSION "2.1.0_Beta"
 #define VERSION_ID 12404010 //NyymmXXx; N:1, yy:the two last number of recent year, mm:recent month, XX:version number, x:small number
 #define AUTHOR "Dinosaur_MC(Dinosaur-MC)"
 #define WEBSITE "https://github.com/Dinosaur-MC/BestEnchSeq"
-#define UPDATE_JSON "https://raw.githubusercontent.com/Dinosaur-MC/BestEnchSeq/master/update.json"
+#define UPDATE_JSON "https://raw.githubusercontent.com/Dinosaur-MC/BestEnchSeq/main/update.json"
 #define STATEMENT "本程序为Github开源项目，完全免费使用！只推荐通过官方渠道获取本程序。\n任何对原程序进行收费售卖行为均为诈骗，谨防上当受骗！谨慎使用来路不明的非官方发布版本，谨防病毒入侵！"
 
 #define FILE_CONFIG "config.ini"
