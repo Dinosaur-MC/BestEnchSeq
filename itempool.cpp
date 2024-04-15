@@ -318,7 +318,7 @@ Step ItemPool::preForge(Item A, Item B, ForgeMode mode)
     for (int i = 0; i < B_el; i++) {
         int lever = 0;
         int p = Basic::searchTable(B.ench[i].name);
-        for (int j = 0; j < Basic::ench_table[p].repulsion->count(); j++) {
+        for (int j = 0; j < Basic::ench_table[p].repulsion->size(); j++) {
             if (Basic::searchEnch(A.ench, A_el, Basic::ench_table[p].repulsion[j]) != -1) {
                 if (Basic::edition == 0)
                     cost += 1;
@@ -365,13 +365,11 @@ Step ItemPool::preForge(Item A, Item B, ForgeMode mode)
 
 int ItemPool::preForge(Item it, ForgeMode mode)
 {
-    int cost = 0;
-    int penalty = it.penalty + 1;
-
-    int el;
+    int el = 0;
     while (el < INIT_LENGTH && it.ench[el].name != "")
         el++;
 
+    int cost = 0;
     for (int i = 0; i < el; i++) {
         int p = Basic::searchTable(it.ench[i].name);
         if (it.name == ID_ECB)
@@ -379,7 +377,6 @@ int ItemPool::preForge(Item it, ForgeMode mode)
         else
             cost += Basic::ench_table[p].multiplier[0] * it.ench[i].lvl;
     }
-
     if (mode != ForgeMode::IgnorePenalty && mode != ForgeMode::IgnoreFixing_Penalty)
         cost += pow(2, it.penalty) - 1;
 
@@ -397,7 +394,7 @@ Item ItemPool::forge(Item A, Item B)
     for (int i = 0; i < INIT_LENGTH && i < B_el; i++) {
         int lever = 0;
         int p = Basic::searchTable(B.ench[i].name);
-        for (int j = 0; j < Basic::ench_table[p].repulsion->count(); j++) {
+        for (int j = 0; j < Basic::ench_table[p].repulsion->size(); j++) {
             if (Basic::searchEnch(A.ench, A_el, Basic::ench_table[p].repulsion[j]) != -1) {
                 lever++;
                 break;
