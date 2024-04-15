@@ -1,10 +1,10 @@
 {
     "BestEnchSeq":
     {
-        "LatestVerison":"v2.1.0_Beta",
-        "VerisonID":12404010,
-        "Url":"https://github.com/Dinosaur-MC/BestEnchSeq/releases/download/v2.1.0/BestEnchSeq_V2.1.0Beta.zip",
-        "UpdateTime":"2024-04-14",
-        "ReleaseNote":"【小更新】主要更新内容有：\n1、更新了内置魔咒表，以支持1.21的新魔咒。\n2、增加了新的可用算法（汉明算法），更好的算法。\n3、修复了2个BUG"
+        "LatestVerison":"v2.1.1_Beta",
+        "VerisonID":12404011,
+        "Url":"https://github.com/Dinosaur-MC/BestEnchSeq/releases/download/v2.1.1/BestEnchSeq_V2.1.1Beta.zip",
+        "UpdateTime":"2024-04-15",
+        "ReleaseNote":"【小更新】主要更新内容有：\n1、更新了内置魔咒表，以支持1.21的新魔咒。\n2、增加了新的可用算法（汉明算法），更好的算法。\n3、修复了3个BUG"
     }
 }
