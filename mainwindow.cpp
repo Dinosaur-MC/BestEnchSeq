@@ -283,7 +283,7 @@ void MainWindow::initialize()
     Basic::ench_table = new EnchTable[Basic::ench_table_l];
 
     Basic::ench_table[0] = {"水下速掘-aqua_affinity",1,{4,2},2,{},{0,0,0,0,0,1,0,0,0,0,0,0,0,0}};
-    Basic::ench_table[1] = {"节肢杀手-bane_of_arthropods",5,{2,1},2,{"锋利-sharpness","亡灵杀手-smite"},{1,0,1,0,0,0,0,0,0,0,0,0,0,1}};
+    Basic::ench_table[1] = {"节肢杀手-bane_of_arthropods",5,{2,1},2,{"锋利-sharpness","亡灵杀手-smite","致密-density","破甲-breach"},{1,0,1,0,0,0,0,0,0,0,0,0,0,1}};
     Basic::ench_table[2] = {"爆炸保护-blast_protection",4,{4,2},2,{"火焰保护-fire_protection","弹射物保护-projectile_protection","保护-protection"},{0,0,0,0,0,1,1,1,1,0,0,0,0,0}};
     Basic::ench_table[3] = {"引雷-channeling",1,{8,4},2,{"激流-riptide"},{0,0,0,0,0,0,0,0,0,0,0,1,0,0}};
     Basic::ench_table[4] = {"绑定诅咒-binding_curse",1,{8,4},2,{},{0,0,0,0,0,1,1,1,1,0,0,0,0,0}};
@@ -313,17 +313,17 @@ void MainWindow::initialize()
     Basic::ench_table[28] = {"快速装填-quick_charge",3,{2,1},2,{},{0,0,0,0,0,0,0,0,0,0,1,0,0,0}};
     Basic::ench_table[29] = {"水下呼吸-respiration",3,{4,2},2,{},{0,0,0,0,0,1,0,0,0,0,0,0,0,0}};
     Basic::ench_table[30] = {"激流-riptide",3,{4,2},2,{"引雷-channeling","忠诚-loyalty"},{0,0,0,0,0,0,0,0,0,0,0,1,0,0}};
-    Basic::ench_table[31] = {"锋利-sharpness",5,{1,1},2,{"节肢杀手-bane_of_arthropods","亡灵杀手-smite"},{1,0,1,0,0,0,0,0,0,0,0,0,0,0}};
+    Basic::ench_table[31] = {"锋利-sharpness",5,{1,1},2,{"节肢杀手-bane_of_arthropods","亡灵杀手-smite","致密-density","破甲-breach"},{1,0,1,0,0,0,0,0,0,0,0,0,0,0}};
     Basic::ench_table[32] = {"精准采集-silk_touch",1,{8,4},2,{"时运-fortune"},{0,1,1,1,1,0,0,0,0,0,0,0,0,0}};
-    Basic::ench_table[33] = {"亡灵杀手-smite",5,{2,1},2,{"节肢杀手-bane_of_arthropods","锋利-sharpness"},{1,0,1,0,0,0,0,0,0,0,0,0,0,1}};
+    Basic::ench_table[33] = {"亡灵杀手-smite",5,{2,1},2,{"节肢杀手-bane_of_arthropods","锋利-sharpness","致密-density","破甲-breach"},{1,0,1,0,0,0,0,0,0,0,0,0,0,1}};
     Basic::ench_table[34] = {"灵魂疾行-soul_speed",3,{8,4},2,{},{0,0,0,0,0,0,0,0,1,0,0,0,0,0}};
     Basic::ench_table[35] = {"横扫之刃-sweeping",3,{4,2},0,{},{1,0,0,0,0,0,0,0,0,0,0,0,0,0}};
     Basic::ench_table[36] = {"荆棘-thorns",3,{8,4},2,{},{0,0,0,0,0,1,1,1,1,0,0,0,0,0}};
     Basic::ench_table[37] = {"耐久-unbreaking",3,{2,1},2,{},{1,1,1,1,1,1,1,1,1,1,1,1,1,1}};
     Basic::ench_table[38] = {"迅捷潜行-swift_sneak",3,{8,4},2,{},{0,0,0,0,0,0,0,1,0,0,0,0,0,0}};
     Basic::ench_table[39] = {"穿刺-impaling",5,{2,1},1,{},{0,0,0,0,0,0,0,0,0,0,0,1,0,0}};
-    Basic::ench_table[40] = {"致密-density",5,{1,1},0,{},{0,0,0,0,0,0,0,0,0,0,0,0,0,1}};
-    Basic::ench_table[41] = {"破甲-breach",4,{4,2},0,{},{0,0,0,0,0,0,0,0,0,0,0,0,0,1}};
+    Basic::ench_table[40] = {"致密-density",5,{1,1},0,{"锋利-sharpness","节肢杀手-bane_of_arthropods","亡灵杀手-smite","破甲-breach"},{0,0,0,0,0,0,0,0,0,0,0,0,0,1}};
+    Basic::ench_table[41] = {"破甲-breach",4,{4,2},0,{"锋利-sharpness","节肢杀手-bane_of_arthropods","亡灵杀手-smite","致密-density"},{0,0,0,0,0,0,0,0,0,0,0,0,0,1}};
     Basic::ench_table[42] = {"风爆-wind_burst",3,{4,2},0,{},{0,0,0,0,0,0,0,0,0,0,0,0,0,1}};
 
     Basic::OriginItem.name = Basic::weapon[0].name;
