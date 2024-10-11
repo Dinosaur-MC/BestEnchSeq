@@ -338,9 +338,9 @@ Step ItemPool::preForge(Item A, Item B, ForgeMode mode)
                     cost += Basic::ench_table[Basic::searchTable(B.ench[i].name)].multiplier[0] * combine(B.ench[i].name, A.ench[q].lvl, B.ench[i].lvl);
             } else {
                 if (B.name == ID_ECB)
-                    cost += Basic::ench_table[Basic::searchTable(B.ench[i].name)].multiplier[1] * (combine(B.ench[i].name, A.ench[q].lvl, B.ench[i].lvl - A.ench[i].lvl));
+                    cost += Basic::ench_table[Basic::searchTable(B.ench[i].name)].multiplier[1] * (combine(B.ench[i].name, A.ench[q].lvl, B.ench[i].lvl) - A.ench[i].lvl);
                 else
-                    cost += Basic::ench_table[Basic::searchTable(B.ench[i].name)].multiplier[0] * (combine(B.ench[i].name, A.ench[q].lvl, B.ench[i].lvl - A.ench[i].lvl));
+                    cost += Basic::ench_table[Basic::searchTable(B.ench[i].name)].multiplier[0] * (combine(B.ench[i].name, A.ench[q].lvl, B.ench[i].lvl) - A.ench[i].lvl);
             }
         } else {
             if (B.name == ID_ECB)
@@ -406,10 +406,6 @@ Item ItemPool::forge(Item A, Item B)
         int q = Basic::searchEnch(A.ench, A_el, B.ench[i].name);
         if (q != -1) {
             A.ench[q].lvl = combine(B.ench[i].name, A.ench[q].lvl, B.ench[q].lvl);
-            //            if(A.ench[q].lvl == B.ench[i].lvl && A.ench[q].lvl != Basic::ench_table[Basic::searchTable(A.ench[q].name)].mlvl)
-            //               A.ench[q].lvl++;
-            //            else if(A.ench[q].lvl < B.ench[i].lvl)
-            //                A.ench[q].lvl = B.ench[i].lvl;
         } else {
             int k = 0;
             while (k < INIT_LENGTH && A.ench[k].name != "")

@@ -218,8 +218,13 @@ void Calculator::Alg_Hamming()
         {
             while(item_triangle.at(i).count() > 1)
             {
-                Item tm = item_triangle[i].takeFirst();
-                flow[flow_step++] = ItemPool::preForge(tm, item_triangle[i].takeFirst(), additional_mode);
+                Item a = item_triangle[i].takeFirst();
+                Item b = item_triangle[i].takeFirst();
+                flow[flow_step++] = ItemPool::preForge(a, b, additional_mode);
+            }
+            if (item_triangle.at(i).count() == 1 && i + 1 < item_triangle.count())
+            {
+                item_triangle[i + 1].append(item_triangle[i].takeFirst());
             }
         }
         Step s = flow[flow_step - 1];

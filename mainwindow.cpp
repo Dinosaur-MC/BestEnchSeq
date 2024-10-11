@@ -11,6 +11,8 @@
 
 #include <QUrl>
 #include <QDesktopServices>
+#include <QTextEdit>
+#include <QLayout>
 
 using namespace std;
 
@@ -204,7 +206,33 @@ MainWindow::MainWindow(QWidget *parent)
         FileOperate fo;
         fo.saveExport();
     });
+    connect(ui->OutputItem, &QPushButton::clicked, this, [=](){
+        QString info;
+        info += "- Name: " + Basic::OutputItem.name.replace('\n', ' ') + "\n";
+        info += "- Durability: " + QString::number(Basic::OutputItem.duration) + "\n";
+        info += "- Penalty: " + QString::number(Basic::OutputItem.penalty) + "\n";
+        info += "- Enchs: \n";
+        for (int i = 0; i < INIT_LENGTH; i++)
+        {
+            if (Basic::OutputItem.ench[i].name.isEmpty())
+                break;
+            info += "\t- " + Basic::OutputItem.ench[i].name + " " + Basic::IntToRoman(Basic::OutputItem.ench[i].lvl) + "\n";
+        }
 
+        QDialog dialog(this);
+        dialog.setWindowTitle("Details");
+        QPoint p = this->geometry().center();
+        dialog.setGeometry(p.x() - 256, p.y() - 256, 512, 512);
+        QVBoxLayout layout(&dialog);
+        layout.setContentsMargins(8, 8, 8, 8);
+        QTextEdit text(&dialog);
+        layout.addWidget(&text);
+        text.setMarkdown(info);
+        text.setReadOnly(true);
+        dialog.setModal(true);
+        dialog.show();
+        dialog.exec();
+    });
 
     //Initialze & Load Files
     initialize();
