@@ -7,8 +7,8 @@
 
 #define PROGRAM_NAME_CN "最佳附魔顺序计算器"
 #define PROGRAM_NAME_EN "The Best Enchanting Sequence"
-#define VERSION "2.2.0_Beta"
-#define VERSION_ID 12410110 //NyymmXXx; N:1, yy:the two last number of recent year, mm:recent month, XX:version number, x:small number
+#define VERSION "2.2.1_Beta"
+#define VERSION_ID 12410140 //NyymmXXx; N:1, yy:the two last number of recent year, mm:recent month, XX:version number, x:small number
 #define AUTHOR "Dinosaur_MC(Dinosaur-MC)"
 #define WEBSITE "https://github.com/Dinosaur-MC/BestEnchSeq"
 #define UPDATE_JSON "https://raw.githubusercontent.com/Dinosaur-MC/BestEnchSeq/main/update.json"
